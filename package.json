@@ -1,0 +1,15 @@
+{
+  "name": "recipe-application",
+  "version": "0.0.1",
+  "description": "Application for scanning and displaying delicious recipes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Block",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "jscs": "^3.0.7"
+  }
+}
