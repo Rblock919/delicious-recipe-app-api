@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
+var chalk = require('chalk');
 
 var jsFiles = ['*.js', 'src/**/*.js'];
 
@@ -37,6 +38,6 @@ gulp.task('serve', ['inject'], function() {
     };
 
     return nodemon(options).on('restart', function(ev) {
-        console.log(chalk.green('Restarting.....'));
+        console.log(chalk.blueBright.underline('Server-Restarting...'));
     });
 });
