@@ -1,7 +1,7 @@
 var express = require('express');
-
 var recipeRouter = express.Router();
-var recipeData = require('../data/recipedata');
+
+var recipeData = require('../data/recipeData');
 
 var router = function (nav) {
     recipeRouter.route('/')

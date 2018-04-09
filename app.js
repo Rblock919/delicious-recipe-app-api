@@ -4,20 +4,19 @@ var chalk = require('chalk');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var nav = [{
-                Link: '/Recipes',
-                Text: 'Recipes'
-            }, {
-                Link: '/Services',
-                Text: 'Services'
-            }];
+var nav = require('./src/data/navData');
 
+//Load routers
 var recipeRouter = require('./src/routes/recipeRouter')(nav);
 var serviceRouter = require('./src/routes/servicesRouter')(nav);
+var adminRouter = require('./src/routes/adminRouter')(nav);
 
+//Establish routers with express
 app.use('/Recipes', recipeRouter);
 app.use('/Services', serviceRouter);
+app.use('/Admin', adminRouter);
 
+//Establish auto-scanning static file directory reference locations
 app.use(express.static('public'));
 app.use(express.static('src/views'));
 
