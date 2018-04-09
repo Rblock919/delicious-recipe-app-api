@@ -32,7 +32,6 @@ var router = function () {
                     client.close();
                 });
             });
-
         });
 
     return adminRouter;
