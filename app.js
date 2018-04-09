@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var chalk = require('chalk');
 
 var app = express();
@@ -11,18 +12,25 @@ var nav = require('./src/data/navData');
 var recipeRouter = require('./src/routes/recipeRouter')(nav);
 var serviceRouter = require('./src/routes/servicesRouter')(nav);
 var adminRouter = require('./src/routes/adminRouter')();
+var authRouter = require('./src/routes/authRouter')();
 
-//Establish routers with express
-app.use('/Recipes', recipeRouter);
-app.use('/Services', serviceRouter);
-app.use('/Admin', adminRouter);
+//Parse incoming request params into a nice json object
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 //Establish auto-scanning static file directory reference locations
 app.use(express.static('public'));
 app.use(express.static('src/views'));
 
+//Set view engine
 app.set('views', 'src/views');
 app.set('view engine', 'ejs');
+
+//Establish express routers
+app.use('/Recipes', recipeRouter);
+app.use('/Services', serviceRouter);
+app.use('/Admin', adminRouter);
+app.use('/Auth', authRouter);
 
 app.get('/', function (req, res) {
     res.render('index', {
