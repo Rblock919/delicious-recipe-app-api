@@ -7,5 +7,21 @@
         "mocha": true,
         "mongo": true,
         "amd": true
+    },
+    "rules": {
+        "eqeqeq": "error",
+        "curly": "error",
+        "no-unused-vars": "warn",
+        "no-undef": "error",
+        "no-unused-expressions": "warn",
+        "vars-on-top": "error",
+        "guard-for-in": "error",
+        "accessor-pairs": "warn",
+        "array-callback-return": "warn",
+        "consistent-return": "error",
+        "default-case": "warn",
+        "require-await": "warn",
+        "wrap-iife": "warn",
+        "handle-callback-err": "error"
     }
 }
