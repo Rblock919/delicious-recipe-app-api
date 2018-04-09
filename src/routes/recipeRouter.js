@@ -1,6 +1,6 @@
 var express = require('express');
 var recipeRouter = express.Router();
-var mongodb = require('mongodb').MongoClient;
+var MongoClient = require('mongodb').MongoClient;
 var objectId = require('mongodb').ObjectId;
 var chalk = require('chalk');
 
@@ -12,8 +12,9 @@ var router = function (nav) {
 
             var url = 'mongodb://localhost:27017/recipeApp';
 
-            mongodb.connect(url, function (err, db) {
+            MongoClient.connect(url, function (err, client) {
 
+                const db = client.db('recipeApp');
                 var collection = db.collection('recipes');
 
                 if (err) {
@@ -33,6 +34,7 @@ var router = function (nav) {
                         nav: nav,
                         recipes: results
                     });
+                    client.close();
                 });
             });
         });
@@ -43,8 +45,9 @@ var router = function (nav) {
             var id = new objectId(req.params.id);
             var url = 'mongodb://localhost:27017/recipeApp';
 
-            mongodb.connect(url, function (err, db) {
+            MongoClient.connect(url, function (err, client) {
 
+                var db = client.db('recipeApp');
                 var collection = db.collection('recipes');
 
                 if (err) {
@@ -64,6 +67,7 @@ var router = function (nav) {
                         nav: nav,
                         recipe: results
                     });
+                    client.close();
                 });
             });
         });

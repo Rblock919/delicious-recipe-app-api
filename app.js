@@ -4,12 +4,13 @@ var chalk = require('chalk');
 var app = express();
 var port = process.env.PORT || 3000;
 
+//Load hard-coded nav data
 var nav = require('./src/data/navData');
 
 //Load routers
 var recipeRouter = require('./src/routes/recipeRouter')(nav);
 var serviceRouter = require('./src/routes/servicesRouter')(nav);
-var adminRouter = require('./src/routes/adminRouter')(nav);
+var adminRouter = require('./src/routes/adminRouter')();
 
 //Establish routers with express
 app.use('/Recipes', recipeRouter);
