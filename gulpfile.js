@@ -59,7 +59,7 @@ gulp.task('serve', ['lint', 'inject'], function() {
         watch: jsFiles
     };
 
-    return nodemon(options).on('restart', ['lint', 'inject'], function(ev) {
+    return nodemon(options).on('restart', ['lint'], function(ev) {
         console.log(chalk.blueBright.underline('Server-Restarting...'));
     });
 });

@@ -1,6 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var chalk = require('chalk');
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -17,6 +20,10 @@ var authRouter = require('./src/routes/authRouter')();
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(cookieParser());
+app.use(session({secret: 'recipe'}));
+require('./src/config/passport')(app);
 
 //Establish auto-scanning static file directory reference locations
 app.use(express.static('public'));
@@ -46,4 +53,4 @@ app.listen(port, function (err) {
     console.log(chalk.green('Running server on port: ' + port));
 });
 
-// 2.0.46
+// 2.0.46 = old version of mongodb module
