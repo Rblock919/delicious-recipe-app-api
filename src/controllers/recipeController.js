@@ -4,6 +4,7 @@ var objectId = require('mongodb').ObjectId;
 
 var recipeController = (bookService, nav) => {
 
+    //Handle forwarding requests to main page for users that aren't logged in
     var middleware = (req, res, next) => {
         if (!req.user) {
             res.redirect('/');

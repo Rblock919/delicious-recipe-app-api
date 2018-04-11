@@ -40,11 +40,13 @@ app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 
 app.get('/', function (req, res) {
+    //Check if a user exists in the session, if not then send to signin page
     if (!req.user) {
         res.render('signin', {
             nav: nav
         });
     } else {
+        //Else send the user to the apps home page for logged-in users
         res.render('userhome', {
             title: 'Hello from render',
             nav: nav
