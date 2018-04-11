@@ -59,7 +59,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-7">
-        <h1>Recipes
+        <h1>Sign In
           <p class="lead"></p>
         </h1>
       </div>
@@ -67,7 +67,6 @@
         <div class="well well-lg"> 
           <div class="row">
             <div class="col-sm-12">
-              
 			
             </div>
           </div>
@@ -96,38 +95,32 @@
         <div class="panel-body">
           
           
-          
           <!--/stories-->
+
           <div class="row">    
             <br>
             <div class="col-md-2 col-sm-3 text-center">
-              <a class="story-title" href="#"><img alt="" src="<%=recipe.imgDir%>" style="width:100px;height:100px" class="img-circle"></a>
-            </div>
-            <div class="col-md-10 col-sm-9">
-              <h3><%=recipe.title%></h3>
-              <div class="row">
-                <div class="col-xs-9">
-                  <h4><span class="label label-default"><%=recipe.producer%></span></h4><h4>
-                  <small style="font-family:courier,'new courier';" class="text-muted"></small>
-                  </h4></div>
-                <div class="col-xs-3"></div>
-              </div>
-              <br><br>
+                Sign In
+                    <form name="signInForm" action="/Auth/signIn" method="post">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="userName" id="userName" placeholder="User Name">
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" name="password" id="password" placeholder="Password">
+                      </div>
+                        <input type="submit" value="Sign in">
+                    </form>
             </div>
           </div>
-          <hr>
-        
+
           <!--/stories-->
           
-          
-          <a href="/logout" class="btn btn-primary pull-right btnNext">Logout<i class="glyphicon glyphicon-chevron-right"></i></a>
+          <a href="/register" class="btn btn-primary pull-right btnNext">Sign Up<i class="glyphicon glyphicon-chevron-right"></i></a>
         
-          
         </div>
       </div>
-                                                                                       
-	                                                
-                                                      
    	</div><!--/col-12-->
   </div>
 </div>

@@ -32,7 +32,7 @@ var router = () => {
                     }
 
                     req.login(results.ops[0], function () {
-                        res.redirect('/auth/profile');
+                        res.redirect('/Recipes');
                     });
                 });
             });
@@ -42,7 +42,7 @@ var router = () => {
         .post(passport.authenticate('local', {
             failureRedirect: '/'
         }), function (req, res) {
-            res.redirect('/auth/profile');
+            res.redirect('/');
         });
 
     authRouter.route('/profile')

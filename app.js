@@ -40,10 +40,27 @@ app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: 'Hello from render',
+    if (!req.user) {
+        res.render('signin', {
+            nav: nav
+        });
+    } else {
+        res.render('userhome', {
+            title: 'Hello from render',
+            nav: nav
+        });
+    }
+});
+
+app.get('/register', function(req, res) {
+    res.render('register', {
         nav: nav
     });
+});
+
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
 app.listen(port, function (err) {

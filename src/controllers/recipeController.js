@@ -6,7 +6,7 @@ var recipeController = (bookService, nav) => {
 
     var middleware = (req, res, next) => {
         if (!req.user) {
-            // res.redirect('/');
+            res.redirect('/');
         }
         next();
     }
