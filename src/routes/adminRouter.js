@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var recipes = require('../data/recipeData');
 
-var router = function () {
+var router = () => {
 
     adminRouter.route('/addRecipes')
         .get(function (req, res) {

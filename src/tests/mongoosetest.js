@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var db = mongoose.connect('mongodb://localhost/recipeApp');
+const db = mongoose.connect('mongodb://localhost/recipeApp');
 
-var recipe = require('./src/models/recipeModel');
+const recipe = require('../models/recipeModel');
 
-var testRecipe = new recipe({
+const testRecipe = new recipe({
     title: 'Pineapple Poblano Beef+Mystery Meat Tacos',
     producer: 'Hello Fresh',
     ingredients: [

@@ -1,8 +1,8 @@
-var MongoClient = require('mongodb').MongoClient;
-var chalk = require('chalk');
-var objectId = require('mongodb').ObjectId;
+//var MongoClient = require('mongodb').MongoClient;
+const chalk = require('chalk');
+const objectId = require('mongodb').ObjectId;
 
-var recipeController = (bookService, nav) => {
+const recipeController = (nav, Recipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     var middleware = (req, res, next) => {
@@ -13,8 +13,21 @@ var recipeController = (bookService, nav) => {
     }
 
     var getIndex = (req, res) => {
-        var url = 'mongodb://localhost:27017/recipeApp';
+        var query = {};
 
+        Recipe.find(query, (err, recipes) => {
+            if (err) {
+                console.log(chalk.red(err));
+            }
+            res.render('recipeListView', {
+                title: 'Recipes',
+                nav,
+                recipes
+            });
+        });
+
+        /*
+        var url = 'mongodb://localhost:27017/recipeApp';
         MongoClient.connect(url, function (err, client) {
 
             const db = client.db('recipeApp');
@@ -39,11 +52,25 @@ var recipeController = (bookService, nav) => {
                 });
                 client.close();
             });
-        });
+        }); */
+
     };
 
     var getById = (req, res) => {
         var id = new objectId(req.params.id);
+        var query = {_id: id};
+
+        Recipe.findOne(query, (err, recipe) => {
+            if (err) {
+                console.log(err);
+            }
+            res.render('recipeView', {
+                title: 'Recipes',
+                nav,
+                recipe
+            });
+        });
+        /*
         var url = 'mongodb://localhost:27017/recipeApp';
 
         MongoClient.connect(url, function (err, client) {
@@ -70,7 +97,7 @@ var recipeController = (bookService, nav) => {
                 });
                 client.close();
             });
-        });
+        }); */
     };
 
     return {

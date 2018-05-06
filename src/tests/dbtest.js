@@ -1,6 +1,6 @@
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb');
 const assert = require('assert');
-var chalk = require('chalk');
+const chalk = require('chalk');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -8,6 +8,25 @@ const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'recipeApp';
 
+(async function mongo() {
+    let client;
+    try {
+        client = await MongoClient.connect(url);
+        console.log(chalk.green('Connected to Server'));
+        const db = client.db(dbName);
+
+        const col = await db.collection('recipes');
+        const docs = await col.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray();
+
+        console.log(docs);
+    } catch (err) {
+        console.log(chalk.red(err.stack));
+    }
+
+    client.close();
+}());
+
+/*
 // Use connect method to connect to the server
 MongoClient.connect(url, function (err, client) {
     assert.equal(null, err);
@@ -15,14 +34,22 @@ MongoClient.connect(url, function (err, client) {
 
     const db = client.db(dbName);
 
-    main(db);
+    //main(db);
+
+    //use an iffy so need need to have separate async function when calling functions that return promises
+    (async function getDocs() {
+        const docs = await findDocumentsNew(db);
+        console.log(docs);
+        console.log(chalk.green('Done finding docs in the iffy'));
+    }());
 
     //var docs = await findDocumentsNew(db);
-    findDocuments(db, function() {
+    findDocuments(db, function () {
         client.close();
         console.log(chalk.green('Done finding records in a non es2016+ fashion'));
     });
 });
+*/
 
 async function main(db) {
     var docs = await findDocumentsNew(db);

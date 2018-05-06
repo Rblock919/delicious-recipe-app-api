@@ -1,10 +1,10 @@
-var gulp = require('gulp');
-var nodemon = require('gulp-nodemon');
-var eslint = require('gulp-eslint');
-var jscs = require('gulp-jscs');
-var chalk = require('chalk');
+const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
+const eslint = require('gulp-eslint');
+const jscs = require('gulp-jscs');
+const chalk = require('chalk');
 
-var jsFiles = ['*.js', 'src/**/*.js'];
+const jsFiles = ['*.js', 'src/**/*.js'];
 
 gulp.task('lint', () => {
     // ESLint ignores files with "node_modules" paths.
@@ -26,17 +26,17 @@ gulp.task('lint', () => {
 
 });
 
-gulp.task('inject', function() {
-    var wiredep = require('wiredep').stream;
-    var inject = require('gulp-inject');
+gulp.task('inject', () => {
+    const wiredep = require('wiredep').stream;
+    const inject = require('gulp-inject');
 
-    var injectSrc = gulp.src(['./public/css/*.css', './public/js/*.js'], {read: false});
+    const injectSrc = gulp.src(['./public/css/*.css', './public/js/*.js'], {read: false});
 
-    var injectOptions = {
+    const injectOptions = {
         ignorePath: '/public'
     };
 
-    var options = {
+    const options = {
         bowerJson: require('./bower.json'),
         directory: './public/lib',
         ignorePath: '../../public'
@@ -48,9 +48,9 @@ gulp.task('inject', function() {
         .pipe(gulp.dest('./src/views'));
 });
 
-gulp.task('serve', ['lint', 'inject'], function() {
+gulp.task('serve', ['lint', 'inject'], () => {
 
-    var options = {
+    const options = {
         script: 'app.js',
         delayTime: 1,
         env: {
@@ -59,7 +59,7 @@ gulp.task('serve', ['lint', 'inject'], function() {
         watch: jsFiles
     };
 
-    return nodemon(options).on('restart', ['lint'], function(ev) {
+    return nodemon(options).on('restart', ['lint'], (ev) => {
         console.log(chalk.blueBright.underline('Server-Restarting...'));
     });
 });

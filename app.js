@@ -1,21 +1,26 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var chalk = require('chalk');
-var passport = require('passport');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+const express = require('express');
+const bodyParser = require('body-parser');
+const chalk = require('chalk');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
-var app = express();
-var port = process.env.PORT || 3000;
+const mongoose = require('mongoose');
+const dbURI = 'mongodb://localhost:27017/recipeApp';
+mongoose.connect(dbURI);
+const Recipe = require('./src/models/recipeModel');
+
+const app = express();
+const port = process.env.PORT || 3000;
 
 //Load hard-coded nav data
-var nav = require('./src/data/navData');
+const nav = require('./src/data/navData');
 
 //Load routers
-var recipeRouter = require('./src/routes/recipeRouter')(nav);
-var serviceRouter = require('./src/routes/servicesRouter')(nav);
-var adminRouter = require('./src/routes/adminRouter')();
-var authRouter = require('./src/routes/authRouter')();
+const recipeRouter = require('./src/routes/recipeRouter')(nav, Recipe);
+const serviceRouter = require('./src/routes/servicesRouter')(nav);
+const adminRouter = require('./src/routes/adminRouter')();
+const authRouter = require('./src/routes/authRouter')();
 
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());
@@ -39,7 +44,7 @@ app.use('/Services', serviceRouter);
 app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     //Check if a user exists in the session, if not then send to signin page
     if (!req.user) {
         res.render('signin', {
@@ -54,22 +59,35 @@ app.get('/', function (req, res) {
     }
 });
 
-app.get('/register', function(req, res) {
+app.get('/register', (req, res) => {
     res.render('register', {
         nav: nav
     });
 });
 
-app.get('/logout', function(req, res) {
+app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
 
-app.listen(port, function (err) {
+app.listen(port, (err) => {
     if (err) {
         console.log(chalk.red.bold.underline(err));
     }
     console.log(chalk.green('Running server on port: ' + port));
+});
+
+//log to the console when the mongoose connection is closed
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose default connection disconnected');
+});
+
+//whenever node exits, close the mongoose connection and log to console
+process.on('SIGINT', function() {
+    mongoose.connection.close(function () {
+        console.log(chalk.blueBright.underline('Mongoose default connection successfully closed thru application exiting process'));
+        process.exit(0);
+    });
 });
 
 // 2.0.46 = old version of mongodb module

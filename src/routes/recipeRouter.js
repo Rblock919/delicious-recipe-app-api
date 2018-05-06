@@ -3,9 +3,9 @@ var recipeRouter = express.Router();
 
 // var recipeData = require('../data/recipeData');
 
-var router = function (nav) {
+var router = (nav, Recipe) => {
 
-    var recipeController = require('../controllers/recipeController')(null, nav);
+    var recipeController = require('../controllers/recipeController')(nav, Recipe);
 
     recipeRouter.use(recipeController.middleware);
 
