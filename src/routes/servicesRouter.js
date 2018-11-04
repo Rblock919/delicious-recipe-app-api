@@ -4,7 +4,16 @@ var servicesRouter = express.Router();
 var router = function (nav) {
     servicesRouter.route('/')
         .get(function (req, res) {
-            res.send('Services Page Coming Soon.');
+            res.render('serviceHome', {
+                nav: nav
+            });
+        });
+
+    servicesRouter.route('/add')
+        .get(function (req, res) {
+            res.render('addRecipe', {
+                nav: nav
+            });
         });
 
     return servicesRouter;

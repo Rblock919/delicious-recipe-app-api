@@ -15,6 +15,7 @@ module.exports = () => {
 
                 var db = client.db('recipeApp');
                 var collection = db.collection('users');
+
                 if (err) {
                     console.log(chalk.red.bold.underline(err));
                     return;
@@ -35,6 +36,8 @@ module.exports = () => {
                             done(null, false, {message: 'Bad password'});
                         }
                     });
+
             });
+
         }));
 }
