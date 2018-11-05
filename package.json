@@ -4,6 +4,7 @@
   "description": "Application for scanning and displaying delicious recipes.",
   "main": "index.js",
   "scripts": {
+    "start": "gulp serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "share": "lt --port 3000"
   },

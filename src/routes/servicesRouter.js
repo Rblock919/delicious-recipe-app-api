@@ -1,7 +1,10 @@
 var express = require('express');
 var servicesRouter = express.Router();
 
-var router = function (nav) {
+var router = (nav) => {
+
+    var servicesController = require('../controllers/servicesController')();
+
     servicesRouter.route('/')
         .get(function (req, res) {
             res.render('serviceHome', {
@@ -14,7 +17,8 @@ var router = function (nav) {
             res.render('addRecipe', {
                 nav: nav
             });
-        });
+        })
+        .post(servicesController.addRecipe);
 
     return servicesRouter;
 }

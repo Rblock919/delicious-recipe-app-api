@@ -100,46 +100,97 @@
               <a class="story-title" href="#"><img alt="" src="/images/plusSign.jpeg" style="width:100px;height:100px" class="img-circle"></a>
             </div>
             <div class="col-md-10 col-sm-9">
-                <form>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                <form name="addRecipeForm" action="/Services/add" method="post">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="form-group col-md-4 text-center">
                             <label for="recipeTitle">Recipe Title</label>
-                            <input type="text" class="form-control" id="recipeTitle" placeholder="Name of Recipe">
+                            <input type="text" class="form-control" name="recipeTitle" id="recipeTitle" placeholder="Name of Recipe">
                         </div>
-                        <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <label class="input-group-text" for="inputGroupSelect01">Producer</label>
-                                </div>
-                                <select class="custom-select" id="inputGroupSelect01">
-                                  <option selected>Choose...</option>
-                                  <option value="Hello Fresh">Hello Fresh</option>
-                                  <option value="Blue Apron">Blue Apron</option>
-                                  <option value="Home Chef">Home Chef</option>
-                                </select>
+                        <div class="col-md-4">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="producer" style="margin-left: 15px; ">Producer</label>
+                            </div>
+                            <select name="producer" class="custom-select" id="producer">
+                              <option selected>Choose...</option>
+                              <option value="Hello Fresh">Hello Fresh</option>
+                              <option value="Blue Apron">Blue Apron</option>
+                              <option value="Home Chef">Home Chef</option>
+                            </select>
                         </div>
-                    </div> 
+                    </div> <br>
+                    <div class="form-group text-center">
+                      <h4>Nutritional Information</h4>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="fats">Fats (g)</label>
+                          <input name="fats" type="text" class="form-control" id="fats" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="Satfats">Saturated Fats (g)</label>
+                          <input name="satFats" type="text" class="form-control" id="Satfats" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="carbs">Carbs (g)</label>
+                          <input name="carbs" type="text" class="form-control" id="carbs" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="sugar">Sugar (g)</label>
+                          <input name="sugar" type="text" class="form-control" id="sugar" placeholder="# of grams">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label for="fiber">Fiber (g)</label>
+                          <input name="fiber" type="text" class="form-control" id="fiber" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="protein">Protein (g)</label>
+                          <input name="protein" type="text" class="form-control" id="protein" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="chol">Cholesterol (mg)</label>
+                          <input name="chol" type="text" class="form-control" id="chol" placeholder="# of grams">
+                        </div>
+                        <div class="col-md-3">
+                          <label for="sodium">Sodium (mg)</label>
+                          <input name="sodium" type="text" class="form-control" id="sodium" placeholder="# of grams">
+                        </div>
+                      </div>
+                    </div>
                     <% for(var i=1;i<7;i++){%>
                         <hr>
                     <h4>Step <%=i%></h4>
-                    <div class="form-group">
-                        <label for="step<%=i%>">Name of Step</label>
-                        <input type="text" class="form-control" id="step<%=i%>" placeholder="Name of Step">
-                    </div>
-                    <div class="form-group">
-                        <label for="step<%=i%>D">Step Details</label>
-                        <input type="textarea" class="form-control" id="step<%=i%>D" placeholder="Ex. Cut onions into...">
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                          <label for="step<%=i%>">Name of Step</label>
+                          <input name="step<%=i%>name" type="text" class="form-control" id="step<%=i%>" placeholder="Name of Step">
+                      </div>
+                      <div class="col-md-8 form-group">
+                          <label for="step<%=i%>D">Step Details</label>
+                          <textarea name="step<%=i%>details" class="form-control" id="step<%=i%>D">Cut the onions into....</textarea>
+                      </div>
                     </div>
                     <%}%>
-                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <div class="row">
+                      <div class="col-md-1"></div>
+                      <div class="col-md-8 text-center">
+                        <label for="url">Online Image URL</label>
+                        <input name="url" type="text" class="form-control" id="url" placeholer="Online URL">
+                      </div>
+                      <div class="col-md-3"></div>
+                    </div>
+                   
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
                 </form>
             </div>
           </div>
           <hr>
           
+
+          <a href="/Services" class="btn btn-primary pull-left btnPrevious">Cancel<i class="glyphicon-chevron-left glyphicon"></i></a>
           <a href="/logout" class="btn btn-primary pull-right btnNext">Logout<i class="glyphicon glyphicon-chevron-right"></i></a>
-        
-          
         </div>
       </div>
                                                                                        

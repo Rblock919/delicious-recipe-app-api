@@ -95,42 +95,98 @@
       <div class="panel">
         <div class="panel-body">
           
-          
-          
           <!--/stories-->
           <div class="row">    
             <br>
             <div class="col-md-2 col-sm-3 text-center">
               <a class="story-title" href="#"><img alt="" src="<%=recipe.imgDir%>" style="width:100px;height:100px" class="img-circle"></a>
             </div>
-            <div class="col-md-10 col-sm-9">
-              <h3><%=recipe.title%></h3>
+            <div class="col-md-8 col-sm-8 text-center">
+              <h1><%=recipe.title%></h1>
               <div class="row">
-                <div class="col-xs-9">
                   <h4><span class="label label-default"><%=recipe.producer%></span></h4><h4>
                   <small style="font-family:courier,'new courier';" class="text-muted"></small>
-                  </h4></div>
-                <div class="col-xs-3"></div>
+                  </h4>
+                
               </div>
               <br><br>
             </div>
-          </div>
+          </div><!--/row-->
+
+          <div class="row">
+            <br>
+            <div class="col-md-2">
+              <h3>Ingredients</h3>
+            </div>
+            <div class="col-md-10">
+              <ul>
+                <% for(var i=0; i<recipe.ingredients.length;i++){%>
+                <div class="col-md-4">
+                  <li><%=recipe.ingredients[i]%></li>
+                </div>
+                <%}%>
+                
+              </ul>
+            </div>
+          </div><!--/row-->
+
+          <div class="row">
+            <br>
+            <div class="col-md-2">
+              <h3>Nutritional Information</h3>
+            </div>
+            <div class="col-md-10">
+              <div class="col-md-3">
+                <span style="font-weight: bold; ">Calories: </span><%=recipe.nutritionValues.calories%><br>
+                <span style="font-weight: bold; ">Fat: </span><%=recipe.nutritionValues.fat%>g<br>
+                <span style="font-weight: bold; ">Saturated Fat: </span> <%=recipe.nutritionValues.saturatedFat%>g<br>
+              </div> 
+              <div class="col-md-3">
+                <span style="font-weight: bold; ">Calories: </span><%=recipe.nutritionValues.carbohydrate%>g<br>
+                <span style="font-weight: bold; ">Sugar: </span><%=recipe.nutritionValues.sugar%>g<br>
+                <span style="font-weight: bold; ">Fiber: </span><%=recipe.nutritionValues.fiber%>g<br>
+              </div> 
+              <div class="col-md-3">
+                <span style="font-weight: bold; ">Protein: </span><%=recipe.nutritionValues.protein%>g<br>
+                <span style="font-weight: bold; ">Cholesterol: </span><%=recipe.nutritionValues.cholesterol%>mg<br>
+                <span style="font-weight: bold; ">Sodium: </span><%=recipe.nutritionValues.sodium%>mg<br>
+              </div> 
+            </div>
+          </div><!--/row-->
+
+          <% for(var i=0; i<recipe.numSteps;i++){%>
+          <div class="row">
+            <br>
+            <div class="col-md-2">
+              <h3>Step <%=i+1%></h3>
+            </div>
+            <div class="col-md-2">
+              <h5 style="font-weight: bold; "><%=recipe.steps[i].name%></h5>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-10">
+                  <%=recipe.steps[i].body%>
+                </div>
+            </div>
+          </div><!--/row-->
+          <%}%>
           <hr>
-        
+
           <!--/stories-->
-          
-          
+          <a href="/Recipes" class="btn btn-primary pull-left btnPrevious">Back<i class="glyphicon-chevron-left glyphicon"></i></a>
           <a href="/logout" class="btn btn-primary pull-right btnNext">Logout<i class="glyphicon glyphicon-chevron-right"></i></a>
-        
-          
         </div>
       </div>
-                                                                                       
-	                                                
-                                                      
    	</div><!--/col-12-->
+  </div><!--/row-->
+
+  <div class="row">
+    <div class="col-md-12">
+
+    </div>
   </div>
-</div>
+
+</div><!--/container -->
                                                 
                                                                                 
 <hr>
@@ -165,9 +221,6 @@
           <li><i class="icon-pinterest icon-2x"></i></li>
         </ul>
         
-      </div>
-      <div class="col-sm-6">
-          <p class="pull-right">Built with <i class="icon-heart-empty"></i> at <a href="http://www.bootply.com">Bootply</a></p>      
       </div>
     </div>
   </div>

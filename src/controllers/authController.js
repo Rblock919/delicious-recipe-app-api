@@ -23,7 +23,7 @@ const authController = () => {
                     return;
                 }
 
-                collection.insert(user, function (err, results) {
+                collection.insertOne(user, function (err, results) {
 
                     if (err) {
                         console.log(chalk.red.bold.underline(err));
@@ -33,6 +33,8 @@ const authController = () => {
                     req.login(results.ops[0], function () {
                         res.redirect('/Recipes');
                     });
+
+                    client.close();
                 });
             })
         };
