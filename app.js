@@ -79,13 +79,13 @@ app.listen(port, (err) => {
 
 //log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
-    console.log('Mongoose default connection disconnected');
+    console.log(chalk.magenta.underline('\nMongoose default connection disconnected'));
 });
 
 //whenever node exits, close the mongoose connection and log to console
 process.on('SIGINT', function() {
     mongoose.connection.close(function () {
-        console.log(chalk.blueBright.underline('Mongoose default connection successfully closed thru application exiting process'));
+        console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
         process.exit(0);
     });
 });

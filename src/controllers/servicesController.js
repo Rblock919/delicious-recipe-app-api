@@ -3,6 +3,16 @@ var MongoClient = require('mongodb').MongoClient;
 
 const servicesController = () => {
 
+    //Handle forwarding requests to main page for users that aren't logged in
+    var middleware = (req, res, next) => {
+        if (!req.user) {
+            res.redirect('/');
+            return;
+        } else {
+            next();
+        }
+    }
+
     var addRecipe = (req, res) => {
 
         var userSteps = assembleSteps(req);
@@ -35,6 +45,7 @@ const servicesController = () => {
     };
 
     return {
+        middleware: middleware,
         addRecipe: addRecipe
     };
 

@@ -8,8 +8,10 @@ const recipeController = (nav, Recipe) => {
     var middleware = (req, res, next) => {
         if (!req.user) {
             res.redirect('/');
+            return;
+        } else {
+            next();
         }
-        next();
     }
 
     var getIndex = (req, res) => {

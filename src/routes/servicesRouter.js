@@ -5,6 +5,8 @@ var router = (nav) => {
 
     var servicesController = require('../controllers/servicesController')();
 
+    servicesRouter.use(servicesController.middleware);
+
     servicesRouter.route('/')
         .get(function (req, res) {
             res.render('serviceHome', {
