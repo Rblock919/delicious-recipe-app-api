@@ -18,7 +18,7 @@ const nav = require('./src/data/navData');
 
 //Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(nav, Recipe);
-const serviceRouter = require('./src/routes/servicesRouter')(nav);
+const serviceRouter = require('./src/routes/servicesRouter')(nav, Recipe);
 const adminRouter = require('./src/routes/adminRouter')();
 const authRouter = require('./src/routes/authRouter')();
 

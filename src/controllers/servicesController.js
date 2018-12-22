@@ -1,7 +1,8 @@
 const chalk = require('chalk');
 var MongoClient = require('mongodb').MongoClient;
+const objectId = require('mongodb').ObjectId;
 
-const servicesController = () => {
+const servicesController = (nav, Recipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     var middleware = (req, res, next) => {
@@ -44,9 +45,51 @@ const servicesController = () => {
         })
     };
 
+    var getEditList = (req, res) => {
+
+        var query = {};
+
+        Recipe.find(query, (err, recipes) => {
+            if (err) {
+                console.log(chalk.red(err));
+            }
+            res.render('editRecipeListView', {
+                title: 'Choose Recipe to Edit',
+                nav,
+                recipes
+            });
+        });
+
+    }
+
+    var getEditPage = (req, res) => {
+
+        var id = new objectId(req.params.id);
+        var query = {_id: id};
+
+        Recipe.findOne(query, (err, recipe) => {
+            if (err) {
+                console.log(err);
+            }
+            res.render('editRecipeView', {
+                title: 'Edit Recipe',
+                nav,
+                recipe
+            });
+        });
+
+    }
+
+    var editRecipe = (req, res) => {
+        res.send('Back end MongoDB editing coming soon!');
+    }
+
     return {
+        editRecipe: editRecipe,
         middleware: middleware,
-        addRecipe: addRecipe
+        addRecipe: addRecipe,
+        getEditList: getEditList,
+        getEditPage: getEditPage
     };
 
 };

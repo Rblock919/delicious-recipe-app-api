@@ -62,7 +62,7 @@
         <div class="well well-lg"> 
           <div class="row">
             <div class="col-sm-12 text-center">
-             <h1>Services</h1>
+             <h1><%=title%></h1>
             </div>
           </div>
         </div>
@@ -80,7 +80,6 @@
   
 </div>
 
-
 <div class="container">
   <div class="row">
     
@@ -89,65 +88,23 @@
       <div class="panel">
         <div class="panel-body">
           
-          
-          
+<div class="container">
           <!--/stories-->
-          <div class="row">    
-            <br>
-
-            <div class="col-md-2 col-sm-3 text-center">
+          <% for(var i=0; i<recipes.length;i++){%>
+            <div class="col-md-4 text-center">
+              <img alt="" src="<%=recipes[i].imgDir%>" style="width:100px;height:100px" class="img-circle">
+              <h3><%=recipes[i].title%></h3>
+                  <h4><span class="label label-default"><%=recipes[i].producer%></span></h4><h4>
+                  <small style="font-family:courier,'new courier';" class="text-muted"><a href="/Services/edit/<%=recipes[i]._id%>" class="text-muted">Click to Edit</a></small>
+                  </h4>
+                  <hr>
             </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-              <div class="row">
-                <a href="/Services/add" class="btn btn-primary">Add Recipe</a><br>
-              </div>
-              <div style="margin-top: 10px;" class="row">
-                <img alt="" src="/images/plusSign.jpeg" style="width:100px;height:100px" class="img-circle">
-              </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-              <div class="row">
-                <a href="/Services/edit" class="btn btn-primary">Edit Recipe</a><br>
-              </div>
-              <div style="margin-top: 10px;" class="row">
-                <img alt="" src="/images/editLogo.jpg" style="width:110px;height:100px" class="img-circle">
-              </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-              <div class="row">
-                <a href="#" class="btn btn-primary">Edit Profile</a><br>
-              </div>
-              <div style="margin-top: 10px;" class="row">
-                <img alt="" src="/images/editProfile.png" style="width:110px;height:100px" class="img-circle">
-              </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-              <div class="row">
-                <a href="#" class="btn btn-primary">Edit Users</a><br>
-              </div>
-              <div style="margin-top: 10px;" class="row">
-                <img alt="" src="/images/adminLogo.jpg" style="width:100px;height:100px" class="img-circle">
-              </div>
-            </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-            </div>
-
-            <div class="col-md-2 col-sm-3 text-center">
-            </div>
+          <%}%>
           
-          </div>
-          <hr>
-          
+</div>
           <!--/stories-->
-          
-          
+          <a href="/Services" class="btn btn-primary pull-left btnPrevious">Back<i class="glyphicon-chevron-left glyphicon"></i></a>
           <a href="/logout" class="btn btn-primary pull-right btnNext">Logout<i class="glyphicon glyphicon-chevron-right"></i></a>
-        
           
         </div>
       </div>
@@ -157,7 +114,6 @@
    	</div><!--/col-12-->
   </div>
 </div>
-                                                
                                                                                 
 <hr>
 

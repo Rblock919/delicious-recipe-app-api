@@ -62,7 +62,7 @@
         <div class="well well-lg"> 
           <div class="row">
             <div class="col-sm-12 text-center">
-             <h1>Add Recipe</h1>
+             <h1>Edit Recipe</h1>
             </div>
           </div>
         </div>
@@ -91,22 +91,22 @@
           
             <br>
             <div class="col-md-2 col-sm-3 text-center">
-              <img alt="" src="/images/plusSign.jpeg" style="width:100px;height:100px" class="img-circle">
+              <img alt="" src="<%=recipe.imgDir%>" style="width:100px;height:100px" class="img-circle">
             </div>
             <div class="col-md-10 col-sm-9">
-                <form name="addRecipeForm" action="/Services/add" method="post">
+                <form name="addRecipeForm" action="/Services/edit/<%=recipe._id%>" method="post">
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="form-group col-md-4 text-center">
                             <label for="recipeTitle">Recipe Title</label>
-                            <input type="text" class="form-control" name="recipeTitle" id="recipeTitle" placeholder="Name of Recipe">
+                            <input type="text" class="form-control" name="recipeTitle" id="recipeTitle" value="<%=recipe.title%>">
                         </div>
                         <div class="col-md-4">
                             <div class="input-group-prepend">
                               <label class="input-group-text" for="producer" style="margin-left: 15px; ">Producer</label>
                             </div>
                             <select name="producer" class="custom-select" id="producer">
-                              <option selected>Choose...</option>
+                              <option value="<%=recipe.producer%>" >Choose if Changing</option>
                               <option value="Hello Fresh">Hello Fresh</option>
                               <option value="Blue Apron">Blue Apron</option>
                               <option value="Home Chef">Home Chef</option>
@@ -120,38 +120,38 @@
                         <h4>Nutritional Information</h4>
                         <div class="row">
                           <div class="col-md-3">
-                            <label for="fats">Fats (g)</label>
-                            <input name="fats" type="text" class="form-control" id="fats" placeholder="# of grams">
+                            <label for="fats">Fats (g) </label>
+                            <input name="fats" type="text" class="form-control" id="fats" value="<%=recipe.nutritionValues.fat%>">
                           </div>
                           <div class="col-md-3">
                             <label for="Satfats">Saturated Fats (g)</label>
-                            <input name="satFats" type="text" class="form-control" id="Satfats" placeholder="# of grams">
+                            <input name="satFats" type="text" class="form-control" id="Satfats" value="<%=recipe.nutritionValues.saturatedFat%>">
                           </div>
                           <div class="col-md-3">
                             <label for="carbs">Carbs (g)</label>
-                            <input name="carbs" type="text" class="form-control" id="carbs" placeholder="# of grams">
+                            <input name="carbs" type="text" class="form-control" id="carbs" value="<%=recipe.nutritionValues.carbohydrate%>">
                           </div>
                           <div class="col-md-3">
                             <label for="sugar">Sugar (g)</label>
-                            <input name="sugar" type="text" class="form-control" id="sugar" placeholder="# of grams">
+                            <input name="sugar" type="text" class="form-control" id="sugar" value="<%=recipe.nutritionValues.sugar%>">
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-3">
                             <label for="fiber">Fiber (g)</label>
-                            <input name="fiber" type="text" class="form-control" id="fiber" placeholder="# of grams">
+                            <input name="fiber" type="text" class="form-control" id="fiber" value="<%=recipe.nutritionValues.fiber%>">
                           </div>
                           <div class="col-md-3">
                             <label for="protein">Protein (g)</label>
-                            <input name="protein" type="text" class="form-control" id="protein" placeholder="# of grams">
+                            <input name="protein" type="text" class="form-control" id="protein" value="<%=recipe.nutritionValues.protein%>">
                           </div>
                           <div class="col-md-3">
                             <label for="chol">Cholesterol (mg)</label>
-                            <input name="chol" type="text" class="form-control" id="chol" placeholder="# of grams">
+                            <input name="chol" type="text" class="form-control" id="chol" value="<%=recipe.nutritionValues.cholesterol%>">
                           </div>
                           <div class="col-md-3">
                             <label for="sodium">Sodium (mg)</label>
-                            <input name="sodium" type="text" class="form-control" id="sodium" placeholder="# of grams">
+                            <input name="sodium" type="text" class="form-control" id="sodium" value="<%=recipe.nutritionValues.sodium%>">
                           </div>
                         </div>
                       </div>
@@ -165,11 +165,11 @@
                       <div class="row">
                         <div class="col-md-4 form-group">
                             <label for="step<%=i%>">Name of Step</label>
-                            <input name="step<%=i%>name" type="text" class="form-control" id="step<%=i%>" placeholder="Name of Step">
+                            <input name="step<%=i%>name" type="text" class="form-control" id="step<%=i%>" value="<%=recipe.steps[i-1].name%>">
                         </div>
                         <div class="col-md-8 form-group">
                             <label for="step<%=i%>D">Step Details</label>
-                            <textarea name="step<%=i%>details" class="form-control" id="step<%=i%>D">Cut the onions into....</textarea>
+                            <textarea name="step<%=i%>details" class="form-control" id="step<%=i%>D"><%=recipe.steps[i-1].body%></textarea>
                         </div>
                       </div>
                       <%}%>
@@ -179,7 +179,7 @@
                         <div class="col-md-2"></div>
                         <div class="col-md-8 text-center">
                           <label for="url">Online Image URL</label>
-                          <input name="url" type="text" class="form-control" id="url" placeholer="Online URL">
+                          <input name="url" type="text" class="form-control" id="url" value="<%=recipe.imgDir%>">
                         </div>
                         <div class="col-md-2"></div>
                       </div>
@@ -191,7 +191,7 @@
           <hr>
           
 
-          <a href="/Services" class="btn btn-primary pull-left btnPrevious">Cancel<i class="glyphicon-chevron-left glyphicon"></i></a>
+          <a href="/Services/edit" class="btn btn-primary pull-left btnPrevious">Back<i class="glyphicon-chevron-left glyphicon"></i></a>
           <a href="/logout" class="btn btn-primary pull-right btnNext">Logout<i class="glyphicon glyphicon-chevron-right"></i></a>
 
         </div><!--/panel-body-->
