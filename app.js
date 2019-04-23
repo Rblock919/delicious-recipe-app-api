@@ -74,7 +74,7 @@ app.listen(port, (err) => {
     if (err) {
         console.log(chalk.red.bold.underline(err));
     }
-    console.log(chalk.green('Running server on port: ' + port));
+    console.log(chalk.green('Running server on port: ') + chalk.green.underline(port));
 });
 
 //log to the console when the mongoose connection is closed

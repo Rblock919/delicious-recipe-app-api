@@ -42,7 +42,8 @@ const servicesController = (nav, Recipe) => {
                 client.close();
 
             });
-        })
+        });
+        //res.redirect('/Recipes');
     };
 
     var getEditList = (req, res) => {
@@ -130,7 +131,8 @@ function assembleSteps(req) {
 
 function assembleRecipeData(req, userSteps) {
 
-    var userCalories = 300;
+    var correctUserCalories = (req.body.fats * 9) + (req.body.carbs * 4) + (req.body.protein * 4);
+
     var recipedata = {
             title: req.body.recipeTitle,
             producer: req.body.producer,
@@ -148,7 +150,7 @@ function assembleRecipeData(req, userSteps) {
             numSteps: 6,
             steps: userSteps,
             nutritionValues: {
-                calories: userCalories,
+                calories: correctUserCalories,
                 fat: req.body.fats,
                 saturatedFat: req.body.satFats,
                 carbohydrate: req.body.carbs,
