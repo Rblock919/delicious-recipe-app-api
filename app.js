@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 const dbURI = 'mongodb://localhost:27017/recipeApp';
@@ -25,6 +26,7 @@ const authRouter = require('./src/routes/authRouter')();
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 app.use(cookieParser());
 app.use(session({secret: 'recipe'}));
@@ -44,6 +46,11 @@ app.use('/Services', serviceRouter);
 app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 
+var posts = [
+    {message: 'hi'},
+    {message: 'hello'}
+];
+
 app.get('/', (req, res) => {
     //Check if a user exists in the session, if not then send to signin page
     if (!req.user) {
@@ -58,6 +65,11 @@ app.get('/', (req, res) => {
         });
     }
 });
+
+app.get('/testing', (req, res) => {
+    console.log('Received request');
+    res.send(posts);
+})
 
 app.get('/register', (req, res) => {
     res.render('register', {
