@@ -1,0 +1,25 @@
+<main role="main">
+
+    <div class="container" style="padding-bottom: 30px">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="well well-lg">
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                 <h1>Register</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+
+<form>
+  <input [(ngModel)]="userInfo.username" type="text" name="username" id="username" placeholder="Enter Desired Username">
+  <input [(ngModel)]="userInfo.password" type="password" name="password" id="password">
+  <button (click)="register()">Submit</button>
+  <button (click)="login()">Login</button>
+</form>
+
+</main>

@@ -2,19 +2,23 @@ const chalk = require('chalk');
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
 var passport = require('passport');
+var uriS = require('../config/db/dbconnection');
 
 const authController = () => {
 
     var signUp = (req, res) => {
 
             var url = 'mongodb://localhost:27017/recipeApp';
-            console.log(req.body);
+            console.log('Username on signup call: ' + req.body.username);
+            console.log('Password on singup call: ' + req.body.password);
 
-            MongoClient.connect(url, function (err, client) {
+            //res.sendStatus(201);
+
+            MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
                 var db = client.db('recipeApp');
                 var collection = db.collection('users');
                 var user = {
-                    username: req.body.userName,
+                    username: req.body.username,
                     password: req.body.password
                 };
 
@@ -31,7 +35,7 @@ const authController = () => {
                     }
 
                     req.login(results.ops[0], function () {
-                        res.redirect('/Recipes');
+                        res.status(201).send(results.ops[0]);
                     });
 
                     client.close();

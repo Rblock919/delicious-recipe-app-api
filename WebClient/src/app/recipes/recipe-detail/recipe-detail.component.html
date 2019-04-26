@@ -6,7 +6,7 @@
             <div class="well well-lg">
               <div class="row">
                 <div class="col-sm-12 text-center">
-                 <h1>Recipe (id of recipe)</h1>
+                 <h1>Recipe Detail Page</h1>
                 </div>
               </div>
             </div>
@@ -14,5 +14,31 @@
         </div>
         <hr>
       </div>
+
+      <div *ngIf="showRecipe" class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-body">
+
+                  <div class="marketing">
+                    <div class="row"  style="text-align: center" >
+                      <div class="col-lg-3"></div>
+                        <div class="col-lg-6" style="padding-top: 20px">
+                          <a class="story-title" href="#"><img src="assets/images/pineapple-poblano-beef-tacos.jpg" style="width:100px;height:100px" class="img-circle"></a>
+                          <h3>{{recipe.title}}</h3>
+                          <span class="badge badge-primary">{{recipe.producer}} </span>
+                          <br>
+                          <p>Calories: {{recipe.nutritionValues.calories}}</p>
+                        </div><!-- /.col-lg-6 -->
+                        <div class="col-lg-3"></div>
+                      </div><!-- /.row -->
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 </main>

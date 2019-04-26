@@ -5,7 +5,7 @@ var chalk = require('chalk');
 
 module.exports = () => {
     passport.use(new LocalStrategy({
-        usernameField: 'userName',
+        usernameField: 'username',
         passwordField: 'password'
     },
         function (username, password, done) {
@@ -21,6 +21,8 @@ module.exports = () => {
                     return;
                 }
 
+                console.log('In local strat file');
+
                 collection.findOne({username: username},
                     function (err, results) {
 
@@ -30,6 +32,7 @@ module.exports = () => {
                         }
 
                         if (results.password === password) {
+                            console.log('User Found');
                             var user = results;
                             done(null, user);
                         } else {

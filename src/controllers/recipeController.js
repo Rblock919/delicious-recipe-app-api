@@ -7,6 +7,7 @@ const recipeController = (nav, Recipe) => {
     //Handle forwarding requests to main page for users that aren't logged in
     var middleware = (req, res, next) => {
         if (!req.user) {
+            console.log('User not logged in');
             res.redirect('/');
             return;
         } else {
@@ -21,13 +22,16 @@ const recipeController = (nav, Recipe) => {
             if (err) {
                 console.log(chalk.red(err));
             }
-            res.render('recipeListView', {
-                title: 'Recipes',
-                nav,
-                recipes
-            });
+            //res.status(200);
+            //console.log('Recipes object: ' + recipes);
+            res.status(200);
+            res.send(recipes);
+            // res.render('recipeListView', {
+            //     title: 'Recipes',
+            //     nav,
+            //     recipes
+            // });
         });
-
     };
 
     var getById = (req, res) => {
@@ -38,11 +42,13 @@ const recipeController = (nav, Recipe) => {
             if (err) {
                 console.log(err);
             }
-            res.render('recipeView', {
-                title: 'Recipes',
-                nav,
-                recipe
-            });
+            res.status(200);
+            res.send(recipe);
+            // res.render('recipeView', {
+            //     title: 'Recipes',
+            //     nav,
+            //     recipe
+            // });
         });
     };
 

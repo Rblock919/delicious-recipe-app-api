@@ -2,4 +2,4 @@
 <h3>{{recipe.title}}</h3>
 <span class="badge badge-primary">{{recipe.producer}} </span>
 <br>
-<a class="btn btn-info" routerLink='recipes' role="button">View Recipe &raquo;</a>
+<a class="btn btn-info" [routerLink]="['/recipe', recipe._id]" role="button">View Recipe &raquo;</a>

@@ -6,11 +6,11 @@
       </button> -->
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active" >Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="recipes">Recipes</a>
+            <a class="nav-link" routerLink="/recipes" routerLinkActive="active" >Recipes</a>
           </li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
@@ -22,6 +22,7 @@
               </div>
           </li>
         </ul>
+        <a class="nav-link" href="#">Login</a>
         <form class="form-inline mt-2 mt-md-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

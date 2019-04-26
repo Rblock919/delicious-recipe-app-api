@@ -8,7 +8,16 @@ const cors = require('cors');
 
 const mongoose = require('mongoose');
 const dbURI = 'mongodb://localhost:27017/recipeApp';
-mongoose.connect(dbURI);
+
+const uriS = require('./src/config/db/dbconnection');
+
+// mongoose.connect(dbURI);
+
+mongoose.connect(uriS.remote, {useNewUrlParser: true}, () => {
+    //const collection = client.collection('recipes');
+    console.log('connected to db in app.js');
+});
+
 const Recipe = require('./src/models/recipeModel');
 
 const app = express();
@@ -69,7 +78,7 @@ app.get('/', (req, res) => {
 app.get('/testing', (req, res) => {
     console.log('Received request');
     res.send(posts);
-})
+});
 
 app.get('/register', (req, res) => {
     res.render('register', {

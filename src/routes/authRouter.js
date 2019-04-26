@@ -14,7 +14,12 @@ var router = () => {
         .post(passport.authenticate('local', {
             failureRedirect: '/'
         }), function (req, res) {
-            res.redirect('/');
+            console.log('User logged in?');
+            if (req.user) {
+                console.log('user found in req');
+            }
+            res.send({message: 'message'});
+            // res.redirect('/');
         });
 
     authRouter.route('/profile')

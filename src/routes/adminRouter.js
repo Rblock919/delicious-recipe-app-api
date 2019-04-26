@@ -2,6 +2,7 @@ var chalk = require('chalk');
 var express = require('express');
 var adminRouter = express.Router();
 var MongoClient = require('mongodb').MongoClient;
+var uriS = require('../config/db/dbconnection');
 
 var recipes = require('../data/recipeData');
 
@@ -10,7 +11,7 @@ var router = () => {
     adminRouter.route('/addRecipes')
         .get(function (req, res) {
             var url = 'mongodb://localhost:27017/recipeApp';
-            MongoClient.connect(url, function (err, client) {
+            MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
 
                 const db = client.db('recipeApp');
                 var collection = db.collection('recipes');

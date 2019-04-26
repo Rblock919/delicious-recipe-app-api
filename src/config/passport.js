@@ -2,6 +2,8 @@ var passport = require('passport');
 
 var passportConfig = (app) => {
 
+    console.log('In passport config file');
+
     app.use(passport.initialize());
     app.use(passport.session());
 

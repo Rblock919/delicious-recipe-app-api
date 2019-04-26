@@ -5,20 +5,25 @@ const chalk = require('chalk');
 // Connection URL
 const url = 'mongodb://localhost:27017';
 
+// const MongoClient = require(‘mongodb’).MongoClient;
+
+const uriS = require('../config/db/dbconnection');
+
 // Database Name
 const dbName = 'recipeApp';
 
 (async function mongo() {
+    console.log('Uris: ' + uriS.remote);
     let client;
     try {
-        client = await MongoClient.connect(url);
+        client = await MongoClient.connect(uriS.remote, {useNewUrlParser: true});
         console.log(chalk.green('Connected to Server'));
         const db = client.db(dbName);
 
         const col = await db.collection('recipes');
         const docs = await col.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray();
-
-        console.log(docs);
+        console.log('Testing');
+        // console.log(docs);
     } catch (err) {
         console.log(chalk.red(err.stack));
     }

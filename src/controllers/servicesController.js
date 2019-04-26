@@ -21,7 +21,7 @@ const servicesController = (nav, Recipe) => {
 
         var url = 'mongodb://localhost:27017/recipeApp';
 
-        MongoClient.connect(url, function (err, client) {
+        MongoClient.connect(url, {useNewUrlParser: true}, function (err, client) {
             var db = client.db('recipeApp');
             var collection = db.collection('recipes');
 
