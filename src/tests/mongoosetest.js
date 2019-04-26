@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-
-const db = mongoose.connect('mongodb://localhost/recipeApp');
-
+// const db = mongoose.connect('mongodb://localhost/recipeApp');
+const remoteUri = require('../config/db/dbconnection');
 const recipe = require('../models/recipeModel');
-
 const testRecipe = new recipe({
     title: 'Pineapple Poblano Beef+Mystery Meat Tacos',
     producer: 'Hello Fresh',
@@ -65,13 +63,59 @@ const testRecipe = new recipe({
     imgDir: '/images/pineapple-poblano-beef-tacos.jpg'
 });
 
-//testRecipe.save();
-
-recipe.find({}, function (err, docs) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(docs);
-        mongoose.connection.close();
-    }
+mongoose.connect(remoteUri.remote, {useNewUrlParser: true},  () => {
+    console.log('connected to remote db');
 });
+
+let docuement;
+
+// a function that does aync operation and returns a promise
+const poop = function () {
+
+    return new Promise(function (fulfill, reject) {
+        testRecipe.save(function (err, doc) {
+            if (err) {
+                console.log('error saving');
+                reject(err)
+
+            } else {
+                console.log('Success?');
+                console.log('doc: ' + doc);
+                docuement = doc;
+                // console.log('rows affected: ' + rows);
+            }
+            mongoose.connection.close(() => {
+                console.log('Mongoose connection closed');
+                fulfill(docuement);
+            });
+        });
+
+    });
+
+}
+
+// Call poop using .then
+poop().then(function(result) {
+    console.log('result: ' + docuement);
+    // console.log('result: ' + result);
+});
+
+// Call poop using an async function
+// async function main() {
+//     var test = await poop();
+//     console.log('test var: ' + test);
+//     console.log('done');
+// }
+// + line below
+// main();
+
+// -------------------------------------------
+
+// recipe.find({}, function (err, docs) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(docs);
+//         mongoose.connection.close();
+//     }
+// });

@@ -5,7 +5,7 @@ var router = (nav, Recipe) => {
 
     var servicesController = require('../controllers/servicesController')(nav, Recipe);
 
-    servicesRouter.use(servicesController.middleware);
+    // servicesRouter.use(servicesController.middleware);
 
     servicesRouter.route('/')
         .get(function (req, res) {
