@@ -1,6 +1,6 @@
 const connectionString = {
-    local: '',
-    remote: ''
+    local: 'asdf',
+    remote: 'asdf'
 };
 
 module.exports = connectionString;
