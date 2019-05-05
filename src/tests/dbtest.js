@@ -23,7 +23,7 @@ const dbName = 'recipeApp';
         const col = await db.collection('recipes');
         const docs = await col.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray();
         console.log('Testing');
-        // console.log(docs);
+        console.log(docs);
     } catch (err) {
         console.log(chalk.red(err.stack));
     }

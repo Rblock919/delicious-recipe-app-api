@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { IUser } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
+import { TOASTR_TOKEN, Toastr } from '../common/toastr.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,10 +12,12 @@ import { AuthService } from '../services/auth.service';
 export class RegisterComponent implements OnInit {
 
   userInfo: IUser;
-  username: string;
-  password: string;
+  message: string;
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    @Inject(TOASTR_TOKEN) private toastr: Toastr,
+    private router: Router) { }
 
   ngOnInit() {
     this.userInfo = {
@@ -24,15 +28,24 @@ export class RegisterComponent implements OnInit {
 
   register() {
     console.log('UserInfo: ' + JSON.stringify(this.userInfo));
-    this.auth.testingSignUp(this.userInfo).subscribe(res => {
-      console.log('Res received from node on signup method call: ' + res);
-    });
-  }
+    this.auth.signUp(this.userInfo).subscribe(res => {
+      let tempRes: any;
+      tempRes = res;
 
-  login() {
-    console.log('Loggin in..');
-    this.auth.testingSignIn(this.userInfo).subscribe(res => {
-      console.log('Res received from node on signup method call: ' + JSON.stringify(res));
+      // console.log('Res received from node on signup method call: ' + JSON.stringify(res));
+
+      if (!res) {
+        console.log('Error creating new user');
+      } else {
+        this.toastr.success('Profile Successfully Created');
+        localStorage.setItem('token', tempRes.token);
+        this.router.navigate(['home']);
+      }
+    },
+    err => {
+      console.log('Err: ' + JSON.stringify(err));
+      this.message = err.error.ErrMessage;
+      this.toastr.error(err.error.ErrMessage);
     });
   }
 

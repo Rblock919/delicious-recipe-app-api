@@ -1,22 +1,55 @@
 //var MongoClient = require('mongodb').MongoClient;
+const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt-nodejs');
 const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
 
 const recipeController = (nav, Recipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
+    // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
-        if (!req.user) {
-            console.log('User not logged in');
-            res.redirect('/');
-            return;
-        } else {
-            next();
+
+        if (!req.header('Authorization')) {
+            // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
+            return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
         }
+
+        let token = req.header('Authorization').split(' ')[1];
+
+        if (token !== 'null') {
+
+            console.log('TOKEN FOUND IN HEADER');
+            let payload = jwt.decode(token, '123');
+
+            if (!payload) {
+                console.log('auth header invalid');
+                return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+            } else {
+                console.log('setting userId in req');
+                req.userId = payload.sub;
+                next();
+            }
+
+        } else {
+            console.log('NO TOKEN FOUND IN MW');
+            res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+        }
+
+        // console.log('TOKEN IN RECIPE CONT MIDDLEWARE: ' + token);
+
+        // if (!req.user) {
+            // console.log('User not logged in');
+            // res.redirect('/');
+            // return;
+        // } else {
+            // next();
+        // }
     }
 
     var getIndex = (req, res) => {
         var query = {};
+        console.log('Req userId: ' + req.userId);
 
         Recipe.find(query, (err, recipes) => {
             if (err) {

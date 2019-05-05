@@ -14,14 +14,14 @@ export class RecipeApiService {
   constructor(private httpClient: HttpClient) { }
 
   getRecipeList(): Observable<IRecipe[]> {
-    return this.httpClient.get<IRecipe[]>(`${this.uri}/Recipes`, {responseType: 'json'})
-    .pipe(catchError(this.handleError<IRecipe[]>('getRecipeList', [])));
+    return this.httpClient.get<IRecipe[]>(`${this.uri}/Recipes`, {responseType: 'json'});
+    // .pipe(catchError(this.handleError<IRecipe[]>('getRecipeList', [])));
     // return this.httpClient.get<IRecipe[]>('http://localhost:3000/Recipes');
   }
 
   getRecipe(recipeId: number): Observable<IRecipe> {
-    return this.httpClient.get<IRecipe>(`${this.uri}/Recipes/${recipeId}`, {responseType: 'json'})
-    .pipe(catchError(this.handleError<IRecipe>('getRecipe')));
+    return this.httpClient.get<IRecipe>(`${this.uri}/Recipes/${recipeId}`, {responseType: 'json'});
+    // .pipe(catchError(this.handleError<IRecipe>('getRecipe')));
   }
 
 

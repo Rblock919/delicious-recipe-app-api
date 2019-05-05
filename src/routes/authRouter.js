@@ -1,26 +1,30 @@
-var chalk = require('chalk');
 var express = require('express');
 var authRouter = express.Router();
 var passport = require('passport');
 
-var router = () => {
+var router = (User) => {
 
-    var authController = require('../controllers/authController')();
+    var authController = require('../controllers/authController')(User);
 
     authRouter.route('/signUp')
         .post(authController.signUp);
 
     authRouter.route('/signIn')
-        .post(passport.authenticate('local', {
-            failureRedirect: '/'
-        }), function (req, res) {
-            console.log('User logged in?');
-            if (req.user) {
-                console.log('user found in req');
-            }
-            res.send({message: 'message'});
-            // res.redirect('/');
-        });
+        .post(authController.signIn);
+
+    // authRouter.route('/getAdminStatus')
+        // .post(authController.getAdminStatus);
+
+    // .post(passport.authenticate('local', {
+    //      failureRedirect: '/'
+    // }), function (req, res) {
+    //      console.log('User logged in?');
+    //      if (req.user) {
+    //          console.log('user found in req');
+    //      }
+    //      res.send({message: 'User Logged In'});
+    // //   res.redirect('/');
+    // });
 
     authRouter.route('/profile')
         .all(function (req, res, next) {

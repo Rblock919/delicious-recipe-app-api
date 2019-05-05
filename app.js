@@ -13,12 +13,14 @@ const uriS = require('./src/config/db/dbconnection');
 
 // mongoose.connect(dbURI);
 
-mongoose.connect(uriS.remote, {useNewUrlParser: true}, () => {
-    //const collection = client.collection('recipes');
-    console.log('connected to db in app.js');
+mongoose.connect(uriS.remote, {useNewUrlParser: true}, (err) => {
+    if (!err) {
+        console.log(chalk.inverse('connected to db in app.js'));
+    }
 });
 
 const Recipe = require('./src/models/recipeModel');
+const User = require('./src/models/userModel');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,7 +32,7 @@ const nav = require('./src/data/navData');
 const recipeRouter = require('./src/routes/recipeRouter')(nav, Recipe);
 const serviceRouter = require('./src/routes/servicesRouter')(nav, Recipe);
 const adminRouter = require('./src/routes/adminRouter')();
-const authRouter = require('./src/routes/authRouter')();
+const authRouter = require('./src/routes/authRouter')(User);
 
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());

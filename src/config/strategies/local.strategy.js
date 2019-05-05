@@ -2,6 +2,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var MongoClient = require('mongodb').MongoClient;
 var chalk = require('chalk');
+var dbRemoteUri = require('../db/dbconnection');
 
 module.exports = () => {
     passport.use(new LocalStrategy({
@@ -11,7 +12,7 @@ module.exports = () => {
         function (username, password, done) {
             var url = 'mongodb://localhost:27017/recipeApp';
 
-            MongoClient.connect(url, function (err, client) {
+            MongoClient.connect(dbRemoteUri.remote, {useNewUrlParser: true}, function (err, client) {
 
                 var db = client.db('recipeApp');
                 var collection = db.collection('users');

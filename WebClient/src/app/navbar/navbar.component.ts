@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { TOASTR_TOKEN, Toastr} from '../common/toastr.service';
+import { Router } from '@angular/router';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,7 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    public session: SessionService,
+    @Inject(TOASTR_TOKEN) private toastr: Toastr,
+    private router: Router) {
+  }
+
+  logout() {
+    if (this.session.logout()) {
+      if (this.session.isAdmin) {
+        this.session.unsetAdminStatus();
+      }
+      this.toastr.success('You have successfully logged out');
+      this.router.navigate(['logout']);
+    }
   }
 
   ngOnInit() {

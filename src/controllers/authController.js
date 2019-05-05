@@ -1,50 +1,166 @@
 const chalk = require('chalk');
-var express = require('express');
-var MongoClient = require('mongodb').MongoClient;
-var passport = require('passport');
-var uriS = require('../config/db/dbconnection');
+const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt-nodejs');
+const objectId = require('mongodb').ObjectId;
+// var express = require('express');
+// var MongoClient = require('mongodb').MongoClient;
+// var passport = require('passport');
+// var uriS = require('../config/db/dbconnection');
 
-const authController = () => {
+const authController = (User) => {
 
     var signUp = (req, res) => {
 
-            var url = 'mongodb://localhost:27017/recipeApp';
             console.log('Username on signup call: ' + req.body.username);
             console.log('Password on singup call: ' + req.body.password);
 
+            const newUser = new User({
+                username: req.body.username,
+                password: req.body.password,
+                isAdmin: true
+            });
+
+            newUser.save(function (err, createdUser) {
+                if (err) {
+                    console.log(chalk.red(err));
+                    if (err.code === 11000) {
+                        console.log('Error: Duplicate UserName')
+                        res.status(409).send({ErrMessage: 'Username Already Exists'});
+                        // res.send({message: 'Username Already Exists'})
+                    }
+                } else {
+                    console.log('Success saving new user?');
+                    console.log('new user: ' + createdUser);
+                    const payload = {sub: createdUser._id};
+                    const token = jwt.encode(payload, '123');
+
+                    res.status(201).send({token});
+                }
+            });
+
             //res.sendStatus(201);
 
-            MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
-                var db = client.db('recipeApp');
-                var collection = db.collection('users');
-                var user = {
-                    username: req.body.username,
-                    password: req.body.password
-                };
+            // MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
+            //     var db = client.db('recipeApp');
+            //     var collection = db.collection('users');
+            //     var user = {
+            //         username: req.body.username,
+            //         password: req.body.password
+            //     };
 
-                if (err) {
-                    console.log(chalk.red.bold.underline(err));
-                    return;
-                }
+            //     if (err) {
+            //         console.log(chalk.red.bold.underline(err));
+            //         return;
+            //     }
 
-                collection.insertOne(user, function (err, results) {
+            //     collection.insertOne(user, function (err, results) {
 
-                    if (err) {
-                        console.log(chalk.red.bold.underline(err));
-                        return;
-                    }
+            //         if (err) {
+            //             console.log(chalk.red.bold.underline(err));
+            //             return;
+            //         }
 
-                    req.login(results.ops[0], function () {
-                        res.status(201).send(results.ops[0]);
-                    });
+            //         req.login(results.ops[0], function () {
+            //             res.status(201).send(results.ops[0]);
+            //         });
 
-                    client.close();
-                });
-            })
+            //         client.close();
+            //     });
+            // })
         };
 
+    var signIn = (req, res) => {
+        let userData = req.body;
+        var query = {username: userData.username};
+        var payload = {};
+
+        console.log(userData);
+
+        User.findOne(query, (err, user) => {
+
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+
+            if (!user) {
+                console.log('user not found');
+                res.status(401).send({ErrMessage: 'username not found'});
+            } else {
+                bcrypt.compare(userData.password, user.password, (err, isMatch) => {
+
+                    if (err) {
+                        console.log(chalk.red('Error in bcrypt compare: ') + chalk.red.underline(err));
+                    }
+                    if (!isMatch) {
+                        console.log('mismatched password in login attempt');
+                        res.status(401).send({ErrMessage: 'bad password'});
+                    } else {
+                        payload = {sub: user._id}
+                        let token = jwt.encode(payload, '123');
+                        console.log(token);
+                        res.status(200).send({user: user, token: token});
+                    }
+
+                })
+            }
+
+        });
+    }
+
+    // var getAdminStatus = (req, res) => {
+    //     var query = {};
+    //     var userId;
+    //     var id;
+
+    //     if (!req.header('Authorization')) {
+    //         // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
+    //         res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+    //     }
+
+    //     let token = req.header('Authorization').split(' ')[1];
+
+    //     if (token !== 'null') {
+    //         let payload = jwt.decode(token, '123');
+
+    //         if (!payload) {
+    //             console.log('auth header invalid');
+    //             res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+    //         } else {
+    //             userId = payload.sub;
+    //             id = new objectId(userId);
+    //             query = {_id: id};
+    //             console.log('id from token: ' + userId);
+    //         }
+
+    //     } else {
+    //         console.log('no auth token set');
+    //         res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+    //     }
+
+    //     User.findOne(query, (err, user) => {
+    //         if (err) {
+    //             console.log('Error: ' + err);
+    //             res.sendStatus(500);
+    //         }
+    //         if (user) {
+    //             if (user.isAdmin) {
+    //                 console.log('user found and is admin');
+    //                 res.status(200).send({isAdmin: true});
+    //             } else {
+    //                 console.log('user found and is not admin');
+    //                 res.status(200).send({isAdmin: false});
+    //             }
+    //         } else {
+    //             res.status(404).send({ErrMessage: 'User Not Found'});
+    //         }
+    //     });
+    // }
+
     return {
-        signUp: signUp
+        signUp: signUp,
+        signIn: signIn
+        // getAdminStatus: getAdminStatus
     }
 
 }
