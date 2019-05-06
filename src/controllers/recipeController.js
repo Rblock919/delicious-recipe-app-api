@@ -3,6 +3,7 @@ const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt-nodejs');
 const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
+const authConfig = require('../config/auth/authConfig');
 
 const recipeController = (nav, Recipe) => {
 
@@ -19,15 +20,15 @@ const recipeController = (nav, Recipe) => {
 
         if (token !== 'null') {
 
-            console.log('TOKEN FOUND IN HEADER');
-            let payload = jwt.decode(token, '123');
-            console.log('payload: ' + JSON.stringify(payload));
+            // console.log('TOKEN FOUND IN HEADER');
+            let payload = jwt.decode(token, authConfig.secret);
+            // console.log('payload: ' + JSON.stringify(payload));
 
             if (!payload) {
                 console.log('auth header invalid');
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
-                console.log('setting userId in req');
+                // console.log('setting userId in req');
                 req.userId = payload.sub;
                 next();
             }
@@ -50,7 +51,7 @@ const recipeController = (nav, Recipe) => {
 
     var getIndex = (req, res) => {
         var query = {};
-        console.log('Req userId: ' + req.userId);
+        // console.log('Req userId: ' + req.userId);
 
         Recipe.find(query, (err, recipes) => {
             if (err) {

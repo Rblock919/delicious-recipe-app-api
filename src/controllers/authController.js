@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt-nodejs');
 const objectId = require('mongodb').ObjectId;
+const authConfig = require('../config/auth/authConfig');
 // var express = require('express');
 // var MongoClient = require('mongodb').MongoClient;
 // var passport = require('passport');
@@ -34,7 +35,7 @@ const authController = (User) => {
                     console.log('Success saving new user?');
                     console.log('new user: ' + createdUser);
                     const payload = {sub: createdUser._id};
-                    const token = jwt.encode(payload, '123');
+                    const token = jwt.encode(payload, authConfig.secret);
 
                     res.status(201).send({token});
                 }
@@ -99,8 +100,8 @@ const authController = (User) => {
                         res.status(401).send({ErrMessage: 'bad password'});
                     } else {
                         payload = {sub: user._id}
-                        let token = jwt.encode(payload, '123');
-                        console.log(token);
+                        let token = jwt.encode(payload, authConfig.secret);
+                        console.log('Outgoing token: ' + token);
                         res.status(200).send({user: user, token: token});
                     }
 
@@ -130,7 +131,7 @@ const authController = (User) => {
 
         if (token !== 'null') {
             console.log('token: ' + token);
-            let payload = jwt.decode(token, '123');
+            let payload = jwt.decode(token, authConfig.secret);
 
             if (!payload) {
                 console.log('auth header invalid');
