@@ -16,7 +16,7 @@ export class RecipeDetailComponent implements OnInit {
   recipeId: number;
   showRecipe = false;
 
-  constructor(private recipeApi: RecipeApiService, private route: ActivatedRoute, private auth: AuthService) { }
+  constructor(private recipeApi: RecipeApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.recipeId = this.route.snapshot.params['id'];

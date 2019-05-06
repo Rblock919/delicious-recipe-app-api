@@ -12,8 +12,11 @@ var router = (User) => {
     authRouter.route('/signIn')
         .post(authController.signIn);
 
+    authRouter.route('/getUserData')
+        .get(authController.getUserData);
+
     // authRouter.route('/getAdminStatus')
-        // .post(authController.getAdminStatus);
+    // .post(authController.getAdminStatus);
 
     // .post(passport.authenticate('local', {
     //      failureRedirect: '/'

@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.userInfo = {
       username: '',
-      password: ''
+      password: '',
+      isAdmin: false
     };
   }
 
@@ -38,12 +39,7 @@ export class LoginComponent implements OnInit {
         // console.log('Response Token: ' + tempRes.token);
         localStorage.setItem('token', tempRes.token);
         // console.log('User: ' + JSON.stringify(tempRes.user));
-        if (tempRes.user.isAdmin) {
-          // console.log('user logged in is an admin');
-          this.sessionService.setAdminStatus();
-        } else {
-          console.log('user logged in is not an admin');
-        }
+        this.sessionService.setUser(tempRes.user);
         this.toastr.success('Successfully Logged In');
         this.router.navigate(['home']);
       }

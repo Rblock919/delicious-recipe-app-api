@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUser } from '../models/user.model';
 import { of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { templateSourceUrl } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class AuthService {
   signIn(userInfo: IUser) {
     return this.httpClient.post(`${this.uri}/signIn`, userInfo);
     // .pipe(catchError(this.handleError('signIn')));
+  }
+
+  getUserData() {
+    return this.httpClient.get(`${this.uri}/getUserData`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

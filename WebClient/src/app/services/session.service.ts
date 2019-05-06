@@ -11,7 +11,20 @@ export class SessionService {
   private admin = false;
   userData: IUser;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private auth: AuthService) {
+    if (!this.userData && localStorage.getItem('token')) {
+      console.log('NO USER DATA BUT TOKEN EXISTS');
+
+      // for now until i can figure out how to persist data over refreshes, the best method is to just logout the user
+      this.logout();
+      // const userFill: IUser = {
+      //   username: 'fill',
+      //   password: 'fill',
+      //   isAdmin: false
+      // };
+      // this.userData = userFill;
+    }
+   }
 
   logout() {
     if (localStorage.getItem('token')) {
@@ -22,16 +35,23 @@ export class SessionService {
     }
   }
 
-  setUser(user: IUser) {
-    this.userData = user;
+  setUser(user: any) {
+    const tempUser: IUser = {
+      username: user.username,
+      password: user.password,
+      isAdmin: user.isAdmin
+    };
+
+    this.userData = tempUser;
+    this.setAdminStatus(user.isAdmin);
   }
 
   get getUser(): IUser {
     return this.userData;
   }
 
-  setAdminStatus(): void {
-    this.admin = true;
+  setAdminStatus(isAdmin: boolean): void {
+    this.admin = isAdmin;
   }
 
   unsetAdminStatus(): void {
@@ -39,7 +59,11 @@ export class SessionService {
   }
 
   get isAdmin() {
-    return this.admin;
+    if (this.userData) {
+      return this.userData.isAdmin;
+    } else {
+      return this.admin;
+    }
   }
 
   get token() {

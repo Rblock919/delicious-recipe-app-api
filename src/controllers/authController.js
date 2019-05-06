@@ -14,10 +14,12 @@ const authController = (User) => {
             console.log('Username on signup call: ' + req.body.username);
             console.log('Password on singup call: ' + req.body.password);
 
+            console.log('Body req upon registration' + JSON.stringify(req.body));
+
             const newUser = new User({
                 username: req.body.username,
                 password: req.body.password,
-                isAdmin: true
+                isAdmin: false
             });
 
             newUser.save(function (err, createdUser) {
@@ -76,7 +78,7 @@ const authController = (User) => {
 
         console.log(userData);
 
-        User.findOne(query, (err, user) => {
+        User.findOne(query, '-__v', (err, user) => {
 
             if (err) {
                 console.log(chalk.red(err));
@@ -108,58 +110,67 @@ const authController = (User) => {
         });
     }
 
-    // var getAdminStatus = (req, res) => {
-    //     var query = {};
-    //     var userId;
-    //     var id;
+    // var getUserData = (req, res) => {
+    //     console.log('in getUserData');
 
-    //     if (!req.header('Authorization')) {
-    //         // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
-    //         res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
-    //     }
-
-    //     let token = req.header('Authorization').split(' ')[1];
-
-    //     if (token !== 'null') {
-    //         let payload = jwt.decode(token, '123');
-
-    //         if (!payload) {
-    //             console.log('auth header invalid');
-    //             res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
-    //         } else {
-    //             userId = payload.sub;
-    //             id = new objectId(userId);
-    //             query = {_id: id};
-    //             console.log('id from token: ' + userId);
-    //         }
-
-    //     } else {
-    //         console.log('no auth token set');
-    //         res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
-    //     }
-
-    //     User.findOne(query, (err, user) => {
-    //         if (err) {
-    //             console.log('Error: ' + err);
-    //             res.sendStatus(500);
-    //         }
-    //         if (user) {
-    //             if (user.isAdmin) {
-    //                 console.log('user found and is admin');
-    //                 res.status(200).send({isAdmin: true});
-    //             } else {
-    //                 console.log('user found and is not admin');
-    //                 res.status(200).send({isAdmin: false});
-    //             }
-    //         } else {
-    //             res.status(404).send({ErrMessage: 'User Not Found'});
-    //         }
-    //     });
+    //     res.sendStatus(200);
     // }
+
+    var getUserData = (req, res) => {
+        var query = {};
+        var userId;
+        var id;
+
+        if (!req.header('Authorization')) {
+            // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
+            res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+        }
+
+        let token = req.header('Authorization').split(' ')[1];
+
+        if (token !== 'null') {
+            console.log('token: ' + token);
+            let payload = jwt.decode(token, '123');
+
+            if (!payload) {
+                console.log('auth header invalid');
+                res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+            } else {
+                console.log('payload: ' + payload);
+                userId = payload.sub;
+                id = new objectId(userId);
+                query = {_id: id};
+                console.log('id from token: ' + userId);
+            }
+
+        } else {
+            console.log('no auth token set');
+            res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+        }
+
+        User.findOne(query, '-_id -__v', (err, user) => {
+            if (err) {
+                console.log('Error: ' + err);
+                res.sendStatus(500);
+            }
+            if (user) {
+                if (user.isAdmin) {
+                    console.log('user found and is admin');
+                    res.status(200).send({user});
+                } else {
+                    console.log('user found and is not admin');
+                    res.status(200).send({user});
+                }
+            } else {
+                res.status(404).send({ErrMessage: 'User Not Found'});
+            }
+        });
+    }
 
     return {
         signUp: signUp,
-        signIn: signIn
+        signIn: signIn,
+        getUserData: getUserData
         // getAdminStatus: getAdminStatus
     }
 

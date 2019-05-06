@@ -21,6 +21,7 @@ const recipeController = (nav, Recipe) => {
 
             console.log('TOKEN FOUND IN HEADER');
             let payload = jwt.decode(token, '123');
+            console.log('payload: ' + JSON.stringify(payload));
 
             if (!payload) {
                 console.log('auth header invalid');
@@ -57,8 +58,7 @@ const recipeController = (nav, Recipe) => {
             }
             //res.status(200);
             //console.log('Recipes object: ' + recipes);
-            res.status(200);
-            res.send(recipes);
+            res.status(200).send(recipes);
             // res.render('recipeListView', {
             //     title: 'Recipes',
             //     nav,
@@ -75,8 +75,7 @@ const recipeController = (nav, Recipe) => {
             if (err) {
                 console.log(err);
             }
-            res.status(200);
-            res.send(recipe);
+            res.status(200).send(recipe);
             // res.render('recipeView', {
             //     title: 'Recipes',
             //     nav,

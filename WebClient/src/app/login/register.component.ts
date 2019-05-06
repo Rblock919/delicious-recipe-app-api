@@ -22,7 +22,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.userInfo = {
       username: '',
-      password:  ''
+      password:  '',
+      isAdmin: false
     };
   }
 
