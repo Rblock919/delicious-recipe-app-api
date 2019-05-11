@@ -7,16 +7,20 @@ import { RegisterComponent } from './login/register.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './login/logout.component';
 import { RouteGuardService } from './services/route-guard.service';
+import { SplashPageComponent } from './user-home/splash-page.component';
+import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 
 const routes: Routes = [
-  { path: 'home', component: UserHomeComponent},
+  { path: 'index', component: SplashPageComponent},
+  { path: 'home', component: UserHomeComponent, canActivate: [RouteGuardService]},
   { path: 'recipes', component: RecipeListComponent, canActivate: [RouteGuardService]},
   { path: 'recipe/:id', component: RecipeDetailComponent, canActivate: [RouteGuardService]},
+  { path: 'recipe/:id/edit', component: EditRecipeComponent, canActivate: [RouteGuardService]},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: '**', redirectTo: 'home'},
-  { path: '', pathMatch: 'full', redirectTo: 'home'}
+  { path: '**', redirectTo: 'home', canActivate: [RouteGuardService]},
+  { path: '', pathMatch: 'full', redirectTo: 'home', canActivate: [RouteGuardService]}
 ];
 
 @NgModule({

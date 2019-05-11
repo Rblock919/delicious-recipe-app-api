@@ -6,7 +6,7 @@
         <div class="well well-lg">
           <div class="row">
             <div class="col-sm-12 text-center">
-             <h1>Recipes</h1>
+             <h1>All Recipes</h1>
             </div>
           </div>
         </div>
@@ -22,8 +22,8 @@
         <div class="panel-body">
 
           <div class="marketing">
-            <div class="row"  style="text-align: center" >
-              <div *ngFor="let recipe of recipeList" class="col-lg-6" style="padding-top: 20px">
+            <div class="row"  style="text-align: center; align-content: center" >
+              <div *ngFor="let recipe of recipeList" class="col-lg-4" style="padding-top: 20px">
                 <app-recipe [recipe]="recipe"></app-recipe>
               </div>
             </div>

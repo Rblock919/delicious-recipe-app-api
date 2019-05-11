@@ -58,7 +58,7 @@ let recipedata = [
             cholesterol: 235,
             sodium: 700
         },
-        imgDir: '/images/crispy-chipotle-shrimp-tacos.jpg'
+        imgDir: 'assets/images/crispy-chipotle-shrimp-tacos.jpg'
     },
     {
         title: 'Pineapple Poblano Beef Tacos',
@@ -120,7 +120,7 @@ let recipedata = [
             cholesterol: 110,
             sodium: 1000
         },
-        imgDir: '/images/pineapple-poblano-beef-tacos.jpg'
+        imgDir: 'assets/images/pineapple-poblano-beef-tacos.jpg'
     },
     {
         title: 'Southwestern Stuffed Peppers',
@@ -183,7 +183,175 @@ let recipedata = [
             cholesterol: 11,
             sodium: 840
         },
-        imgDir: '/images/sw-stuffed-peppers.jpg'
+        imgDir: 'assets/images/sw-stuffed-peppers.jpg'
+    },
+    {
+        title: 'White Wine Chicken Scaloppine',
+        producer: 'Home Chef',
+        ingredients: [
+            'Carrots | 8 oz',
+            'Asparagus | 12 oz',
+            'Garlic Cloves | 2',
+            'Roma Tomato | 1',
+            'Parsley | 1/4 oz',
+            'Boneless Skinless Chicken Breasts | 13 oz',
+            'White Cooking Wine | 2 oz',
+            'Butter | .6 oz'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Peel, trim and cut carrot into 1/4" slices on an angle (if carrot is 1" diameter or larger, halve before slicing). Trim woody ends ' +
+                'off asparagus. Mince garlic. Core tomato and cut into 1/4" dice. Stem and mince parsley.'
+            },
+            {
+                name: 'Roast the Vegetables',
+                body: 'Place carrot and asparagus on separate havles of prepared baking sheet. Season each with 1 tsp olive oil and a pinch of salt. ' +
+                'Spread each into a single layer on their side. Roast until fork-tender, 15-17 minutes. While vegetables roast, prepare chicken.'
+            },
+            {
+                name: 'Pound the Chicken',
+                body: 'Pat chicken breasts dry, and drizzle with 1 tsp olive oil. Place chicken breasts in a disposable gallon-size bag. Tip: Gallon bags ' +
+                'make clean up easier and are made of thicker plastic. If you don\'t have a disposable bag, use plastic wrap. Using a heavy object, pound ' +
+                'chicken to an even 1/4" thickness. Season both sides with a pinch of salt and pepper.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'Place a large non-stick pan over medium-high heat and add 2 tsp olive oil. Add chicken to hot pan and cook undisturbed until browned, 2-3 minutes. ' +
+                'Lower heat to medium. Flip chicken, and cook until chicken reaches a minimum internal temperature of 165 degrees, 3-5 minutes. Remove chicken to ' +
+                'a plate and tent with foil. Reserve pan; no need to wipe clean.'
+            },
+            {
+                name: 'Make the Sauce',
+                body: 'Return pan used to cook chicken to medium-high heat. Add 1 tsp olive oil and garlic. Stir constantly until golden and aromatic, ' +
+                '30-45 seconds. Add white wine and cook until mostly evaporated, 1-2 minutes. Remove from burner. Stir in tomato, parsley, butter, and ' +
+                '1/4 tsp salt. Plate dish as pictured in image, garnishing chicken with sauce. Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 490,
+            fat: 25,
+            carbohydrate: 19,
+            protein: 42,
+            sodium: 1351
+        },
+        imgDir: 'assets/images/white-wine-chicken-scaloppine.jpg'
+    },
+    {
+        title: 'Curried Catfish & Coconut Rice',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Catfish Fillets | 2',
+            'White Basmati Rice | 3/4 cup',
+            'Green Beans | 4 oz',
+            'Garlic Cloves | 3',
+            'Lime | 1',
+            'Bunch Cilantro & Mint | 1',
+            'Golden Raisins | 3 tbps',
+            '1-Inch Piece Ginger | 1',
+            'Dried Coconut Flakes | 1/4 cup',
+            'Curry Catfish Spice Blend | 2 tbsp',
+            'Chutney Spice Blend | 2 tsp'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Wash and dry the fresh produce. Peel and mince the garlic. Snap off and discard the stem ends of the green beans; cut into 1/4 inch ' +
+                'pieces. Peel and mince the ginger. Pick the cilantro and mint leaves off the stems; discard the stems. Roughly chop the raisins. Quarter the lime.'
+            },
+            {
+                name: 'Make the coconut rice',
+                body: 'In a medium pot, heat 2 tsp of olive oil on medium-high until hot. Add the garlic, green beans and half the ginger; season with salt and ' +
+                'pepper. Cook, stirring frequently, 1-2 minutes, or until softened and fragrant. Add the rice, a big pinch of salt and 1 1/2 cups of water. Heat ' +
+                'to boiling on high. Once boiling, cover and reduce the heat to low. Cook 12 to 14 minutes, or until the water has been absorbed and the rice is ' +
+                'tender. Remove from heat. Stir in the coconut flakes and half the cilantro and mint (roughly chopping just before adding); season with salt and ' +
+                'pepper to taste.'
+            },
+            {
+                name: 'Make the chutney',
+                body: 'While the rice cooks, heat a medium, dry pan (nonstick, if you have one) on medium-high until hot. Add the chutney spice blend and cook, ' +
+                'stirring occasionally, 2-4 minutes, or until toasted and fragrant. Add the raisins and remaining ginger; season with salt and pepper. Cook, ' +
+                'stirring frequently, 30 seconds to 1 minute, or until the ginger is fragrant. Add 1/2 cup of water and cook, stirringoccasionally, 2-4 minutes, ' +
+                'or until the water has cooked off. Turn off the heat. Stir in the juice of 2 lime wedges; season with salt and pepper to taste. Transfer to a ' +
+                'bowl. Rinse and wipe out the pan.'
+            },
+            {
+                name: 'Coat the catfish',
+                body: 'While the rice continues to cook, place the curry catfish spice blend on a plate. Pat the catfish fillets dry with paper towels; ' +
+                'season with salt and pepper on both sides. Thoroughly coat the seasoned fillets in the spice blend (tapping off any excess). Transfer to a plate.'
+            },
+            {
+                name: 'Cook the catfish',
+                body: 'In the pan used to make the chutney, heat a thin layer of oil on medium-high until hot. Once the oil is hot enough that a small pinch ' +
+                'of spice blend sizzles immediately when added to the pan, add the coated catfish fillets. Cook 3-5 minutes per side, or until golden brown and ' +
+                'cooked through. Remove from heat.'
+            },
+            {
+                name: 'Plate your dish',
+                body: 'Divide the coconut rice and cooked catfish fillets between 2 dishes. Top the catfish with the chutney. Garnish with the reamining lime ' +
+                'wedges and remaining cilantro and mint. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 600,
+        },
+        imgDir: 'assets/images/curried-catfish-and-coconut-rice.jpg'
+    },
+    {
+        title: 'Presto Pesto Panko Chicken',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Yukon Gold Potatoes | 12 oz',
+            'Panko Breadcrumbs | 1/2 cup',
+            'Mozzarella Cheese | 1/2 cup',
+            'Chicken Breasts | 12 oz',
+            'Pesto | 2 tbsp',
+            'Lemon | 1',
+            'Spring Mix Lettuce | 2 oz'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Preheat and Prep',
+                body: 'Wash and dry all produce. Adjust rack to upper position and preheat oven to 450 degrees. Cut potatoes into 1/2 inch cubes.'
+            },
+            {
+                name: 'Roast Potatoes',
+                body: 'Toss potatoes on a baking sheet with a drizzle of olive oil and a pinch of salt and pepper. Roast in oven until browned, 20-25 ' +
+                'minutes, tossing halfway through.'
+            },
+            {
+                name: 'Make Crust',
+                body: 'In a small bowl, mix together panko, mozzarella, a drizzle of olive oil, and a pinch of salt and pepper.'
+            },
+            {
+                name: 'Roast Chicken',
+                body: 'Place chicken on another, lightly oiled baking sheet. Brush 1 tbsp pesto onto top of one piece. Repeat with other piece. Cover ' +
+                'pesto-brushed sides with crust mixture, pressing to adhere. Roast in oven until chicker is no longer pink in center, about 20 minutes.'
+            },
+            {
+                name: 'Toss Salad',
+                body: 'Halve lemon. In a large bowl, toss together lettuce, a squeeze or two of lemon, and a large drizzle of olive oil. Season with salt and pepper.'
+            },
+            {
+                name: 'Plate and Serve',
+                body: 'Divide potatoes and chicken between plates. Serve with salad on the side.'
+            },
+        ],
+        nutritionValues: {
+            calories: 770,
+            fat: 36,
+            saturatedFat: 8,
+            carbohydrate: 65,
+            sugar: 15,
+            fiber: 11,
+            protein: 51,
+            cholesterol: 120,
+            sodium: 410
+        },
+        imgDir: 'assets/images/presto-pesto-panko-chicken.jpg'
     }
 ]
 

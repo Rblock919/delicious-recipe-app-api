@@ -16,14 +16,25 @@
     <div class="row">
 <div class="col-md-4"></div>
 <div class="col-md-4">
-  <form>
-    <div *ngIf="message" class="alert alert-danger">
-      <em>{{message}}</em>
+  <form #signInForm="ngForm">
+    <div class="form-group">
+      <!-- <div *ngIf="message" class="alert alert-danger"> -->
+        <div *ngIf="message" class="alert alert-danger alert-dismissible fade show">
+            <span style="padding-left: 45px">{{message}}</span>
+            <button type="button" class="close" (click)="clearMessage()" data-dismiss="alert">&times;</button>
+        </div>
+        <!-- <em>{{message}}</em> -->
+      <!-- </div> -->
+      <label for="username">Username</label>
+      <input style="width: 100%" class="form-control" [(ngModel)]="userInfo.username"
+             type="text" name="username" id="username" #usernameField="ngModel">
+      <br>
+      <label for="password">Password</label>
+      <input style="width: 100%" class="form-control" [(ngModel)]="userInfo.password"
+             type="password" name="password" id="password" #passwordField="ngModel">
+      <br>
+      <button [disabled]="!(passwordField.value && usernameField.value)" class="btn btn-outline-primary" (click)="login()">Login</button>
     </div>
-    <input style="width: 100%" [(ngModel)]="userInfo.username" type="text" name="username" id="username" placeholder="usename">
-    <input style="width: 100%" [(ngModel)]="userInfo.password" type="password" name="password" id="password">
-    <br>
-    <button (click)="login()">Login</button>
   </form>
 </div>
 <div class="col-md-4"></div>

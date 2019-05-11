@@ -15,6 +15,7 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit() {
     console.log('Recipe ' + this.recipe.title + ' id: ' + this.recipe._id);
+    console.log('Recipe imgDir: ' + this.recipe.imgDir);
   }
 
 }

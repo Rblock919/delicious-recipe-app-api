@@ -1,3 +1,4 @@
+import { SplashPageComponent } from './user-home/splash-page.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,6 +20,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LogoutComponent } from './login/logout.component';
 import { SessionService } from './services/session.service';
+import { IngredientsPipe } from './services/util/ingredients.pipe';
+import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
@@ -33,7 +36,10 @@ const jQuery = window['$'];
     RecipeDetailComponent,
     RegisterComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    SplashPageComponent,
+    IngredientsPipe,
+    EditRecipeComponent
   ],
   imports: [
     BrowserModule,

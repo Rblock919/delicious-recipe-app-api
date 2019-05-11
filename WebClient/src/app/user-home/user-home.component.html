@@ -21,14 +21,10 @@
         <div class="panel-body">
 
           <div class="marketing">
-            <div class="row"  style="text-align: center" >
-                <div *ngFor="let recipe of newRecipes" class="col-lg-6" style="padding-top: 20px">
-                  <a class="story-title" href="#"><img src="assets/images/pineapple-poblano-beef-tacos.jpg" style="width:100px;height:100px" class="img-circle"></a>
-                  <h3>{{recipe.title}}</h3>
-                  <span class="badge badge-primary">{{recipe.producer}} </span>
-                  <br>
-                  <!-- <a class="btn btn-info" href="" disable role="button">View Recipe &raquo;</a> -->
-                </div><!-- /.col-lg-4 -->
+            <div class="row"  style="text-align: center; align-content: center" >
+              <div *ngFor="let recipe of recipeList" class="col-lg-4" style="padding-top: 20px">
+                <app-recipe [recipe]="recipe"></app-recipe>
+              </div>
               </div><!-- /.row -->
           </div>
 

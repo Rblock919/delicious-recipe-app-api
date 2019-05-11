@@ -14,6 +14,7 @@ export class SessionService {
   constructor(private auth: AuthService) {
     if (!this.userData && localStorage.getItem('token')) {
       console.log('NO USER DATA BUT TOKEN EXISTS');
+      console.log('USER PROBABLY REFRESHED OR APP RELOADED.\nDELETING TOKEN...');
 
       // for now until i can figure out how to persist data over refreshes, the best method is to just logout the user
       this.logout();

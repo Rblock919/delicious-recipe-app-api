@@ -1,5 +1,17 @@
-<a class="story-title" href="#"><img src="assets/images/pineapple-poblano-beef-tacos.jpg" style="width:100px;height:100px" class="img-circle"></a>
+<!-- <a class="story-title" href="#"><img src="assets/images/pineapple-poblano-beef-tacos.jpg" style="width:100px;height:100px" class="img-circle"></a>
 <h3>{{recipe.title}}</h3>
 <span class="badge badge-primary">{{recipe.producer}} </span>
 <br>
-<a class="btn btn-info" [routerLink]="['/recipe', recipe._id]" role="button">View Recipe &raquo;</a>
+<a class="btn btn-info" [routerLink]="['/recipe', recipe._id]" role="button">View Recipe &raquo;</a> -->
+
+<div class="card" style="width: 100%;">
+  <img class="card-img-top img-thumbnail" src="{{recipe.imgDir}}">
+  <div class="card-body">
+    <h5 class="card-title">{{recipe.title}}</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <p><span [ngClass]="{'badge-success': recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef',
+                         'badge-primary': recipe.producer === 'Blue Apron'}"
+            class="badge badge-pill">{{recipe.producer}}</span></p>
+    <a [routerLink]="['/recipe', recipe._id]" class="btn btn-info">View Recipe &raquo;</a>
+  </div>
+</div>

@@ -14,12 +14,14 @@ export class RouteGuardService implements CanActivate {
 
   public canActivate() {
 
+    return true;
+
     if (this.sessionService.isAuthenticated) {
       // console.log('in route guard, and user is auth');
       return true;
     } else {
       // console.log('in route guard and user is not auth');
-      this.router.navigate(['home']);
+      this.router.navigate(['index']);
       return false;
     }
   }

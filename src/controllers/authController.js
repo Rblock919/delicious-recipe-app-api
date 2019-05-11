@@ -88,7 +88,7 @@ const authController = (User) => {
 
             if (!user) {
                 console.log('user not found');
-                res.status(401).send({ErrMessage: 'username not found'});
+                res.status(401).send({ErrMessage: 'Username Not Found'});
             } else {
                 bcrypt.compare(userData.password, user.password, (err, isMatch) => {
 
@@ -97,11 +97,11 @@ const authController = (User) => {
                     }
                     if (!isMatch) {
                         console.log('mismatched password in login attempt');
-                        res.status(401).send({ErrMessage: 'bad password'});
+                        res.status(401).send({ErrMessage: 'Bad Password'});
                     } else {
                         payload = {sub: user._id}
                         let token = jwt.encode(payload, authConfig.secret);
-                        console.log('Outgoing token: ' + token);
+                        console.log('Outgoing token upon signIn: ' + token);
                         res.status(200).send({user: user, token: token});
                     }
 
@@ -110,12 +110,6 @@ const authController = (User) => {
 
         });
     }
-
-    // var getUserData = (req, res) => {
-    //     console.log('in getUserData');
-
-    //     res.sendStatus(200);
-    // }
 
     var getUserData = (req, res) => {
         var query = {};

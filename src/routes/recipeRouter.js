@@ -7,7 +7,7 @@ var router = (nav, Recipe) => {
 
     var recipeController = require('../controllers/recipeController')(nav, Recipe);
 
-    recipeRouter.use(recipeController.middleware);
+    // recipeRouter.use(recipeController.middleware);
 
     recipeRouter.route('/')
         .get(recipeController.getIndex);
