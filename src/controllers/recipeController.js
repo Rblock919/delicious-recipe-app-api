@@ -51,7 +51,6 @@ const recipeController = (nav, Recipe) => {
 
     var getIndex = (req, res) => {
         var query = {};
-        // console.log('Req userId: ' + req.userId);
 
         Recipe.find(query, (err, recipes) => {
             if (err) {
@@ -60,11 +59,6 @@ const recipeController = (nav, Recipe) => {
             //res.status(200);
             //console.log('Recipes object: ' + recipes);
             res.status(200).send(recipes);
-            // res.render('recipeListView', {
-            //     title: 'Recipes',
-            //     nav,
-            //     recipes
-            // });
         });
     };
 
@@ -77,19 +71,81 @@ const recipeController = (nav, Recipe) => {
                 console.log(err);
             }
             res.status(200).send(recipe);
-            // res.render('recipeView', {
-            //     title: 'Recipes',
-            //     nav,
-            //     recipe
-            // });
         });
     };
+
+    var addRecipe = (req, res) => {
+        var recipeData = assembleRecipeData(req);
+        var recipeToSave = new Recipe({
+            title: recipeData.title,
+            producer: recipeData.producer,
+            ingredients: recipeData.ingredients,
+            numSteps: recipeData.numSteps,
+            steps: recipeData.steps,
+            nutritionValues: recipeData.nutritionValues,
+            imgDir: recipeData.imgDir
+        });
+
+        recipeToSave.save(function (err, createdRecipe) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            } else {
+                console.log(chalk.green('successfully saved new recipe'));
+                // res.sendStatus(201);
+                res.status(201).send({id: createdRecipe._id});
+            }
+        });
+
+    }
+
+    var updateRecipe = (req, res) => {
+        var id = new objectId(req.body._id);
+        var query = {_id: id};
+        var recipeData = assembleRecipeData(req);
+
+        // console.log('in update recipe...');
+        // console.log(JSON.stringify(req.body));
+
+        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            console.log('doc: ' + doc);
+        })
+        res.sendStatus(200);
+    }
 
     return {
         middleware: middleware,
         getIndex: getIndex,
-        getById: getById
+        getById: getById,
+        addRecipe: addRecipe,
+        updateRecipe: updateRecipe
     }
 }
 
 module.exports = recipeController;
+
+function assembleRecipeData(req) {
+
+    var recipeData = {
+        title: req.body.title,
+        producer: req.body.producer,
+        ingredients: [],
+        numSteps: req.body.numSteps,
+        steps: req.body.steps,
+        nutritionValues: req.body.nutrition,
+        imgDir: req.body.imgDir
+    }
+
+    req.body.ingredients.forEach(element => {
+        recipeData.ingredients.push(element.name + ' | ' + element.amount);
+    });
+
+    // console.log(chalk.green('in assemble: ' + JSON.stringify(recipeData)));
+
+    return recipeData;
+
+}

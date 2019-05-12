@@ -16,12 +16,19 @@ export class RecipeApiService {
   getRecipeList(): Observable<IRecipe[]> {
     return this.httpClient.get<IRecipe[]>(`${this.uri}/Recipes`, {responseType: 'json'});
     // .pipe(catchError(this.handleError<IRecipe[]>('getRecipeList', [])));
-    // return this.httpClient.get<IRecipe[]>('http://localhost:3000/Recipes');
   }
 
   getRecipe(recipeId: number): Observable<IRecipe> {
     return this.httpClient.get<IRecipe>(`${this.uri}/Recipes/${recipeId}`, {responseType: 'json'});
     // .pipe(catchError(this.handleError<IRecipe>('getRecipe')));
+  }
+
+  addRecipe(recipe: IRecipe): Observable<any> {
+    return this.httpClient.post(`${this.uri}/Recipes/add`, recipe, {responseType: 'json'});
+  }
+
+  updateRecipe(recipe: IRecipe): Observable<any> {
+    return this.httpClient.patch(`${this.uri}/Recipes/update`, recipe, {responseType: 'text'});
   }
 
 

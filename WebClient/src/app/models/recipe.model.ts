@@ -2,7 +2,7 @@ export interface IRecipe {
   _id: number;
   title: string;
   producer: string;
-  ingredients: string;
+  ingredients: string[];
   numSteps: number;
   steps: [
     {

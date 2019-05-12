@@ -15,6 +15,12 @@ var router = (nav, Recipe) => {
     recipeRouter.route('/:id')
         .get(recipeController.getById);
 
+    recipeRouter.route('/add')
+        .post(recipeController.addRecipe);
+
+    recipeRouter.route('/update')
+        .patch(recipeController.updateRecipe);
+
     return recipeRouter;
 }
 
