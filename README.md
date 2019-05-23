@@ -1,1 +1,1 @@
-## This is a repository for my personal delicious recipe reading and displaying app.
+## This is a repository for my personal delicious recipe application.
