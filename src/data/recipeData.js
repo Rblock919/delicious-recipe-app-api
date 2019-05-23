@@ -6,11 +6,11 @@ let recipedata = [
             'Lime | 1',
             'Radishes | 3',
             'Scallions | 2',
-            'Shrimp | 10oz',
-            'Red Cabbage | 4oz',
-            'Cornstarch | 2tbsp',
-            'Chipotle Powder | 1tbsp',
-            'Sour Cream | 4tbsp',
+            'Shrimp | 10 oz',
+            'Red Cabbage | 4 oz',
+            'Cornstarch | 2 tbsp',
+            'Chipotle Powder | 1 tbsp',
+            'Sour Cream | 4 tbsp',
             'Flour Tortillas | 6'
         ],
         numSteps: 6,
@@ -525,7 +525,179 @@ let recipedata = [
             calories: 800,
         },
         imgDir: 'assets/images/bbq-pork-burgers.jpg'
+    },
+    {
+        title: 'Chicken Cheddar Fajitas',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Bell Pepper | 1',
+            'Red Onion | 1',
+            'Jalapeno | 1',
+            'Lime | 1',
+            'Southwest Spice Blend | 1 tbsp',
+            'Sour Cream | 2 tbsp',
+            'Chicken Breasts | 12 oz',
+            'Flour Tortillas | 6',
+            'Cheddar Cheese | 1/2 cup'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Prep',
+                body: 'Adjust rack to middle position and preheat oven to 400 degrees. Wash and dry all produce. Core, deseed, and thinly slice bell pepper. ' +
+                'Halve, peel, and thinly slice onion. Slice jalapeno into thin rounds, removing ribs and seeds for less heat; place in a small bowl. Zest lime ' +
+                'until you have 1/2 tsp zest; cut lime into wedges.'
+            },
+            {
+                name: 'Cook Veggies',
+                body: 'Squeeze juice from 2 lime wedges into bowl with jalapeno; toss to coat. Set aside. Heat a drizzle of oil in a large pan over medium-high ' +
+                'heat. Add onion, bell pepper, and 1 tsp southwest spice. Cook, stirring, until softened and lightly charred, 4-5 minutes. Season with salt and ' +
+                'pepper. Remove from pan and set aside.'
+            },
+            {
+                name: 'Make Crema',
+                body: 'Meanwhile, in a second small bowl, combine sour cream, lime zest, and a squeeze or two of lime juice. Stir in water, 1 tsp at a time, ' +
+                'until mixture has a drizzling consistency. Season with salt and pepper.'
+            },
+            {
+                name: 'Cook Chicken',
+                body: 'Slice chicken into thin strips; season with salt and pepper. Heat a large drizzle of oil in pan used for veggies over medium-high heat. ' +
+                'Add chicken in a single layer and cook, stirring occasionally, until lightly browned, 2-4 minutes. Toss in veggies and 1 tsp remaining southwest ' +
+                'spice. Continute cooking until chicken is browned and cooked through, 2-3 minutes more.'
+            },
+            {
+                name: 'Bake Tortillas',
+                body: 'Meanwhile, place tortillas on a baking sheet in a single layer and sprinkle evenly with cheddar. Bake until cheese has melted, 1-2 minutes. ' +
+                'TIP: Don\'t let these sit in the oven too long. The tortillas should be soft, not crisp.'
+            },
+            {
+                name: 'Assemble and Serve',
+                body: 'Divide chicken mixture among tortillas. Dollop with crema and scatter pickled jalapeno over (to taste). Serve with any remaining lime wedges ' +
+                'on the side for squeezing over.'
+            }
+        ],
+        nutritionValues: {
+            calories: 680,
+            fat: 31,
+            saturatedFat: 12,
+            carbohydrate: 57,
+            sugar: 6,
+            fiber: 4,
+            protein: 47,
+            cholesterol: 140,
+            sodium: 1050
+        },
+        imgDir: 'assets/images/chicken-cheddar-fajitas.jpg'
+    },
+    {
+        title: 'Baja Fish Tacos',
+        producer: 'Home Chef',
+        ingredients: [
+            'Shallot | 1',
+            'Lime | 2',
+            'Cilantro | 1/4 oz',
+            'Tilapia Fillets | 12 oz',
+            'Slaw Mix | 4 oz',
+            'Mayonnaise | 1 1/2 oz',
+            'Sriracha | 2 tsp',
+            'Tempura Mix | 1/3 cup',
+            'Canola Oil | 6 fl oz',
+            'Small Flour Tortillas | 6'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Halve and peel shallot. Slice halves into thin strips. Halve limes and juice three halves. Halve remaining lime piece. Stem cilantro, ' +
+                'leaving leaves whole. Pat tilapia fillets dry and, on a separate cutting board, cut into 2" pieces. Season with 1/4 tsp salt and 1/4 tsp pepper.'
+            },
+            {
+                name: 'Quick Pickle Shallot and Make Slaw',
+                body: 'Combine shallot, 2 tbsp lime juice, and a pinch of salt in a mixing bowl. In another mixing bowl, combine slaw mix, mayonnaise, sriracha ' +
+                '(to taste), and a pinch of salt. Refrigerate both until plating.'
+            },
+            {
+                name: 'Make the Batter',
+                body: 'Combine tempura mix and 2 tbsp very cold water in another mixing bowl. Add additional cold water, 1 tbsp at a time, until the consistency is ' +
+                'extremely thing, like heavy cream. TIP: The thinner the batter, the better. A thing batter will ensure fish pieces will be crisp, not greasy.'
+            },
+            {
+                name: 'Warm Tortillas and Heat Oil',
+                body: 'Place a large non-stick pan over medium-high and add canola oil. Heat oil, 3-5 minutes. While oil heats, wrap tortillas in a damp paper towel ' +
+                'and microwave, 30 seconds. Test oil temperature by adding a drop of batter to it. It should sizzle gently. If it browns immediately, turn heat down ' +
+                'and let oil cool. If it doesn\'t brown, increase heat.'
+            },
+            {
+                name: 'Cook Fish and Finish Dish',
+                body: 'Line a plate with a paper towel. Dip tilapia pieces in batter to cover evenly. Working in batches, carefully add tilapia pieces to hot oil and ' +
+                'cook until golden brown and pieces reach a minimum internal temperature of 145 degrees, 2-3 minutes per side. Transfer tilapia to towel-lined plate. ' +
+                'Season cooked pieces with a pinch of salt. Plate dish as pictured in dish image, placing tilapia in tortillas and topping with slaw and pickled shallot ' +
+                '(to taste). Garnish with cilantro and squeeze lime wedges over to taste. Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 737,
+            fat: 35,
+            carbohydrate: 61,
+            protein: 42,
+            sodium: 1380
+        },
+        imgDir: 'assets/images/baja-fish-tacos.jpg'
+    },
+    {
+        title: 'Beef & Pepper Tamale Pie',
+        producer: 'Home Chef',
+        ingredients: [
+            'Cornbread Mix | 5 oz',
+            'Green Onions | 2',
+            'Poblano Pepper | 1',
+            'Garlic Cloves | 2',
+            'Shredded Cheddar Cheese | 1 oz',
+            'Ground Beef | 10 oz',
+            'Taco Seasoning | 2 tbsp',
+            'Corn Kernels | 3 oz',
+            'Worcestershire Sauce | 1 fl oz',
+            'Sour Cream | 2 oz'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Trim and thinly slice green onions on an angle, keeping white and green portions separate. Stem poblano pepper, seed, and cut into 1/2" dice. ' +
+                'Mince garlic.'
+            },
+            {
+                name: 'Make the Cornbread Batter',
+                body: 'Set aside 2 tbsp cornbread mix. Combine remaining cornbread mix with 1/4 cup water, cheddar cheese, and green portions of green onions (reserve ' +
+                'a pinch for garnish) in a large mixing bowl. Stir, adding additional water 2 tbsp at a time, until fully combined and a thick, spreadable batter forms.'
+            },
+            {
+                name: 'Start the Filling',
+                body: 'Heat a large non-stick pan over medium-high heat. Add ground beef, poblano pepper, taco seasoning, garlic, white portions of green onions, 1/4 tsp ' +
+                'salt, and a pinch of pepper to hot pan. Stir occasionally until no pink remains on ground beef, 5-6 minutes.'
+            },
+            {
+                name: 'Finish the Filling',
+                body: 'Add corn, reserved 2 tbsp cornbread mix, and worchestershire sauce to pan and cook until vegetables soften, 1-2 minutes. Add 1 cup water. Stir ' +
+                'occasionally until slightly thickened, 1-2 minutes.'
+            },
+            {
+                name: 'Bake the Pie',
+                body: 'Transfer filling to prepared casserole dish. You may also use a cast iron skillet. Top filling with cornbread batter, using a spatula dipped in ' +
+                'water or sprayed with cooking spray to smooth top. Bake in hot oven until cornbread is golden brown, 20-25 minutes. Rest at least 5 minutes to cool slightly ' +
+                'and set. Serve family-style, garnish with sour cream and green portions of green onions. Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 778,
+            fat: 38,
+            carbohydrate: 71,
+            protein: 35,
+            sodium: 1654
+        },
+        imgDir: 'assets/images/beef-tamale-pie.jpg'
     }
+
 ]
 
 module.exports = recipedata;

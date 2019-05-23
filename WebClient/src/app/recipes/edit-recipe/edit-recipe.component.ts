@@ -131,7 +131,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     return;
 
 
-
     // console.log('Saved: ' + JSON.stringify(this.recipeForm.value));
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
