@@ -248,7 +248,7 @@ let recipedata = [
             'Garlic Cloves | 3',
             'Lime | 1',
             'Bunch Cilantro & Mint | 1',
-            'Golden Raisins | 3 tbps',
+            'Golden Raisins | 3 tbsp',
             '1-Inch Piece Ginger | 1',
             'Dried Coconut Flakes | 1/4 cup',
             'Curry Catfish Spice Blend | 2 tbsp',
@@ -262,7 +262,7 @@ let recipedata = [
                 'pieces. Peel and mince the ginger. Pick the cilantro and mint leaves off the stems; discard the stems. Roughly chop the raisins. Quarter the lime.'
             },
             {
-                name: 'Make the coconut rice',
+                name: 'Make the Coconut Rice',
                 body: 'In a medium pot, heat 2 tsp of olive oil on medium-high until hot. Add the garlic, green beans and half the ginger; season with salt and ' +
                 'pepper. Cook, stirring frequently, 1-2 minutes, or until softened and fragrant. Add the rice, a big pinch of salt and 1 1/2 cups of water. Heat ' +
                 'to boiling on high. Once boiling, cover and reduce the heat to low. Cook 12 to 14 minutes, or until the water has been absorbed and the rice is ' +
@@ -270,7 +270,7 @@ let recipedata = [
                 'pepper to taste.'
             },
             {
-                name: 'Make the chutney',
+                name: 'Make the Chutney',
                 body: 'While the rice cooks, heat a medium, dry pan (nonstick, if you have one) on medium-high until hot. Add the chutney spice blend and cook, ' +
                 'stirring occasionally, 2-4 minutes, or until toasted and fragrant. Add the raisins and remaining ginger; season with salt and pepper. Cook, ' +
                 'stirring frequently, 30 seconds to 1 minute, or until the ginger is fragrant. Add 1/2 cup of water and cook, stirringoccasionally, 2-4 minutes, ' +
@@ -278,18 +278,18 @@ let recipedata = [
                 'bowl. Rinse and wipe out the pan.'
             },
             {
-                name: 'Coat the catfish',
+                name: 'Coat the Catfish',
                 body: 'While the rice continues to cook, place the curry catfish spice blend on a plate. Pat the catfish fillets dry with paper towels; ' +
                 'season with salt and pepper on both sides. Thoroughly coat the seasoned fillets in the spice blend (tapping off any excess). Transfer to a plate.'
             },
             {
-                name: 'Cook the catfish',
+                name: 'Cook the Catfish',
                 body: 'In the pan used to make the chutney, heat a thin layer of oil on medium-high until hot. Once the oil is hot enough that a small pinch ' +
                 'of spice blend sizzles immediately when added to the pan, add the coated catfish fillets. Cook 3-5 minutes per side, or until golden brown and ' +
                 'cooked through. Remove from heat.'
             },
             {
-                name: 'Plate your dish',
+                name: 'Plate Your Dish',
                 body: 'Divide the coconut rice and cooked catfish fillets between 2 dishes. Top the catfish with the chutney. Garnish with the reamining lime ' +
                 'wedges and remaining cilantro and mint. Enjoy!'
             }
@@ -352,6 +352,179 @@ let recipedata = [
             sodium: 410
         },
         imgDir: 'assets/images/presto-pesto-panko-chicken.jpg'
+    },
+    {
+        title: 'Creamy Dill Chicken',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Dill | 1/4 oz',
+            'Yukon Gold Potatoes | 12 oz',
+            'Chicken Breasts | 12 oz',
+            'Green Beans | 6 oz',
+            'Sour Cream | 2 tbsp',
+            'Chicken Stock Concentrate | 1',
+            'Dijon Mustard | 1 tsp'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Prep',
+                body: 'Adust racks to upper and middle positions and preheat oven to 450 degrees. Wash and dry all produce. Pick fronds from dill; discard ' +
+                'stems. Finely chop fronds. Cut potatoes into 1/2-inch cubes.'
+            },
+            {
+                name: 'Roast Potatoes',
+                body: 'Toss potatoes on a baking sheet with a drizzle of oil and a pinch of salt and pepper. Roast on top rack, tossing halfway through, until ' +
+                'lightly browned and tender, 22-25 minutes.'
+            },
+            {
+                name: 'Cook Chicken',
+                body: 'While potatoes roast, pat chicken dry with paper towels; season all over with salt and pepper. Heat a drizzle of oil in a large ' +
+                'pan over medium heat. Add chicken and cook until browned and cooked through, 4-6 minutes per side. Turn off heat; remove chicken from pan ' +
+                'and set aside to rest.'
+            },
+            {
+                name: 'Roast Green Beans',
+                body: 'While chicken cooks, toss green beans on another baking sheet with a drizzle of oil and a pinch of salt and pepper. Roast on middle rack ' +
+                'until tender, 10-12 minutes.'
+            },
+            {
+                name: 'Make Sauce',
+                body: 'Add sour cream, stock concentrate, 1sp dill, 1sp mustard and 2 tbsp water to pan used for chicken. Stir off heat, scraping up any ' +
+                'browned bits on bottom. Season with salt and pepper. TIP: If sauce seems thick, add more water, 1 tsp at a time, until it has a drizzling ' +
+                'consistency.'
+            },
+            {
+                name: 'Plate and Serve',
+                body: 'Slice chicken crosswise. Divide chicken, potatoes, and green beans between plates. Drizzle sauce over everything. Garnish with reamining ' +
+                'dill (to taste).'
+            },
+        ],
+        nutritionValues: {
+            calories: 450,
+            fat: 15,
+            saturatedFat: 4.5,
+            carbohydrate: 36,
+            sugar: 6,
+            fiber: 6,
+            protein: 40,
+            cholesterol: 115,
+            sodium: 320
+        },
+        imgDir: 'assets/images/creamy-dill-chicken.jpg'
+    },
+    {
+        title: 'Chicken Scampi Spaghetti',
+        producer: 'Home Chef',
+        ingredients: [
+            'Grated Parmesan | 1 oz',
+            'Ciabatta | 1',
+            'Garlic Cloves | 4',
+            'Lemon | 1',
+            'Spaghetti | 5 oz',
+            'Boneless Skinless Chicken Breasts | 2',
+            'Light Cream | 4 fl oz',
+            'Butter | .3 oz'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Cut ciabatta into 1" dice. Mince garlic. Zest and halve lemon. Juice half and quarter remaining half. Pat chicken breasts dry, ' +
+                'and season both sides with 1/4 tsp salt and 1/4 tsp pepper.'
+            },
+            {
+                name: 'Cook Pasta and Toast Ciabatta',
+                body: 'Add pasta to boiling water and cook until al dente, 7-9 minutes. Reserve 1/2 cup pasta cooking water. Drain pasta in a colander. ' +
+                'While pasta cooks, place ciabatta pieces on prepared baking sheet and toss with 1 tbsp olive oil. Spread into a single layer and bake until ' +
+                'toasted, 8-10 minutes. While ciabatta toasts, cook chicken.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'Place a large non-stick pan over medium-high heat and add 1 tbsp olive oil. Add chicken to hot pan and cook until chicken reaches a ' +
+                'minimum internal temperature of 165 degrees, 4-5 minutes per side. Remove chicken to a plate. Reserve pan, no need to wipe clean.'
+            },
+            {
+                name: 'Make the Sauce',
+                body: 'Return pan used to sear chicken to medium-high heat and add 2 tsp olive oil. Add garlic to hot pan and cook until lightly toasted, ' +
+                '30-60 seconds. Add cream, butter, and half the pasta cooking water and bring to a boil. Once boiling, add pasta, 1/4 tsp salt and 1/4 tsp ' +
+                'pepper. Stir until pasta is heated through, 1 minute. Remove from burner, if pan is dry, stir in 1-2 tbsp reamining cooking water. Slice ' +
+                'chicken into thin slices, and stir into pan with parmesan (reserve a pinch for garnish), 1 tsp lemon juice, and a pinch of salt.'
+            },
+            {
+                name: 'Toss Pasta and Finish Dish',
+                body: 'Add ciabatta pieces to pasta and stir to combine. Plate dish as pictured on front of card, garnishing with 1 tsp lemon zest and ' +
+                'reserved parmesan. Squeeze lemon wedge over dish to taste. Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 942,
+            fat: 42,
+            carbohydrate: 82,
+            protein: 57,
+            sodium: 1742
+        },
+        imgDir: 'assets/images/chicken-scampi-spaghetti.jpg'
+    },
+    {
+        title: 'BBQ Pork Burgers',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Ground Pork | 10 oz',
+            'Sesame Seed Buns | 2',
+            'Ear of Corn | 1',
+            'Yellow Onion | 1',
+            'Garlic Clove | 1',
+            'Bunch Parsley | 1',
+            'All-Purpose Flour | 3 tbsp',
+            'Pickle Chips | 2 oz',
+            'Butter | 2 tbsp',
+            'Whole Grain Dijon Mustard | 1 tbsp',
+            'BBQ Sauce | 1/4 cup'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Remove the butter from the refrigerator to soften. Wash and dry the fresh produce. Heat a medium pot of salted water to boiling on high. ' +
+                'Peel the onion and thinly slice into rings; separate the layers and place in a bowl of cold water. Peel and mince the garlic; smash with the side ' +
+                'of your knife until it resembles a paste (or use a zester). Finely chop the parsley leaves and stems. Remove and discard the corn husks and silks; ' +
+                'halve the cob. Halve the buns.'
+            },
+            {
+                name: 'Make the Garlic-Herb Butter',
+                body: 'In a bowl, combine the butter, garlic paste and parsley. Using a fork, mash and stir to thoroughly combine; season with salt and pepper to taste.'
+            },
+            {
+                name: 'Make the Onion Rings',
+                body: 'Thoroughly drain the onion; pat dry with paper towels. Transfer to a bowl. Add the flour and toss to thoroughly coat. In a medium pan (nonstick, ' +
+                'if you have one), heat a thin layer of oil on medium-high until hot. Once hot enough that a pinch of flour sizzles immediately when added to the pan, ' +
+                'working in batches, add the coated onion in a single, even layer. Cook, turning occasionally, 3-4 minutes, or until golden brown and crispy. ' +
+                'Transfer to a paper towel-lined plate; immediately season with salt and pepper. Set aside in a warm place. Carefully discard the oil and wipe out the pan.'
+            },
+            {
+                name: 'Form & Cook the Patties',
+                body: 'While the onion cooks, in a medium bowl, combine the ground pork (removing and discarding the paper lining from the bottom) and mustard; ' + 
+                'season with salt and pepper. Gently mix to combine. Using your hands, form the mixture into two 1/2-inch-thick patties. Transfer to plate. In the ' +
+                'same pan, heat 1 tsp of olive oil on medium-high until hot. Add the patties and cook, loosely covering the pan with foil, 3-4 minutes per side, ' +
+                'or until browned and cooked through. Transfer to a plate, leaving any browned bits (or fond) in the pan. Loosely cover the cooked patties with foil.'
+            },
+            {
+                name: 'Cook & Dress the Corn',
+                body: 'While the patties cook, add the corn to the pot of boiling water and cook 2-3 minutes, or until bright yellow and slightly softened. Drain ' +
+                'thoroughly and return to the pot. Off the heat, add the garlic-herb butter and toss to thoroughly coat. Set aside in a warm place.'
+            },
+            {
+                name: 'Toast the Buns & Plate Your Dish',
+                body: 'Add 2 tsp of olive oil to the pan of reserved fond; heat on medium-high until hot. Add the buns, cut sides down, and toast 1-2 minutes, or ' +
+                'until lightly browned. Transfer to a work surface. Spread half the bbq sauce onto the toasted bun bottoms. Top with the cooked patties, reamining bbq ' +
+                'sauce and onion rings. Complete the burgers with the bun tops. Divide the burgers, dressed corn and pickle chips between 2 plates. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 800,
+        },
+        imgDir: 'assets/images/bbq-pork-burgers.jpg'
     }
 ]
 
