@@ -23,6 +23,10 @@
               <span style="padding-left: 45px">{{message}}</span>
               <button type="button" class="close" (click)="clearMessage()" data-dismiss="alert">&times;</button>
           </div>
+          <div *ngIf="passwordMessage" class="alert alert-danger alert-dismissible fade show">
+              <span style="padding-left: 45px">{{passwordMessage}}</span>
+              <button type="button" class="close" (click)="clearMessage()" data-dismiss="alert">&times;</button>
+          </div>
 
           <label for="username">Username</label>
           <input style="width: 100%" class="form-control" [(ngModel)]="userInfo.username"
@@ -32,6 +36,12 @@
           <input style="width: 100%" class="form-control" [(ngModel)]="userInfo.password"
                 type="password" name="password" id="password" #passwordField="ngModel">
           <br>
+
+          <label for="confirmPassword">Confirm Password</label>
+          <input style="width: 100%" class="form-control" [(ngModel)]="confirmPassword"
+                type="password" name="confirmPassword" id="confirmPassword" #confirmPasswordField="ngModel">
+          <br>
+
           <button [disabled]="!(passwordField.value && usernameField.value)" class="btn btn-outline-primary" (click)="register()">Sign Up</button>
           <!-- <button (click)="register()">Sign up</button> -->
         </div>
