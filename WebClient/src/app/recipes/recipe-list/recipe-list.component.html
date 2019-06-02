@@ -1,6 +1,6 @@
 <main role="main">
 
-<div class="container" style="padding-bottom: 30px">
+  <div class="container" style="padding-bottom: 30px">
     <div class="row">
       <div class="col-md-12">
         <div class="well well-lg">
@@ -13,25 +13,50 @@
       </div>
     </div>
     <hr>
+  <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4 text-center">
+        <p>Filter By:</p>
+        <div class="btn-toolbar" role="toolbar" aria-label="btn toolbar">
+          <div class="btn-group" role="group" aria-label="First group">
+            <button type="button" class="btn" (click)="setTopFilter('new')"
+                    [ngClass]="{'btn-dark': topSelectedFilter !== 'new', 'btn-light': topSelectedFilter === 'new'}" >New</button>
+            <button type="button" class="btn btn-dark" (click)="setTopFilter('hot')"
+                    [ngClass]="{'btn-dark': topSelectedFilter !== 'hot', 'btn-light': topSelectedFilter === 'hot'}" >Hot</button>
+            <button type="button" class="btn btn-dark" (click)="setTopFilter('fav')"
+                    [ngClass]="{'btn-dark': topSelectedFilter !== 'fav', 'btn-light': topSelectedFilter === 'fav'}" >Fav</button>
+          </div>
+          <div class="btn-group" role="group" aria-label="Second group">
+            <button type="button" class="btn" (click)="setBotFilter('Hello Fresh')"
+                    [ngClass]="{'btn-dark': botSelectedFilter !== 'Hello Fresh', 'btn-light': botSelectedFilter === 'Hello Fresh'}" >Hello Fresh</button>
+            <button type="button" class="btn btn-dark" (click)="setBotFilter('Home Chef')"
+                    [ngClass]="{'btn-dark': botSelectedFilter !== 'Home Chef', 'btn-light': botSelectedFilter === 'Home Chef'}" >Home Chef</button>
+            <button type="button" class="btn btn-dark" (click)="setBotFilter('Blue Apron')"
+                    [ngClass]="{'btn-dark': botSelectedFilter !== 'Blue Apron', 'btn-light': botSelectedFilter === 'Blue Apron'}" >Blue Apron</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
   </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel">
-        <div class="panel-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-body">
 
-          <div class="marketing">
-            <div class="row"  style="text-align: center; align-content: center" >
-              <div *ngFor="let recipe of recipeList" class="col-lg-4" style="padding-top: 20px">
-                <app-recipe [recipe]="recipe"></app-recipe>
+            <div class="marketing">
+              <div class="row"  style="text-align: center; align-content: center" >
+                <div *ngFor="let recipe of selectedRecipeList" class="col-lg-4" style="padding-top: 20px">
+                  <app-recipe (favoriteEvent)="favEvent()" [userId]="userId" [recipe]="recipe"></app-recipe>
+                </div>
               </div>
             </div>
-           </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 </main>

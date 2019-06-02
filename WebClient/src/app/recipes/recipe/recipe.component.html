@@ -9,9 +9,30 @@
   <div class="card-body">
     <h5 class="card-title">{{recipe.title}}</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <p><span [ngClass]="{'badge-success': recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef',
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <p><span [ngClass]="{'badge-success': recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef',
                          'badge-primary': recipe.producer === 'Blue Apron'}"
             class="badge badge-pill">{{recipe.producer}}</span></p>
-    <a [routerLink]="['/recipe', recipe._id]" class="btn btn-info">View Recipe &raquo;</a>
+      </div>
+      <div class="col-md-4"></div>
+    <!-- </div> -->
+
+    <!-- <div class="row"> -->
+      <div class="col-md-2">
+        <div class="favoritingIcon pointable">
+              <i class="fa" aria-hidden="true" (click)="favorite()" [style.color]="iconColor"
+              [ngClass]="{'fa-heart': favorited, 'fa-heart-o': !favorited}"></i>
+            <!-- <div class="badge badge-inverse votingCount">
+              <div></div>
+            </div> -->
+        </div>
+      </div>
+      <div class="col-md-8">
+        <a [routerLink]="['/recipe', recipe._id]" class="btn btn-info">View Recipe &raquo;</a>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
   </div>
 </div>

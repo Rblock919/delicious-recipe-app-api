@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
     this.userInfo = {
       username: '',
       password: '',
-      isAdmin: false
+      isAdmin: false,
+      _id: 0
     };
   }
 
@@ -43,7 +44,6 @@ export class LoginComponent implements OnInit {
         this.toastr.success('Successfully Logged In');
         this.router.navigate(['home']);
       }
-      // console.log('Res received from node on login method call: ' + JSON.stringify(res));
 
     },
     err => {

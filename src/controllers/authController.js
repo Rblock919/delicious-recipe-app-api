@@ -77,8 +77,6 @@ const authController = (User) => {
         var query = {username: userData.username};
         var payload = {};
 
-        console.log(userData);
-
         User.findOne(query, '-__v', (err, user) => {
 
             if (err) {
@@ -101,7 +99,7 @@ const authController = (User) => {
                     } else {
                         payload = {sub: user._id}
                         let token = jwt.encode(payload, authConfig.secret);
-                        console.log('Outgoing token upon signIn: ' + token);
+                        // console.log('Outgoing token upon signIn: ' + token);
                         res.status(200).send({user: user, token: token});
                     }
 
@@ -151,11 +149,10 @@ const authController = (User) => {
             if (user) {
                 if (user.isAdmin) {
                     console.log('user found and is admin');
-                    res.status(200).send({user});
                 } else {
                     console.log('user found and is not admin');
-                    res.status(200).send({user});
                 }
+                res.status(200).send({user});
             } else {
                 res.status(404).send({ErrMessage: 'User Not Found'});
             }

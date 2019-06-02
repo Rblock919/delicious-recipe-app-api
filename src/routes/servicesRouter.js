@@ -5,7 +5,7 @@ var router = (nav, Recipe) => {
 
     var servicesController = require('../controllers/servicesController')(nav, Recipe);
 
-    // servicesRouter.use(servicesController.middleware);
+    servicesRouter.use(servicesController.middleware);
 
     servicesRouter.route('/')
         .get(function (req, res) {
@@ -28,6 +28,9 @@ var router = (nav, Recipe) => {
     servicesRouter.route('/edit/:id')
         .get(servicesController.getEditPage)
         .post(servicesController.editRecipe);
+
+    servicesRouter.route('/favorite')
+        .post(servicesController.favorite);
 
     return servicesRouter;
 }

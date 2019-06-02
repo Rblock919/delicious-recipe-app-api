@@ -22,4 +22,5 @@ export interface IRecipe {
     sodium: number
   };
   imgDir: string;
+  favoriters: string[];
 }

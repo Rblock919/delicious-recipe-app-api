@@ -113,7 +113,7 @@ const recipeController = (nav, Recipe) => {
                 res.sendStatus(500);
             }
             console.log('doc: ' + doc);
-        })
+        });
         res.sendStatus(200);
     }
 

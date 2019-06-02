@@ -40,8 +40,11 @@ export class SessionService {
     const tempUser: IUser = {
       username: user.username,
       password: user.password,
-      isAdmin: user.isAdmin
+      isAdmin: user.isAdmin,
+      _id: user._id
     };
+
+    console.log('user id in setUser: ' + user._id);
 
     this.userData = tempUser;
     this.setAdminStatus(user.isAdmin);

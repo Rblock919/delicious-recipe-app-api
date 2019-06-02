@@ -25,7 +25,8 @@ export class RegisterComponent implements OnInit {
     this.userInfo = {
       username: '',
       password:  '',
-      isAdmin: false
+      isAdmin: false,
+      _id: 0
     };
   }
 

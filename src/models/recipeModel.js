@@ -51,7 +51,10 @@ var recipeModel = new Schema({
     },
     imgDir: {
         type: String
-    }
+    },
+    favoriters: [
+        String
+    ]
 });
 
 module.exports = mongoose.model('recipe', recipeModel);

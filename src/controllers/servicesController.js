@@ -1,16 +1,41 @@
 const chalk = require('chalk');
 var MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
+const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt-nodejs');
+const authConfig = require('../config/auth/authConfig');
 
 const servicesController = (nav, Recipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
+    // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
-        if (!req.user) {
-            res.redirect('/');
-            return;
+
+        if (!req.header('Authorization')) {
+            // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
+            return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+        }
+
+        let token = req.header('Authorization').split(' ')[1];
+
+        if (token !== 'null') {
+
+            // console.log('TOKEN FOUND IN HEADER');
+            let payload = jwt.decode(token, authConfig.secret);
+            // console.log('payload: ' + JSON.stringify(payload));
+
+            if (!payload) {
+                console.log('auth header invalid');
+                return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+            } else {
+                // console.log('setting userId in req');
+                req.userId = payload.sub;
+                next();
+            }
+
         } else {
-            next();
+            console.log('NO TOKEN FOUND IN MW');
+            res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
         }
     }
 
@@ -85,12 +110,38 @@ const servicesController = (nav, Recipe) => {
         res.send('Back end MongoDB editing coming soon!');
     }
 
+    var favorite = (req, res) => {
+        var prevFavoriters = req.body.recipe.favoriters;
+        var id = new objectId(req.body.recipe._id);
+        var query = {_id: id};
+        var updatedFavoriters;
+        var addingFav = req.body.favoriting;
+
+        if (addingFav) { // user is favoriting recipe
+            prevFavoriters.push(req.userId);
+        } else { // user is unfavoriting recipe
+            prevFavoriters = prevFavoriters.filter(uId => uId !== '' + req.userId)
+        }
+
+        updatedFavoriters = {favoriters: prevFavoriters};
+        Recipe.updateOne(query, updatedFavoriters, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            // console.log('doc: ' + JSON.stringify(doc));
+            res.sendStatus(200);
+        });
+
+    }
+
     return {
-        editRecipe: editRecipe,
-        middleware: middleware,
         addRecipe: addRecipe,
+        editRecipe: editRecipe,
+        favorite: favorite,
         getEditList: getEditList,
-        getEditPage: getEditPage
+        getEditPage: getEditPage,
+        middleware: middleware
     };
 
 };

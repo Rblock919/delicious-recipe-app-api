@@ -31,6 +31,15 @@ export class RecipeApiService {
     return this.httpClient.patch(`${this.uri}/Recipes/update`, recipe, {responseType: 'text'});
   }
 
+  favoriteRecipe(recipe: IRecipe): Observable<any> {
+    const recipeToUpdate = {recipe, favoriting: true};
+    return this.httpClient.post(`${this.uri}/Services/favorite`, recipeToUpdate, {responseType: 'text'});
+  }
+
+  unFavoriteRecipe(recipe: IRecipe): Observable<any> {
+    const recipeToUpdate = {recipe, favoriting: false};
+    return this.httpClient.post(`${this.uri}/Services/favorite`, recipeToUpdate, {responseType: 'text'});
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

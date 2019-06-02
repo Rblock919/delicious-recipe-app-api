@@ -58,7 +58,8 @@ let recipedata = [
             cholesterol: 235,
             sodium: 700
         },
-        imgDir: 'assets/images/crispy-chipotle-shrimp-tacos.jpg'
+        imgDir: 'assets/images/crispy-chipotle-shrimp-tacos.jpg',
+        favoriters: []
     },
     {
         title: 'Pineapple Poblano Beef Tacos',
@@ -120,7 +121,8 @@ let recipedata = [
             cholesterol: 110,
             sodium: 1000
         },
-        imgDir: 'assets/images/pineapple-poblano-beef-tacos.jpg'
+        imgDir: 'assets/images/pineapple-poblano-beef-tacos.jpg',
+        favoriters: []
     },
     {
         title: 'Southwestern Stuffed Peppers',
@@ -183,7 +185,8 @@ let recipedata = [
             cholesterol: 11,
             sodium: 840
         },
-        imgDir: 'assets/images/sw-stuffed-peppers.jpg'
+        imgDir: 'assets/images/sw-stuffed-peppers.jpg',
+        favoriters: []
     },
     {
         title: 'White Wine Chicken Scaloppine',
@@ -236,7 +239,8 @@ let recipedata = [
             protein: 42,
             sodium: 1351
         },
-        imgDir: 'assets/images/white-wine-chicken-scaloppine.jpg'
+        imgDir: 'assets/images/white-wine-chicken-scaloppine.jpg',
+        favoriters: []
     },
     {
         title: 'Curried Catfish & Coconut Rice',
@@ -297,7 +301,8 @@ let recipedata = [
         nutritionValues: {
             calories: 600,
         },
-        imgDir: 'assets/images/curried-catfish-and-coconut-rice.jpg'
+        imgDir: 'assets/images/curried-catfish-and-coconut-rice.jpg',
+        favoriters: []
     },
     {
         title: 'Presto Pesto Panko Chicken',
@@ -351,7 +356,8 @@ let recipedata = [
             cholesterol: 120,
             sodium: 410
         },
-        imgDir: 'assets/images/presto-pesto-panko-chicken.jpg'
+        imgDir: 'assets/images/presto-pesto-panko-chicken.jpg',
+        favoriters: []
     },
     {
         title: 'Creamy Dill Chicken',
@@ -411,7 +417,8 @@ let recipedata = [
             cholesterol: 115,
             sodium: 320
         },
-        imgDir: 'assets/images/creamy-dill-chicken.jpg'
+        imgDir: 'assets/images/creamy-dill-chicken.jpg',
+        favoriters: []
     },
     {
         title: 'Chicken Scampi Spaghetti',
@@ -464,7 +471,8 @@ let recipedata = [
             protein: 57,
             sodium: 1742
         },
-        imgDir: 'assets/images/chicken-scampi-spaghetti.jpg'
+        imgDir: 'assets/images/chicken-scampi-spaghetti.jpg',
+        favoriters: []
     },
     {
         title: 'BBQ Pork Burgers',
@@ -524,7 +532,8 @@ let recipedata = [
         nutritionValues: {
             calories: 800,
         },
-        imgDir: 'assets/images/bbq-pork-burgers.jpg'
+        imgDir: 'assets/images/bbq-pork-burgers.jpg',
+        favoriters: []
     },
     {
         title: 'Chicken Cheddar Fajitas',
@@ -587,7 +596,8 @@ let recipedata = [
             cholesterol: 140,
             sodium: 1050
         },
-        imgDir: 'assets/images/chicken-cheddar-fajitas.jpg'
+        imgDir: 'assets/images/chicken-cheddar-fajitas.jpg',
+        favoriters: []
     },
     {
         title: 'Baja Fish Tacos',
@@ -642,7 +652,8 @@ let recipedata = [
             protein: 42,
             sodium: 1380
         },
-        imgDir: 'assets/images/baja-fish-tacos.jpg'
+        imgDir: 'assets/images/baja-fish-tacos.jpg',
+        favoriters: []
     },
     {
         title: 'Beef & Pepper Tamale Pie',
@@ -695,7 +706,8 @@ let recipedata = [
             protein: 35,
             sodium: 1654
         },
-        imgDir: 'assets/images/beef-tamale-pie.jpg'
+        imgDir: 'assets/images/beef-tamale-pie.jpg',
+        favoriters: []
     }
 
 ]

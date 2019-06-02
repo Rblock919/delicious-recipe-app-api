@@ -1,3 +1,4 @@
+import { SessionService } from './../../services/session.service';
 import { Component, OnInit } from '@angular/core';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
 import { IRecipe } from 'src/app/models/recipe.model';
@@ -10,25 +11,171 @@ import { IRecipe } from 'src/app/models/recipe.model';
 export class RecipeListComponent implements OnInit {
 
   recipeList: IRecipe[];
+  selectedRecipeList: IRecipe[];
 
-  newRecipes = [
-    { title: 'New Recipe 1', producer: 'Hello Fresh', cookTime: '30'},
-    { title: 'New Recipe 2', producer: 'Blue Apron', cookTime: '40'},
-    { title: 'New Recipe 3', producer: 'Home Chef', cookTime: '50'}
-  ];
+  topFilteredList: IRecipe[];
+  botFilteredList: IRecipe[];
 
-  constructor(private apiService: RecipeApiService) { }
+  newRecipesList: IRecipe[];
+  hotRecipeList: IRecipe[];
+  favRecipeList: IRecipe[];
+
+  topSelectedFilter = '';
+  botSelectedFilter = '';
+  userId: number;
+
+
+  constructor(private apiService: RecipeApiService, private sessionService: SessionService) { }
 
   ngOnInit() {
-      this.apiService.getRecipeList().subscribe(data => {
-      console.log('Id for recipe 1: ' + data[0]._id);
+    this.hotRecipeList = [];
+    this.favRecipeList = [];
+    this.apiService.getRecipeList().subscribe(data => {
       this.recipeList = data;
+      this.selectedRecipeList = this.recipeList;
+      const tempUser = this.sessionService.getUser;
+      this.userId = tempUser._id;
+
+      const recipeLength = this.recipeList.length;
+      this.newRecipesList = this.recipeList.slice((recipeLength - 6), (recipeLength));
+
+      this.favRecipeList = this.recipeList.filter(recipe => {
+        return (recipe.favoriters.indexOf('' + this.userId) > -1 );
+      });
       // console.log('Data: ' + JSON.stringify(data));
       // console.log('Recipe List Length: ' + this.recipeList.length);
       // console.log('Recipe List: ' + this.recipeList);
+      this.hotRecipeList.push(this.recipeList[1]);
+      this.hotRecipeList.push(this.recipeList[3]);
+      this.hotRecipeList.push(this.recipeList[4]);
     }, err => {
       console.log('err in recipeList comp: ' + JSON.stringify(err));
     });
+  }
+
+  setBotFilter(input: string): void {
+    if (input === 'Hello Fresh') {
+
+      // selected filter was already hello fresh and user clicked again; reset filter
+      if (this.botSelectedFilter === 'Hello Fresh') {
+        this.botSelectedFilter = '';
+        this.botFilteredList = this.recipeList;
+        // this.joinLists();
+        // return;
+      } else {
+        this.botFilteredList = this.recipeList.filter((recipe) => {
+          return recipe.producer === 'Hello Fresh';
+        });
+        this.botSelectedFilter = input;
+      }
+
+    } else if (input === 'Home Chef') {
+
+      // selected filter was already home chef and user clicked again; reset filter
+      if (this.botSelectedFilter === 'Home Chef') {
+        this.botSelectedFilter = '';
+        this.botFilteredList = this.recipeList;
+        // this.joinLists();
+        // return;
+      } else {
+        this.botFilteredList = this.recipeList.filter(recipe => {
+          return recipe.producer === 'Home Chef';
+        });
+        this.botSelectedFilter = input;
+      }
+
+    } else if (input === 'Blue Apron') {
+
+      // selected filter was already blue apron and user clicked again; reset filter
+      if (this.botSelectedFilter === 'Blue Apron') {
+        this.botSelectedFilter = '';
+        this.botFilteredList = this.recipeList;
+        // this.joinLists();
+        // return;
+      } else {
+        this.botFilteredList = this.recipeList.filter(recipe => {
+          return recipe.producer === 'Blue Apron';
+        });
+        this.botSelectedFilter = input;
+      }
+
+    }
+    this.joinLists();
+  }
+
+  setTopFilter(input: string): void {
+    if (input === 'new') {
+      if (this.topSelectedFilter === 'new') {
+        this.topSelectedFilter = '';
+        this.topFilteredList = this.recipeList;
+      } else {
+        this.topSelectedFilter = input;
+        this.topFilteredList = this.newRecipesList;
+      }
+
+    } else if (input === 'hot') {
+
+      if (this.topSelectedFilter === 'hot') {
+        this.topSelectedFilter = '';
+        this.topFilteredList = this.recipeList;
+        return;
+      } else {
+        this.topSelectedFilter = input;
+        this.topFilteredList = this.hotRecipeList;
+      }
+    } else if (input === 'fav') {
+      if (this.topSelectedFilter === 'fav') {
+        this.topSelectedFilter = '';
+        this.topFilteredList = this.recipeList;
+      } else {
+        this.topSelectedFilter = input;
+        this.topFilteredList = this.favRecipeList;
+      }
+    }
+    this.joinLists();
+  }
+
+  favEvent(): void {
+    const that = this;
+    setTimeout(() => {
+      that.favRecipeList = that.recipeList.filter(recipe => {
+        return (recipe.favoriters.indexOf('' + that.userId) > -1 );
+      });
+      if (that.topSelectedFilter === 'fav') {
+        that.topFilteredList = that.favRecipeList;
+      }
+      that.joinLists();
+    }, 150);
+  }
+
+  joinLists(): void {
+    //                4 Possible Cases
+    // Case 1: No filters have been selected for top and bot
+    // Case 2: Filter has been selected for top but not bot
+    // Case 3: Filter has been selected for bot but not top
+    // Case 4: Filters have been selected for both top and bot
+
+    // Case 3
+    if (this.topSelectedFilter === '' && this.botSelectedFilter !== '') {
+
+      this.selectedRecipeList = this.botFilteredList;
+
+    } else if (this.topSelectedFilter !== '') {
+
+      // Case 2
+      if (this.botSelectedFilter === '') {
+        this.selectedRecipeList = this.topFilteredList;
+      } else { // Case 4
+        this.selectedRecipeList = this.topFilteredList.filter(recipe => {
+          return recipe.producer === this.botSelectedFilter;
+        });
+      }
+
+      // Case 1
+    } else if (this.topSelectedFilter === '' && this.botSelectedFilter === '') {
+      this.selectedRecipeList = this.recipeList;
+    }
+
   }
 
 }
