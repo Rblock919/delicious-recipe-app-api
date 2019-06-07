@@ -43,16 +43,18 @@
                             <div class="card-header text-center">
                               <h4>Nutritional Info</h4>
                             </div>
-                            <div class="card-body text-center">
-                              <p>Calories: {{recipe.nutritionValues.calories}}</p>
-                              <p *ngIf="recipe.nutritionValues.fat">Fat: {{recipe.nutritionValues.fat}}</p>
-                              <p *ngIf="recipe.nutritionValues.saturatedFat">Saturated Fat: {{recipe.nutritionValues.saturatedFat}}</p>
-                              <p *ngIf="recipe.nutritionValues.carbohydrate">Carbs: {{recipe.nutritionValues.carbohydrate}}</p>
-                              <p *ngIf="recipe.nutritionValues.sugar">Sugar: {{recipe.nutritionValues.sugar}}</p>
-                              <p *ngIf="recipe.nutritionValues.fiber">Fiber: {{recipe.nutritionValues.fiber}}</p>
-                              <p *ngIf="recipe.nutritionValues.protein">Protein: {{recipe.nutritionValues.protein}}</p>
-                              <p *ngIf="recipe.nutritionValues.cholesterol">Cholesterol: {{recipe.nutritionValues.cholesterol}}</p>
-                              <p *ngIf="recipe.nutritionValues.sodium">Sodium: {{recipe.nutritionValues.sodium}}</p>
+                            <div class="card-body">
+                              <p><span class="float-left">Calories: </span> <span class="float-right">{{recipe.nutritionValues.calories}}</span></p><br *ngIf="recipe.producer !== 'Blue Apron'">
+                              <p *ngIf="recipe.nutritionValues.fat"><span class="float-left">Fat: </span><span class="float-right">{{recipe.nutritionValues.fat}}g</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.saturatedFat">
+                                <span class="float-left">Saturated Fat: </span><span class="float-right">{{recipe.nutritionValues.saturatedFat}}g</span><br>
+                              </p>
+                              <p *ngIf="recipe.nutritionValues.carbohydrate"><span class="float-left">Carbs: </span> <span class="float-right">{{recipe.nutritionValues.carbohydrate}}g</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.sugar"><span class="float-left">Sugar: </span> <span class="float-right">{{recipe.nutritionValues.sugar}}g</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.fiber"><span class="float-left">Fiber: </span> <span class="float-right">{{recipe.nutritionValues.fiber}}g</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.protein"><span class="float-left">Protein: </span> <span class="float-right">{{recipe.nutritionValues.protein}}g</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.cholesterol"><span class="float-left">Cholesterol: </span> <span class="float-right">{{recipe.nutritionValues.cholesterol}}mg</span><br></p>
+                              <p *ngIf="recipe.nutritionValues.sodium"><span class="float-left">Sodium: </span> <span class="float-right">{{recipe.nutritionValues.sodium}}mg</span></p>
                             </div>
                             <div *ngIf="recipe.producer === 'Blue Apron'" class="card-footer text-center">
                               <small>You can thank Blue Apron for not providing nutritional information!</small>
@@ -62,6 +64,19 @@
                       </div>
 
                       <hr>
+                      <div *ngIf="recipe.producer !== 'Blue Apron'" class="card">
+                        <div class="card-header text-center">
+                          <h2>{{preCookTitle}}</h2>
+                        </div>
+                        <div class="card-body text-center">
+                          <ul *ngIf="recipe.producer === 'Home Chef'" class="list-group list-group-flush">
+                            <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
+                          </ul>
+                          <ul style="justify-content: center" *ngIf="recipe.producer === 'Hello Fresh'" class="list-group list-group-horizontal">
+                            <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
+                          </ul>
+                        </div>
+                      </div> <br *ngIf="recipe.producer !== 'Blue Apron'">
                       <div class="card">
                         <div class="card-header text-center">
                           <h2>Steps</h2>

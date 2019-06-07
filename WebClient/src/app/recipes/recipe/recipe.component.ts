@@ -19,7 +19,6 @@ export class RecipeComponent implements OnInit {
   @Output()
   favoriteEvent = new EventEmitter();
 
-  count: number;
   iconColor = 'red';
   favorited: boolean;
 
@@ -28,7 +27,6 @@ export class RecipeComponent implements OnInit {
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
-    this.count = 2;
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
     if (favoritersList.indexOf('' + this.userId) > -1) {
@@ -37,6 +35,7 @@ export class RecipeComponent implements OnInit {
     } else {
       this.favorited = false;
     }
+
     // console.log(this.recipe.title +  ' favoriters: ' + favoritersList);
     // console.log('userId: ' + this.userId);
     // console.log('Recipe ' + this.recipe.title + ' id: ' + this.recipe._id);

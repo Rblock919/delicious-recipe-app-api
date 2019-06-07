@@ -11,3 +11,11 @@ img {
 small {
   font-style: italic;
 }
+
+.list-group-item:after {
+  // content: "";
+  // display: block;
+  // margin: 0 auto;
+  // width: 100%;
+  border: 0px !important;
+}

@@ -13,6 +13,13 @@ let recipedata = [
             'Sour Cream | 4 tbsp',
             'Flour Tortillas | 6'
         ],
+        preCook: [
+            'Paper Towel',
+            'Medium Bowl',
+            'Large Pan',
+            'Splotted Spoon',
+            'Small Bowl'
+        ],
         numSteps: 6,
         steps: [
             {
@@ -75,6 +82,14 @@ let recipedata = [
             'Taco Splice Blend | 2 tbsps',
             'Ground Beef | 20 oz',
             'Flour Tortillas | 12 units'
+        ],
+        preCook: [
+            'Strainer',
+            'Medium Bowl',
+            'Small Bowl',
+            'Large Pan',
+            'Paper Towels',
+            'Vegetable Oil (2 tsp)'
         ],
         numSteps: 6,
         steps: [
@@ -140,6 +155,11 @@ let recipedata = [
             'Southwest Spice Blend | 1 tbsp',
             'Monterey Jack Cheese | 1/2 cup'
         ],
+        preCook: [
+            'Small Pot',
+            'Large Pan',
+            'Baking Sheet'
+        ],
         numSteps: 6,
         steps: [
             {
@@ -201,6 +221,11 @@ let recipedata = [
             'White Cooking Wine | 2 oz',
             'Butter | .6 oz'
         ],
+        preCook: [
+            'Preheat oven to 400 degrees',
+            'Thoroughly rinse produce and pat dry',
+            'Prepare a baking sheet with foil and cooking spray'
+        ],
         numSteps: 5,
         steps: [
             {
@@ -258,6 +283,7 @@ let recipedata = [
             'Curry Catfish Spice Blend | 2 tbsp',
             'Chutney Spice Blend | 2 tsp'
         ],
+        preCook: [],
         numSteps: 6,
         steps: [
             {
@@ -316,6 +342,12 @@ let recipedata = [
             'Lemon | 1',
             'Spring Mix Lettuce | 2 oz'
         ],
+        preCook: [
+            '2 Baking Sheets',
+            'Small Bowl',
+            'Large Bowl',
+            'Olive Oil (5 tsp)'
+        ],
         numSteps: 6,
         steps: [
             {
@@ -370,6 +402,12 @@ let recipedata = [
             'Sour Cream | 2 tbsp',
             'Chicken Stock Concentrate | 1',
             'Dijon Mustard | 1 tsp'
+        ],
+        preCook: [
+            '2 Baking Sheets',
+            'Paper Towels',
+            'Large Pan',
+            'Vegetable Oil (1 tbsp)'
         ],
         numSteps: 6,
         steps: [
@@ -433,6 +471,12 @@ let recipedata = [
             'Light Cream | 4 fl oz',
             'Butter | .3 oz'
         ],
+        preCook: [
+            'Preheat oven to 400 degrees',
+            'Bring a large pot of water to a boil',
+            'Thoroughly rinse produce and pat dry',
+            'Prepare a baking sheet with foil and cooking spray'
+        ],
         numSteps: 5,
         steps: [
             {
@@ -490,6 +534,7 @@ let recipedata = [
             'Whole Grain Dijon Mustard | 1 tbsp',
             'BBQ Sauce | 1/4 cup'
         ],
+        preCook: [],
         numSteps: 6,
         steps: [
             {
@@ -548,6 +593,13 @@ let recipedata = [
             'Chicken Breasts | 12 oz',
             'Flour Tortillas | 6',
             'Cheddar Cheese | 1/2 cup'
+        ],
+        preCook: [
+            '2 Small Bowls',
+            'Zester',
+            'Large Pan',
+            'Baking Sheet',
+            'Vegetable Oil (1 tbsp)'
         ],
         numSteps: 6,
         steps: [
@@ -614,6 +666,9 @@ let recipedata = [
             'Canola Oil | 6 fl oz',
             'Small Flour Tortillas | 6'
         ],
+        preCook: [
+            'Thoroughly rinse produce and pat dry'
+        ],
         numSteps: 5,
         steps: [
             {
@@ -669,6 +724,11 @@ let recipedata = [
             'Corn Kernels | 3 oz',
             'Worcestershire Sauce | 1 fl oz',
             'Sour Cream | 2 oz'
+        ],
+        preCook: [
+            'Preheat oven to 400 degrees',
+            'Thoroughly rinse produce and pat dry',
+            'Prepare a casserole dish with cooking spray'
         ],
         numSteps: 5,
         steps: [

@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { CanActivate, Router, CanDeactivate, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthService } from './auth.service';
 import { SessionService } from './session.service';
 import { EditRecipeComponent } from '../recipes/edit-recipe/edit-recipe.component';
 import { Observable } from 'rxjs';
+import { RegisterComponent } from '../login/register.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RouteGuardService implements CanActivate, CanDeactivate<EditRecipeComponent> {
+export class RouteGuardService implements CanActivate, CanDeactivate<Component> {
 
   constructor(
     private router: Router,
@@ -28,19 +29,26 @@ export class RouteGuardService implements CanActivate, CanDeactivate<EditRecipeC
     }
   }
 
-  public canDeactivate(component: EditRecipeComponent, route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  public canDeactivate(component: Component, route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const context = route.data.context;
+    let tempComponent: any;
 
     if (context === 'editRecipe') {
-      if (component.recipeForm.dirty) {
-        const recipeName = component.recipeForm.get('title').value || 'New Recipe';
+      tempComponent = component as EditRecipeComponent;
+      if (tempComponent.recipeForm.dirty) {
+        const recipeName = tempComponent.recipeForm.get('title').value || 'New Recipe';
         return confirm(`Navigate away and lose all changes to ${recipeName}?`);
       }
       return true;
     } else if (context === 'register') {
-      return confirm('Navigate away and lose all changes to new profile?');
+      tempComponent = component as RegisterComponent;
+      if (tempComponent.userInfo.username !== '' || tempComponent.userInfo.password !== '' || tempComponent.confirmPassword) {
+        console.log('username or password(s) fields have been touched');
+        return confirm('Navigate away and lose all changes to new profile?');
+      } else {
+        return true;
+      }
     }
-
 
   }
 

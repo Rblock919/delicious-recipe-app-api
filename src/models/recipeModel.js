@@ -11,6 +11,9 @@ var recipeModel = new Schema({
     ingredients: [
         String
     ],
+    preCook: [
+        String
+    ],
     numSteps: {
         type: Number
     },

@@ -36,12 +36,9 @@ export class RegisterComponent implements OnInit {
       return;
     } else {
       this.passwordMessage = '';
-      console.log('UserInfo: ' + JSON.stringify(this.userInfo));
       this.auth.signUp(this.userInfo).subscribe(res => {
         let tempRes: any;
         tempRes = res;
-
-        // console.log('Res received from node on signup method call: ' + JSON.stringify(res));
 
         if (!res) {
           console.log('Error creating new user');
