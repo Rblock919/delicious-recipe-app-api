@@ -34,8 +34,8 @@
                               <h4>Ingredients</h4>
                             </div>
                             <div class="card-body text-center">
-                              <p class="ing-text" *ngFor="let ingredient of recipe.ingredients | ingredients">
-                                {{ingredient}}
+                              <p class="ing-text" *ngFor="let ingredient of recipe.ingredients | ingredientsPipe">
+                                <span class="float-left">{{ingredient[0]}}</span> <span class="float-right">{{ingredient[1]}}</span><br>
                               </p>
                             </div>
                           </div>

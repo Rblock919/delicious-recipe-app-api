@@ -14,6 +14,28 @@
     </div>
     <hr>
   <div class="row">
+      <div class="col-md-4 text-center">
+        <p>Sort By:</p>
+        <div class="btn-toolbar" role="toolbar" aria-label="btn toolbar">
+          <div class="btn-group" role="group" aria-label="First group">
+            <button type="button" class="btn" (click)="sortList('rating')"
+                    [ngClass]="{'btn-dark': sortFilter !== 'rating', 'btn-light': sortFilter === 'rating'}" >
+              Rating&nbsp;<i *ngIf="sortFilter === 'rating'" class="fa"
+                          [ngClass]="{'fa-sort-asc': sortDirection === 'up', 'fa-sort-desc': sortDirection === 'down'}"></i>
+            </button>
+            <button type="button" class="btn btn-dark" (click)="sortList('calories')"
+                    [ngClass]="{'btn-dark': sortFilter !== 'calories', 'btn-light': sortFilter === 'calories'}">
+              Calories&nbsp;<i *ngIf="sortFilter === 'calories'" class="fa"
+                          [ngClass]="{'fa-sort-asc': sortDirection === 'up', 'fa-sort-desc': sortDirection === 'down'}"></i>
+            </button>
+            <button type="button" class="btn btn-dark" (click)="sortList('title')"
+                    [ngClass]="{'btn-dark': sortFilter !== 'title', 'btn-light': sortFilter === 'title'}" >
+              Title&nbsp;<i *ngIf="sortFilter === 'title'" class="fa"
+                       [ngClass]="{'fa-sort-asc': sortDirection === 'up', 'fa-sort-desc': sortDirection === 'down'}"></i>
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="col-md-4"></div>
       <div class="col-md-4 text-center">
         <p>Filter By:</p>
@@ -36,7 +58,6 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4"></div>
     </div>
   </div>
 

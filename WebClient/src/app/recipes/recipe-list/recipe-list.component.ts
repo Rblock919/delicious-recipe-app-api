@@ -16,6 +16,10 @@ export class RecipeListComponent implements OnInit {
   topFilteredList: IRecipe[];
   botFilteredList: IRecipe[];
 
+  sortedLists: IRecipe[];
+  sortFilter: string;
+  sortDirection: string;
+
   newRecipesList: IRecipe[];
   hotRecipeList: IRecipe[];
   favRecipeList: IRecipe[];
@@ -30,6 +34,8 @@ export class RecipeListComponent implements OnInit {
   ngOnInit() {
     this.hotRecipeList = [];
     this.favRecipeList = [];
+    this.sortedLists = new Array<IRecipe>(3); // create array length of size 3
+    // this.sortedLists.push(); this.sortedLists.push(); this.sortedLists.push();
     this.apiService.getRecipeList().subscribe(data => {
       this.recipeList = data;
       this.selectedRecipeList = this.recipeList;
@@ -159,22 +165,90 @@ export class RecipeListComponent implements OnInit {
     if (this.topSelectedFilter === '' && this.botSelectedFilter !== '') {
 
       this.selectedRecipeList = this.botFilteredList;
+      this.sortList('fromJoin');
 
     } else if (this.topSelectedFilter !== '') {
 
       // Case 2
       if (this.botSelectedFilter === '') {
         this.selectedRecipeList = this.topFilteredList;
+        this.sortList('fromJoin');
       } else { // Case 4
         this.selectedRecipeList = this.topFilteredList.filter(recipe => {
           return recipe.producer === this.botSelectedFilter;
         });
+        this.sortList('fromJoin');
       }
 
       // Case 1
     } else if (this.topSelectedFilter === '' && this.botSelectedFilter === '') {
       this.selectedRecipeList = this.recipeList;
+      this.sortList('fromJoin');
     }
+
+  }
+
+  sortList(filter: string): void {
+
+    // this if statement is to maintain the sort filter when the filterBy filter changes
+    if (filter === 'fromJoin') {
+      if (this.sortDirection === '' || !this.sortDirection) {
+        return;
+      } else if (this.sortDirection === 'up') {
+        if (this.sortFilter === 'calories') {
+          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
+        } else if (this.sortFilter === 'rating') {
+          // to-do after implementing rating system
+        } else if (this.sortFilter === 'title') {
+          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
+        }
+      } else if (this.sortDirection === 'down') {
+        if (this.sortFilter === 'calories') {
+          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
+        } else if (this.sortFilter === 'rating') {
+          // to-do after implementing rating system
+        } else if (this.sortFilter === 'title') {
+          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
+        }
+      }
+      return;
+    }
+
+    if (this.sortFilter === filter) {
+      if (this.sortDirection === 'up') {
+
+        if (filter === 'calories') {
+          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
+        } else if (filter === 'rating') {
+          // to-do after implementing rating system
+        } else if (filter === 'title') {
+          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
+        }
+
+        console.log('sort direction is up and turning to down...');
+        this.sortDirection = 'down';
+
+      } else {
+        console.log('sort direction was down and reseting...');
+        this.selectedRecipeList.sort((a, b) => (a._id > b._id ? 1 : -1));
+        this.sortDirection = '';
+        this.sortFilter = '';
+      }
+    } else {
+
+      if (filter === 'calories') {
+        this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
+      } else if (filter === 'rating') {
+        // to-do after implementing rating system
+      } else if (filter === 'title') {
+        this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
+      }
+
+      console.log('new filter on sort so setting sort direction to up...');
+      this.sortDirection = 'up';
+      this.sortFilter = filter;
+    }
+
 
   }
 

@@ -768,8 +768,202 @@ let recipedata = [
         },
         imgDir: 'assets/images/beef-tamale-pie.jpg',
         favoriters: []
+    },
+    {
+        title: 'Sesame Beef Tacos',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Persian Cucumber | 1',
+            'Radishes | 3',
+            'Scallions | 2',
+            'Cilantro | 1/4 oz',
+            'White Wine Vinegar | 5 tsp',
+            'Korean Chili Flakes | 1 tsp',
+            'Red Cabbage | 4 oz',
+            'Ground Beef | 10 oz',
+            'Sour Cream | 4 tbsp',
+            'Garlic Powder | 1 tsp',
+            'Sesame Oil | 1 tbsp',
+            'Soy Sauce | 1 tbsp',
+            'Sriracha | 2 tsp',
+            'Flour Tortillas | 6'
+        ],
+        preCook: [
+            'Paper Towels',
+            'Medium Bowl',
+            'Large Pan',
+            'Splotted Spoon',
+            'Small Bowl',
+            'Sugar (2 1/2 tsp)',
+            'Vegetable Oil (1 tsp)'
+        ],
+        numSteps: 6,
+        steps: [
+            {
+                name: 'Prep',
+                body: 'Wash and dry all produce. Slice radishes and cucumber into thin rounds. Trim and thinly slice scallions. Pick cilantro leaves from ' +
+                'stems; discard stems.'
+            },
+            {
+                name: 'Pickle Veggies',
+                body: 'In a medium bowl, combine radishes, cucumber, vinegar, 1 tsp sugar, and a pinch of salt and pepper. Taste and add a pinch more sugar ' +
+                'if you like sweeter pickles. Set aside, stirring occasionally, until ready to serve.'
+            },
+            {
+                name: 'Make Chili Crema',
+                body: 'In a small bowl, combine sour cream and a few chili flakes (to taste- start with a pinch and go up from there, saving a little for the ' +
+                'filling). Season with salt and pepper.'
+            },
+            {
+                name: 'Cook Filling',
+                body: 'Heat a drizzle of oil in a large pan over medium-high heat. Add scallions and cabbage. Cook, stirring, until softened, 4-5 minutes. Add ' +
+                'beef, garlic powder, and 1 tsp sugar(2 tsp for 4 servings). Cook, breaking up meat into pieces, until browned and cooked through, 4-5 minutes. ' +
+                'Season with salt, pepper, and up to 1/2 tsp more sugar (to taste). Stir in sesame oil, half the soy sauce, 1 tsp sriracha, and a pinch of chili ' +
+                'flakes (to taste). (For 4 servings, use all of the soy saunce.)'
+            },
+            {
+                name: 'Warm Tortillas',
+                body: 'While filling cooks, wrap tortillas in a lightly dampened paper towel and microwave until warm and soft, about 30 seconds'
+            },
+            {
+                name: 'Plate and Serve',
+                body: 'Spread a bit of chili crema onto each tortilla, then top with filling, a small amount of pickled veggies, cilantro, remaining sriracha ' +
+                '(to taste), and reamining chili flakes if desired. Serve with remaining pickled veggies on the side.'
+            }
+        ],
+        nutritionValues: {
+            calories: 720,
+            fat: 40,
+            saturatedFat: 17,
+            carbohydrate: 48,
+            sugar: 9,
+            fiber: 2,
+            protein: 32,
+            cholesterol: 115,
+            sodium: 960
+        },
+        imgDir: 'assets/images/sesame-beef-tacos.jpg',
+        favoriters: []
+    },
+    {
+        title: 'Creamy Parmesan Steak Penne',
+        producer: 'Home Chef',
+        ingredients: [
+            'Green Onions | 2',
+            'Penne Pasta | 5 oz',
+            'Yellow Onion | 1',
+            'Red Bell Pepper | 1',
+            'Garlic Cloves | 2',
+            'Steak Strips | 10 oz',
+            'Light Cream | 4 fl oz',
+            'Grated Parmesan | 1 oz',
+            'Red Pepper Flakes | 1/4 tsp'
+        ],
+        preCook: [
+            'Bring 8 cups water and 2 tsp salt to a boil in a medium pot',
+            'Thoroughly rinse produce and pat dry'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Cook the Pasta',
+                body: 'Once water is boiling, add pasta and cook until al dente, 10-12 minutes. Reserve 1/4 cup pasta cooking water. Drain pasta in a colander and ' +
+                'return to pot to keep warm. While pasta cooks, prepare ingredients.'
+            },
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Halve and peel onion. Slive halves into thin strips. Stem, seed, remove ribs, and slice red bell pepper into thin strips. Mine garlic. ' +
+                'Trim and thinly slice green onions. Pat steak strips dry, and season with 1/4 tsp salt and a pinch of pepper.'
+            },
+            {
+                name: 'Caramelize the Onion',
+                body: 'Place a medium non-stick pan over medium-low heat and add 2 tsp olive oil. Add onion and 1/4 tsp salt to hot pan. Stir occasionally until ' +
+                'onion is lightly caramelized, 15-20 minutes. Transfer onions to a plate. Reserve pan; no need to wipe clean. While onion caramelizes, cook steak ' +
+                'strips and peppers.'
+            },
+            {
+                name: 'Cook the Steak Strips and Peppers',
+                body: 'Place a large non-stick pan over medium-high heat and add 2 tsp olive oil. Add steak strips, red bell peppers, and garlic. Stir occasionally ' +
+                'until no pink remains on steak strips and peppers are crisp-tender, 5-7 minutes. Stir in reserved pasta water, caramelized onion, green onions ' +
+                '(reserve a pinch for garnish), and 1/4 tsp salt. Remove from burner.'
+            },
+            {
+                name: 'Make the Sauce',
+                body: 'Add cream to pan used to cook onions. Bring to a boil. Once boiling, remove from burner and stir in parmesan, pasta and 1/4 tsp salt. ' +
+                'Stir pasta-sauce mixture into steak strip-peppers mixture. Plate dish, garnishing with reserved green onions and red pepper flakes (to taste). ' +
+                'Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 788,
+            fat: 35,
+            carbohydrate: 73,
+            protein: 46,
+            sodium: 1650
+        },
+        imgDir: 'assets/images/creamy-parmesan-steak-penne.jpg',
+        favoriters: []
+    },
+    {
+        title: 'Turkey White Bean Chili',
+        producer: 'Home Chef',
+        ingredients: [
+            'Shredded Cheddar-Jack Cheese | 2 oz',
+            'Cornstarch | 2 tbsp',
+            'Crispy Garlic | 1/2 oz',
+            'Chicken Demi-Glace | 4 tsp',
+            'Chipotle Seasoning | 2 tsp',
+            'Green Onions | 2',
+            'Sour Cream | 2 oz',
+            'Cannellini Beans | 15 oz',
+            'Poblano Pepper | 2',
+            'Ground Turkey | 12 oz'
+        ],
+        preCook: [
+            'Thoroughly rinse produce and pat dry'
+        ],
+        numSteps: 5,
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Trim and thinly slice green onions, keeping white and green portions separate. Stem poblano peppers, seed, and cut into 1/2" dice. *Wash ' +
+                'hands and cutting board after prepping. Poblano peppers can vary in spice level; most are mild, but a few can be quite hot.* Drain and rinse ' +
+                'cannellini beans. Combine cornstarch and 2 tbsp cold water in a mixing bowl. Set aside. In another mixing bowl, combine green portions of green ' +
+                'onions and sour cream. Set aside.'
+            },
+            {
+                name: 'Cook the Turkey',
+                body: 'Place a medium pot over medium high heat and add 2 tsp olive oil. Add ground turkey, seasoning and 1/4 tsp salt to hot pot. Stir occasionally, ' +
+                'breaking up with a spoon, until no pink remains, 7-9 minutes. *If using ground pork, use 1 tsp olive oil and add ground pork, seasoning, and 1/4 ' +
+                'tsp salt to hot pot. Stir occasionally, breaking up with a spoon. until no pink remains, 5-7 minutes.* Transfer turkey to a plate or bowl. Reserve ' +
+                'pot; no need to wipe clean.'
+            },
+            {
+                name: 'Cook the Vegetables',
+                body: 'Return pot used to cook turkey to medium heat and add 1 tsp olive oil. Add poblanos, white portions of green onions, and 1/4 tsp salt to hot ' +
+                'pot and stir occasionally until tender, 3-5 minutes.'
+            },
+            {
+                name: 'Cook the Chili',
+                body: 'Stir cornstarch-water mixture to recombine. Add turkey (or ground pork), beans, 1 cup water, demi-glace, cornstarch-water mixture, and 1/4 tsp ' +
+                'salt to pot. Bring to a simmer. Once simmering, cover, and cook until thickened, 5-7 minutes.'
+            },
+            {
+                name: 'Finish the Dish',
+                body: 'Plate dish, topping chili with scallion sour cream and cheese and garnishing with crispy garlic. Bon appetit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 798,
+            fat: 35,
+            carbohydrate: 58,
+            protein: 55,
+            sodium: 1749
+        },
+        imgDir: 'assets/images/turkey-white-bean-chili.jpg',
+        favoriters: []
     }
 
-]
+];
 
 module.exports = recipedata;

@@ -1,19 +1,25 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'ingredients'
+  name: 'ingredientsPipe'
 })
 export class IngredientsPipe implements PipeTransform {
 
-  transform(value: any): Array<string> {
+  transform(value: any): string[][] {
     // console.log('in ingredients pipe...');
-    const newArray = new Array<string>();
-    let tempString: string;
+    let newArray: string[][] = new Array();
+    let counter = 0;
     value.forEach(element => {
-      tempString = element;
-      // console.log('element: ' + testString.replace(' | ', ': '));
-      newArray.push(tempString.replace(' | ', ': '));
+      newArray.push([]);
+      const tempVar = element.split(' | ');
+      tempVar[0] += ':';
+      console.log('tempVar: ' + tempVar);
+      newArray[counter].push(tempVar[0]);
+      newArray[counter].push(tempVar[1]);
+      counter++;
     });
+
+    console.log(newArray);
     return newArray;
   }
 
