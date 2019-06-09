@@ -17,7 +17,9 @@
                       <div class="row text-center">
                         <div class="col-md-12">
                           <h4><span [ngClass]="{'badge-success': recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef',
-                            'badge-primary': recipe.producer === 'Blue Apron'}" class="badge badge-pill">{{recipe.producer}}</span></h4>
+                                                'badge-hf': recipe.producer === 'Hello Fresh',
+                                                'badge-hc': recipe.producer === 'Home Chef',
+                                                'badge-primary': recipe.producer === 'Blue Apron'}" class="badge badge-pill">{{recipe.producer}}</span></h4>
                         </div>
                       </div>
                       <br>
