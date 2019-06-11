@@ -1,5 +1,5 @@
 import { Injectable, Component } from '@angular/core';
-import { CanActivate, Router, CanDeactivate, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate, Router, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './auth.service';
 import { SessionService } from './session.service';
 import { EditRecipeComponent } from '../recipes/edit-recipe/edit-recipe.component';
@@ -15,7 +15,16 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
     private router: Router,
     private sessionService: SessionService) { }
 
-  public canActivate() {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+    console.log(state.url);
+    if (state.url === '/register') {
+      console.log('route is to register');
+      if (this.sessionService.isAuthenticated) {
+        console.log('user is logged in an attempting to access register page');
+        return false;
+      }
+    }
 
     return true;
 
