@@ -16,7 +16,6 @@ export class RecipeListComponent implements OnInit {
   topFilteredList: IRecipe[];
   botFilteredList: IRecipe[];
 
-  sortedLists: IRecipe[];
   sortFilter: string;
   sortDirection: string;
 
@@ -34,8 +33,7 @@ export class RecipeListComponent implements OnInit {
   ngOnInit() {
     this.hotRecipeList = [];
     this.favRecipeList = [];
-    this.sortedLists = new Array<IRecipe>(3); // create array length of size 3
-    // this.sortedLists.push(); this.sortedLists.push(); this.sortedLists.push();
+
     this.apiService.getRecipeList().subscribe(data => {
       this.recipeList = data;
       this.selectedRecipeList = this.recipeList;
@@ -48,9 +46,8 @@ export class RecipeListComponent implements OnInit {
       this.favRecipeList = this.recipeList.filter(recipe => {
         return (recipe.favoriters.indexOf('' + this.userId) > -1 );
       });
-      // console.log('Data: ' + JSON.stringify(data));
-      // console.log('Recipe List Length: ' + this.recipeList.length);
-      // console.log('Recipe List: ' + this.recipeList);
+
+      // hard coding 'hot' recipes for the moment
       this.hotRecipeList.push(this.recipeList[1]);
       this.hotRecipeList.push(this.recipeList[3]);
       this.hotRecipeList.push(this.recipeList[4]);
@@ -66,8 +63,6 @@ export class RecipeListComponent implements OnInit {
       if (this.botSelectedFilter === 'Hello Fresh') {
         this.botSelectedFilter = '';
         this.botFilteredList = this.recipeList;
-        // this.joinLists();
-        // return;
       } else {
         this.botFilteredList = this.recipeList.filter((recipe) => {
           return recipe.producer === 'Hello Fresh';
@@ -81,8 +76,6 @@ export class RecipeListComponent implements OnInit {
       if (this.botSelectedFilter === 'Home Chef') {
         this.botSelectedFilter = '';
         this.botFilteredList = this.recipeList;
-        // this.joinLists();
-        // return;
       } else {
         this.botFilteredList = this.recipeList.filter(recipe => {
           return recipe.producer === 'Home Chef';
@@ -96,8 +89,6 @@ export class RecipeListComponent implements OnInit {
       if (this.botSelectedFilter === 'Blue Apron') {
         this.botSelectedFilter = '';
         this.botFilteredList = this.recipeList;
-        // this.joinLists();
-        // return;
       } else {
         this.botFilteredList = this.recipeList.filter(recipe => {
           return recipe.producer === 'Blue Apron';
@@ -194,62 +185,55 @@ export class RecipeListComponent implements OnInit {
     if (filter === 'fromJoin') {
       if (this.sortDirection === '' || !this.sortDirection) {
         return;
-      } else if (this.sortDirection === 'up') {
-        if (this.sortFilter === 'calories') {
-          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
-        } else if (this.sortFilter === 'rating') {
-          // to-do after implementing rating system
-        } else if (this.sortFilter === 'title') {
-          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
-        }
-      } else if (this.sortDirection === 'down') {
-        if (this.sortFilter === 'calories') {
-          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
-        } else if (this.sortFilter === 'rating') {
-          // to-do after implementing rating system
-        } else if (this.sortFilter === 'title') {
-          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
-        }
+      } else {
+        this.sortRecipes();
+        return;
       }
-      return;
     }
 
     if (this.sortFilter === filter) {
       if (this.sortDirection === 'up') {
 
-        if (filter === 'calories') {
-          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
-        } else if (filter === 'rating') {
-          // to-do after implementing rating system
-        } else if (filter === 'title') {
-          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
-        }
-
         console.log('sort direction is up and turning to down...');
         this.sortDirection = 'down';
+        this.sortRecipes();
 
       } else {
-        console.log('sort direction was down and reseting...');
+        console.log('sort direction was already down so reseting...');
         this.selectedRecipeList.sort((a, b) => (a._id > b._id ? 1 : -1));
         this.sortDirection = '';
         this.sortFilter = '';
       }
     } else {
 
-      if (filter === 'calories') {
-        this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
-      } else if (filter === 'rating') {
-        // to-do after implementing rating system
-      } else if (filter === 'title') {
-        this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
-      }
-
       console.log('new filter on sort so setting sort direction to up...');
       this.sortDirection = 'up';
       this.sortFilter = filter;
+      this.sortRecipes();
+
     }
 
 
+  }
+
+  sortRecipes(): void {
+    if (this.sortDirection === 'up') {
+      if (this.sortFilter === 'calories') {
+          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
+        } else if (this.sortFilter === 'rating') {
+          // to-do after implementing rating system
+        } else if (this.sortFilter === 'title') {
+          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
+        }
+    } else if (this.sortDirection === 'down') {
+      if (this.sortFilter === 'calories') {
+          this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
+        } else if (this.sortFilter === 'rating') {
+          // to-do after implementing rating system
+        } else if (this.sortFilter === 'title') {
+          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
+        }
+    }
   }
 
 }

@@ -22,6 +22,7 @@ import { LogoutComponent } from './login/logout.component';
 import { SessionService } from './services/session.service';
 import { IngredientsPipe } from './services/util/ingredients.pipe';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
+import { StarComponent } from './shared/star/star.component';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
@@ -39,7 +40,8 @@ const jQuery = window['$'];
     LogoutComponent,
     SplashPageComponent,
     IngredientsPipe,
-    EditRecipeComponent
+    EditRecipeComponent,
+    StarComponent
   ],
   imports: [
     BrowserModule,

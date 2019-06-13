@@ -1,5 +1,6 @@
+import { JQ_TOKEN } from './../../common/jQuery.service';
 import { SessionService } from './../../services/session.service';
-import { Component, OnInit, Input, Inject, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterContentInit, AfterViewInit } from '@angular/core';
 
 import { IRecipe } from 'src/app/models/recipe.model';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
@@ -10,7 +11,7 @@ import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss']
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit, AfterViewInit {
 
   @Input()
   recipe: IRecipe;
@@ -21,10 +22,16 @@ export class RecipeComponent implements OnInit {
 
   iconColor = 'red';
   favorited: boolean;
+  avgRating: number;
+  userRating = 0;
+
+  modalContentID: string;
 
   constructor(private apiService: RecipeApiService,
               private sessionService: SessionService,
-              @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
+              @Inject(TOASTR_TOKEN) private toastr: Toastr,
+              @Inject(JQ_TOKEN) private $: any
+              ) { }
 
   ngOnInit() {
     let favoritersList: string[];
@@ -35,11 +42,41 @@ export class RecipeComponent implements OnInit {
     } else {
       this.favorited = false;
     }
+    this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
+      this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
+    console.log('modalContentID: ' + this.modalContentID);
 
     // console.log(this.recipe.title +  ' favoriters: ' + favoritersList);
     // console.log('userId: ' + this.userId);
     // console.log('Recipe ' + this.recipe.title + ' id: ' + this.recipe._id);
     // console.log('Recipe imgDir: ' + this.recipe.imgDir);
+  }
+
+  ngAfterViewInit() {
+    let modalButton = '#' + this.recipe._id;
+    let tempAttr = this.$(modalButton).attr('data-target');
+    console.log('modal button data-target (1): ' + tempAttr);
+
+    let thisModalContentId = '#' + this.modalContentID;
+    this.$(modalButton).attr({'data-target': thisModalContentId});
+
+    let tempAttr2 = this.$(modalButton).attr('data-target');
+    console.log('modal button data-target (2): ' + tempAttr2);
+
+    let tempAttr3 = this.$(thisModalContentId).attr('role');
+    console.log('modal content role attr: ' + tempAttr3);
+  }
+
+  rate($event): void {
+    console.log($event);
+  }
+
+  setRating(rating: number): void {
+    this.userRating = rating;
+  }
+
+  submitRate(rating: number) {
+    console.log('rating in submitRate: ' + rating);
   }
 
   favorite(): void {
