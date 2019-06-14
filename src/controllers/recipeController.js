@@ -113,8 +113,27 @@ const recipeController = (nav, Recipe) => {
                 res.sendStatus(500);
             }
             console.log('doc: ' + doc);
+            res.sendStatus(200);
         });
-        res.sendStatus(200);
+    }
+
+    var rateRecipe = (req, res) => {
+        var recipeId = new objectId(req.body._id);
+        var query = {_id: recipeId};
+        var recipeData = assembleRecipeData(req);
+
+        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            console.log('doc: ' + doc);
+            res.sendStatus(200);
+        });
+
+        console.log('recipeId: ' + recipeId);
+        console.log('req.body: ' + JSON.stringify(req.body));
+        //res.sendStatus(200);
     }
 
     return {
@@ -122,7 +141,8 @@ const recipeController = (nav, Recipe) => {
         getIndex: getIndex,
         getById: getById,
         addRecipe: addRecipe,
-        updateRecipe: updateRecipe
+        updateRecipe: updateRecipe,
+        rateRecipe: rateRecipe
     }
 }
 
@@ -136,8 +156,9 @@ function assembleRecipeData(req) {
         ingredients: [],
         numSteps: req.body.numSteps,
         steps: req.body.steps,
-        nutritionValues: req.body.nutrition,
-        imgDir: req.body.imgDir
+        nutritionValues: req.body.nutritionValues,
+        imgDir: req.body.imgDir,
+        raters: req.body.raters
     }
 
     req.body.ingredients.forEach(element => {

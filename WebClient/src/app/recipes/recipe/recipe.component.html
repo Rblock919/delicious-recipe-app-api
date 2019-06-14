@@ -23,30 +23,38 @@
     <!-- </div> -->
 
     <!-- <div class="row"> -->
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="favoritingIcon pointable">
               <i class="fa" aria-hidden="true" (click)="favorite()" [style.color]="iconColor"
               [ngClass]="{'fa-heart': favorited, 'fa-heart-o': !favorited}"></i>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-6">
         <a [routerLink]="['/recipe', recipe._id]" class="btn btn-info">View Recipe &raquo;</a>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-3">
+        <!-- Overall -->
+        <div style="padding-top: 6px; margin-left: -18px">
+          <app-star (ratingClicked)="rate($event)" [rating]="3.3"></app-star>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-4 text-center">
       </div>
-      <div style="justify-content: center" class="col-md-4 text-center">
-        Overall
-        <app-star (ratingClicked)="rate($event)" [rating]="2.7"></app-star>
+      <div style="justify-content: center; margin-top: 6px" class="col-md-4 text-center">
+        <button type="button" [id]="recipe._id" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#C580">
+          Rate
+        </button>
+        <!-- Overall
+        <app-star (ratingClicked)="rate($event)" [rating]="2.7"></app-star> -->
       </div>
       <div class="col-md-4 text-center">
       </div>
     </div>
-    <button type="button" [id]="recipe._id" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#C580">
-        Rate
-      </button>
+    <!-- <button type="button" [id]="recipe._id" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#C580">
+      Rate
+    </button> -->
 
       <!-- Modal -->
       <div style="justify-content: center" class="modal fade" [id]="modalContentID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

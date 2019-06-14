@@ -57,7 +57,11 @@ var recipeModel = new Schema({
     },
     favoriters: [
         String
-    ]
+    ],
+    raters: {
+        type: Map,
+        of: Number
+    }
 });
 
 module.exports = mongoose.model('recipe', recipeModel);

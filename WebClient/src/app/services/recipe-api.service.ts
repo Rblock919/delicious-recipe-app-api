@@ -41,6 +41,10 @@ export class RecipeApiService {
     return this.httpClient.post(`${this.uri}/Services/favorite`, recipeToUpdate, {responseType: 'text'});
   }
 
+  rateRecipe(recipe: IRecipe): Observable<any> {
+    return this.httpClient.post(`${this.uri}/Recipes/rate`, recipe, {responseType: 'text'});
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -21,6 +21,9 @@ var router = (nav, Recipe) => {
     recipeRouter.route('/update')
         .patch(recipeController.updateRecipe);
 
+    recipeRouter.route('/rate')
+        .post(recipeController.rateRecipe);
+
     return recipeRouter;
 }
 

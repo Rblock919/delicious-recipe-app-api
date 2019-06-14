@@ -24,4 +24,5 @@ export interface IRecipe {
   };
   imgDir: string;
   favoriters: string[];
+  raters: Map<number, number>;
 }

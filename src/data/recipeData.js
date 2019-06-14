@@ -66,7 +66,8 @@ let recipedata = [
             sodium: 700
         },
         imgDir: 'assets/images/crispy-chipotle-shrimp-tacos.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Pineapple Poblano Beef Tacos',
@@ -137,7 +138,8 @@ let recipedata = [
             sodium: 1000
         },
         imgDir: 'assets/images/pineapple-poblano-beef-tacos.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Southwestern Stuffed Peppers',
@@ -206,7 +208,8 @@ let recipedata = [
             sodium: 840
         },
         imgDir: 'assets/images/sw-stuffed-peppers.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'White Wine Chicken Scaloppine',
@@ -265,7 +268,8 @@ let recipedata = [
             sodium: 1351
         },
         imgDir: 'assets/images/white-wine-chicken-scaloppine.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Curried Catfish & Coconut Rice',
@@ -328,7 +332,8 @@ let recipedata = [
             calories: 600,
         },
         imgDir: 'assets/images/curried-catfish-and-coconut-rice.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Presto Pesto Panko Chicken',
@@ -389,7 +394,8 @@ let recipedata = [
             sodium: 410
         },
         imgDir: 'assets/images/presto-pesto-panko-chicken.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Creamy Dill Chicken',
@@ -456,7 +462,8 @@ let recipedata = [
             sodium: 320
         },
         imgDir: 'assets/images/creamy-dill-chicken.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Chicken Scampi Spaghetti',
@@ -516,7 +523,8 @@ let recipedata = [
             sodium: 1742
         },
         imgDir: 'assets/images/chicken-scampi-spaghetti.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'BBQ Pork Burgers',
@@ -578,7 +586,8 @@ let recipedata = [
             calories: 800,
         },
         imgDir: 'assets/images/bbq-pork-burgers.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Chicken Cheddar Fajitas',
@@ -649,7 +658,8 @@ let recipedata = [
             sodium: 1050
         },
         imgDir: 'assets/images/chicken-cheddar-fajitas.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Baja Fish Tacos',
@@ -708,7 +718,8 @@ let recipedata = [
             sodium: 1380
         },
         imgDir: 'assets/images/baja-fish-tacos.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Beef & Pepper Tamale Pie',
@@ -767,7 +778,8 @@ let recipedata = [
             sodium: 1654
         },
         imgDir: 'assets/images/beef-tamale-pie.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Sesame Beef Tacos',
@@ -843,7 +855,8 @@ let recipedata = [
             sodium: 960
         },
         imgDir: 'assets/images/sesame-beef-tacos.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Creamy Parmesan Steak Penne',
@@ -902,7 +915,8 @@ let recipedata = [
             sodium: 1650
         },
         imgDir: 'assets/images/creamy-parmesan-steak-penne.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     },
     {
         title: 'Turkey White Bean Chili',
@@ -961,7 +975,8 @@ let recipedata = [
             sodium: 1749
         },
         imgDir: 'assets/images/turkey-white-bean-chili.jpg',
-        favoriters: []
+        favoriters: [],
+        raters: {}
     }
 
 ];
