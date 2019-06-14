@@ -12,7 +12,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
 
 const routes: Routes = [
   { path: 'index', component: SplashPageComponent},
-  { path: 'home', component: UserHomeComponent, canActivate: [RouteGuardService]},
+  { path: 'home', component: UserHomeComponent},
   { path: 'recipes', component: RecipeListComponent, canActivate: [RouteGuardService]},
   { path: 'recipe/:id', component: RecipeDetailComponent, canActivate: [RouteGuardService]},
   { path: 'recipe/:id/edit', component: EditRecipeComponent, canActivate: [RouteGuardService], canDeactivate: [RouteGuardService],
@@ -22,8 +22,8 @@ const routes: Routes = [
     data: {context: 'register'}},
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: '**', redirectTo: 'home', canActivate: [RouteGuardService]},
-  { path: '', pathMatch: 'full', redirectTo: 'home', canActivate: [RouteGuardService]}
+  { path: '**', redirectTo: 'home'},
+  { path: '', pathMatch: 'full', redirectTo: 'home'}
 ];
 
 @NgModule({

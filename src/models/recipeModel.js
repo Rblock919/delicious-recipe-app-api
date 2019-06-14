@@ -19,6 +19,7 @@ var recipeModel = new Schema({
     },
     steps: [
         {
+            _id: false,
             name: String,
             body: String
         }

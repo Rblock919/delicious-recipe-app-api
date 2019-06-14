@@ -17,23 +17,25 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    console.log(state.url);
+    // console.log(state.url);
     if (state.url === '/register') {
       console.log('route is to register');
       if (this.sessionService.isAuthenticated) {
         console.log('user is logged in an attempting to access register page');
         return false;
+      } else {
+        return true;
       }
     }
 
-    return true;
+    // return true;
 
     if (this.sessionService.isAuthenticated) {
       // console.log('in route guard, and user is auth');
       return true;
     } else {
       // console.log('in route guard and user is not auth');
-      this.router.navigate(['index']);
+      this.router.navigate(['home']);
       return false;
     }
   }
@@ -44,7 +46,7 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
 
     if (context === 'editRecipe') {
       tempComponent = component as EditRecipeComponent;
-      if (tempComponent.recipeForm.dirty) {
+      if (tempComponent.recipeForm.dirty && !tempComponent.submitted) {
         const recipeName = tempComponent.recipeForm.get('title').value || 'New Recipe';
         return confirm(`Navigate away and lose all changes to ${recipeName}?`);
       }

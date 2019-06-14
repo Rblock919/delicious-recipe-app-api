@@ -13,13 +13,13 @@ export class IngredientsPipe implements PipeTransform {
       newArray.push([]);
       const tempVar = element.split(' | ');
       tempVar[0] += ':';
-      console.log('tempVar: ' + tempVar);
+      // console.log('tempVar: ' + tempVar);
       newArray[counter].push(tempVar[0]);
       newArray[counter].push(tempVar[1]);
       counter++;
     });
 
-    console.log(newArray);
+    // console.log(newArray);
     return newArray;
   }
 

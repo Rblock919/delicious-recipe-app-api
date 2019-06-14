@@ -7,7 +7,7 @@ var router = (nav, Recipe) => {
 
     var recipeController = require('../controllers/recipeController')(nav, Recipe);
 
-    // recipeRouter.use(recipeController.middleware);
+    recipeRouter.use(recipeController.middleware);
 
     recipeRouter.route('/')
         .get(recipeController.getIndex);
@@ -20,6 +20,9 @@ var router = (nav, Recipe) => {
 
     recipeRouter.route('/update')
         .patch(recipeController.updateRecipe);
+
+    recipeRouter.route('/favorite')
+        .post(recipeController.favorite);
 
     recipeRouter.route('/rate')
         .post(recipeController.rateRecipe);

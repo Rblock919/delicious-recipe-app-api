@@ -70,7 +70,7 @@
             <div class="marketing">
               <div class="row"  style="text-align: center; align-content: center" >
                 <div *ngFor="let recipe of selectedRecipeList" class="col-lg-4" style="padding-top: 20px">
-                  <app-recipe (favoriteEvent)="favEvent()" [userId]="userId" [recipe]="recipe"></app-recipe>
+                  <app-recipe (rateEvent)="rateEvent($event)" (favoriteEvent)="favEvent($event)" [userId]="userId" [recipe]="recipe"></app-recipe>
                 </div>
               </div>
             </div>

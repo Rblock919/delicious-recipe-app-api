@@ -1,7 +1,8 @@
 import { SessionService } from './../../services/session.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
 import { IRecipe } from 'src/app/models/recipe.model';
+import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -28,7 +29,9 @@ export class RecipeListComponent implements OnInit {
   userId: number;
 
 
-  constructor(private apiService: RecipeApiService, private sessionService: SessionService) { }
+  constructor(private apiService: RecipeApiService,
+              private sessionService: SessionService,
+              @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
     this.hotRecipeList = [];
@@ -47,13 +50,75 @@ export class RecipeListComponent implements OnInit {
         return (recipe.favoriters.indexOf('' + this.userId) > -1 );
       });
 
+      this.createHotList();
+
       // hard coding 'hot' recipes for the moment
-      this.hotRecipeList.push(this.recipeList[1]);
-      this.hotRecipeList.push(this.recipeList[3]);
-      this.hotRecipeList.push(this.recipeList[4]);
+      // this.hotRecipeList.push(this.recipeList[1]);
+      // this.hotRecipeList.push(this.recipeList[3]);
+      // this.hotRecipeList.push(this.recipeList[4]);
     }, err => {
       console.log('err in recipeList comp: ' + JSON.stringify(err));
     });
+  }
+
+  createHotList(): void {
+    this.hotRecipeList = [];
+    let tempList: any[];
+    tempList = this.selectedRecipeList.slice(0);
+
+    tempList.sort((a, b) => {
+      let aAvg = 0;
+      let bAvg = 0;
+      let counter = 0;
+      for (const value of Object.values(a.raters)) {
+        aAvg += Number(value);
+        counter++;
+      }
+      aAvg /= counter;
+
+      counter = 0;
+      for (const value of Object.values(b.raters)) {
+        bAvg += Number(value);
+        counter++;
+      }
+      bAvg /= counter;
+
+      // console.log(`Avg of recipeA(${a.title}): ${aAvg} compared to avg of recipeB(${b.title}): ${bAvg}`);
+
+      if (isNaN(aAvg)) {
+        aAvg = 0;
+      }
+      if (isNaN(bAvg)) {
+        bAvg = 0;
+      }
+
+      if (aAvg > bAvg) {
+        return -1;
+      } else {
+        return 1;
+      }
+
+    });
+
+    if (Object.values(tempList[0].raters).length > 0) {
+      this.hotRecipeList.push(tempList[0]);
+    }
+    if (Object.values(tempList[1].raters).length > 0) {
+      this.hotRecipeList.push(tempList[1]);
+    }
+    if (Object.values(tempList[2].raters).length > 0) {
+      this.hotRecipeList.push(tempList[2]);
+    }
+    if (Object.values(tempList[3].raters).length > 0) {
+      this.hotRecipeList.push(tempList[3]);
+    }
+    if (Object.values(tempList[4].raters).length > 0) {
+      this.hotRecipeList.push(tempList[4]);
+    }
+    if (Object.values(tempList[5].raters).length > 0) {
+      this.hotRecipeList.push(tempList[5]);
+    }
+
   }
 
   setBotFilter(input: string): void {
@@ -115,7 +180,6 @@ export class RecipeListComponent implements OnInit {
       if (this.topSelectedFilter === 'hot') {
         this.topSelectedFilter = '';
         this.topFilteredList = this.recipeList;
-        return;
       } else {
         this.topSelectedFilter = input;
         this.topFilteredList = this.hotRecipeList;
@@ -132,7 +196,7 @@ export class RecipeListComponent implements OnInit {
     this.joinLists();
   }
 
-  favEvent(): void {
+  favEvent($event): void {
     const that = this;
     setTimeout(() => {
       that.favRecipeList = that.recipeList.filter(recipe => {
@@ -143,6 +207,60 @@ export class RecipeListComponent implements OnInit {
       }
       that.joinLists();
     }, 150);
+
+    this.toastr.success(`${$event}`);
+  }
+
+  rateEvent($event): void {
+    if (this.sortFilter === 'rating') {
+
+        this.selectedRecipeList.sort((a, b) => {
+          let aAvg = 0;
+          let bAvg = 0;
+          let counter = 0;
+          for (const value of Object.values(a.raters)) {
+            aAvg += Number(value);
+            counter++;
+          }
+          aAvg /= counter;
+
+          counter = 0;
+          for (const value of Object.values(b.raters)) {
+            bAvg += Number(value);
+            counter++;
+          }
+          bAvg /= counter;
+
+          // console.log(`Avg of recipeA(${a.title}): ${aAvg} compared to avg of recipeB(${b.title}): ${bAvg}`);
+
+          if (isNaN(aAvg)) {
+            aAvg = 0;
+          }
+          if (isNaN(bAvg)) {
+            bAvg = 0;
+          }
+
+          if (this.sortDirection === 'up') {
+            if (aAvg > bAvg) {
+              return 1;
+            } else {
+              return -1;
+            }
+          } else if (this.sortDirection === 'down') {
+            if (aAvg > bAvg) {
+              return -1;
+            } else {
+              return 1;
+            }
+          }
+
+        });
+
+    }
+
+    this.createHotList();
+    this.toastr.success(`${$event} Successfully Rated!`);
+
   }
 
   joinLists(): void {
@@ -221,17 +339,84 @@ export class RecipeListComponent implements OnInit {
       if (this.sortFilter === 'calories') {
           this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? 1 : -1));
         } else if (this.sortFilter === 'rating') {
-          // to-do after implementing rating system
+
+          this.selectedRecipeList.sort((a, b) => {
+            let aAvg = 0;
+            let bAvg = 0;
+            let counter = 0;
+            for (const value of Object.values(a.raters)) {
+              aAvg += Number(value);
+              counter++;
+            }
+            aAvg /= counter;
+
+            counter = 0;
+            for (const value of Object.values(b.raters)) {
+              bAvg += Number(value);
+              counter++;
+            }
+            bAvg /= counter;
+
+            // console.log(`Avg of recipeA(${a.title}): ${aAvg} compared to avg of recipeB(${b.title}): ${bAvg}`);
+
+            if (isNaN(aAvg)) {
+              aAvg = 0;
+            }
+            if (isNaN(bAvg)) {
+              bAvg = 0;
+            }
+
+            if (aAvg > bAvg) {
+              return 1;
+            } else {
+              return -1;
+            }
+
+          });
         } else if (this.sortFilter === 'title') {
-          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? 1 : -1));
+          this.selectedRecipeList.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
         }
     } else if (this.sortDirection === 'down') {
       if (this.sortFilter === 'calories') {
           this.selectedRecipeList.sort((a, b) => (a.nutritionValues.calories > b.nutritionValues.calories ? -1 : 1));
         } else if (this.sortFilter === 'rating') {
-          // to-do after implementing rating system
+
+          this.selectedRecipeList.sort((a, b) => {
+          let aAvg = 0;
+          let bAvg = 0;
+          let counter = 0;
+          for (const value of Object.values(a.raters)) {
+            aAvg += Number(value);
+            counter++;
+          }
+          aAvg /= counter;
+
+          counter = 0;
+          for (const value of Object.values(b.raters)) {
+            bAvg += Number(value);
+            counter++;
+          }
+          bAvg /= counter;
+
+          // console.log(`Avg of recipeA(${a.title}): ${aAvg} compared to avg of recipeB(${b.title}): ${bAvg}`);
+
+          if (isNaN(aAvg)) {
+            aAvg = 0;
+          }
+          if (isNaN(bAvg)) {
+            bAvg = 0;
+          }
+
+          if (aAvg > bAvg) {
+            return -1;
+          } else {
+            return 1;
+          }
+
+        });
+
         } else if (this.sortFilter === 'title') {
-          this.selectedRecipeList.sort((a, b) => (a.title > b.title ? -1 : 1));
+          this.selectedRecipeList.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? -1 : 1));
         }
     }
   }

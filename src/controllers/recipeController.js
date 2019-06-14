@@ -80,11 +80,18 @@ const recipeController = (nav, Recipe) => {
             title: recipeData.title,
             producer: recipeData.producer,
             ingredients: recipeData.ingredients,
+            preCook: recipeData.preCook,
             numSteps: recipeData.numSteps,
             steps: recipeData.steps,
             nutritionValues: recipeData.nutritionValues,
+            favoriters: [],
+            raters: {},
             imgDir: recipeData.imgDir
         });
+
+        console.log('recipeToSave data in addRecipe: ' + JSON.stringify(recipeToSave));
+        // res.sendStatus(201);
+        // return;
 
         recipeToSave.save(function (err, createdRecipe) {
             if (err) {
@@ -111,28 +118,57 @@ const recipeController = (nav, Recipe) => {
             if (err) {
                 console.log(chalk.red(err));
                 res.sendStatus(500);
+            } else {
+                console.log(chalk.green('recipe successfully updated'));
+                res.sendStatus(200);
             }
-            console.log('doc: ' + doc);
+            // console.log('doc: ' + doc);
+        });
+    }
+
+    var favorite = (req, res) => {
+        var prevFavoriters = req.body.recipe.favoriters;
+        var id = new objectId(req.body.recipe._id);
+        var query = {_id: id};
+        var updatedFavoriters;
+        var addingFav = req.body.favoriting;
+
+        if (addingFav) { // user is favoriting recipe
+            prevFavoriters.push(req.userId);
+        } else { // user is unfavoriting recipe
+            prevFavoriters = prevFavoriters.filter(uId => uId !== '' + req.userId)
+        }
+
+        updatedFavoriters = {favoriters: prevFavoriters};
+        Recipe.updateOne(query, updatedFavoriters, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            // console.log('doc: ' + JSON.stringify(doc));
             res.sendStatus(200);
         });
+
     }
 
     var rateRecipe = (req, res) => {
         var recipeId = new objectId(req.body._id);
         var query = {_id: recipeId};
-        var recipeData = assembleRecipeData(req);
 
-        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
+        var newRaters = req.body.raters;
+        var updatedRaters = {raters: newRaters};
+
+        Recipe.findOneAndUpdate(query, updatedRaters, function (err, doc) {
             if (err) {
                 console.log(chalk.red(err));
                 res.sendStatus(500);
             }
-            console.log('doc: ' + doc);
+            // console.log('doc: ' + doc);
             res.sendStatus(200);
         });
 
-        console.log('recipeId: ' + recipeId);
-        console.log('req.body: ' + JSON.stringify(req.body));
+        // console.log('recipeId: ' + recipeId);
+        // console.log('req.body: ' + JSON.stringify(req.body));
         //res.sendStatus(200);
     }
 
@@ -142,7 +178,8 @@ const recipeController = (nav, Recipe) => {
         getById: getById,
         addRecipe: addRecipe,
         updateRecipe: updateRecipe,
-        rateRecipe: rateRecipe
+        rateRecipe: rateRecipe,
+        favorite: favorite
     }
 }
 
@@ -154,16 +191,24 @@ function assembleRecipeData(req) {
         title: req.body.title,
         producer: req.body.producer,
         ingredients: [],
+        preCook: [],
         numSteps: req.body.numSteps,
         steps: req.body.steps,
         nutritionValues: req.body.nutritionValues,
         imgDir: req.body.imgDir,
-        raters: req.body.raters
+        raters: req.body.raters,
+        favoriters: req.body.favoriters
     }
+    console.log('req.body.steps in assembleRecipeData: ' + JSON.stringify(req.body.steps));
 
     req.body.ingredients.forEach(element => {
         recipeData.ingredients.push(element.name + ' | ' + element.amount);
     });
+    if (recipeData.producer === 'Hello Fresh' || recipeData.producer === 'Home Chef') {
+        req.body.preCook.forEach(element => {
+            recipeData.preCook.push(element.body);
+        });
+    }
 
     // console.log(chalk.green('in assemble: ' + JSON.stringify(recipeData)));
 

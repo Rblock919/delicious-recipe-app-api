@@ -4,7 +4,6 @@ import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterContentIni
 
 import { IRecipe } from 'src/app/models/recipe.model';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
-import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
 
 @Component({
   selector: 'app-recipe',
@@ -19,22 +18,22 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   userId: number;
   @Output()
   favoriteEvent = new EventEmitter();
+  @Output()
+  rateEvent = new EventEmitter();
 
-  iconColor = 'red';
+  rated: boolean;
   favorited: boolean;
-  avgRating: number;
+  avgRating = 0;
   userRating = 0;
 
   modalContentID: string;
 
   constructor(private apiService: RecipeApiService,
               private sessionService: SessionService,
-              @Inject(TOASTR_TOKEN) private toastr: Toastr,
               @Inject(JQ_TOKEN) private $: any
               ) { }
 
   ngOnInit() {
-    // this.recipe.raters = new Map<number, number>();
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
     if (favoritersList.indexOf('' + this.userId) > -1) {
@@ -45,34 +44,39 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     }
     this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
       this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
-    console.log('modalContentID: ' + this.modalContentID);
+    // console.log('modalContentID: ' + this.modalContentID);
 
     const userId = this.sessionService.getUser._id;
-    if (this.recipe.raters[userId]) {
-      console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[userId]);
+
+    if (Object.keys(this.recipe.raters).length > 0) {
+
+      // console.log(`${this.recipe.title} has user ratings present.`);
+
+      if (this.recipe.raters[userId]) {
+        console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[userId]);
+        this.rated = true;
+        this.userRating = this.recipe.raters[userId];
+      }
+
+      let ratingCounter = 0;
+      for (const value of Object.values(this.recipe.raters)) {
+        this.avgRating += Number(value);
+        ratingCounter++;
+      }
+
+      this.avgRating /= ratingCounter;
+
     }
-    // console.log(this.recipe.title +  ' favoriters: ' + favoritersList);
-    // console.log('userId: ' + this.userId);
-    // console.log('Recipe ' + this.recipe.title + ' id: ' + this.recipe._id);
-    // console.log('Recipe imgDir: ' + this.recipe.imgDir);
+
   }
 
   ngAfterViewInit() {
     const modalButton = '#' + this.recipe._id;
-    // let tempAttr = this.$(modalButton).attr('data-target');
-    // console.log('modal button data-target (1): ' + tempAttr);
-
     const thisModalContentId = '#' + this.modalContentID;
     this.$(modalButton).attr({'data-target': thisModalContentId});
-
-    // let tempAttr2 = this.$(modalButton).attr('data-target');
-    // console.log('modal button data-target (2): ' + tempAttr2);
-
-    // let tempAttr3 = this.$(thisModalContentId).attr('role');
-    // console.log('modal content role attr: ' + tempAttr3);
   }
 
-  rate($event): void {
+  logRate($event): void {
     console.log($event);
   }
 
@@ -81,36 +85,44 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   }
 
   submitRate(rating: number) {
-    console.log('rating in submitRate: ' + rating);
+    // console.log('rating in submitRate: ' + rating);
     const userId = this.sessionService.getUser._id;
     this.recipe.raters[userId] = rating;
+
     this.apiService.rateRecipe(this.recipe).subscribe(res => {
-      console.log('res in submiteRate: ' + res);
+      // console.log('res in submitRate: ' + res);
+      this.rated = true;
+
+      // update average rating
+      let ratingCounter = 0;
+      this.avgRating = 0;
+      for (const value of Object.values(this.recipe.raters)) {
+        this.avgRating += Number(value);
+        ratingCounter++;
+      }
+      this.avgRating /= ratingCounter;
+      this.rateEvent.emit(this.recipe.title);
+
     }, err => {
       console.log('err in submitRate: ' + err);
     });
-  }
-
-  changeRate(rating: number) {
-
   }
 
   favorite(): void {
     this.favorited = !this.favorited;
     if (this.favorited) {
       this.apiService.favoriteRecipe(this.recipe).subscribe(res => {
-        console.log('res from fav api call: ' + res);
+        // console.log('res from fav api call: ' + res);
         this.recipe.favoriters.push('' + this.userId);
-        this.toastr.success(this.recipe.title + ' Favorited!');
+        this.favoriteEvent.emit(this.recipe.title + ' Has Been Favorited!');
       });
     } else if (!this.favorited) {
       this.apiService.unFavoriteRecipe(this.recipe).subscribe(res => {
         this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.userId);
-        this.toastr.success(this.recipe.title + ' Unfavorited!');
+        this.favoriteEvent.emit(this.recipe.title + ' Has Been Unfavorited!');
       });
     }
 
-    this.favoriteEvent.emit();
 
   }
 

@@ -136,11 +136,11 @@ const servicesController = (nav, Recipe) => {
     }
 
     return {
-        addRecipe: addRecipe,
-        editRecipe: editRecipe,
-        favorite: favorite,
-        getEditList: getEditList,
-        getEditPage: getEditPage,
+        // addRecipe: addRecipe,
+        // editRecipe: editRecipe,
+        // favorite: favorite,
+        // getEditList: getEditList,
+        // getEditPage: getEditPage,
         middleware: middleware
     };
 
@@ -148,71 +148,71 @@ const servicesController = (nav, Recipe) => {
 
 module.exports = servicesController;
 
-function assembleSteps(req) {
+// function assembleSteps(req) {
 
-    var userSteps = [
-            {
-                name: req.body.step1name,
-                body: req.body.step1details
-            },
-            {
-                name: req.body.step2name,
-                body: req.body.step2details
-            },
-            {
-                name: req.body.step3name,
-                body: req.body.step3details
-            },
-            {
-                name: req.body.step4name,
-                body: req.body.step4details
-            },
-            {
-                name: req.body.step5name,
-                body: req.body.step5details
-            },
-            {
-                name: req.body.step6name,
-                body: req.body.step6details
-            }
-        ];
+//     var userSteps = [
+//             {
+//                 name: req.body.step1name,
+//                 body: req.body.step1details
+//             },
+//             {
+//                 name: req.body.step2name,
+//                 body: req.body.step2details
+//             },
+//             {
+//                 name: req.body.step3name,
+//                 body: req.body.step3details
+//             },
+//             {
+//                 name: req.body.step4name,
+//                 body: req.body.step4details
+//             },
+//             {
+//                 name: req.body.step5name,
+//                 body: req.body.step5details
+//             },
+//             {
+//                 name: req.body.step6name,
+//                 body: req.body.step6details
+//             }
+//         ];
 
-    return userSteps;
-}
+//     return userSteps;
+// }
 
-function assembleRecipeData(req, userSteps) {
+// function assembleRecipeData(req, userSteps) {
 
-    var correctUserCalories = (req.body.fats * 9) + (req.body.carbs * 4) + (req.body.protein * 4);
+//     var correctUserCalories = (req.body.fats * 9) + (req.body.carbs * 4) + (req.body.protein * 4);
 
-    var recipedata = {
-            title: req.body.recipeTitle,
-            producer: req.body.producer,
-            ingredients: [
-            'Lime | 1',
-            'Radishes | 3',
-            'Scallions | 2',
-            'Shrimp | 10oz',
-            'Red Cabbage | 4oz',
-            'Cornstarch | 2tbsp',
-            'Chipotle Powder | 1tbsp',
-            'Sour Cream | 4tbsp',
-            'Flour Tortillas | 6'
-        ],
-            numSteps: 6,
-            steps: userSteps,
-            nutritionValues: {
-                calories: correctUserCalories,
-                fat: req.body.fats,
-                saturatedFat: req.body.satFats,
-                carbohydrate: req.body.carbs,
-                sugar: req.body.sugar,
-                fiber: req.body.fiber,
-                protein: req.body.protein,
-                cholesterol: req.body.chol,
-                sodium: req.body.sodium
-            },
-            imgDir: req.body.url
-        };
+//     var recipedata = {
+//             title: req.body.recipeTitle,
+//             producer: req.body.producer,
+//             ingredients: [
+//             'Lime | 1',
+//             'Radishes | 3',
+//             'Scallions | 2',
+//             'Shrimp | 10oz',
+//             'Red Cabbage | 4oz',
+//             'Cornstarch | 2tbsp',
+//             'Chipotle Powder | 1tbsp',
+//             'Sour Cream | 4tbsp',
+//             'Flour Tortillas | 6'
+//         ],
+//             numSteps: 6,
+//             steps: userSteps,
+//             nutritionValues: {
+//                 calories: correctUserCalories,
+//                 fat: req.body.fats,
+//                 saturatedFat: req.body.satFats,
+//                 carbohydrate: req.body.carbs,
+//                 sugar: req.body.sugar,
+//                 fiber: req.body.fiber,
+//                 protein: req.body.protein,
+//                 cholesterol: req.body.chol,
+//                 sodium: req.body.sodium
+//             },
+//             imgDir: req.body.url
+//         };
 
-    return recipedata;
-}
+//     return recipedata;
+// }

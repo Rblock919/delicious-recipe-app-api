@@ -25,7 +25,7 @@
     <!-- <div class="row"> -->
       <div class="col-md-3">
         <div class="favoritingIcon pointable">
-              <i class="fa" aria-hidden="true" (click)="favorite()" [style.color]="iconColor"
+              <i class="fa" aria-hidden="true" (click)="favorite()"
               [ngClass]="{'fa-heart': favorited, 'fa-heart-o': !favorited}"></i>
         </div>
       </div>
@@ -35,7 +35,7 @@
       <div class="col-md-3">
         <!-- Overall -->
         <div style="padding-top: 6px; margin-left: -18px">
-          <app-star (ratingClicked)="rate($event)" [rating]="3.3"></app-star>
+          <app-star (ratingClicked)="logRate($event)" [rating]="avgRating"></app-star>
         </div>
       </div>
     </div>
@@ -43,8 +43,8 @@
       <div class="col-md-4 text-center">
       </div>
       <div style="justify-content: center; margin-top: 6px" class="col-md-4 text-center">
-        <button type="button" [id]="recipe._id" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#C580">
-          Rate
+        <button type="button" [id]="recipe._id" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#C580">
+          <span style="color: white;">Rate</span>
         </button>
         <!-- Overall
         <app-star (ratingClicked)="rate($event)" [rating]="2.7"></app-star> -->
@@ -75,7 +75,10 @@
             </div>
             <div class="modal-footer">
               <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-              <button type="button" (click)="submitRate(userRating)" data-dismiss="modal" class="btn btn-primary">Rate!</button>
+              <button type="button" (click)="submitRate(userRating)" data-dismiss="modal" class="btn btn-primary">
+                <span *ngIf="!rated" >Rate!</span>
+                <span *ngIf="rated" >Change Rate!</span>
+              </button>
             </div>
           </div>
         </div>

@@ -33,12 +33,12 @@ export class RecipeApiService {
 
   favoriteRecipe(recipe: IRecipe): Observable<any> {
     const recipeToUpdate = {recipe, favoriting: true};
-    return this.httpClient.post(`${this.uri}/Services/favorite`, recipeToUpdate, {responseType: 'text'});
+    return this.httpClient.post(`${this.uri}/Recipes/favorite`, recipeToUpdate, {responseType: 'text'});
   }
 
   unFavoriteRecipe(recipe: IRecipe): Observable<any> {
     const recipeToUpdate = {recipe, favoriting: false};
-    return this.httpClient.post(`${this.uri}/Services/favorite`, recipeToUpdate, {responseType: 'text'});
+    return this.httpClient.post(`${this.uri}/Recipes/favorite`, recipeToUpdate, {responseType: 'text'});
   }
 
   rateRecipe(recipe: IRecipe): Observable<any> {

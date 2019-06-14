@@ -42,6 +42,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
   id: any;
   recipe: IRecipe;
   imageDir: string;
+  submitted = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -101,7 +102,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         is submitted if the producer is blue apron then this comp will then clear the values so they don't get submitted to database */
         let preCookCounter = 0;
         while (preCookCounter < this.preCook.length) {
-          console.log('in while loop');
           this.preCook.at(preCookCounter).get('body').clearValidators();
           this.preCook.at(preCookCounter).get('body').updateValueAndValidity();
           preCookCounter++;
@@ -179,11 +179,9 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
   }
 
   saveForm(): void {
-    // console.log(this.recipeForm);
     if (!this.recipeForm.valid) {
       console.log('trying to save invalid form');
       this.markFormGroupTouched(this.recipeForm);
-      // this.recipeForm.get('title').markAsTouched();
       console.log(this.recipeForm.controls);
       return;
     }
@@ -193,34 +191,38 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
       this.clearFormArray(this.preCook);
     }
 
-    console.log(this.recipeForm.value);
-    return;
+    // console.log('recipe form value: ' + JSON.stringify(this.recipeForm.value));
+    // return;
 
 
-    // console.log('Saved: ' + JSON.stringify(this.recipeForm.value));
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
-    // console.log('amount of steps: ' + this.recipeForm.get('steps').value.length);
     formRecipe.numSteps = this.recipeForm.get('steps').value.length;
-    // console.log('Form Recipe: ' + JSON.stringify(formRecipe));
+    formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
+
 
     // user is adding new recipe
     if (this.id === '0') {
-
+      formRecipe.favoriters = [];
+      formRecipe.raters = {} as Map<number, number>;
       this.apiService.addRecipe(formRecipe).subscribe(res => {
         // console.log('response: ' + res.id);
+        this.submitted = true;
         this.toastr.success('Recipe Successfully Created!');
         this.router.navigate(['recipe', res.id]);
       }, err => {
         this.toastr.error('Error Creating Recipe');
-        console.log('ERROR CREATING RECIPE: ' + err);
+        console.log('ERROR CREATING RECIPE: ' + JSON.stringify(err));
       });
 
     } else { // user is editing current recipe
 
       formRecipe._id = this.id;
+      formRecipe.favoriters = this.recipe.favoriters;
+      formRecipe.raters = this.recipe.raters;
       this.apiService.updateRecipe(formRecipe).subscribe(res => {
         console.log('res on updating: ' + res);
+        this.submitted = true;
         this.toastr.success('Recipe Successfully Updated!');
         this.router.navigate(['recipe', this.id]);
       }, err => {
@@ -231,6 +233,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     }
 
   }
+
 
   getRecipeInfo(): void {
     if (this.id === '0') { // ading a recipe instead of editing one
@@ -305,7 +308,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
           stepCounter++;
         });
 
-        console.log('NUTRITION INFO: ' + JSON.stringify(this.recipe.nutritionValues));
         this.imageDir = this.recipe.imgDir;
 
         this.recipeForm.patchValue({
