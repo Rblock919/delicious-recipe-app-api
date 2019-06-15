@@ -29,16 +29,16 @@ var router = (User) => {
     // //   res.redirect('/');
     // });
 
-    authRouter.route('/profile')
-        .all(function (req, res, next) {
-            if (!req.user) {
-                res.redirect('/');
-            }
-            next();
-        })
-        .get(function (req, res) {
-            res.json(req.user);
-        });
+    // authRouter.route('/profile')
+    //     .all(function (req, res, next) {
+    //         if (!req.user) {
+    //             res.redirect('/');
+    //         }
+    //         next();
+    //     })
+    //     .get(function (req, res) {
+    //         res.json(req.user);
+    //     });
 
     return authRouter;
 };

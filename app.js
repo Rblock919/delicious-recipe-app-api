@@ -31,7 +31,7 @@ const nav = require('./src/data/navData');
 //Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(nav, Recipe);
 const serviceRouter = require('./src/routes/servicesRouter')(nav, Recipe);
-const adminRouter = require('./src/routes/adminRouter')();
+const adminRouter = require('./src/routes/adminRouter')(User);
 const authRouter = require('./src/routes/authRouter')(User);
 
 //Parse incoming request params into a nice json object
@@ -57,41 +57,32 @@ app.use('/Services', serviceRouter);
 app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 
-var posts = [
-    {message: 'hi'},
-    {message: 'hello'}
-];
+// app.get('/', (req, res) => {
+//     //Check if a user exists in the session, if not then send to signin page
+//     if (!req.user) {
+//         res.render('signin', {
+//             nav: nav
+//         });
+//     } else {
+//         //Else send the user to the apps home page for logged-in users
+//         res.render('userhome', {
+//             title: 'Hello from render',
+//             nav: nav
+//         });
+//     }
+// });
 
-app.get('/', (req, res) => {
-    //Check if a user exists in the session, if not then send to signin page
-    if (!req.user) {
-        res.render('signin', {
-            nav: nav
-        });
-    } else {
-        //Else send the user to the apps home page for logged-in users
-        res.render('userhome', {
-            title: 'Hello from render',
-            nav: nav
-        });
-    }
-});
 
-app.get('/testing', (req, res) => {
-    console.log('Received request');
-    res.send(posts);
-});
+// app.get('/register', (req, res) => {
+//     res.render('register', {
+//         nav: nav
+//     });
+// });
 
-app.get('/register', (req, res) => {
-    res.render('register', {
-        nav: nav
-    });
-});
-
-app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-});
+// app.get('/logout', (req, res) => {
+//     req.logout();
+//     res.redirect('/');
+// });
 
 app.listen(port, (err) => {
     if (err) {

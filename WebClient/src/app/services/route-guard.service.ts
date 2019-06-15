@@ -17,7 +17,7 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    // console.log(state.url);
+    console.log(state.url);
     if (state.url === '/register') {
       console.log('route is to register');
       if (this.sessionService.isAuthenticated) {
@@ -25,6 +25,15 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
         return false;
       } else {
         return true;
+      }
+    }
+
+    if ((state.url).slice(0, 6) === '/admin') {
+      if (this.sessionService.isAdmin) {
+        return true;
+      } else {
+        this.router.navigate(['home']);
+        return false;
       }
     }
 

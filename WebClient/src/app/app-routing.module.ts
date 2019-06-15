@@ -1,3 +1,5 @@
+import { ApproveRecipeListComponent } from './admin/approve-recipe-list/approve-recipe-list.component';
+import { EditRecipeListComponent } from './admin/edit-recipe-list/edit-recipe-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -9,6 +11,7 @@ import { LogoutComponent } from './login/logout.component';
 import { RouteGuardService } from './services/route-guard.service';
 import { SplashPageComponent } from './user-home/splash-page.component';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
+import { EditUserListComponent } from './admin/edit-user-list/edit-user-list.component';
 
 const routes: Routes = [
   { path: 'index', component: SplashPageComponent},
@@ -22,6 +25,9 @@ const routes: Routes = [
     data: {context: 'register'}},
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
+  { path: 'admin/editRecipeList', component: EditRecipeListComponent, canActivate: [RouteGuardService] },
+  { path: 'admin/approve', component: ApproveRecipeListComponent, canActivate: [RouteGuardService] },
+  { path: 'admin/editUserList', component: EditUserListComponent, canActivate: [RouteGuardService] },
   { path: '**', redirectTo: 'home'},
   { path: '', pathMatch: 'full', redirectTo: 'home'}
 ];

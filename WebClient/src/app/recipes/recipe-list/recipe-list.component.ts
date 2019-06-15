@@ -52,10 +52,6 @@ export class RecipeListComponent implements OnInit {
 
       this.createHotList();
 
-      // hard coding 'hot' recipes for the moment
-      // this.hotRecipeList.push(this.recipeList[1]);
-      // this.hotRecipeList.push(this.recipeList[3]);
-      // this.hotRecipeList.push(this.recipeList[4]);
     }, err => {
       console.log('err in recipeList comp: ' + JSON.stringify(err));
     });
@@ -100,6 +96,7 @@ export class RecipeListComponent implements OnInit {
 
     });
 
+    // make sure each of the top 6 rated recipes actually has been rated
     if (Object.values(tempList[0].raters).length > 0) {
       this.hotRecipeList.push(tempList[0]);
     }

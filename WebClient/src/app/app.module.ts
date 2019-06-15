@@ -23,6 +23,9 @@ import { SessionService } from './services/session.service';
 import { IngredientsPipe } from './services/util/ingredients.pipe';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 import { StarComponent } from './shared/star/star.component';
+import { EditRecipeListComponent } from './admin/edit-recipe-list/edit-recipe-list.component';
+import { ApproveRecipeListComponent } from './admin/approve-recipe-list/approve-recipe-list.component';
+import { EditUserListComponent } from './admin/edit-user-list/edit-user-list.component';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
@@ -41,7 +44,10 @@ const jQuery = window['$'];
     SplashPageComponent,
     IngredientsPipe,
     EditRecipeComponent,
-    StarComponent
+    StarComponent,
+    EditRecipeListComponent,
+    ApproveRecipeListComponent,
+    EditUserListComponent
   ],
   imports: [
     BrowserModule,

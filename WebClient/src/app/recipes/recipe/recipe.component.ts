@@ -29,7 +29,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   modalContentID: string;
 
   constructor(private apiService: RecipeApiService,
-              private sessionService: SessionService,
               @Inject(JQ_TOKEN) private $: any
               ) { }
 
@@ -46,16 +45,14 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
     // console.log('modalContentID: ' + this.modalContentID);
 
-    const userId = this.sessionService.getUser._id;
-
     if (Object.keys(this.recipe.raters).length > 0) {
 
       // console.log(`${this.recipe.title} has user ratings present.`);
 
-      if (this.recipe.raters[userId]) {
-        console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[userId]);
+      if (this.recipe.raters[this.userId]) {
+        console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[this.userId]);
         this.rated = true;
-        this.userRating = this.recipe.raters[userId];
+        this.userRating = this.recipe.raters[this.userId];
       }
 
       let ratingCounter = 0;
@@ -86,8 +83,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   submitRate(rating: number) {
     // console.log('rating in submitRate: ' + rating);
-    const userId = this.sessionService.getUser._id;
-    this.recipe.raters[userId] = rating;
+    this.recipe.raters[this.userId] = rating;
 
     this.apiService.rateRecipe(this.recipe).subscribe(res => {
       // console.log('res in submitRate: ' + res);
