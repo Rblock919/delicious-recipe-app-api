@@ -26,6 +26,7 @@ import { StarComponent } from './shared/star/star.component';
 import { EditRecipeListComponent } from './admin/edit-recipe-list/edit-recipe-list.component';
 import { ApproveRecipeListComponent } from './admin/approve-recipe-list/approve-recipe-list.component';
 import { EditUserListComponent } from './admin/edit-user-list/edit-user-list.component';
+import { AdminService } from './services/admin.service';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
@@ -60,6 +61,7 @@ const jQuery = window['$'];
     RecipeApiService,
     AuthService,
     SessionService,
+    AdminService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

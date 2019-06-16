@@ -55,6 +55,7 @@ const recipeController = (nav, Recipe) => {
         Recipe.find(query, (err, recipes) => {
             if (err) {
                 console.log(chalk.red(err));
+                res.sendStatus(500);
             }
             //res.status(200);
             //console.log('Recipes object: ' + recipes);
@@ -69,6 +70,7 @@ const recipeController = (nav, Recipe) => {
         Recipe.findOne(query, (err, recipe) => {
             if (err) {
                 console.log(err);
+                res.sendStatus(500);
             }
             res.status(200).send(recipe);
         });

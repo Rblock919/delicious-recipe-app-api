@@ -14,18 +14,18 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  signUp(newUser: IUser) {
+  signUp(newUser: IUser): Observable<any> {
     const options = { headers: new HttpHeaders( { 'Content-Type': '/application/json'} )};
     return this.httpClient.post(`${this.uri}/signUp`, newUser);
     // .pipe(catchError(this.handleError('signUp')));
   }
 
-  signIn(userInfo: IUser) {
+  signIn(userInfo: IUser): Observable<any> {
     return this.httpClient.post(`${this.uri}/signIn`, userInfo);
     // .pipe(catchError(this.handleError('signIn')));
   }
 
-  getUserData() {
+  getUserData(): Observable<any> {
     return this.httpClient.get(`${this.uri}/getUserData`);
   }
 
