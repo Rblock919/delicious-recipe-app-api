@@ -12,65 +12,36 @@ const authController = (User) => {
 
     var signUp = (req, res) => {
 
-            console.log('Username on signup call: ' + req.body.username);
-            console.log('Password on singup call: ' + req.body.password);
+        console.log('Username on signup call: ' + req.body.username);
+        console.log('Password on singup call: ' + req.body.password);
 
-            console.log('Body req upon registration' + JSON.stringify(req.body));
+        console.log('Body req upon registration' + JSON.stringify(req.body));
 
-            const newUser = new User({
-                username: req.body.username,
-                password: req.body.password,
-                isAdmin: false
-            });
+        const newUser = new User({
+            username: req.body.username,
+            password: req.body.password,
+            isAdmin: false
+        });
 
-            newUser.save(function (err, createdUser) {
-                if (err) {
-                    console.log(chalk.red(err));
-                    if (err.code === 11000) {
-                        console.log('Error: Duplicate UserName')
-                        res.status(409).send({ErrMessage: 'Username Already Exists'});
-                        // res.send({message: 'Username Already Exists'})
-                    }
-                } else {
-                    console.log('Success saving new user?');
-                    console.log('new user: ' + createdUser);
-                    const payload = {sub: createdUser._id};
-                    const token = jwt.encode(payload, authConfig.secret);
-
-                    res.status(201).send({token});
+        newUser.save(function (err, createdUser) {
+            if (err) {
+                console.log(chalk.red(err));
+                if (err.code === 11000) {
+                    console.log('Error: Duplicate UserName')
+                    res.status(409).send({ErrMessage: 'Username Already Exists'});
+                    // res.send({message: 'Username Already Exists'})
                 }
-            });
+            } else {
+                console.log('Success saving new user?');
+                console.log('new user: ' + createdUser);
+                const payload = {sub: createdUser._id};
+                const token = jwt.encode(payload, authConfig.secret);
 
-            //res.sendStatus(201);
+                res.status(201).send({token});
+            }
+        });
 
-            // MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
-            //     var db = client.db('recipeApp');
-            //     var collection = db.collection('users');
-            //     var user = {
-            //         username: req.body.username,
-            //         password: req.body.password
-            //     };
-
-            //     if (err) {
-            //         console.log(chalk.red.bold.underline(err));
-            //         return;
-            //     }
-
-            //     collection.insertOne(user, function (err, results) {
-
-            //         if (err) {
-            //             console.log(chalk.red.bold.underline(err));
-            //             return;
-            //         }
-
-            //         req.login(results.ops[0], function () {
-            //             res.status(201).send(results.ops[0]);
-            //         });
-
-            //         client.close();
-            //     });
-            // })
-        };
+    };
 
     var signIn = (req, res) => {
         let userData = req.body;
@@ -107,7 +78,7 @@ const authController = (User) => {
             }
 
         });
-    }
+    };
 
     var getUserData = (req, res) => {
         var query = {};
@@ -157,14 +128,13 @@ const authController = (User) => {
                 res.status(404).send({ErrMessage: 'User Not Found'});
             }
         });
-    }
+    };
 
     return {
         signUp: signUp,
         signIn: signIn,
         getUserData: getUserData
-        // getAdminStatus: getAdminStatus
-    }
+    };
 
 }
 

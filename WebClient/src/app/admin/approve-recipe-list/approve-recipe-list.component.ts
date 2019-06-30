@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/services/admin.service';
+import { IRecipe } from 'src/app/models/recipe.model';
 
 @Component({
   selector: 'app-approve-recipe-list',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApproveRecipeListComponent implements OnInit {
 
-  constructor() { }
+  recipeList: IRecipe[];
+
+  constructor(private adminService: AdminService) { }
 
   ngOnInit() {
+    this.adminService.getApprovalList().subscribe(recipes => {
+      this.recipeList = recipes;
+    }, err => {
+      console.log('Error: ' + err);
+    });
   }
 
 }

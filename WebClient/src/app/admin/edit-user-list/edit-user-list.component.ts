@@ -30,7 +30,7 @@ export class EditUserListComponent implements OnInit {
         counter++;
       });
     }, err => {
-      console.log('error getting user list: ' + err);
+      console.log('error getting user list: ' + JSON.stringify(err));
     });
   }
 

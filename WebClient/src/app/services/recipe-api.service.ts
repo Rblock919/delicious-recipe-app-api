@@ -23,12 +23,24 @@ export class RecipeApiService {
     // .pipe(catchError(this.handleError<IRecipe>('getRecipe')));
   }
 
-  addRecipe(recipe: IRecipe): Observable<any> {
-    return this.httpClient.post(`${this.uri}/Recipes/add`, recipe, {responseType: 'json'});
+  submitRecipeForApproval(recipe: IRecipe): Observable<any> {
+    return this.httpClient.post(`${this.uri}/Recipes/submit`, recipe, {responseType: 'json'});
+  }
+
+  addRecipe(recipe: IRecipe, approvalId: number): Observable<any> {
+    const data = {
+      recipe,
+      approvalId
+    };
+    return this.httpClient.post(`${this.uri}/Recipes/add`, data, {responseType: 'json'});
   }
 
   updateRecipe(recipe: IRecipe): Observable<any> {
     return this.httpClient.patch(`${this.uri}/Recipes/update`, recipe, {responseType: 'text'});
+  }
+
+  deleteRecipe(recipeId: number): Observable<any> {
+    return this.httpClient.delete(`${this.uri}/Recipes/delete/${recipeId}`, {responseType: 'text'});
   }
 
   favoriteRecipe(recipe: IRecipe): Observable<any> {

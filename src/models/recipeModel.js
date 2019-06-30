@@ -65,4 +65,7 @@ var recipeModel = new Schema({
     }
 });
 
-module.exports = mongoose.model('recipe', recipeModel);
+module.exports = {
+    newRecipe: mongoose.model('approvalList', recipeModel),
+    recipe: mongoose.model('recipe', recipeModel)
+};

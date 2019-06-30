@@ -14,7 +14,17 @@
       </div>
       <hr>
 
-    <div class="row">
+    <div *ngFor="let recipe of recipeList" class="row text-center">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div>
+          {{recipe.title}}
+        </div>
+        <button [routerLink]="['/admin/approve', recipe._id]" class="btn btn-outline-primary">View Recipe</button>
+        <br><hr>
+      </div>
+      <div class="col-md-3"></div>
+      <br>
     </div>
 
   </div>

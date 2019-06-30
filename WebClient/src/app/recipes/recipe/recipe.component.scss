@@ -9,10 +9,6 @@
   padding-top: 7px;
 }
 
-.btn-info {
-  // margin-top: -25px;
-}
-
 .badge-hf {
   // background-color: #5a9d3a !important;
   background-color: #0cd157 !important;
@@ -26,29 +22,29 @@
   color: red;
 }
 
-.rating {
-  unicode-bidi: bidi-override;
-  direction: rtl;
-  text-align: center;
-}
-.rating > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
-}
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-   content: "\2605";
-   color: gold;
-   position: absolute;
-}
+// .rating {
+  // unicode-bidi: bidi-override;
+  // direction: rtl;
+  // text-align: center;
+// }
+// .rating > span {
+  // display: inline-block;
+  // position: relative;
+  // width: 1.1em;
+// }
+// .rating > span:hover:before,
+// .rating > span:hover ~ span:before {
+   // content: "\2605";
+   // color: gold;
+   // position: absolute;
+// }
 
-.inRating {
-  content: "\2605";
-  left: 0;
-  //color: gold;
-  position: absolute;
-}
+// .inRating {
+  // content: "\2605";
+  // left: 0;
+  // //color: gold;
+  // position: absolute;
+// }
 
 .fa-star, .fa-star-o {
   color: gold;

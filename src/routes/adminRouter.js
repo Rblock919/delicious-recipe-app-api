@@ -1,9 +1,11 @@
 var express = require('express');
 var adminRouter = express.Router();
 
-var router = (User) => {
+var router = (User, newRecipe) => {
 
-    var adminController = require('../controllers/adminController')(User);
+    var adminController = require('../controllers/adminController')(User, newRecipe);
+
+    adminRouter.use(adminController.middleware);
 
     adminRouter.route('/addRecipes')
         .get(adminController.addRecipes);
@@ -16,6 +18,12 @@ var router = (User) => {
     
     adminRouter.route('/updateUsers')
         .post(adminController.updateUsers);
+
+    adminRouter.route('/approval')
+        .get(adminController.getApprovalList);
+
+    adminRouter.route('/approval/:id')
+        .get(adminController.getApprovalById);
 
     return adminRouter;
 }

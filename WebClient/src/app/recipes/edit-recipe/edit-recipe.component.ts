@@ -205,11 +205,13 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     if (this.id === '0') {
       formRecipe.favoriters = [];
       formRecipe.raters = {} as Map<number, number>;
-      this.apiService.addRecipe(formRecipe).subscribe(res => {
+      //this.apiService.addRecipe(formRecipe).subscribe(res => {
+      this.apiService.submitRecipeForApproval(formRecipe).subscribe(res => {
         // console.log('response: ' + res.id);
         this.submitted = true;
-        this.toastr.success('Recipe Successfully Created!');
-        this.router.navigate(['recipe', res.id]);
+        this.toastr.success('Recipe Submitted for Approval!');
+        //this.router.navigate(['recipe', res.id]);
+        this.router.navigate(['submitted']);
       }, err => {
         this.toastr.error('Error Creating Recipe');
         console.log('ERROR CREATING RECIPE: ' + JSON.stringify(err));

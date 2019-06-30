@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 
-const recipeController = (nav, Recipe) => {
+const recipeController = (Recipe, newRecipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     // eslint-disable-next-line consistent-return
@@ -47,7 +47,7 @@ const recipeController = (nav, Recipe) => {
         // } else {
             // next();
         // }
-    }
+    };
 
     var getIndex = (req, res) => {
         var query = {};
@@ -76,9 +76,139 @@ const recipeController = (nav, Recipe) => {
         });
     };
 
-    var addRecipe = (req, res) => {
-        var recipeData = assembleRecipeData(req);
+    var addRecipe = async (req, res) => {
+        
+        var id = new objectId(req.body.approvalId);
+        var query = {_id: id};
+        // var returnId;
+
         var recipeToSave = new Recipe({
+            title: req.body.recipe.title,
+            producer: req.body.recipe.producer,
+            ingredients: [],
+            preCook: [],
+            numSteps: req.body.recipe.numSteps,
+            steps: req.body.recipe.steps,
+            nutritionValues: req.body.recipe.nutritionValues,
+            favoriters: [],
+            raters: {},
+            imgDir: req.body.recipe.imgDir
+        });
+
+        req.body.recipe.ingredients.forEach(element => {
+            recipeToSave.ingredients.push(element.name + ' | ' + element.amount);
+        });
+        if (req.body.recipe.producer === 'Hello Fresh' || req.body.recipe.producer === 'Home Chef') {
+            req.body.recipe.preCook.forEach(element => {
+                recipeToSave.preCook.push(element.body);
+            });
+        };
+
+        await newRecipe.deleteOne(query, function (err) {
+            if (err) {
+                console.log(chalk.red('ERROR DELETING RECIPE FROM APPROVAL LIST: \n' + err));
+            } else {
+                // res.status(201).send({id: returnId});
+            }
+        });
+
+        await recipeToSave.save(function (err, createdRecipe) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            } else {
+                console.log(chalk.green('successfully saved new recipe'));
+                // res.sendStatus(201);
+                console.log('ReturnId: ' + createdRecipe._id);
+                res.status(201).send({id: createdRecipe._id});
+            }
+        });
+
+    };
+
+    var updateRecipe = (req, res) => {
+        var id = new objectId(req.body._id);
+        var query = {_id: id};
+        var recipeData = assembleRecipeData(req);
+
+        // console.log('in update recipe...');
+        // console.log(JSON.stringify(req.body));
+
+        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            } else {
+                console.log(chalk.green('recipe successfully updated'));
+                res.sendStatus(200);
+            }
+            // console.log('doc: ' + doc);
+        });
+    };
+
+    var deleteRecipe = (req, res) => {
+        var id = new objectId(req.params.id);
+        var query = {_id: id};
+
+        Recipe.deleteOne(query, function (err) {
+            if (err) {
+                console.log(chalk.red('ERROR: ' + err));
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    }
+
+    var favorite = (req, res) => {
+        var prevFavoriters = req.body.recipe.favoriters;
+        var id = new objectId(req.body.recipe._id);
+        var query = {_id: id};
+        var updatedFavoriters;
+        var addingFav = req.body.favoriting;
+
+        if (addingFav) { // user is favoriting recipe
+            prevFavoriters.push(req.userId);
+        } else { // user is unfavoriting recipe
+            prevFavoriters = prevFavoriters.filter(uId => uId !== '' + req.userId)
+        }
+
+        updatedFavoriters = {favoriters: prevFavoriters};
+        Recipe.findOneAndUpdate(query, updatedFavoriters, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            // console.log('doc: ' + JSON.stringify(doc));
+            res.sendStatus(200);
+        });
+
+    };
+
+    var rateRecipe = (req, res) => {
+        var recipeId = new objectId(req.body._id);
+        var query = {_id: recipeId};
+
+        var newRaters = req.body.raters;
+        var updatedRaters = {raters: newRaters};
+
+        Recipe.findOneAndUpdate(query, updatedRaters, function (err, doc) {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            // console.log('doc: ' + doc);
+            res.sendStatus(200);
+        });
+
+        // console.log('recipeId: ' + recipeId);
+        // console.log('req.body: ' + JSON.stringify(req.body));
+        //res.sendStatus(200);
+    };
+
+    var submitForApproval = (req, res) => {
+
+        var recipeData = assembleRecipeData(req);
+        var recipeToSave = new newRecipe({
             title: recipeData.title,
             producer: recipeData.producer,
             ingredients: recipeData.ingredients,
@@ -106,73 +236,7 @@ const recipeController = (nav, Recipe) => {
             }
         });
 
-    }
-
-    var updateRecipe = (req, res) => {
-        var id = new objectId(req.body._id);
-        var query = {_id: id};
-        var recipeData = assembleRecipeData(req);
-
-        // console.log('in update recipe...');
-        // console.log(JSON.stringify(req.body));
-
-        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
-            if (err) {
-                console.log(chalk.red(err));
-                res.sendStatus(500);
-            } else {
-                console.log(chalk.green('recipe successfully updated'));
-                res.sendStatus(200);
-            }
-            // console.log('doc: ' + doc);
-        });
-    }
-
-    var favorite = (req, res) => {
-        var prevFavoriters = req.body.recipe.favoriters;
-        var id = new objectId(req.body.recipe._id);
-        var query = {_id: id};
-        var updatedFavoriters;
-        var addingFav = req.body.favoriting;
-
-        if (addingFav) { // user is favoriting recipe
-            prevFavoriters.push(req.userId);
-        } else { // user is unfavoriting recipe
-            prevFavoriters = prevFavoriters.filter(uId => uId !== '' + req.userId)
-        }
-
-        updatedFavoriters = {favoriters: prevFavoriters};
-        Recipe.updateOne(query, updatedFavoriters, function (err, doc) {
-            if (err) {
-                console.log(chalk.red(err));
-                res.sendStatus(500);
-            }
-            // console.log('doc: ' + JSON.stringify(doc));
-            res.sendStatus(200);
-        });
-
-    }
-
-    var rateRecipe = (req, res) => {
-        var recipeId = new objectId(req.body._id);
-        var query = {_id: recipeId};
-
-        var newRaters = req.body.raters;
-        var updatedRaters = {raters: newRaters};
-
-        Recipe.findOneAndUpdate(query, updatedRaters, function (err, doc) {
-            if (err) {
-                console.log(chalk.red(err));
-                res.sendStatus(500);
-            }
-            // console.log('doc: ' + doc);
-            res.sendStatus(200);
-        });
-
-        // console.log('recipeId: ' + recipeId);
-        // console.log('req.body: ' + JSON.stringify(req.body));
-        //res.sendStatus(200);
-    }
+    };
 
     return {
         middleware: middleware,
@@ -180,9 +244,11 @@ const recipeController = (nav, Recipe) => {
         getById: getById,
         addRecipe: addRecipe,
         updateRecipe: updateRecipe,
+        deleteRecipe: deleteRecipe,
+        submitForApproval: submitForApproval,
         rateRecipe: rateRecipe,
         favorite: favorite
-    }
+    };
 }
 
 module.exports = recipeController;

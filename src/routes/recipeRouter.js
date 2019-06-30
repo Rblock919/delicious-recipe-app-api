@@ -3,9 +3,9 @@ var recipeRouter = express.Router();
 
 // var recipeData = require('../data/recipeData');
 
-var router = (nav, Recipe) => {
+var router = (Recipe, newRecipe) => {
 
-    var recipeController = require('../controllers/recipeController')(nav, Recipe);
+    var recipeController = require('../controllers/recipeController')(Recipe, newRecipe);
 
     recipeRouter.use(recipeController.middleware);
 
@@ -18,8 +18,14 @@ var router = (nav, Recipe) => {
     recipeRouter.route('/add')
         .post(recipeController.addRecipe);
 
+    recipeRouter.route('/submit')
+        .post(recipeController.submitForApproval);
+
     recipeRouter.route('/update')
         .patch(recipeController.updateRecipe);
+
+    recipeRouter.route('/delete/:id')
+        .delete(recipeController.deleteRecipe);
 
     recipeRouter.route('/favorite')
         .post(recipeController.favorite);

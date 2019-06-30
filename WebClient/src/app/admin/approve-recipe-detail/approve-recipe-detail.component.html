@@ -30,6 +30,7 @@
             <div class="card-body">
 
               <form novalidate  (ngSubmit)="saveForm()" [formGroup]="recipeForm">
+                <fieldset [disabled]="!editMode">
 
                 <div class="form-group">
 
@@ -500,15 +501,19 @@
                   <br>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div> -->
+                </fieldset>
               </form>
 
             </div><!-- end of card body -->
-            <div class="card-footer text-right">
+            <div class="card-footer">
+              <div class="pull-left">
+                <button type="button" [disabled]="editMode" (click)="toggleEditMode()" class="btn btn-success">Edit</button>
+              </div>
+              <div class="pull-right">
               Form Valid: {{recipeForm.valid}}
-              <button *ngIf="recipe.title" type="button"
-                      class="btn btn-primary" (click)="saveForm()">Save Changes</button>
-              <button *ngIf="!recipe.title" type="button"
-                      class="btn btn-primary" (click)="saveForm()">Create</button>
+                <button *ngIf="recipe.title" type="button"
+                        class="btn btn-primary" (click)="saveForm()">Approve</button>
+              </div>
             </div>
           </div> <!-- end of card -->
 

@@ -17,19 +17,18 @@ mongoose.connect(uriS.remote, {useNewUrlParser: true}, (err) => {
     }
 });
 
-const Recipe = require('./src/models/recipeModel');
+const newRecipe = require('./src/models/recipeModel').newRecipe;
+const Recipe = require('./src/models/recipeModel').recipe;
 const User = require('./src/models/userModel');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-//Load hard-coded nav data
-const nav = require('./src/data/navData');
 
 //Load routers
-const recipeRouter = require('./src/routes/recipeRouter')(nav, Recipe);
+const recipeRouter = require('./src/routes/recipeRouter')(Recipe, newRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')();
-const adminRouter = require('./src/routes/adminRouter')(User);
+const adminRouter = require('./src/routes/adminRouter')(User, newRecipe);
 const authRouter = require('./src/routes/authRouter')(User);
 
 //Parse incoming request params into a nice json object

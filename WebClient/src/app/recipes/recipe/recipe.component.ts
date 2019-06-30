@@ -41,9 +41,10 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     } else {
       this.favorited = false;
     }
-    this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
-      this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
-    // console.log('modalContentID: ' + this.modalContentID);
+    // this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
+      // this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
+    this.modalContentID = this.makeModalId(15);
+    // console.log('MODAL CONTENT ID: ' + this.modalContentID);
 
     if (Object.keys(this.recipe.raters).length > 0) {
 
@@ -66,6 +67,16 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+  makeModalId(length): string {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
 
   ngAfterViewInit() {
     const modalButton = '#' + this.recipe._id;
@@ -118,7 +129,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
         this.favoriteEvent.emit(this.recipe.title + ' Has Been Unfavorited!');
       });
     }
-
 
   }
 

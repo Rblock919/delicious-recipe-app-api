@@ -8,11 +8,14 @@ var uriS = require('../config/db/dbconnection');
 var recipes = require('../data/recipeData');
 var newRecipes = require('../data/newRecipeData');
 
-const adminController = (User) => {
+const adminController = (User, newRecipe) => {
 
     // TO-DO: GO EXTRA STEP AND MAKE SURE USER IS ALSO ADMIN IN THIS MIDDLEWARE
     // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
+        var userId;
+        var id;
+        var query;
 
         if (!req.header('Authorization')) {
             // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
@@ -32,8 +35,24 @@ const adminController = (User) => {
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
                 // console.log('setting userId in req');
-                req.userId = payload.sub;
-                next();
+                userId = payload.sub;
+                id = new objectId(userId);
+                query = {_id: id};       
+
+                User.findOne(query, function (err, foundUser) {
+                    if (err) {
+                        console.log(chalk.red('ERROR: ' + err));
+                        res.sendStatus(500); //TO-DO: update with proper response code
+                    } else {
+                        if (foundUser.isAdmin) {
+                            req.userId = payload.sub;
+                            next();
+                        } else {
+                            res.status(401).send({ErrMessage: 'User is not admin'});
+                        }
+                    }
+                });
+                
             }
 
         } else {
@@ -111,8 +130,6 @@ const adminController = (User) => {
                 console.log(chalk.red(err));
                 res.sendStatus(500);
             }
-            //res.status(200);
-            // console.log('users object: ' + JSON.stringify(users));
             res.status(200).send(users);
         });
     };
@@ -158,14 +175,43 @@ const adminController = (User) => {
 
     };
 
+    var getApprovalList = (req, res) => {
+        var query = {};
+
+        newRecipe.find(query, (err, recipes) => {
+            if (err) {
+                console.log(chalk.red(err));
+                res.sendStatus(500);
+            }
+            //res.status(200);
+            //console.log('Recipes object: ' + recipes);
+            res.status(200).send(recipes);
+        });
+    };
+
+    var getApprovalById = (req, res) => {
+        var id = new objectId(req.params.id);
+        var query = {_id: id};
+
+        newRecipe.findOne(query, (err, recipe) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            }
+            res.status(200).send(recipe);
+        });
+    };
+
     return {
         middleware: middleware,
         addRecipes: addRecipes,
         addNewRecipes: addNewRecipes,
+        getApprovalList: getApprovalList,
+        getApprovalById: getApprovalById,
         getUsers: getUsers,
         updateUsers: updateUsers
-    }
-}
+    };
+};
 
 module.exports = adminController;
 
