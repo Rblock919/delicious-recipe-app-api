@@ -1,6 +1,5 @@
 import { Injectable, Component } from '@angular/core';
 import { CanActivate, Router, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './auth.service';
 import { SessionService } from './session.service';
 import { EditRecipeComponent } from '../recipes/edit-recipe/edit-recipe.component';
 import { Observable } from 'rxjs';
@@ -9,13 +8,13 @@ import { RegisterComponent } from '../login/register.component';
 @Injectable({
   providedIn: 'root'
 })
-export class RouteGuardService implements CanActivate, CanDeactivate<Component> {
+export class RouteGuard implements CanActivate, CanDeactivate<Component> {
 
   constructor(
     private router: Router,
     private sessionService: SessionService) { }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
     console.log(state.url);
     if (state.url === '/register') {
@@ -28,19 +27,10 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
       }
     }
 
-    if ((state.url).slice(0, 6) === '/admin') {
-      if (this.sessionService.isAdmin) {
-        return true;
-      } else {
-        this.router.navigate(['home']);
-        return false;
-      }
-    }
-
     // return true;
 
     if (this.sessionService.isAuthenticated) {
-      // console.log('in route guard, and user is auth');
+      console.log('in route guard, and user is auth');
       return true;
     } else {
       // console.log('in route guard and user is not auth');
@@ -62,7 +52,8 @@ export class RouteGuardService implements CanActivate, CanDeactivate<Component> 
       return true;
     } else if (context === 'register') {
       tempComponent = component as RegisterComponent;
-      if (tempComponent.userInfo.username !== '' || tempComponent.userInfo.password !== '' || tempComponent.confirmPassword) {
+      if (tempComponent.submitted === false && (tempComponent.userInfo.username !== ''
+          || tempComponent.userInfo.password !== '' || tempComponent.confirmPassword)) {
         console.log('username or password(s) fields have been touched');
         return confirm('Navigate away and lose all changes to new profile?');
       } else {

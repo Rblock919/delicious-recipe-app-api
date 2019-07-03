@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +12,19 @@ export class SessionService {
   private admin = false;
   userData: IUser;
 
-  constructor(private auth: AuthService) {
-    if (!this.userData && localStorage.getItem('token')) {
-      console.log('NO USER DATA BUT TOKEN EXISTS');
-      console.log('USER PROBABLY REFRESHED OR APP RELOADED.\nDELETING TOKEN...');
-
-      // for now until i can figure out how to persist data over refreshes, the best method is to just logout the user
-      this.logout();
-      // const userFill: IUser = {
-      //   username: 'fill',
-      //   password: 'fill',
-      //   isAdmin: false
-      // };
-      // this.userData = userFill;
-    }
-   }
+  constructor() { }
 
   logout() {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
+      this.userData = null;
       return true;
     } else {
       return false;
     }
   }
 
-  setUser(user: any) {
+  setUser(user: IUser) {
     const tempUser: IUser = {
       username: user.username,
       password: user.password,
@@ -44,9 +32,8 @@ export class SessionService {
       _id: user._id
     };
 
-    console.log('user id in setUser: ' + user._id);
-
-    this.userData = tempUser;
+    // this.userData = tempUser;
+    this.userData = user;
     this.setAdminStatus(user.isAdmin);
   }
 
@@ -56,10 +43,6 @@ export class SessionService {
 
   setAdminStatus(isAdmin: boolean): void {
     this.admin = isAdmin;
-  }
-
-  unsetAdminStatus(): void {
-    this.admin = false;
   }
 
   get isAdmin() {
@@ -81,22 +64,5 @@ export class SessionService {
       return false;
     }
   }
-
-  // checkAdminStatus() {
-  //   // this.httpClient.post(`${this.uri}/getAdminStatus`, username).subscribe(res => {
-  //   this.httpClient.post('http://localhost:3000/Auth/getAdminStatus', {token: this.token}).subscribe(res => {
-  //     let tempRes: any;
-  //     tempRes = res;
-  //     if (tempRes.isAdmin === true) {
-  //       console.log('user is admin');
-  //       this.admin = true;
-  //     } else {
-  //       console.log('user is not admin');
-  //       this.admin = false;
-  //     }
-  //   }, err => {
-  //     console.log('Error: ' + JSON.stringify(err));
-  //   });
-  // }
 
 }

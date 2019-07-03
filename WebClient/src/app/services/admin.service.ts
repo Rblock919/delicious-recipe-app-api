@@ -8,12 +8,12 @@ import { IRecipe } from '../models/recipe.model';
   providedIn: 'root'
 })
 export class AdminService {
-  private uri = 'http://localhost:3000/Admin';
+  private uri = 'http://localhost:3000/api/admin';
 
   constructor(private httpClient: HttpClient) { }
 
   getUsers(): Observable<IUser[]>  {
-    return this.httpClient.get<IUser[]>(`${this.uri}/getUsers`);
+    return this.httpClient.get<IUser[]>(`${this.uri}/getUsers`, {responseType: 'json'});
   }
 
   updateUsers(users: IUser[]): Observable<any> {

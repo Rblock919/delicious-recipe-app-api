@@ -1,11 +1,9 @@
 - possibly learn how to configure passport to work w/ CORS apps
 - figure out how to connect to mongoAtlas db from terminal
 - implement password resets (for users & admin)
-- figure out how to handle angular session data persistance on refresh
-- figure out best way for angular to handle an admin user/privledges
-- give types to all response/returns of api calls in angular & node
 - possibly move filtering + sorting to external pipe
 - make the home page slightly different from user-home
 - update app to store + display ingredient amounts for both 2 & 4 serving sizes
 - remove numSteps from recipe models + data?
 - service/page for users to see their ratings and change them
+- remove userId from all recipe favoriters array and raters maps (consider changing data model to have favoriters and ratings stored in user model)

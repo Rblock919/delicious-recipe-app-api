@@ -40,8 +40,7 @@ export class RecipeListComponent implements OnInit {
     this.apiService.getRecipeList().subscribe(data => {
       this.recipeList = data;
       this.selectedRecipeList = this.recipeList;
-      const tempUser = this.sessionService.getUser;
-      this.userId = tempUser._id;
+      this.userId = this.sessionService.getUser._id;
 
       const recipeLength = this.recipeList.length;
       this.newRecipesList = this.recipeList.slice((recipeLength - 6), (recipeLength));
@@ -53,7 +52,7 @@ export class RecipeListComponent implements OnInit {
       this.createHotList();
 
     }, err => {
-      console.log('err in recipeList comp: ' + JSON.stringify(err));
+      console.error('err in recipeList comp: ' + JSON.stringify(err));
     });
   }
 

@@ -30,6 +30,7 @@ function numberChecker(): ValidatorFn {
 export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
   private imgUrlSub: Subscription;
+  private producerSub: Subscription;
 
   recipeForm: FormGroup;
   recipeProducer: string;
@@ -40,6 +41,7 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
   imageDir: string;
   submitted = false;
   editMode = false;
+  blueApronNutritionFlag = false;
 
   constructor(private adminService: AdminService,
               private recipeApiService: RecipeApiService,
@@ -121,15 +123,36 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
         this.imageDir = this.recipe.imgDir;
 
+        if (this.recipe.producer === 'Blue Apron' && this.recipe.nutritionValues.fat) {
+          console.log('producer is BA and nutrition info was provided...');
+          this.changeBlueApronNutritionalFlag();
+        }
+
         this.recipeForm.patchValue({
           producer: this.recipe.producer,
           title: this.recipe.title,
           nutrition: this.recipe.nutritionValues,
           imgDir: this.recipe.imgDir
         });
+
+        this.watchProducer();
     }, err => {
       console.error('ERROR: ' + err);
     });
+  }
+
+  changeBlueApronNutritionalFlag(): void {
+    this.blueApronNutritionFlag = !this.blueApronNutritionFlag;
+    const nutritionControl = this.recipeForm.get('nutrition');
+    if (!this.blueApronNutritionFlag) {
+      console.log('no BA nutritional info \nRemoving validators...');
+      this.removeHelloFreshValidators(nutritionControl);
+      this.removeHomeChefValidators(nutritionControl);
+    } else {
+      console.log('BA nutritional info \nAdding validators...');
+      this.addHelloFreshValidators(nutritionControl);
+      this.addHomeChefValidators(nutritionControl);
+    }
   }
 
   toggleEditMode(): void {
@@ -145,6 +168,68 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.imgUrlSub.unsubscribe();
+    this.producerSub.unsubscribe();
+  }
+
+  watchProducer(): void {
+    const producerControl = this.recipeForm.get('producer');
+    const nutritionControl = this.recipeForm.get('nutrition');
+
+    this.producerSub = producerControl.valueChanges.subscribe(value => {
+      if (value === 'Blue Apron') {
+        this.preCookTitle = '';
+        console.log('handling validation changes based upon BA selection');
+        this.removeHomeChefValidators(nutritionControl);
+        this.removeHelloFreshValidators(nutritionControl);
+
+        /* using the following loop to clear validators so if the user has entered precook stuff then switched to blue apron
+        the form will not clear the values in case they switch back but clear the validators so the form is valid. When the form
+        is submitted if the producer is blue apron then this comp will then clear the values so they don't get submitted to database */
+        let preCookCounter = 0;
+        while (preCookCounter < this.preCook.length) {
+          this.preCook.at(preCookCounter).get('body').clearValidators();
+          this.preCook.at(preCookCounter).get('body').updateValueAndValidity();
+          preCookCounter++;
+        }
+
+      } else if (value === 'Home Chef') {
+        // in the case of submitting blue apron originally then changing to home chef... might delete after reactivating submit function
+        // but also might keep if I create a modal window to confirm recipe and they choose no and go back to blue apron?
+        if (this.preCook.length === 0) {
+          this.preCook.push(this.buildPreCook());
+        }
+        this.preCookTitle = 'Before You Cook Instructions:';
+        this.addHomeChefValidators(nutritionControl);
+        this.removeHelloFreshValidators(nutritionControl);
+        this.reAddPreCookValidators();
+        console.log('handling validation changed based upon HC selection');
+      } else if (value === 'Hello Fresh') {
+        // in the case of submitting blue apron originally then changing to hello fresh... might delete after reactivating submit function
+        // but also might keep if I create a modal window to confirm recipe and they choose no and go back to blue apron?
+        if (this.preCook.length === 0) {
+          this.preCook.push(this.buildPreCook());
+        }
+        this.preCookTitle = 'What to Bust Out Before You Cook:';
+        this.addHomeChefValidators(nutritionControl);
+        this.addHelloFreshValidators(nutritionControl);
+        this.reAddPreCookValidators();
+        console.log('handling validation changes based upon HF selection');
+      } else {
+        console.log('in else clause');
+      }
+
+      console.log('Producer changed to: ' + value);
+      this.recipeProducer = value;
+    });
+  }
+
+  reAddPreCookValidators(): void {
+    let counter = 0;
+    while (counter < this.preCook.length) {
+      this.preCook.at(counter).get('body').setValidators(Validators.required);
+      this.preCook.at(counter).get('body').updateValueAndValidity();
+      counter++;
+    }
   }
 
   setValidations(producer: string) {
@@ -176,6 +261,26 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
     if (this.recipeProducer === 'Blue Apron') {
       console.log('user submitting blue apron recipe. Clearing preCook array...');
       this.clearFormArray(this.preCook);
+      if (!this.blueApronNutritionFlag) {
+        console.log('saving BA form that doesnt provide nutrition info');
+        const nutritionControl = this.recipeForm.get('nutrition');
+        nutritionControl.get('fat').patchValue('');
+        nutritionControl.get('carbohydrate').patchValue('');
+        nutritionControl.get('protein').patchValue('');
+        nutritionControl.get('sodium').patchValue('');
+        nutritionControl.get('sugar').patchValue('');
+        nutritionControl.get('saturatedFat').patchValue('');
+        nutritionControl.get('cholesterol').patchValue('');
+        nutritionControl.get('fiber').patchValue('');
+      }
+    }
+
+    if (this.recipeProducer === 'Home Chef' && this.recipeForm.get('nutrition.sugar').value !== '') {
+      const nutritionControl = this.recipeForm.get('nutrition');
+      nutritionControl.get('sugar').patchValue('');
+      nutritionControl.get('saturatedFat').patchValue('');
+      nutritionControl.get('cholesterol').patchValue('');
+      nutritionControl.get('fiber').patchValue('');
     }
 
     // console.log('recipe form value: ' + JSON.stringify(this.recipeForm.value));
@@ -296,31 +401,31 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
   removeHomeChefValidators(formControl: AbstractControl): void {
     formControl.get('fat').clearValidators();
-    formControl.get('fat').patchValue('');
+    // formControl.get('fat').patchValue('');
     formControl.get('fat').updateValueAndValidity();
     formControl.get('carbohydrate').clearValidators();
-    formControl.get('carbohydrate').patchValue('');
+    // formControl.get('carbohydrate').patchValue('');
     formControl.get('carbohydrate').updateValueAndValidity();
     formControl.get('protein').clearValidators();
-    formControl.get('protein').patchValue('');
+    // formControl.get('protein').patchValue('');
     formControl.get('protein').updateValueAndValidity();
     formControl.get('sodium').clearValidators();
-    formControl.get('sodium').patchValue('');
+    // formControl.get('sodium').patchValue('');
     formControl.get('sodium').updateValueAndValidity();
   }
 
   removeHelloFreshValidators(formControl: AbstractControl): void {
     formControl.get('sugar').clearValidators();
-    formControl.get('sugar').patchValue('');
+    // formControl.get('sugar').patchValue('');
     formControl.get('sugar').updateValueAndValidity();
     formControl.get('saturatedFat').clearValidators();
-    formControl.get('saturatedFat').patchValue('');
+    // formControl.get('saturatedFat').patchValue('');
     formControl.get('saturatedFat').updateValueAndValidity();
     formControl.get('cholesterol').clearValidators();
-    formControl.get('cholesterol').patchValue('');
+    // formControl.get('cholesterol').patchValue('');
     formControl.get('cholesterol').updateValueAndValidity();
     formControl.get('fiber').clearValidators();
-    formControl.get('fiber').patchValue('');
+    // formControl.get('fiber').patchValue('');
     formControl.get('fiber').updateValueAndValidity();
   }
 

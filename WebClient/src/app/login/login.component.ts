@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         // console.log('Response Token: ' + tempRes.token);
         localStorage.setItem('token', tempRes.token);
         // console.log('User: ' + JSON.stringify(tempRes.user));
-        this.sessionService.setUser(tempRes.user);
+        this.sessionService.setUser(tempRes.user as IUser);
         this.toastr.success('Successfully Logged In');
         this.router.navigate(['home']);
       }

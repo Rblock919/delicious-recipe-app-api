@@ -37,7 +37,7 @@
 
                     <div class="col-md-2"></div>
 
-                    <div class="col-md-3 text-center input-group">
+                    <div style="justify-content: center" class="col-md-3 text-center input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">Producer:</span>
                       </div>
@@ -53,6 +53,12 @@
                         <span>
                           Please select a producer.
                         </span>
+                      </div>
+                      <div *ngIf="recipeProducer === 'Blue Apron'" class="form-check">
+                        <input (change)="changeBlueApronNutritionalFlag()" [checked]="blueApronNutritionFlag" class="form-check-input" type="checkbox" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                          Provides Nutritional Info
+                        </label>
                       </div>
                     </div>
 
@@ -250,9 +256,11 @@
                   <div class="form-group">
                     <div class="form-row">
 
-                      <div *ngIf="this.recipeProducer !== 'Home Chef' && this.recipeProducer !== 'Hello Fresh'" class="col-md-4"></div>
-                      <div [ngClass]="{'col-md-3': (this.recipeProducer === 'Home Chef' || this.recipeProducer === 'Hello Fresh'),
-                                       'col-md-4': (!this.recipeProducer || this.recipeProducer === 'Blue Apron')}"
+                      <div *ngIf="recipeProducer !== 'Home Chef' && recipeProducer !== 'Hello Fresh' && (!recipeProducer || (recipeProducer === 'Blue Apron' && !blueApronNutritionFlag))"
+                          class="col-md-4"></div>
+                      <div [ngClass]="{'col-md-3': (recipeProducer === 'Home Chef' || recipeProducer === 'Hello Fresh' ||
+                                      (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)),
+                                       'col-md-4': (!recipeProducer || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag === false))}"
                             class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">Calories:</span>
@@ -273,9 +281,11 @@
                           </span>
                         </div>
                       </div>
-                      <div *ngIf="this.recipeProducer !== 'Home Chef' && this.recipeProducer !== 'Hello Fresh'" class="col-md-4"></div>
+                      <div *ngIf="recipeProducer !== 'Home Chef' && recipeProducer !== 'Hello Fresh' && (recipeProducer === 'Blue Apron' && !blueApronNutritionFlag)"
+                            class="col-md-4"></div>
 
-                      <div *ngIf="this.recipeProducer === 'Home Chef' || this.recipeProducer === 'Hello Fresh'" class="col-md-3 input-group">
+                      <div *ngIf="recipeProducer === 'Home Chef' || recipeProducer === 'Hello Fresh' || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)"
+                          class="col-md-3 input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">Fat:</span>
                         </div>
@@ -295,7 +305,8 @@
                           </span>
                         </div>
                       </div>
-                      <div *ngIf="this.recipeProducer === 'Home Chef' || this.recipeProducer === 'Hello Fresh'" class="col-md-3 input-group">
+                      <div *ngIf="recipeProducer === 'Home Chef' || recipeProducer === 'Hello Fresh' || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)"
+                          class="col-md-3 input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">Carbs:</span>
                         </div>
@@ -315,7 +326,8 @@
                           </span>
                         </div>
                       </div>
-                      <div *ngIf="this.recipeProducer === 'Home Chef' || this.recipeProducer === 'Hello Fresh'" class="col-md-3 input-group">
+                      <div *ngIf="recipeProducer === 'Home Chef' || recipeProducer === 'Hello Fresh' || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)"
+                          class="col-md-3 input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">Protein:</span>
                         </div>
@@ -339,7 +351,7 @@
                     </div>
                   </div>
 
-                  <div *ngIf="this.recipeProducer === 'Hello Fresh'" class="form-group">
+                  <div *ngIf="recipeProducer === 'Hello Fresh' || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)" class="form-group">
                     <div class="form-row">
 
                       <div class="col-md-3 input-group">
@@ -426,7 +438,8 @@
                     </div>
                   </div>
 
-                  <div *ngIf="this.recipeProducer === 'Home Chef' || this.recipeProducer === 'Hello Fresh'" class="form-group">
+                  <div *ngIf="recipeProducer === 'Home Chef' || recipeProducer === 'Hello Fresh' || (recipeProducer === 'Blue Apron' && blueApronNutritionFlag)"
+                        class="form-group">
                     <div class="row form-row">
 
                       <div class="col-md-4"></div>

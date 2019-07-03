@@ -8,23 +8,23 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RecipeApiService {
-  uri = 'http://localhost:3000';
+  uri = 'http://localhost:3000/api/recipes';
   testVar: any;
 
   constructor(private httpClient: HttpClient) { }
 
   getRecipeList(): Observable<IRecipe[]> {
-    return this.httpClient.get<IRecipe[]>(`${this.uri}/Recipes`, {responseType: 'json'});
+    return this.httpClient.get<IRecipe[]>(`${this.uri}`, {responseType: 'json'});
     // .pipe(catchError(this.handleError<IRecipe[]>('getRecipeList', [])));
   }
 
   getRecipe(recipeId: number): Observable<IRecipe> {
-    return this.httpClient.get<IRecipe>(`${this.uri}/Recipes/${recipeId}`, {responseType: 'json'});
+    return this.httpClient.get<IRecipe>(`${this.uri}/${recipeId}`, {responseType: 'json'});
     // .pipe(catchError(this.handleError<IRecipe>('getRecipe')));
   }
 
   submitRecipeForApproval(recipe: IRecipe): Observable<any> {
-    return this.httpClient.post(`${this.uri}/Recipes/submit`, recipe, {responseType: 'json'});
+    return this.httpClient.post(`${this.uri}/submit`, recipe, {responseType: 'json'});
   }
 
   addRecipe(recipe: IRecipe, approvalId: number): Observable<any> {
@@ -32,29 +32,29 @@ export class RecipeApiService {
       recipe,
       approvalId
     };
-    return this.httpClient.post(`${this.uri}/Recipes/add`, data, {responseType: 'json'});
+    return this.httpClient.post(`${this.uri}/add`, data, {responseType: 'json'});
   }
 
   updateRecipe(recipe: IRecipe): Observable<any> {
-    return this.httpClient.patch(`${this.uri}/Recipes/update`, recipe, {responseType: 'text'});
+    return this.httpClient.patch(`${this.uri}/update`, recipe, {responseType: 'text'});
   }
 
   deleteRecipe(recipeId: number): Observable<any> {
-    return this.httpClient.delete(`${this.uri}/Recipes/delete/${recipeId}`, {responseType: 'text'});
+    return this.httpClient.delete(`${this.uri}/delete/${recipeId}`, {responseType: 'text'});
   }
 
   favoriteRecipe(recipe: IRecipe): Observable<any> {
     const recipeToUpdate = {recipe, favoriting: true};
-    return this.httpClient.post(`${this.uri}/Recipes/favorite`, recipeToUpdate, {responseType: 'text'});
+    return this.httpClient.post(`${this.uri}/favorite`, recipeToUpdate, {responseType: 'text'});
   }
 
   unFavoriteRecipe(recipe: IRecipe): Observable<any> {
     const recipeToUpdate = {recipe, favoriting: false};
-    return this.httpClient.post(`${this.uri}/Recipes/favorite`, recipeToUpdate, {responseType: 'text'});
+    return this.httpClient.post(`${this.uri}/favorite`, recipeToUpdate, {responseType: 'text'});
   }
 
   rateRecipe(recipe: IRecipe): Observable<any> {
-    return this.httpClient.post(`${this.uri}/Recipes/rate`, recipe, {responseType: 'text'});
+    return this.httpClient.post(`${this.uri}/rate`, recipe, {responseType: 'text'});
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

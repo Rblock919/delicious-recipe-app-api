@@ -36,8 +36,14 @@ const authController = (User) => {
                 console.log('new user: ' + createdUser);
                 const payload = {sub: createdUser._id};
                 const token = jwt.encode(payload, authConfig.secret);
+                const user = {
+                    _id: createdUser._id,
+                    username: createdUser.username,
+                    password: createdUser.password,
+                    isAdmin: false
+                };
 
-                res.status(201).send({token});
+                res.status(201).send({token, user});
             }
         });
 
@@ -112,7 +118,7 @@ const authController = (User) => {
             res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
         }
 
-        User.findOne(query, '-_id -__v', (err, user) => {
+        User.findOne(query, '-__v', (err, user) => {
             if (err) {
                 console.log('Error: ' + err);
                 res.sendStatus(500);

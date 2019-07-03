@@ -36,7 +36,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
     if (favoritersList.indexOf('' + this.userId) > -1) {
-      console.log('user is a favoriter of ' + this.recipe.title);
       this.favorited = true;
     } else {
       this.favorited = false;
@@ -51,7 +50,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       // console.log(`${this.recipe.title} has user ratings present.`);
 
       if (this.recipe.raters[this.userId]) {
-        console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[this.userId]);
         this.rated = true;
         this.userRating = this.recipe.raters[this.userId];
       }
@@ -69,10 +67,10 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   }
 
   makeModalId(length): string {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;

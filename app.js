@@ -5,6 +5,8 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
+const path = require('path');
+
 
 const mongoose = require('mongoose');
 const dbURI = 'mongodb://localhost:27017/recipeApp';
@@ -49,10 +51,16 @@ require('./src/config/passport')(app);
 // app.set('view engine', 'ejs');
 
 //Establish express routers
-app.use('/Recipes', recipeRouter);
-app.use('/Services', serviceRouter);
-app.use('/Admin', adminRouter);
-app.use('/Auth', authRouter);
+app.use('/api/recipes', recipeRouter);
+app.use('/api/services', serviceRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/auth', authRouter);
+
+// app.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
+// // app.use(favicon)
+// app.all('*', (req, res) => {
+    // res.sendFile(path.join(__dirname, 'WebClient/dist/WebClient/index.html'));
+// });
 
 app.listen(port, (err) => {
     if (err) {

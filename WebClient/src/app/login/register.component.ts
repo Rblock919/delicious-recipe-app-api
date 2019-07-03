@@ -1,3 +1,4 @@
+import { SessionService } from './../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { IUser } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
@@ -15,11 +16,13 @@ export class RegisterComponent implements OnInit {
   confirmPassword: string;
   passwordMessage: string;
   message: string;
+  submitted = false;
 
   constructor(
     private auth: AuthService,
     @Inject(TOASTR_TOKEN) private toastr: Toastr,
-    private router: Router) { }
+    private router: Router,
+    private sessionService: SessionService) { }
 
   ngOnInit() {
     this.userInfo = {
@@ -33,23 +36,26 @@ export class RegisterComponent implements OnInit {
   register() {
     if (this.userInfo.password !== this.confirmPassword) {
       this.passwordMessage = 'Passwords do not match.';
+      this.message = '';
       return;
     } else {
       this.passwordMessage = '';
       this.auth.signUp(this.userInfo).subscribe(res => {
         let tempRes: any;
         tempRes = res;
+        this.submitted = true;
 
         if (!res) {
-          console.log('Error creating new user');
+          console.error('Error creating new user');
         } else {
-          this.toastr.success('Profile Successfully Created');
+          this.sessionService.setUser(res.user as IUser);
           localStorage.setItem('token', tempRes.token);
+          this.toastr.success('Profile Successfully Created');
           this.router.navigate(['home']);
         }
       },
       err => {
-        console.log('Err: ' + JSON.stringify(err));
+        console.error('Err: ' + JSON.stringify(err));
         this.message = err.error.ErrMessage;
         this.toastr.error(err.error.ErrMessage);
       });

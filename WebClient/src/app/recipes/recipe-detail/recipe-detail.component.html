@@ -61,7 +61,8 @@
                               <h4>Nutritional Info</h4>
                             </div>
                             <div class="card-body">
-                              <p><span class="float-left">Calories: </span> <span class="float-right">{{recipe.nutritionValues.calories}}</span></p><br *ngIf="recipe.producer !== 'Blue Apron'">
+                              <p><span class="float-left">Calories: </span> <span class="float-right">{{recipe.nutritionValues.calories}}</span></p>
+                              <br *ngIf="recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef' || (recipe.producer === 'Blue Apron' && recipe.nutritionValues.fat)">
                               <p *ngIf="recipe.nutritionValues.fat"><span class="float-left">Fat: </span><span class="float-right">{{recipe.nutritionValues.fat}}g</span><br></p>
                               <p *ngIf="recipe.nutritionValues.saturatedFat">
                                 <span class="float-left">Saturated Fat: </span><span class="float-right">{{recipe.nutritionValues.saturatedFat}}g</span><br>
@@ -73,7 +74,7 @@
                               <p *ngIf="recipe.nutritionValues.cholesterol"><span class="float-left">Cholesterol: </span> <span class="float-right">{{recipe.nutritionValues.cholesterol}}mg</span><br></p>
                               <p *ngIf="recipe.nutritionValues.sodium"><span class="float-left">Sodium: </span> <span class="float-right">{{recipe.nutritionValues.sodium}}mg</span></p>
                             </div>
-                            <div *ngIf="recipe.producer === 'Blue Apron'" class="card-footer text-center">
+                            <div *ngIf="recipe.producer === 'Blue Apron' && !recipe.nutritionValues.fat" class="card-footer text-center">
                               <small>You can thank Blue Apron for not providing nutritional information!</small>
                             </div>
                           </div>

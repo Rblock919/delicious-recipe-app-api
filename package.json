@@ -4,7 +4,7 @@
   "description": "Application for scanning and displaying delicious recipes.",
   "main": "index.js",
   "scripts": {
-    "start": "gulp serve",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "share": "lt --port 3000"
   },
@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "chalk": "^2.4.2",
+    "concurrently": "^4.1.1",
     "eslint": "^4.19.1",
     "jscs": "^3.0.7",
     "localtunnel": "^1.9.1",

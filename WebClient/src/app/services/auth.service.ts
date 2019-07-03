@@ -9,24 +9,24 @@ import { templateSourceUrl } from '@angular/compiler';
   providedIn: 'root'
 })
 export class AuthService {
-  uri = 'http://localhost:3000/Auth';
+  uri = 'http://localhost:3000/api/auth';
   testVar: any;
 
   constructor(private httpClient: HttpClient) { }
 
   signUp(newUser: IUser): Observable<any> {
-    const options = { headers: new HttpHeaders( { 'Content-Type': '/application/json'} )};
-    return this.httpClient.post(`${this.uri}/signUp`, newUser);
+    // const options = { headers: new HttpHeaders( { 'Content-Type': '/application/json'} )};
+    return this.httpClient.post(`${this.uri}/signUp`, newUser, {responseType: 'json'});
     // .pipe(catchError(this.handleError('signUp')));
   }
 
   signIn(userInfo: IUser): Observable<any> {
-    return this.httpClient.post(`${this.uri}/signIn`, userInfo);
+    return this.httpClient.post(`${this.uri}/signIn`, userInfo, {responseType: 'json'});
     // .pipe(catchError(this.handleError('signIn')));
   }
 
   getUserData(): Observable<any> {
-    return this.httpClient.get(`${this.uri}/getUserData`);
+    return this.httpClient.get(`${this.uri}/getUserData`, {responseType: 'json'});
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

@@ -7,7 +7,7 @@ export class IngredientsPipe implements PipeTransform {
 
   transform(value: any): string[][] {
     // console.log('in ingredients pipe...');
-    let newArray: string[][] = new Array();
+    const newArray: string[][] = new Array();
     let counter = 0;
     value.forEach(element => {
       newArray.push([]);
