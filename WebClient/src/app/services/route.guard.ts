@@ -14,29 +14,68 @@ export class RouteGuard implements CanActivate, CanDeactivate<Component> {
     private router: Router,
     private sessionService: SessionService) { }
 
-  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    console.log(state.url);
-    if (state.url === '/register') {
-      console.log('route is to register');
-      if (this.sessionService.isAuthenticated) {
-        console.log('user is logged in an attempting to access register page');
-        return false;
+    const slices = state.url.split('/');
+    // console.log(slices);
+
+    if (slices[slices.length - 1] === 'edit') {
+      const recipeId = route.params.id;
+
+      // editing existing recipe
+      if (recipeId !== '0') {
+
+        // handling routing on refresh/directly entered URL
+        if (this.sessionService.token && !this.sessionService.getUser) {
+          setTimeout(() => {
+            if (this.sessionService.isAdmin) {
+              this.router.navigate(['/recipe', slices[2], 'edit']);
+              return true;
+            } else {
+              this.router.navigate(['home']);
+              return false;
+            }
+          }, 400);
+        } else {
+            if (this.sessionService.isAdmin) {
+              return true;
+            } else {
+              this.router.navigate(['home']);
+              return false;
+            }
+        }
       } else {
         return true;
       }
     }
 
+    // console.log(state.url);
+    // if (state.url === '/register') {
+    if (slices[1]) {
+      if (slices[1] === 'register') {
+        if (this.sessionService.isAuthenticated) {
+          console.log('user is logged in an attempting to access register page');
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+
     // return true;
 
-    if (this.sessionService.isAuthenticated) {
-      console.log('in route guard, and user is auth');
-      return true;
-    } else {
-      // console.log('in route guard and user is not auth');
-      this.router.navigate(['home']);
-      return false;
+    // handle all other routes besides edit recipe and register
+    if (slices[slices.length - 1] !== 'edit') {
+      if (this.sessionService.isAuthenticated) {
+        console.log('in route guard, and user is auth');
+        return true;
+      } else {
+        // console.log('in route guard and user is not auth');
+        this.router.navigate(['home']);
+        return false;
+      }
     }
+
   }
 
   public canDeactivate(component: Component, route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {

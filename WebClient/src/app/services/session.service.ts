@@ -25,12 +25,12 @@ export class SessionService {
   }
 
   setUser(user: IUser) {
-    const tempUser: IUser = {
-      username: user.username,
-      password: user.password,
-      isAdmin: user.isAdmin,
-      _id: user._id
-    };
+    // const tempUser: IUser = {
+      // username: user.username,
+      // password: user.password,
+      // isAdmin: user.isAdmin,
+      // _id: user._id
+    // };
 
     // this.userData = tempUser;
     this.userData = user;

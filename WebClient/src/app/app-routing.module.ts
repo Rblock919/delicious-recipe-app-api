@@ -16,6 +16,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
 import { EditUserListComponent } from './admin/edit-user-list/edit-user-list.component';
 import { SubmittedComponent } from './recipes/edit-recipe/submitted.component';
 import { ApproveRecipeDetailComponent } from './admin/approve-recipe-detail/approve-recipe-detail.component';
+import { RecipeSearchComponent } from './recipes/recipe-search/recipe-search.component';
 
 const routes: Routes = [
   { path: 'index', component: SplashPageComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'recipe/:id', component: RecipeDetailComponent, canActivate: [RouteGuard]},
   { path: 'recipe/:id/edit', component: EditRecipeComponent, canActivate: [RouteGuard], canDeactivate: [RouteGuard],
     data: {context: 'editRecipe'}},
+  { path: 'search/:searchString', component: RecipeSearchComponent, canActivate: [RouteGuard]},
   { path: 'submitted', component: SubmittedComponent },
   { path: 'register', component: RegisterComponent,
     canActivate: [RouteGuard], canDeactivate: [RouteGuard],

@@ -14,9 +14,6 @@ var recipeModel = new Schema({
     preCook: [
         String
     ],
-    numSteps: {
-        type: Number
-    },
     steps: [
         {
             _id: false,

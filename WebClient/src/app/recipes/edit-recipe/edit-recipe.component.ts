@@ -73,7 +73,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
-      console.log('id of recipe edit: ' + this.id);
       if (this.id === '0') {
         this.pageTitle = 'Add Recipe';
       } else {
@@ -231,7 +230,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
 
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
-    formRecipe.numSteps = this.recipeForm.get('steps').value.length;
     formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
 
 
@@ -373,6 +371,8 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     return this.fb.group({
       name: ['', Validators.required],
       amount: ['', Validators.required]
+      // amountFor2: ['', Validators.required],
+      // amountFor4: ['', Validators.required]
     });
   }
 

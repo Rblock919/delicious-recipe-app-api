@@ -4,7 +4,6 @@ export interface IRecipe {
   producer: string;
   ingredients: string[];
   preCook: string[];
-  numSteps: number;
   steps: [
     {
     name: string,

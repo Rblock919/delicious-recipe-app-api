@@ -4,6 +4,15 @@
   object-fit: cover;
 }
 
+.card {
+  background-color: #343a40;
+  height: 100%;
+}
+
+.img-thumbnail {
+  border: 1px solid #343a40;
+}
+
 .favoritingIcon {
   padding-left: 25px;
   padding-top: 7px;
@@ -20,6 +29,10 @@
 
 .fa-heart-o, .fa-heart {
   color: red;
+}
+
+.fa-star, .fa-star-o {
+  color: gold;
 }
 
 // .rating {
@@ -45,7 +58,3 @@
   // //color: gold;
   // position: absolute;
 // }
-
-.fa-star, .fa-star-o {
-  color: gold;
-}

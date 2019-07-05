@@ -29,17 +29,15 @@ export class RecipeDetailComponent implements OnInit {
               ) { }
 
   ngOnInit() {
-    this.recipeId = this.route.snapshot.params['id'];
-    console.log('Id in detail comp: ' + this.recipeId);
+    this.recipeId = this.route.snapshot.params.id;
+    // console.log('Id in detail comp: ' + this.recipeId);
     this.recipeApi.getRecipe(this.recipeId).subscribe((data) => {
       this.recipe = data;
       let favoriters: string[];
       favoriters = this.recipe.favoriters;
       if (favoriters.indexOf('' + this.session.getUser._id) > -1) {
-        console.log('user is a favoriter');
         this.favorited = true;
       } else {
-        console.log('user is not a favoriter');
         this.favorited = false;
       }
       if (this.recipe.producer === 'Hello Fresh') {
@@ -50,10 +48,10 @@ export class RecipeDetailComponent implements OnInit {
 
       if (Object.keys(this.recipe.raters).length > 0) {
 
-        console.log(`${this.recipe.title} has user ratings present.`);
+        // console.log(`${this.recipe.title} has user ratings present.`);
 
         if (this.recipe.raters[this.session.getUser._id]) {
-          console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[this.session.getUser._id]);
+          // console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[this.session.getUser._id]);
           this.rated = true;
           this.userRating = this.recipe.raters[this.session.getUser._id];
         }
@@ -65,11 +63,10 @@ export class RecipeDetailComponent implements OnInit {
         }
 
         this.avgRating /= ratingCounter;
-        console.log('avgRating: ' + this.avgRating);
+        // console.log('avgRating: ' + this.avgRating);
 
       }
 
-      console.log('Data: ' + this.recipe.title);
       this.showRecipe = true;
     });
 

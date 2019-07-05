@@ -3,7 +3,11 @@
 - implement password resets (for users & admin)
 - possibly move filtering + sorting to external pipe
 - make the home page slightly different from user-home
-- update app to store + display ingredient amounts for both 2 & 4 serving sizes
-- remove numSteps from recipe models + data?
+- update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
 - service/page for users to see their ratings and change them
 - remove userId from all recipe favoriters array and raters maps (consider changing data model to have favoriters and ratings stored in user model)
+- make account related services into separate dropdown on the right
+- implement backgrounds on pages (at least outside of containers)
+- implement pagination for recipe search page and possibly recipe list page
+- non-authenticated gallery page
+- a 'learn more' page

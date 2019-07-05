@@ -1,0 +1,41 @@
+<main role="main">
+
+<div *ngIf="showRecipes" class="container" style="padding-bottom: 30px">
+  <div class="row heading">
+    <div class="col-md-12">
+      <div class="well well-lg">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+           <h1>Search Results<br>
+           <span style="font-style: italic">'{{searchString}}'</span></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>
+
+<div *ngIf="showRecipes" class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-body">
+
+            <div class="marketing">
+              <div class="row"  style="text-align: center; align-content: center" >
+                <div *ngFor="let recipe of filteredList" class="col-lg-4" style="padding-top: 20px">
+                  <app-recipe (rateEvent)="rateEvent($event)" (favoriteEvent)="favEvent($event)" [userId]="userId" [recipe]="recipe"></app-recipe>
+                </div>
+                <div *ngIf="filteredList.length < 1" class="col-lg-12">
+                  <h3 style="font-style: italic">No Recipes Found</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

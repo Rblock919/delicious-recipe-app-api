@@ -6,10 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
-
-
 const mongoose = require('mongoose');
-const dbURI = 'mongodb://localhost:27017/recipeApp';
 
 const uriS = require('./src/config/db/dbconnection');
 
@@ -26,7 +23,6 @@ const User = require('./src/models/userModel');
 const app = express();
 const port = process.env.PORT || 3000;
 
-
 //Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(Recipe, newRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')();
@@ -40,7 +36,7 @@ app.use(cors());
 
 app.use(cookieParser());
 app.use(session({secret: 'recipe'}));
-require('./src/config/passport')(app);
+// require('./src/config/passport')(app);
 
 //Establish auto-scanning static file directory reference locations
 // app.use(express.static('public'));
@@ -56,6 +52,7 @@ app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
+//Serve up static angular files
 // app.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
 // // app.use(favicon)
 // app.all('*', (req, res) => {

@@ -12,11 +12,26 @@ import { SessionService } from '../services/session.service';
 })
 export class NavbarComponent implements OnInit {
 
+  searchString: string;
+
   constructor(
     public session: SessionService,
     @Inject(TOASTR_TOKEN) private toastr: Toastr,
     private auth: AuthService,
     private router: Router) {
+  }
+
+  ngOnInit() {
+    this.searchString = '';
+  }
+
+  search() {
+    if (this.searchString !== '') {
+      console.log('user has actually entered something to search \nSearching...');
+      this.router.navigate(['search', this.searchString]);
+    } else {
+      console.log('nothing to search...');
+    }
   }
 
   logout() {
@@ -27,6 +42,7 @@ export class NavbarComponent implements OnInit {
       this.toastr.success('You have successfully logged out');
       this.router.navigate(['logout']);
     }
+    this.clearSearch();
   }
 
   getUserData() {
@@ -35,7 +51,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  clearSearch(): void {
+    this.searchString = '';
   }
 
 }

@@ -33,6 +33,9 @@
       <input style="width: 100%" class="form-control" [(ngModel)]="userInfo.password"
              type="password" name="password" id="password" #passwordField="ngModel">
       <br>
+      <p class="register-text">Don't have an account?
+        <a routerLink="/register">Register Here</a>
+      </p>
       <button [disabled]="!(passwordField.value && usernameField.value)" class="btn btn-outline-primary" (click)="login()">Login</button>
     </div>
   </form>

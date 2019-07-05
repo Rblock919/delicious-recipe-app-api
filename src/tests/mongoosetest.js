@@ -17,7 +17,6 @@ const testRecipe = new recipe({
         'Ground Beef | 20 oz',
         'Flour Tortillas | 12 units'
     ],
-    numSteps: 6,
     step1: {
         name: 'Prep',
         body: 'Wash and dry all produce. Halve, peel, and finely dice onion. Core and seed poblanos, then cut into 1/3-inch squares. Core and seed ' +
@@ -67,7 +66,7 @@ mongoose.connect(remoteUri.remote, {useNewUrlParser: true},  () => {
     console.log('connected to remote db');
 });
 
-let docuement;
+let document;
 
 // a function that does aync operation and returns a promise
 const poop = function () {
@@ -81,12 +80,12 @@ const poop = function () {
             } else {
                 console.log('Success?');
                 console.log('doc: ' + doc);
-                docuement = doc;
+                document = doc;
                 // console.log('rows affected: ' + rows);
             }
             mongoose.connection.close(() => {
                 console.log('Mongoose connection closed');
-                fulfill(docuement);
+                fulfill(document);
             });
         });
 
@@ -96,7 +95,7 @@ const poop = function () {
 
 // Call poop using .then
 poop().then(function(result) {
-    console.log('result: ' + docuement);
+    console.log('result: ' + document);
     // console.log('result: ' + result);
 });
 

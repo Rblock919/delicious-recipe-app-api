@@ -118,6 +118,12 @@
                             <input type="text" class="form-control" formControlName="amount" id="{{'amount' + i}}" placeholder="Amount of Ingredient"
                                    [ngClass]="{'is-invalid': (ingredients.at(i).get('amount').dirty || ingredients.at(i).get('amount').touched)
                                                               && !ingredients.at(i).get('amount').valid}">
+                            <!-- <input type="text" class="form-control" formControlName="amountFor2" id="{{'amount' + i}}" placeholder="Amount of Ingredient"
+                                   [ngClass]="{'is-invalid': (ingredients.at(i).get('amountFor2').dirty || ingredients.at(i).get('amountFor2').touched)
+                                                              && !ingredients.at(i).get('amountFor2').valid}">
+                            <input type="text" class="form-control" formControlName="amountFor4" id="{{'amount' + i}}" placeholder="Amount of Ingredient"
+                                   [ngClass]="{'is-invalid': (ingredients.at(i).get('amountFor4').dirty || ingredients.at(i).get('amountFor4').touched)
+                                                              && !ingredients.at(i).get('amountFor4').valid}"> -->
                             <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeIngredient(i)">X</button>
                             <div *ngIf="!ingredients.at(i).get('amount').valid && ingredients.at(i).get('amount').touched" class="invalid-feedback text-center">
                               <span>

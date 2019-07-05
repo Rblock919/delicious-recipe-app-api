@@ -20,7 +20,6 @@ let recipedata = [
             'Splotted Spoon',
             'Small Bowl'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prep',
@@ -92,7 +91,6 @@ let recipedata = [
             'Paper Towels',
             'Vegetable Oil (2 tsp)'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prep',
@@ -162,7 +160,6 @@ let recipedata = [
             'Large Pan',
             'Baking Sheet'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Preheat and Prep',
@@ -204,7 +201,7 @@ let recipedata = [
             sugar: 19,
             fiber: 11,
             protein: 42,
-            cholesterol: 11,
+            cholesterol: 115,
             sodium: 840
         },
         imgDir: 'assets/images/sw-stuffed-peppers.jpg',
@@ -229,7 +226,6 @@ let recipedata = [
             'Thoroughly rinse produce and pat dry',
             'Prepare a baking sheet with foil and cooking spray'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -288,7 +284,6 @@ let recipedata = [
             'Chutney Spice Blend | 2 tsp'
         ],
         preCook: [],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -353,7 +348,6 @@ let recipedata = [
             'Large Bowl',
             'Olive Oil (5 tsp)'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Preheat and Prep',
@@ -415,7 +409,6 @@ let recipedata = [
             'Large Pan',
             'Vegetable Oil (1 tbsp)'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prep',
@@ -484,7 +477,6 @@ let recipedata = [
             'Thoroughly rinse produce and pat dry',
             'Prepare a baking sheet with foil and cooking spray'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -527,7 +519,7 @@ let recipedata = [
         raters: {}
     },
     {
-        title: 'BBQ Pork Burgers',
+        title: 'BBQ Pork Burgers & Corn on the Cob',
         producer: 'Blue Apron',
         ingredients: [
             'Ground Pork | 10 oz',
@@ -543,7 +535,6 @@ let recipedata = [
             'BBQ Sauce | 1/4 cup'
         ],
         preCook: [],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -610,7 +601,6 @@ let recipedata = [
             'Baking Sheet',
             'Vegetable Oil (1 tbsp)'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prep',
@@ -679,7 +669,6 @@ let recipedata = [
         preCook: [
             'Thoroughly rinse produce and pat dry'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -741,7 +730,6 @@ let recipedata = [
             'Thoroughly rinse produce and pat dry',
             'Prepare a casserole dish with cooking spray'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -809,7 +797,6 @@ let recipedata = [
             'Sugar (2 1/2 tsp)',
             'Vegetable Oil (1 tsp)'
         ],
-        numSteps: 6,
         steps: [
             {
                 name: 'Prep',
@@ -876,7 +863,6 @@ let recipedata = [
             'Bring 8 cups water and 2 tsp salt to a boil in a medium pot',
             'Thoroughly rinse produce and pat dry'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Cook the Pasta',
@@ -936,7 +922,6 @@ let recipedata = [
         preCook: [
             'Thoroughly rinse produce and pat dry'
         ],
-        numSteps: 5,
         steps: [
             {
                 name: 'Prepare the Ingredients',
@@ -975,6 +960,386 @@ let recipedata = [
             sodium: 1749
         },
         imgDir: 'assets/images/turkey-white-bean-chili.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Crispy Parmesan Chicken',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Carrots | 4',
+            'Scallions | 2',
+            'Lemon | 1',
+            'Panko Breadcrumbs | 1/4 cup',
+            'Parmesan Cheese | 1/4 cup',
+            'Hot Smoked Paprika | 1 tsp',
+            'Chicken Breasts | 12 oz',
+            'Sour Cream | 2 tbsp',
+            'Israeli Couscous | 1/2 cup',
+            'Garlic Herb Butter | 2 tbsp'
+        ],
+        preCook: [
+            'Medium Pot',
+            'Small Bowl',
+            'Peeler',
+            'Zester',
+            'Paper Towels',
+            'Baking Sheet',
+            'Olive oil (4 tsp)',
+            'Strainer'
+        ],
+        steps: [
+            {
+                name: 'Prep',
+                body: 'Adjust rack to middle position and preheat oven to 425 degrees. Bring a medium pot of salted water to a boil. Wash ' +
+                'and dry all produce. Trim and peel carrots, then cut into 2-inch lengths. Trim and thinly slice scallions, separating ' +
+                'whites from greens. Zest and quarter lemon.'
+            },
+            {
+                name: 'Bread Chicken',
+                body: 'In a small bowl, combine panko, parmesan, paprika, a large drizzle of olive oil, and a pinch of salt and pepper. ' +
+                'Pat chicken dry with paper towels; season all over with salt and pepper. Evenly brush one side of each chicken breast with ' +
+                'sour cream. Sprinkle panko mixture onto coated sides, pressing to adhere.'
+            },
+            {
+                name: 'Roast Chicken and Carrots',
+                body: 'Toss carrots on one side of a baking sheet with a large drizzle of olive oil and a pinch of salt and pepper. Place ' +
+                'chicken, crust sides up, on other side of sheet. Roast until chicken is cooked through, about 15 minutes. Remove chicken ' +
+                'from sheet and transfer to a plate to rest. Return carrots to oven and roast until tender, about 5 minutes more.'
+            },
+            {
+                name: 'Make Couscous',
+                body: 'Meanwhile, once water is boiling, add couscous to pot. Cook until tender, about 6 minutes. Drain thoroughly. Melt ' +
+                'garlic herb butter in empty pot over medium heat. Add scallion whites and cook until soft, about 1 minute. Return couscous ' +
+                'to pot and stir to coat. Season with salt and pepper if needed.'
+            },
+            {
+                name: 'Finish Carrots',
+                body: 'Once carrots are done roasting, remove from oven and toss with lemon zest and juice from 1 lemon wedge.'
+            },
+            {
+                name: 'Serve',
+                body: 'Divide chicken, carrots, and couscous between plates. Garnish chicken with scallion greens. Serve with remaining lemon ' +
+                'wedges on the side for squeezing over.'
+            }
+        ],
+        nutritionValues: {
+            calories: 720,
+            fat: 33,
+            saturatedFat: 15,
+            carbohydrate: 59,
+            sugar: 12,
+            fiber: 9,
+            protein: 46,
+            cholesterol: 175,
+            sodium: 600
+        },
+        imgDir: 'assets/images/crispy-parmesan-chicken.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Sausage & Mushroom Stuffed Peppers',
+        producer: 'Home Chef',
+        ingredients: [
+            'Green Bell Peppers | 3',
+            'Cremini Mushrooms | 6 oz',
+            'Pepperoncini | 2',
+            'Italian Sausage Links | 2',
+            'Marinara Sauce | 6 fl oz',
+            'Shredded Mozzarella | 2 oz'
+        ],
+        preCook: [
+            'Preheat oven to 400 degrees',
+            'Thoroughly rinse produce and pat dry',
+            'Prepare a baking sheet with foil and cooking spray'
+        ],
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Stem green bell peppers, halve lengthwise, and remove seeds and ribs. Cut mushrooms into ¼" slices. Slice pepperoncini into ¼" ' +
+                'rounds. Remove Italian sausage from casing.'
+            },
+            {
+                name: 'Begin the Peppers',
+                body: 'Place green bell pepper halves on prepared baking sheet and toss with 1 tsp. olive oil and a pinch of pepper. Massage oil into ' +
+                'peppers. Arrange pepper halves cut-side down. Roast in hot oven until tender but still crisp, 13-15 minutes. While peppers roast, ' +
+                'make filling.'
+            },
+            {
+                name: 'Make the Filling',
+                body: 'Heat 1 tsp. olive oil in a medium non-stick pan over medium-high heat. Add Italian sausage to hot pan. Stir occasionally, ' +
+                'breaking up with a spoon, until browned, 3-4 minutes. If using ground beef, season with a pinch of salt and stir occasionally until ' +
+                'no pink remains, 4-6 minutes. If using ground turkey, season with ¼ tsp. salt and a pinch of pepper and str occasionally until no pink ' +
+                'remains, 7-9 minutes. Transfer sausage to a plate. Wipe pan clean, return to stove, and lower heat to medium. Add 1 tsp. olive oil and ' +
+                'mushrooms to hot pan. Stir occasionally until lightly brown, 3-4 minutes. Remove from burner. Stir in Italian sausage, marinara, and a ' +
+                'pinch of salt.'
+            },
+            {
+                name: 'Finish the Peppers',
+                body: 'Carefully, (peppers will be hot!) flip pepper halves cut side up. Distribute filling evenly among pepper halves and top with cheese. ' +
+                'Roast until cheese is lightly browned and bubbly, and peppers are fully tender, 9-11 minutes.'
+            },
+            {
+                name: 'Finish the Dish',
+                body: 'Plate dish as pictured on front of card, garnishing with pepperoncini (to taste). Bon appétit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 528,
+            fat: 33,
+            carbohydrate: 28,
+            protein: 29,
+            sodium: 1619
+        },
+        imgDir: 'assets/images/sausage-mushroom-stuffed-peppers.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Spicy Chicken Grain Bowl',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Chopped Chicken Breasts | 10 oz',
+            'Cracked Freekeh | 1/2 cup',
+            'Persian Cucumber | 1',
+            'Baby Bok Choy | 10 oz',
+            'Carrots | 6 oz',
+            'Sambal Oelek | 1 tbsp',
+            'Mayonnaise | 2 tbsp',
+            'Black & White Sesame Seeds | 1 tsp',
+            'Sesame Oil | 1 tbsp',
+            'Soy Sauce | 1 tbsp',
+            'Rice Vinegar | 1 tbsp',
+            'Sugar | 1 tbsp',
+            'Soy Glaze | 2 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Cook the Freekeh',
+                body: 'Fill a medium pot with salted water; cover and heat to boiling on high. Once boiling, add the freekeh and cook, uncovered, 24 to 26 minutes, ' +
+                'or until tender. Turn off the heat. Drain thoroughly and return to the pot. '
+            },
+            {
+                name: 'Prepare the Ingredients & Make the Spicy Mayo',
+                body: 'While the freekeh cooks, wash and dry the fresh produce. Cut off and discard the root end of the bok choy; thinly slice crosswise. Peel the ' +
+                'carrots and grate on the large side of a box grater. Quarter the cucumber lengthwise, then thinly slice crosswise. In a bowl, whisk together the ' +
+                'mayonnaise, 2 teaspoons of water, and as much of the sambal oelek as you’d like, depending on how spicy you’d like the mayo to be.'
+            },
+            {
+                name: 'Marinate the Vegetables',
+                body: 'While the freekeh continues to cook, in a medium bowl, whisk together the sugar and vinegar; season with salt and pepper. Add the grated ' +
+                'carrots and sliced cucumber; stir to combine. Set aside to marinate, stirring occasionally, at least 10 minutes. Taste, then season with salt ' +
+                'and pepper if desired.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'While the vegetables marinate, pat the chicken dry with paper towels. Place in a bowl; add the soy sauce and stir to coat. In a medium pan ' +
+                '(nonstick, if you have one), heat a drizzle of olive oil on medium-high until hot. Add the coated chicken in an even layer. Cook, without stirring, ' +
+                '3 to 4 minutes, or until lightly browned. Continue to cook, stirring occasionally, 3 to 4 minutes, or until browned and cooked through. Turn off the heat.'
+            },
+            {
+                name: 'Finish the Freekeh & Serve Dish',
+                body: 'Add the sliced bok choy and sesame oil to the pot of cooked freekeh; stir to combine. Taste, then season with salt and pepper if desired. ' +
+                'Serve the finished freekeh topped with the cooked chicken, marinated vegetables, soy glaze, spicy mayo, and sesame seeds. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 610,
+            fat: 28,
+            saturatedFat: 3.5,
+            carbohydrate: 57,
+            sugar: 23,
+            fiber: 9,
+            protein: 44,
+            cholesterol: 105,
+            sodium: 1640
+        },
+        imgDir: 'assets/images/spicy-chicken-grain-bowl.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Cheesy Mexican-Spiced Chicken',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Boneless Skinless Chicken Breasts | 2',
+            'Jasmine Rice | 1/2 cup',
+            'Scallions | 2',
+            'Green Cabbage | 1/2 lb',
+            'Lime | 1',
+            'Carrots | 6 oz',
+            'Creamy Chipotle Sauce | 2 tbsp',
+            'Monterey Jack Cheese | 2 oz',
+            'Mexican Spice Blend | 1 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Wash and dry the fresh produce. Thinly slice the scallions, separating the white bottoms and hollow green tops. Cut out and discard the ' +
+                'core of the cabbage; thinly slice the leaves. Peel the carrots and grate on the large side of a box grater. Combine in a large bowl; add the ' +
+                'sliced white bottoms of the scallions. Zest the lime to get 1 teaspoon (if you don’t have a zester, use a peeler to remove the green rind of the ' +
+                'lime, avoiding the white pith; mince the rind). Quarter the lime. Thinly slice the cheese.'
+            },
+            {
+                name: 'Make the Slaw',
+                body: 'To the bowl of prepared vegetables, add the lime zest, creamy chipotle sauce, and the juice of 2 lime wedges; season with salt and pepper. ' +
+                'Stir to combine. Set aside to marinate, stirring occasionally, at least 10 minutes. Taste, then season with salt and pepper if desired.'
+            },
+            {
+                name: 'Cook the Rice',
+                body: 'While the slaw marinates, in a small pot, combine the rice, a big pinch of salt, and 1 cup of water. Heat to boiling on high. Once boiling, ' +
+                'reduce the heat to low. Cover and cook, without stirring, 12 to 14 minutes, or until the water has been absorbed and the rice is tender. Turn off the ' +
+                'heat and fluff with a fork.'
+            },
+            {
+                name: 'Cook the Chicken & Serve Dish',
+                body: 'While the rice cooks, pat the chicken dry with paper towels; season on both sides with salt, pepper, and enough of the spice blend to coat ' +
+                '(you may have extra). In a medium pan (nonstick, if you have one), heat 1 teaspoon of olive oil on medium-high until hot. Add the seasoned chicken ' +
+                'and cook 6 to 7 minutes, or until browned. Flip and cook 4 minutes. Carefully top with the sliced cheese. Loosely cover the pan with foil and cook 2 ' +
+                'to 3 minutes, or until the cheese is melted and the chicken is cooked through. Turn off the heat. Serve the cooked chicken with the cooked rice and slaw. ' +
+                'Garnish with the sliced green tops of the scallions. Serve the remaining lime wedges on the side. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 660,
+            fat: 19,
+            saturatedFat: 6,
+            carbohydrate: 71,
+            sugar: 6,
+            fiber: 7,
+            protein: 53,
+            cholesterol: 150,
+            sodium: 480
+        },
+        imgDir: 'assets/images/cheesy-mexican-chicken.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Tomatilla Pork Tacos',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Ground Pork | 10 oz',
+            'Flour Tortillas | 4',
+            'Radishes | 3 oz',
+            'Cabbage | 1/2 lb',
+            'Lime | 1',
+            'Grated Cotija Cheese | 2 tbsp',
+            'Mayonnaise | 2 tbsp',
+            'Tomatilla-Poblano Sauce | 1/3 cup',
+            'Smoky Spice Blend | 1 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'If you prefer to use an oven to warm the tortillas instead of a microwave, preheat the oven to 375°F. Wash and dry the fresh produce. Cut out ' +
+                'and discard the core of the cabbage; thinly slice the leaves. Halve the radishes lengthwise, then thinly slice crosswise. Zest the lime to get 1 ' +
+                'teaspoon (if you don’t have a zester, use a peeler to remove the green rind of the lime, avoiding the white pith; mince the rind). Quarter the lime.'
+            },
+            {
+                name: 'Make the Slaw',
+                body: 'In a large bowl, whisk together the mayonnaise, lime zest, and the juice of 2 lime wedges. Add the sliced cabbage; season with salt and pepper. ' +
+                'Stir to coat. Set aside to marinate, stirring occasionally, at least 10 minutes. Taste, then season with salt and pepper if desired.'
+            },
+            {
+                name: 'Cook the Pork',
+                body: 'While the slaw marinates, in a medium pan (nonstick, if you have one), heat a drizzle of olive oil on medium-high until hot. Add the pork and half ' +
+                'the spice blend (you will have extra); season with salt and pepper. Cook, stirring frequently and breaking the meat apart with a spoon, 3 to 5 minutes, or ' +
+                'until lightly browned. Carefully drain off and discard any excess oil. Add half the tomatillo-poblano sauce (carefully, as the liquid may splatter). Cook, ' +
+                'stirring frequently, 2 to 3 minutes, or until the liquid is slightly thickened and the pork is cooked through. Turn off the heat. Taste, then season with ' +
+                'salt and pepper if desired. '
+            },
+            {
+                name: 'Warm the Tortillas',
+                body: 'While the pork cooks, if using the microwave, wrap the tortillas in a damp paper towel; microwave on high 1 minute, or until heated through. If using ' +
+                'the oven, wrap the tortillas in foil and place directly onto an oven rack; warm 7 to 9 minutes, or until heated through. Transfer the warmed tortillas to a ' +
+                'work surface and carefully unwrap.'
+            },
+            {
+                name: 'Assemble the Tacos & Serve Dish',
+                body: 'Assemble the tacos using the warmed tortillas, cooked pork, sliced radishes, remaining tomatillo-poblano sauce, and cheese. Serve the tacos with the slaw ' +
+                'and remaining lime wedges on the side. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 690,
+            fat: 43,
+            saturatedFat: 12,
+            carbohydrate: 44,
+            sugar: 8,
+            fiber: 6,
+            protein: 34,
+            cholesterol: 115,
+            sodium: 920
+        },
+        imgDir: 'assets/images/tomatillo-pork-tacos.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Gochujang Beef Lettuce Cups',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Thinly Sliced Beef | 10 oz',
+            'Jasmine Rice | 1/2 cup',
+            'Butter Lettuce | 1 head',
+            'Persian Cucumbers | 2',
+            'Scallions | 2',
+            'Radishes | 3 oz',
+            'Gochujang | 2 tsp',
+            'Hoisin Sauce | 2 tbsp',
+            'Soy Sauce | 1 tbsp',
+            'Sesame Oil | 1 tbsp',
+            'Rice Vinegar | 1 tbsp',
+            'Black & White Sesame Seeds | 1 tsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Cook the Rice',
+                body: 'In a small pot, combine the rice and 1 cup of water. Heat to boiling on high. Once boiling, reduce the heat to low. Cover and cook, without stirring, ' +
+                '12 to 14 minutes, or until the water has been absorbed and the rice is tender. Turn off the heat and fluff with a fork. Cover to keep warm.'
+            },
+            {
+                name: 'Prepare Ingredients & Make the Glaze',
+                body: 'While the rice cooks, wash and dry the fresh produce. Cut off and discard the root end of the lettuce; separate the leaves. Halve the cucumbers lengthwise, ' +
+                'then thinly slice crosswise. Halve the radishes lengthwise, then thinly slice crosswise. Combine in a bowl. Thinly slice the scallions, separating the white ' +
+                'bottoms and hollow green tops. In a medium bowl, combine the soy sauce, hoisin sauce, and as much of the gochujang as you’d like, depending on how spicy you’d ' +
+                'like the dish to be. Taste, then season with salt and pepper if desired.'
+            },
+            {
+                name: 'Marinate the Vegetables',
+                body: 'While the rice continues to cook, to the bowl of sliced cucumbers and radishes, add the vinegar and half the sesame oil. Stir to combine. Set aside to ' +
+                'marinate, stirring occasionally, at least 5 minutes. Taste, then season with salt and pepper if desired.'
+            },
+            {
+                name: 'Cook & Glaze the Beef',
+                body: 'Separate the beef; pat dry with paper towels. Season with salt and pepper. In a medium pan (nonstick, if you have one), heat the remaining sesame oil on ' +
+                'medium-high until hot. Add the seasoned beef in an even layer. Cook, without stirring, 2 to 3 minutes, or until lightly browned. Add the sliced white bottoms of ' +
+                'the scallions. Cook, stirring frequently, 1 to 2 minutes, or until the beef is just cooked through. Turn off the heat. Transfer to the bowl of glaze and stir to coat.'
+            },
+            {
+                name: 'Assemble the Lettuce Cups & Serve Dish',
+                body: 'Stack 2 lettuce leaves on top of each other. Top each stack with the cooked rice, glazed beef, and marinated vegetables (including the liquid). Serve the ' +
+                'lettuce cups garnished with the sliced green tops of the scallions and sesame seeds. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 560,
+            fat: 13,
+            saturatedFat: 2.5,
+            carbohydrate: 67,
+            sugar: 15,
+            fiber: 3,
+            protein: 40,
+            cholesterol: 85,
+            sodium: 1200
+        },
+        imgDir: 'assets/images/gochujang-beef-lettuce-cups.jpg',
         favoriters: [],
         raters: {}
     }

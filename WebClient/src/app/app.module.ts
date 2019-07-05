@@ -29,6 +29,7 @@ import { EditUserListComponent } from './admin/edit-user-list/edit-user-list.com
 import { AdminService } from './services/admin.service';
 import { SubmittedComponent } from './recipes/edit-recipe/submitted.component';
 import { ApproveRecipeDetailComponent } from './admin/approve-recipe-detail/approve-recipe-detail.component';
+import { RecipeSearchComponent } from './recipes/recipe-search/recipe-search.component';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
@@ -52,7 +53,8 @@ const jQuery = window['$'];
     ApproveRecipeListComponent,
     EditUserListComponent,
     SubmittedComponent,
-    ApproveRecipeDetailComponent
+    ApproveRecipeDetailComponent,
+    RecipeSearchComponent
   ],
   imports: [
     BrowserModule,

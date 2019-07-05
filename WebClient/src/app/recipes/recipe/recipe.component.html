@@ -7,12 +7,12 @@
 <div class="card" style="width: 100%;">
   <img class="card-img-top img-thumbnail" src="{{recipe.imgDir}}">
   <div class="card-body">
-    <h5 class="card-title">{{recipe.title}}</h5>
+    <h5 style="color: white" class="card-title">{{recipe.title}}</h5>
     <!-- <p class="card-text">Some quick example text to build on the card title & the card's content.</p> -->
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <p style="font-size: 13px">Calories: {{recipe.nutritionValues.calories}}</p>
+        <p style="font-size: 13px; color: white">Calories: {{recipe.nutritionValues.calories}}</p>
         <p><span [ngClass]="{'badge-hf': recipe.producer === 'Hello Fresh',
                              'badge-hc': recipe.producer === 'Home Chef',
                              'badge-success': (recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef'),

@@ -1,7 +1,7 @@
 <main role="main">
 
   <div class="container" style="padding-bottom: 30px">
-    <div class="row">
+    <div class="row heading">
       <div class="col-md-12">
         <div class="well well-lg">
           <div class="row">
@@ -69,11 +69,12 @@
 
             <div class="marketing">
               <div class="row"  style="text-align: center; align-content: center" >
-                <div *ngFor="let recipe of selectedRecipeList" class="col-lg-4" style="padding-top: 20px">
+                <div *ngFor="let recipe of selectedRecipeList" class="col-md-4" style="padding-top: 20px">
                   <app-recipe (rateEvent)="rateEvent($event)" (favoriteEvent)="favEvent($event)" [userId]="userId" [recipe]="recipe"></app-recipe>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

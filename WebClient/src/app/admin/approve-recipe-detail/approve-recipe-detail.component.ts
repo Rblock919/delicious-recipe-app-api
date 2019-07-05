@@ -51,8 +51,8 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
               private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.recipeId = this.route.snapshot.params['id'];
-    console.log('Id in detail comp: ' + this.recipeId);
+    this.recipeId = this.route.snapshot.params.id;
+    // console.log('Id in detail comp: ' + this.recipeId);
 
     this.recipeForm = this.fb.group({
       producer: ['', Validators.required],
@@ -288,7 +288,6 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
-    formRecipe.numSteps = this.recipeForm.get('steps').value.length;
     formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
 
     formRecipe.favoriters = [];
