@@ -5,7 +5,7 @@ var router = (User, newRecipe) => {
 
     var adminController = require('../controllers/adminController')(User, newRecipe);
 
-    // adminRouter.use(adminController.middleware);
+    adminRouter.use(adminController.middleware);
 
     adminRouter.route('/addRecipes')
         .get(adminController.addRecipes);

@@ -37,8 +37,8 @@ const routes: Routes = [
   { path: 'admin/approve/:id', component: ApproveRecipeDetailComponent, canActivate: [AdminGuard] },
   // { path: 'admin/approve/:id', component: EditRecipeComponent, canActivate: [AdminGuard] },
   { path: 'admin/editUserList', component: EditUserListComponent, canActivate: [AdminGuard] },
-  { path: '**', redirectTo: 'home'},
-  { path: '', pathMatch: 'full', redirectTo: 'home'}
+  { path: '', pathMatch: 'full', redirectTo: 'home'},
+  { path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({
