@@ -12,7 +12,8 @@
 - implement backgrounds on pages (at least outside of containers)
 - implement pagination for recipe search page and possibly recipe list page
 - implement feature modules (fix route prefixs) & core/shared module
-- implement route resolvers & lazy loading
+- implement route resolvers & lazy loading + pre-loading for all modules except admin
+- implement route animations and loading icons
 - move declarations array to bottom of app module
 - make api service routes load URI from external interface for easy IP switches when deploying on PI vs computers
 - upgrade to angular 8 & test using Ivy
