@@ -9,8 +9,8 @@ import { templateSourceUrl } from '@angular/compiler';
   providedIn: 'root'
 })
 export class AuthService {
-  uri = 'http://localhost:3000/api/auth';
-  testVar: any;
+  private uri = 'http://localhost:3000/api/auth';
+  // private uri = 'http://192.168.0.5:3000/api/auth';
 
   constructor(private httpClient: HttpClient) { }
 

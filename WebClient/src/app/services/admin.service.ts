@@ -9,6 +9,7 @@ import { IRecipe } from '../models/recipe.model';
   )
 export class AdminService {
   private uri = 'http://localhost:3000/api/admin';
+  // private uri = 'http://192.168.0.5:3000/api/admin';
 
   constructor(private httpClient: HttpClient) { }
 

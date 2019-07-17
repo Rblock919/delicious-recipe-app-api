@@ -8,7 +8,8 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RecipeApiService {
-  uri = 'http://localhost:3000/api/recipes';
+  private uri = 'http://localhost:3000/api/recipes';
+  // private uri = 'http://192.168.0.5:3000/api/recipes';
 
   constructor(private httpClient: HttpClient) { }
 

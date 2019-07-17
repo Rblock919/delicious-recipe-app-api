@@ -52,7 +52,7 @@ app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
-//Serve up static angular files
+// Serve up static angular files
 // app.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
 // // app.use(favicon)
 // app.all('*', (req, res) => {

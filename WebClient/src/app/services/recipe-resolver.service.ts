@@ -19,6 +19,12 @@ export class RecipeResolverService implements Resolve<IRecipeResolved | IRecipes
 
     // console.log('in recipe resolver');
     const id = route.params.id;
+
+    // user is adding new recipe
+    if (id === '0') {
+      return {recipe: null, error: null};
+    }
+
     const multiple = route.data.multipleRecipes;
 
     if (multiple) {

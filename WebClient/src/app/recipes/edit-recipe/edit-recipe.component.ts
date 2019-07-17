@@ -69,10 +69,12 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         fiber: ['', [Validators.required, numberChecker()]],
         sodium: ['', [Validators.required, numberChecker()]]
       }),
-      imgDir: ['', Validators.required] });
+      imgDir: ['', Validators.required]
+    });
 
-    this.watchProducer();
-    this.watchImageUrl();
+    // console.log('right before watchProducer');
+    // this.watchProducer();
+    // this.watchImageUrl();
 
     this.sub = this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
@@ -292,6 +294,8 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
 
       this.recipe = {} as IRecipe;
       this.imageDir = '';
+      this.watchImageUrl();
+      this.watchProducer();
     } else { // editing a recipe
 
       // this.apiService.getRecipe(this.id).subscribe(res => {
@@ -302,6 +306,9 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         if (resolvedData.error) {
           console.error(`Error in edit recipe ${resolvedData.error}`);
         }
+
+        this.watchImageUrl();
+        this.watchProducer();
 
         this.recipe = resolvedData.recipe;
 
@@ -357,6 +364,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         });
       // });
     }
+
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
