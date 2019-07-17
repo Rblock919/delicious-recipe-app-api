@@ -25,3 +25,13 @@ export interface IRecipe {
   favoriters: string[];
   raters: Map<number, number>;
 }
+
+export interface IRecipeResolved {
+  recipe: IRecipe;
+  error?: any;
+}
+
+export interface IRecipesResolved {
+  recipes: IRecipe[];
+  error?: any;
+}

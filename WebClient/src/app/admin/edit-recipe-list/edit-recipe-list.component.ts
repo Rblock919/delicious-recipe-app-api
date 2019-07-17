@@ -1,8 +1,10 @@
+import { element } from 'protractor';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
-import { IRecipe } from 'src/app/models/recipe.model';
+import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
-import { TOASTR_TOKEN, Toastr } from 'src/app/common/toastr.service';
-import { JQ_TOKEN } from './../../common/jQuery.service';
+import { TOASTR_TOKEN, Toastr } from 'src/app/shared/toastr.service';
+import { JQ_TOKEN } from '../../shared/jQuery.service';
 
 @Component({
   selector: 'app-edit-recipe-list',
@@ -16,14 +18,23 @@ export class EditRecipeListComponent implements OnInit {
   selectedRecipeTitle = '';
 
   constructor(private apiService: RecipeApiService,
+              private route: ActivatedRoute,
               @Inject(TOASTR_TOKEN) private toastr: Toastr,
               @Inject(JQ_TOKEN) private $: any
               ) { }
 
   ngOnInit() {
-    this.apiService.getRecipeList().subscribe(data => {
-      this.recipeList = data;
-    });
+    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
+
+    if (resolvedData.error) {
+      console.error(`Error in edit recipe list component: ${resolvedData.error}`);
+    } else {
+      this.recipeList = resolvedData.recipes;
+    }
+
+    // this.apiService.getRecipeList().subscribe(data => {
+      // this.recipeList = data;
+    // });
   }
 
   triggerModal(recipe: IRecipe): void {

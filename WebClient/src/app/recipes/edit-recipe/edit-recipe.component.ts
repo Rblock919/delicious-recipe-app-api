@@ -7,8 +7,8 @@ import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
-import { IRecipe } from 'src/app/models/recipe.model';
-import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
+import { IRecipe, IRecipeResolved } from 'src/app/models/recipe.model';
+import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 
 function numberChecker(): ValidatorFn {
 
@@ -71,6 +71,9 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
       }),
       imgDir: ['', Validators.required] });
 
+    this.watchProducer();
+    this.watchImageUrl();
+
     this.sub = this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       if (this.id === '0') {
@@ -79,8 +82,6 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         this.pageTitle = 'Edit Recipe';
       }
       this.getRecipeInfo();
-      this.watchProducer();
-      this.watchImageUrl();
     });
 
 
@@ -241,7 +242,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         // console.log('response: ' + res.id);
         this.submitted = true;
         this.toastr.success('Recipe Submitted for Approval!');
-        this.router.navigate(['submitted']);
+        this.router.navigate(['/recipe/submitted']);
       }, err => {
         this.toastr.error('Error Creating Recipe');
         console.log('ERROR CREATING RECIPE: ' + JSON.stringify(err));
@@ -293,9 +294,16 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
       this.imageDir = '';
     } else { // editing a recipe
 
-      this.apiService.getRecipe(this.id).subscribe(res => {
+      // this.apiService.getRecipe(this.id).subscribe(res => {
         // console.log('RES IN EDIT RECIPE: ' + JSON.stringify(res));
-        this.recipe = res;
+        // this.recipe = res;
+        const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
+
+        if (resolvedData.error) {
+          console.error(`Error in edit recipe ${resolvedData.error}`);
+        }
+
+        this.recipe = resolvedData.recipe;
 
         if (this.ingredients) {
           this.ingredients.reset();
@@ -347,7 +355,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
           nutrition: this.recipe.nutritionValues,
           imgDir: this.recipe.imgDir
         });
-      });
+      // });
     }
   }
 

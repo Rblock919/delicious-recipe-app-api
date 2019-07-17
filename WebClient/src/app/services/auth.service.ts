@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IUser } from '../models/user.model';
+import { IUser, IUserResolved } from '../models/user.model';
 import { of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { templateSourceUrl } from '@angular/compiler';
@@ -25,8 +25,8 @@ export class AuthService {
     // .pipe(catchError(this.handleError('signIn')));
   }
 
-  getUserData(): Observable<any> {
-    return this.httpClient.get(`${this.uri}/getUserData`, {responseType: 'json'});
+  getUserData(): Observable<IUserResolved> {
+    return this.httpClient.get<IUserResolved>(`${this.uri}/getUserData`, {responseType: 'json'});
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

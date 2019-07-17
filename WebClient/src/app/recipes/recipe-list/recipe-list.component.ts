@@ -1,8 +1,9 @@
+import { ActivatedRoute } from '@angular/router';
 import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
-import { IRecipe } from 'src/app/models/recipe.model';
-import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
+import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
+import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -29,16 +30,22 @@ export class RecipeListComponent implements OnInit {
   userId: number;
 
 
-  constructor(private apiService: RecipeApiService,
-              private sessionService: SessionService,
+  constructor(private sessionService: SessionService,
+              private route: ActivatedRoute,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
     this.hotRecipeList = [];
     this.favRecipeList = [];
+    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
-    this.apiService.getRecipeList().subscribe(data => {
-      this.recipeList = data;
+    // this.apiService.getRecipeList().subscribe(data => {
+      // this.recipeList = data;
+
+    if (resolvedData.error) {
+      console.error(`Error from resolver: ${resolvedData.error}`);
+    } else {
+      this.recipeList = resolvedData.recipes;
       this.selectedRecipeList = this.recipeList;
       this.userId = this.sessionService.getUser._id;
 
@@ -50,10 +57,11 @@ export class RecipeListComponent implements OnInit {
       });
 
       this.createHotList();
+    }
 
-    }, err => {
-      console.error('err in recipeList comp: ' + JSON.stringify(err));
-    });
+   //  }, err => {
+      // console.error('err in recipeList comp: ' + JSON.stringify(err));
+    // });
   }
 
   createHotList(): void {

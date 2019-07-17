@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { IRecipe } from '../models/recipe.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+  )
 export class AdminService {
   private uri = 'http://localhost:3000/api/admin';
 

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IRecipe } from 'src/app/models/recipe.model';
-import { TOASTR_TOKEN, Toastr } from 'src/app/common/toastr.service';
+import { TOASTR_TOKEN, Toastr } from 'src/app/shared/toastr.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';

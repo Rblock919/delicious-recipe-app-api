@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { RecipeApiService } from 'src/app/services/recipe-api.service';
 import { Subscription } from 'rxjs';
-import { IRecipe } from 'src/app/models/recipe.model';
-import { Toastr, TOASTR_TOKEN } from 'src/app/common/toastr.service';
+import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
+import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -22,7 +22,6 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   userId: number;
 
   constructor(private route: ActivatedRoute,
-              private apiService: RecipeApiService,
               private sessionService: SessionService,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
@@ -37,13 +36,14 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.apiService.getRecipeList().subscribe(recipes => {
-      this.recipeList = recipes;
-      this.filterRecipes();
-      this.userId = this.sessionService.getUser._id;
-    }, err => {
-      console.error(err);
-    });
+    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
+    this.recipeList = resolvedData.recipes;
+
+    if (resolvedData.error) {
+      console.error(`Error in edit recipe ${resolvedData.error}`);
+    }
+    this.filterRecipes();
+    this.userId = this.sessionService.getUser._id;
 
   }
 

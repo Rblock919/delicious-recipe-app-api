@@ -9,7 +9,6 @@ import { catchError } from 'rxjs/operators';
 })
 export class RecipeApiService {
   uri = 'http://localhost:3000/api/recipes';
-  testVar: any;
 
   constructor(private httpClient: HttpClient) { }
 

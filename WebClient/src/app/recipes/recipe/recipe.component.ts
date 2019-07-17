@@ -1,4 +1,4 @@
-import { JQ_TOKEN } from './../../common/jQuery.service';
+import { JQ_TOKEN } from '../../shared/jQuery.service';
 import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterContentInit, AfterViewInit } from '@angular/core';
 

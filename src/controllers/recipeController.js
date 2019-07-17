@@ -64,6 +64,20 @@ const recipeController = (Recipe, newRecipe) => {
     };
 
     var getById = (req, res) => {
+
+        // for testing spinner icon & route animations in front end
+        // setTimeout(() => {
+            // var id = new objectId(req.params.id);
+            // var query = {_id: id};
+
+            // Recipe.findOne(query, (err, recipe) => {
+                // if (err) {
+                    // console.log(err);
+                    // res.sendStatus(500);
+                // }
+                // res.status(200).send(recipe);
+            // });
+        // }, 1000)
         var id = new objectId(req.params.id);
         var query = {_id: id};
 
@@ -77,7 +91,7 @@ const recipeController = (Recipe, newRecipe) => {
     };
 
     var addRecipe = async (req, res) => {
-        
+
         var id = new objectId(req.body.approvalId);
         var query = {_id: id};
         // var returnId;

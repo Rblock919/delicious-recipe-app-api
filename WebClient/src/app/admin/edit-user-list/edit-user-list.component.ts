@@ -1,7 +1,8 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
-import { IUser } from 'src/app/models/user.model';
-import { TOASTR_TOKEN, Toastr } from '../../common/toastr.service';
+import { IUser, IUsersResolved } from 'src/app/models/user.model';
+import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 
 @Component({
   selector: 'app-edit-user-list',
@@ -16,22 +17,31 @@ export class EditUserListComponent implements OnInit {
   differentFromOriginal = false;
 
   constructor(private adminService: AdminService,
+              private route: ActivatedRoute,
               @Inject(TOASTR_TOKEN) private toastr: Toastr
               ) { }
 
   ngOnInit() {
     this.editedAdminFields = [];
-    this.adminService.getUsers().subscribe(users => {
-      this.userList = users;
+    // this.adminService.getUsers().subscribe(users => {
+      // this.userList = users;
+    const resolvedData: IUsersResolved = this.route.snapshot.data.resolvedData;
+
+    if (resolvedData.error) {
+      console.error(`Error: ${resolvedData.error}`);
+    } else {
+      this.userList = resolvedData.users;
       let counter = 0;
       this.userList.forEach(user => {
         this.editedAdminFields.push();
         this.editedAdminFields[counter] = user.isAdmin;
         counter++;
       });
-    }, err => {
-      console.log('error getting user list: ' + JSON.stringify(err));
-    });
+    }
+
+    // }, err => {
+      // console.log('error getting user list: ' + JSON.stringify(err));
+    // });
   }
 
   changeStatus(user: IUser): void {
