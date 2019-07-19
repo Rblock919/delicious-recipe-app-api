@@ -5,7 +5,7 @@
     3. cut and paste code into the ./recipeData.js file
 */
 let recipedata = [
-    
+
 ];
 
 module.exports = recipedata;

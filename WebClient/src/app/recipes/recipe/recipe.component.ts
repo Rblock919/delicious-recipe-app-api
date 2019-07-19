@@ -3,7 +3,7 @@ import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterContentInit, AfterViewInit } from '@angular/core';
 
 import { IRecipe } from 'src/app/models/recipe.model';
-import { RecipeApiService } from 'src/app/services/recipe-api.service';
+import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 
 @Component({
   selector: 'app-recipe',

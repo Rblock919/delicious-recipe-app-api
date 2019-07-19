@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { RecipeApiService } from 'src/app/services/recipe-api.service';
+import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 

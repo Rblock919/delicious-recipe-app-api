@@ -1,6 +1,6 @@
+import { LoggerService } from '../../services/util/logger.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { RecipeApiService } from 'src/app/services/recipe-api.service';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
@@ -17,32 +17,32 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   recipeList: IRecipe[];
   filteredList: IRecipe[];
-  showRecipes = false;
-  counter = 0;
   userId: number;
 
   constructor(private route: ActivatedRoute,
               private sessionService: SessionService,
+              private loggerService: LoggerService,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
 
   ngOnInit() {
-    this.searchString = this.route.snapshot.params.searchString;
-
-    this.sub = this.route.paramMap.subscribe(params => {
-      this.searchString = params.get('searchString');
-      if (this.counter > 0) {
-        this.filterRecipes();
-      }
-    });
+    // this.searchString = this.route.snapshot.params.searchString;
+    this.loggerService.consoleLog('in recipe search component');
 
     const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
-    this.recipeList = resolvedData.recipes;
 
     if (resolvedData.error) {
       console.error(`Error in edit recipe ${resolvedData.error}`);
+    } else {
+      this.recipeList = resolvedData.recipes;
     }
-    this.filterRecipes();
+
+    this.sub = this.route.queryParamMap.subscribe(params => {
+      this.loggerService.consoleLog(`Param changed to: ${params.get('searchString')}`);
+      this.searchString = params.get('searchString');
+      this.filterRecipes();
+    });
+
     this.userId = this.sessionService.getUser._id;
 
   }
@@ -50,9 +50,6 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   filterRecipes(): void {
     this.filteredList = this.recipeList
       .filter(x => x.title.toLocaleLowerCase().includes(this.searchString.toLocaleLowerCase()));
-    this.showRecipes = true;
-    this.counter++;
-    console.log(this.filteredList.length);
   }
 
   ngOnDestroy() {

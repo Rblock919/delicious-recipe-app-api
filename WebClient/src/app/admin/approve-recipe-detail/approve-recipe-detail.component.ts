@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IRecipe } from 'src/app/models/recipe.model';
-import { TOASTR_TOKEN, Toastr } from 'src/app/shared/toastr.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { RecipeApiService } from 'src/app/services/recipe-api.service';
+
+import { IRecipe, IRecipeResolved } from 'src/app/models/recipe.model';
+import { TOASTR_TOKEN, Toastr } from 'src/app/shared/toastr.service';
+import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 
 function numberChecker(): ValidatorFn {
 
@@ -43,8 +43,7 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
   editMode = false;
   blueApronNutritionFlag = false;
 
-  constructor(private adminService: AdminService,
-              private recipeApiService: RecipeApiService,
+  constructor(private recipeApiService: RecipeApiService,
               private route: ActivatedRoute,
               private router: Router,
               @Inject(TOASTR_TOKEN)private toastr: Toastr,
@@ -75,8 +74,11 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
     this.watchImageUrl();
 
-    this.adminService.getApprovalById(this.recipeId).subscribe(recipe => {
-        this.recipe = recipe;
+    const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
+    if (resolvedData.error) {
+      console.error(resolvedData.error);
+    } else {
+        this.recipe = resolvedData.recipe;
         this.setValidations(this.recipe.producer);
 
         if (this.ingredients) {
@@ -136,9 +138,9 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
         });
 
         this.watchProducer();
-    }, err => {
-      console.error('ERROR: ' + err);
-    });
+
+    }
+
   }
 
   changeBlueApronNutritionalFlag(): void {

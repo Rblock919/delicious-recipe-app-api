@@ -15,7 +15,7 @@ var router = (User, newRecipe) => {
 
     adminRouter.route('/getUsers')
         .get(adminController.getUsers);
-    
+
     adminRouter.route('/updateUsers')
         .post(adminController.updateUsers);
 

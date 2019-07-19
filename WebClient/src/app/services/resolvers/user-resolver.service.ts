@@ -1,10 +1,10 @@
-import { AdminModule } from './../admin/admin.module';
-import { AdminService } from 'src/app/services/admin.service';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { IUserResolved, IUsersResolved } from '../models/user.model';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
+import { IUserResolved, IUsersResolved } from '../../models/user.model';
+import { AdminService } from 'src/app/services/api/admin.service';
 
 @Injectable()
 export class UserResolverService implements Resolve<IUserResolved | IUsersResolved> {

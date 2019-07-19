@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
+import { AdminService } from 'src/app/services/api/admin.service';
 import { IUser, IUsersResolved } from 'src/app/models/user.model';
 import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 

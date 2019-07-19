@@ -37,7 +37,7 @@ const adminController = (User, newRecipe) => {
                 // console.log('setting userId in req');
                 userId = payload.sub;
                 id = new objectId(userId);
-                query = {_id: id};       
+                query = {_id: id};
 
                 User.findOne(query, function (err, foundUser) {
                     if (err) {
@@ -52,7 +52,7 @@ const adminController = (User, newRecipe) => {
                         }
                     }
                 });
-                
+
             }
 
         } else {
@@ -161,7 +161,7 @@ const adminController = (User, newRecipe) => {
             });
         }
 
-       if (setToFalseIds.length > 0) {
+        if (setToFalseIds.length > 0) {
             await User.updateMany({_id: {$in: setToFalseIds}}, {$set: {isAdmin: false}}, function (err, response) {
                 if (err) {
                     console.log(chalk.red(err));
@@ -169,7 +169,7 @@ const adminController = (User, newRecipe) => {
                 }
 
             });
-       } 
+        }
 
         res.sendStatus(200);
 
@@ -203,13 +203,13 @@ const adminController = (User, newRecipe) => {
     };
 
     return {
-        middleware: middleware,
-        addRecipes: addRecipes,
-        addNewRecipes: addNewRecipes,
-        getApprovalList: getApprovalList,
-        getApprovalById: getApprovalById,
-        getUsers: getUsers,
-        updateUsers: updateUsers
+        middleware,
+        addRecipes,
+        addNewRecipes,
+        getApprovalList,
+        getApprovalById,
+        getUsers,
+        updateUsers
     };
 };
 

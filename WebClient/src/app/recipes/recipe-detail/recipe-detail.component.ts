@@ -1,9 +1,9 @@
-import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { RecipeApiService } from 'src/app/services/recipe-api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 import { IRecipe, IRecipeResolved } from 'src/app/models/recipe.model';
-import { ActivatedRoute, Params } from '@angular/router';
-import { IUser } from 'src/app/models/user.model';
+import { SessionService } from './../../services/session.service';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
 
 @Component({
@@ -16,7 +16,6 @@ export class RecipeDetailComponent implements OnInit {
   recipe: IRecipe;
   recipeId: number;
   preCookTitle: string;
-  showRecipe = false;
   favorited: boolean;
   rated: boolean;
   userRating = 0;
@@ -25,19 +24,17 @@ export class RecipeDetailComponent implements OnInit {
   constructor(private recipeApi: RecipeApiService,
               private route: ActivatedRoute,
               private session: SessionService,
+              private router: Router,
               @Inject(TOASTR_TOKEN) private toastr: Toastr
               ) { }
 
   ngOnInit() {
     const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
-    // console.log('Resolved Data: ' + JSON.stringify(resolvedData));
-    // this.recipeId = this.route.snapshot.params.id;
-    // console.log('Id in detail comp: ' + this.recipeId);
-    // this.recipeApi.getRecipe(this.recipeId).subscribe((data) => {
-      // this.recipe = data;
 
     if (resolvedData.error) {
-      console.error(`Error: ${resolvedData.error}`);
+      console.error(`Error in recipe detail comp: ${resolvedData.error}`);
+      console.log('routing to error page...');
+      this.router.navigate(['error']);
     } else {
       this.recipe = resolvedData.recipe;
       this.recipeId = this.recipe._id;
@@ -75,8 +72,6 @@ export class RecipeDetailComponent implements OnInit {
 
       }
 
-      this.showRecipe = true;
-      // });
     }
 
 

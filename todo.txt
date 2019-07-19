@@ -1,19 +1,21 @@
 - possibly learn how to configure passport to work w/ CORS apps
 - figure out how to connect to mongoAtlas db from terminal
+- upgrade to angular 8 & test using Ivy
+
 - implement password resets (for users & admin)
-- possibly move filtering + sorting to external pipe
-- make the home page slightly different from user-home
-- update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
 - service/page for users to see their ratings and change them
-- remove userId from all recipe favoriters array and raters maps (consider changing data model to have favoriters and ratings stored in user model)
 - non-authenticated gallery page
 - a 'learn more' page
 - make account related services into separate dropdown on the right
 - implement backgrounds on pages (at least outside of containers)
 - implement pagination for recipe search page and possibly recipe list page
-- implement route resolver for yet to be approved recipes
-- implement route animations 
-- implement a query string parameter for recipe search component
-- move declarations array to bottom of app module
-- make api service routes load URI from external interface for easy IP switches when deploying on PI vs computers
-- upgrade to angular 8 & test using Ivy
+- make folders for apicallers/guards/resolvers in services folder + move loggerService to util
+- implement route animations
+- implement collapsing-wells on recipe detail page for steps & other categories
+- consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
+^ -> (possibly move filtering + sorting to external pipe)
+- implement redirectUrl functionality from angular-routing course
+- removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
+
+- commenting functionality on recipes?
+- update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)

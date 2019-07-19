@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IUser } from '../models/user.model';
-import { IRecipe } from '../models/recipe.model';
+
+import { AdminModule } from '../../admin/admin.module';
+import { IUser } from '../../models/user.model';
+import { IRecipe } from '../../models/recipe.model';
+import { AppUri } from '../../models/uri.data';
 
 @Injectable(
-  // { providedIn: 'root' }
+   // { providedIn: AdminModule }
   )
 export class AdminService {
-  private uri = 'http://localhost:3000/api/admin';
+  private uri = AppUri.local + 'admin';
+  // private uri = 'http://localhost:3000/api/admin';
   // private uri = 'http://192.168.0.5:3000/api/admin';
 
   constructor(private httpClient: HttpClient) { }

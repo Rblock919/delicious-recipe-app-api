@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from './api/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../models/user.model';
 import { Observable } from 'rxjs';
@@ -25,14 +25,6 @@ export class SessionService {
   }
 
   setUser(user: IUser) {
-    // const tempUser: IUser = {
-      // username: user.username,
-      // password: user.password,
-      // isAdmin: user.isAdmin,
-      // _id: user._id
-    // };
-
-    // this.userData = tempUser;
     this.userData = user;
     this.setAdminStatus(user.isAdmin);
   }

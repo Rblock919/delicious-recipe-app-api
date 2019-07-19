@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { IUser } from '../models/user.model';
-import { TOASTR_TOKEN, Toastr } from '../shared/toastr.service';
 import { Router } from '@angular/router';
-import { SessionService } from '../services/session.service';
+
+import { AuthService } from '../../services/api/auth.service';
+import { IUser } from '../../models/user.model';
+import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',

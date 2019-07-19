@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/api/auth.service';
 import { TOASTR_TOKEN, Toastr} from '../shared/toastr.service';
 import { SessionService } from '../services/session.service';
 
@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
   search() {
     if (this.searchString !== '') {
       console.log('user has actually entered something to search \nSearching...');
-      this.router.navigate(['recipe/search', this.searchString]);
+      this.router.navigate(['/recipe/search'], { queryParams: {searchString: this.searchString}});
     } else {
       console.log('nothing to search...');
     }

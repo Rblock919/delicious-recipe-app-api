@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { SharedModule } from './../shared/shared.module';
 import { RecipeSearchComponent } from './recipe-search/recipe-search.component';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
@@ -11,8 +10,9 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { SubmittedComponent } from './edit-recipe/submitted.component';
 import { IngredientsPipe } from '../services/util/ingredients.pipe';
-import { RouteGuard } from '../services/route.guard';
-import { RecipeResolverService } from '../services/recipe-resolver.service';
+import { RouteGuard } from '../services/guards/route.guard';
+import { RecipeResolverService } from '../services/resolvers/recipe-resolver.service';
+import { StarComponent } from './star/star.component';
 
 @NgModule({
   imports: [
@@ -28,6 +28,12 @@ import { RecipeResolverService } from '../services/recipe-resolver.service';
         component: SubmittedComponent
       },
       {
+        path: 'search',
+        component: RecipeSearchComponent,
+        resolve: { resolvedData: RecipeResolverService },
+        data: { multipleRecipes: true }
+      },
+      {
         path: ':id',
         component: RecipeDetailComponent,
         resolve: { resolvedData: RecipeResolverService},
@@ -41,15 +47,13 @@ import { RecipeResolverService } from '../services/recipe-resolver.service';
         data: { context: 'editRecipe', multipleRecipes: false }
       },
       {
-        path: 'search/:searchString',
-        component: RecipeSearchComponent,
-        resolve: { resolvedData: RecipeResolverService },
-        data: { multipleRecipes: true }
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'list'
       }
     ]),
     ReactiveFormsModule,
-    CommonModule,
-    SharedModule
+    CommonModule
   ],
   declarations: [
     RecipeSearchComponent,
@@ -59,6 +63,7 @@ import { RecipeResolverService } from '../services/recipe-resolver.service';
     EditRecipeComponent,
     SubmittedComponent,
     IngredientsPipe,
+    StarComponent
   ],
   providers: []
 })

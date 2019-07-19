@@ -1,9 +1,10 @@
 import { Injectable, Component } from '@angular/core';
 import { CanActivate, Router, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { SessionService } from './session.service';
-import { EditRecipeComponent } from '../recipes/edit-recipe/edit-recipe.component';
 import { Observable } from 'rxjs';
-import { RegisterComponent } from '../login/register.component';
+
+import { SessionService } from '../session.service';
+import { EditRecipeComponent } from '../../recipes/edit-recipe/edit-recipe.component';
+import { RegisterComponent } from '../../common/login/register.component';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +72,7 @@ export class RouteGuard implements CanActivate, CanDeactivate<Component> {
         return true;
       } else {
         // console.log('in route guard and user is not auth');
-        this.router.navigate(['home']);
+        this.router.navigate(['index']);
         return false;
       }
     }

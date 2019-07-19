@@ -137,9 +137,9 @@ const authController = (User) => {
     };
 
     return {
-        signUp: signUp,
-        signIn: signIn,
-        getUserData: getUserData
+        signUp,
+        signIn,
+        getUserData
     };
 
 }

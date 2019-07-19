@@ -10,18 +10,21 @@ const mongoose = require('mongoose');
 
 const uriS = require('./src/config/db/dbconnection');
 
+const app = express();
+const port = process.env.PORT || 3000;
+
 mongoose.connect(uriS.remote, {useNewUrlParser: true}, (err) => {
     if (!err) {
         console.log(chalk.inverse('connected to db in app.js'));
+    } else {
+        console.log(chalk.red(`Error connecting to database in app.js... ${err}`));
     }
 });
 
+//Load mongoose models
 const newRecipe = require('./src/models/recipeModel').newRecipe;
 const Recipe = require('./src/models/recipeModel').recipe;
 const User = require('./src/models/userModel');
-
-const app = express();
-const port = process.env.PORT || 3000;
 
 //Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(Recipe, newRecipe);
@@ -37,14 +40,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(session({secret: 'recipe'}));
 // require('./src/config/passport')(app);
-
-//Establish auto-scanning static file directory reference locations
-// app.use(express.static('public'));
-// app.use(express.static('src/views'));
-
-//Set view engine
-// app.set('views', 'src/views');
-// app.set('view engine', 'ejs');
 
 //Establish express routers
 app.use('/api/recipes', recipeRouter);

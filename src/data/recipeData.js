@@ -1342,6 +1342,386 @@ let recipedata = [
         imgDir: 'assets/images/gochujang-beef-lettuce-cups.jpg',
         favoriters: [],
         raters: {}
+    },
+    {
+        title: 'Chicken Lettuce Cups',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Chopped Chicken Breast | 10 oz',
+            'Sushi Rice | 1/2 cup',
+            'Butter Lettuce | 1 head',
+            'Persian Cucumbers | 2',
+            'Carrots | 6 oz',
+            'Gochujang | 2 tsp',
+            'Hoisin Sauce | 2 tbsp',
+            'Soy Sauce | 1 tbsp',
+            'Rice Vinegar | 1 tbsp',
+            'Mayonnaise | 2 tbsp',
+            'Sugar | 1 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Cook the Rice',
+                body: 'In a small pot, combine the rice, a big pinch of salt, and 3/4 cup of water. Heat to boiling on high. Once boiling, reduce the heat to low. Cover and cook, ' +
+                'without stirring, 15 to 17 minutes, or until the water has been absorbed and the rice is tender. Turn off the heat and fluff with a fork.'
+            },
+            {
+                name: 'Prepare Ingredients & Make the Hoisin Mayo',
+                body: 'While the rice cooks, wash and dry the fresh produce. Peel the carrots and thinly slice on an angle. Quarter the cucumbers lengthwise, then thinly slice ' +
+                'crosswise. Cut off and discard the root end of the lettuce; separate the leaves. In a bowl, whisk together the hoisin sauce, mayonnaise, and 1 teaspoon of water. ' +
+                'Taste, then season with salt and pepper if desired.'
+            },
+            {
+                name: 'Pickle the Carrots',
+                body: 'While the rice continues to cook, in a medium pan (nonstick, if you have one), combine the sliced carrots, sugar, vinegar, a big pinch of salt, and 1/4 cup of ' +
+                'water. Heat to boiling on high. Once boiling, cook, stirring occasionally, 1 to 2 minutes, or until the sugar has dissolved. Transfer to a heatproof bowl. Stir in as ' +
+                'much of the gochujang as you’d like, depending on how spicy you’d like the dish to be. Set aside to cool, stirring occasionally, at least 10 minutes. Rinse and wipe out the pan.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'While the carrots cool, pat the chicken dry with paper towels. Place in a bowl; add the soy sauce and season with salt and pepper. Stir to coat. In the same pan, ' +
+                'heat 2 teaspoons of olive oil on medium-high until hot. Add the seasoned chicken in an even layer. Cook, without stirring, 3 to 4 minutes, or until lightly browned. ' +
+                'Continue to cook, stirring occasionally, 3 to 4 minutes, or until browned and cooked through. Turn off the heat.'
+            },
+            {
+                name: 'Finish & Serve Dish',
+                body: 'To the pot of cooked rice, add the sliced cucumbers and pickled carrots (including the liquid). Stir to combine. Stack 2 lettuce leaves on top of each other. ' +
+                'Top each stack with the finished rice and cooked chicken. Drizzle with the hoisin mayo. Enjoy!'
+            },
+            {
+                name: 'Make Ahead Modifications',
+                body: 'Prepare as directed. Transfer the lettuce leaves and hoisin mayo to separate airtight containers, then cover and refrigerate. Transfer the finished rice and ' +
+                'cooked chicken to an airtight container. Cool, uncovered, then cover and refrigerate. Serve as directed (if necessary, stir 1 teaspoon of warm water into the mayo to ' + 
+                'thin to drizzling consistency). Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 620,
+            fat: 19,
+            saturatedFat: 2.5,
+            carbohydrate: 80,
+            sugar: 25,
+            fiber: 4,
+            protein: 40,
+            cholesterol: 105,
+            sodium: 1290
+        },
+        imgDir: 'assets/images/chicken-lettuce-wraps.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Asian Chicken Lettuce Wraps',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Ground Chicken | 10 oz',
+            'Chinese Black Rice | 3/4 cup',
+            'Butter Lettuce | 1 head',
+            'Scallions | 2',
+            'Ginger | 1-inch piece',
+            'Cilantro | 1 bunch',
+            'Lime | 1',
+            'Watermelon Radish | 1',
+            'Jicama | 1/2 bulb',
+            'Sweet Chili Sauce | 3 tbsp',
+            'Sesame Oil | 2 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Cook the Rice',
+                body: 'Heat a medium pot of salted water to boiling on high. Add the rice and cook 27 to 29 minutes, or until tender. Drain thoroughly and set aside as you ' +
+                'continue cooking.'
+            },
+            {
+                name: 'Prepare Ingredients & Make the Hoisin Mayo',
+                body: 'While the rice cooks, wash and dry the fresh produce. Trim off and discard the roots of the scallions; thinly slice the scallions, separating the white bottoms ' +
+                'and green tops. Peel and mince the ginger. Pick the cilantro leaves off the stems; discard the stems and roughly chop the leaves. Cut off and discard the root of the ' +
+                'lettuce, then separate the leaves. Using a peeler, remove the green rind of the lime, avoiding the white pith; mince the rind to get 2 teaspoons of zest. Quarter the ' +
+                'lime. Peel the jicama and cut into thin matchsticks. Thinly slice the watermelon radish and place in a bowl of ice water.'
+            },
+            {
+                name: 'Cook the Aromatics',
+                body: 'While the rice continues to cook, in a large pan (nonstick, if you have one), heat 2 teaspoons of oil on medium until hot. Add the white bottoms of the scallions ' +
+                'and ginger and cook, stirring frequently, 30 seconds to 1 minute, or until fragrant.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'Add the chicken and cook, frequently breaking apart with a spoon, 2 to 4 minutes, or until browned and cooked through. Stir in the sweet chili sauce, lime zest, ' +
+                'the juice of 1 lime wedge and half the sesame oil. Cook, stirring occasionally, 30 seconds to 1 minute, or until thoroughly combined and heated through. Remove from ' +
+                'heat and season with salt and pepper to taste. Set aside in a warm place as you continue cooking.'
+            },
+            {
+                name: 'Make the Salad',
+                body: 'Drain and dry the watermelon radishes. Place them in a medium bowl along with the jicama, remaining sesame oil, the juice of the remaining lime wedges and half ' +
+                'the cilantro. Season with salt and pepper to taste and toss to thoroughly coat.'
+            },
+            {
+                name: 'Finish & Plate Dish',
+                body: 'Add the green tops of the scallions, remaining cilantro and a drizzle of olive oil to the cooked rice. Season with salt and pepper to taste and stir to combine. ' +
+                'To plate your dish, place a few lettuce leaves on each plate, fill each with some of the chicken mixture and top with some of the salad. Serve with the dressed ' +
+                'forbidden rice on the side. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 640
+        },
+        imgDir: 'assets/images/asian-chicken-lettuce-wraps.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Buffalo Chicken Lettuce Wraps',
+        producer: 'Home Chef',
+        ingredients: [
+            'Crispy Jalapeños | 1/2 oz',
+            'Matchstick Carrots | 3 oz',
+            'Blue Cheese | 1/2 oz',
+            'Frank\'s Redhot Sauce | 1.5 fl oz',
+            'Ranch Dressing | 1.5 fl oz',
+            'Butter Lettuce | 1 head',
+            'Boneless Skinless Chicken Breasts | 13 oz'
+        ],
+        preCook: [
+            'Thoroughly rinse produce and pat dry'
+        ],
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Separate leaves of lettuce for cups.'
+            },
+            {
+                name: 'Cook the Chicken',
+                body: 'Bring a small non-stick pan with chicken, ½ cup water, and a pinch of pepper to a boil over medium-high heat. Once boiling, cover and ' +
+                'cook until chicken reaches a minimum internal temperature of 165 degrees, 8-10 minutes. Transfer chicken to a plate and let cool. Once cool, ' +
+                'shred into bite-sized pieces.'
+            },
+            {
+                name: 'Sauce the Chicken',
+                body: 'Place shredded chicken in a mixing bowl and combine with hot sauce (to taste). Set aside.'
+            },
+            {
+                name: 'Make the Carrot Salad',
+                body: 'Combine carrot, ranch dressing, and blue cheese (to taste) in another mixing bowl.'
+            },
+            {
+                name: 'Assemble the Lettuce Cups',
+                body: 'Plate dish as pictured on front of card, filling lettuce cups with chicken and carrot salad. Garnish with crispy jalapeños (to taste). ' +
+                'Bon appétit!'
+            }
+        ],
+        nutritionValues: {
+            calories: 411,
+            fat: 21,
+            carbohydrate: 13,
+            protein: 42,
+            sodium: 1672
+        },
+        imgDir: 'assets/images/buffalo-chicken-lettuce-wraps.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Beef Burrito Bowls',
+        producer: 'Blue Apron',
+        ingredients: [
+            'Thinly Sliced Beef | 10 oz',
+            'Cracked Freekah | 1/2 cup',
+            'Canned Black Beans | 15.5 oz',
+            'Sweet Onion | 1',
+            'Sweet Peppers | 4 oz',
+            'Garlic | 2 cloves',
+            'Lime | 1',
+            'Sliced Pickled Jalapeño Pepper | 1 oz',
+            'Plain Nonfat Greek Yogurt | 1/2 cup',
+            'Mexican Spice Blend | 1 tbsp'
+        ],
+        preCook: [],
+        steps: [
+            {
+                name: 'Cook the Freekah',
+                body: 'Fill a medium pot with salted water; cover and heat to boiling on high. Once boiling, add the freekeh. Cook, uncovered, 24 to 26 minutes, or until tender. ' +
+                'Turn off the heat. Drain thoroughly and return to the pot.'
+            },
+            {
+                name: 'Prepare the Ingredients & Make the Salsa',
+                body: 'While the freekeh cooks, wash and dry the fresh produce. Halve, peel, and thinly slice the onion. Peel and roughly chop 2 cloves of garlic. Drain and rinse ' +
+                'the beans. Cut off and discard the stems of the sweet peppers; remove the cores, then medium dice. Quarter the lime. Roughly chop the jalapeño pepper. Thoroughly ' +
+                'wash your hands immediately after handling. In a bowl, combine the diced sweet peppers, the juice of 2 lime wedges, 1 teaspoon of olive oil, and as much of the ' +
+                'chopped jalapeño pepper as you’d like, depending on how spicy you’d like the salsa to be. Season with salt and pepper.'
+            },
+            {
+                name: 'Cook the Beef & Onion',
+                body: 'While the freekeh continues to cook, separate the beef; pat dry with paper towels. Place in a bowl; season with salt, pepper, and enough of the spice blend ' +
+                'to coat (you may have extra). Toss to thoroughly coat. In a medium pan (nonstick, if you have one), heat 1 teaspoon of olive oil on medium-high until hot. Add the ' +
+                'sliced onion; season with salt and pepper. Cook, stirring occasionally, 3 to 4 minutes, or until slightly softened. Using a spoon, move the onion to one side of the ' +
+                'pan. Add the seasoned beef in an even layer to the other side of the pan. Cook, without stirring, 2 to 3 minutes, or until browned. Stir the onion and beef to ' +
+                'combine. Cook, stirring occasionally, 1 to 2 minutes, or until the onion is softened and the beef is just cooked through. Leaving any browned bits (or fond) in ' +
+                'the pan, transfer to a bowl.'
+            },
+            {
+                name: 'Cook the Beans',
+                body: 'In the pan of reserved fond, heat 1 teaspoon of olive oil on medium-high until hot. Add the chopped garlic and cook, stirring constantly, 30 seconds to 1 ' +
+                'minute, or until slightly softened. Add the beans and 1 tablespoon of water; season with salt and pepper. Cook, stirring occasionally, 1 to 2 minutes, or until ' +
+                'the beans are slightly softened and the water has cooked off. Turn off the heat.'
+            },
+            {
+                name: 'Finish & Serve Dish',
+                body: 'While the beans cook, in a bowl, combine the yogurt and the juice of the remaining lime wedges. Season with salt and pepper. To the pot of cooked freekeh, ' +
+                'add the cooked beans and 1 teaspoon of olive oil. Season with salt and pepper and stir to combine. Serve the finished freekeh topped with the cooked beef and ' +
+                'onion. Garnish with the salsa. Drizzle with the lime yogurt. Enjoy!'
+            }
+        ],
+        nutritionValues: {
+            calories: 700,
+            fat: 9,
+            saturatedFat: 2.5,
+            carbohydrate: 87,
+            sugar: 11,
+            fiber: 18,
+            protein: 60,
+            cholesterol: 90,
+            sodium: 1050
+        },
+        imgDir: 'assets/images/beef-burrito-bowls.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Beef Sloppy Joe\'s',
+        producer: 'Home Chef',
+        ingredients: [
+            'Green Bell Pepper | 1',
+            'Ground Beef | 14 oz',
+            'Light Brown Sugar | 1.5 oz',
+            'Dark Chili Powder | 2 tsp',
+            'Slaw Mix | 5 oz',
+            'Sweet Potato | 10 oz',
+            'Ketchup | 6 fl oz',
+            'Dijon Mustard | 1.5 oz',
+            'Apple Cider Vinegar | 3 fl oz',
+            'Brioche Bun | 2'
+        ],
+        preCook: [
+            'Preheat oven to 400 degrees',
+            'Thoroughly rinse produce and pat dry',
+            'Prepare baking sheet with foil or use a nonstick baking sheet'
+        ],
+        steps: [
+            {
+                name: 'Prepare the Ingredients',
+                body: 'Remove the membrane (spiny white innards) and seeds of bell pepper and chop into a small dice. Peel the sweet potato and slice into ' +
+                '¼" thin rounds.'
+            },
+            {
+                name: 'Make the Sweet Potato Chips',
+                body: 'In a mixing bowl, combine 2 tsp. olive oil, sweet potato rounds, and season with a pinch of salt and pepper. Combine until chips are ' +
+                'evenly coated with oil and spices. Arrange coated chips (with as little overlap as possible) on the prepared baking sheet and put on middle ' +
+                'rack of the oven to bake. After 10 minutes, flip chips and bake for another 10 minutes, until browned and crisp. Add a pinch of sea salt to ' +
+                'the chips and let cool on the baking sheet so the chips become slightly crisp.'
+            },
+            {
+                name: 'Sauté the Beef & Peppers',
+                body: 'While sweet potato chips are baking, in a medium pan over medium-high heat sauté 1 tsp. olive oil and ground beef until no pink remains. ' +
+                'Once ground beef is cooked, tip pan and drain excess fat from the meat. Be careful not to drain fat into a garbage disposal (it will clog your ' +
+                'drain). Instead, either save the grease for other cooking purposes (it’s great for hash) or discard in the trash. Add the green pepper to the ' +
+                'drained ground beef and sauté for 2-3 minutes, or until slightly softened.'
+            },
+            {
+                name: 'Prepare the Sloppy Joe Mixture',
+                body: 'Reduce heat to low and add ketchup, 2 Tbsp. of brown sugar (reserving remaining for slaw), Dijon mustard, chili powder to taste, ⅓ of ' +
+                'the apple cider vinegar (reserving remaining for slaw) to the ground beef and pepper mixture, stirring occasionally for 2-3 minutes. Stir ' +
+                'until completely assimilated. If necessary, add 1 Tbsp. water to thin the sloppy joe sauce.'
+            },
+            {
+                name: 'Prepare the Slaw & Toast Buns',
+                body: 'In a mixing bowl, combine the slaw mix, remaining apple cider vinegar, remaining brown sugar, 1 Tbsp. olive oil, and a pinch of salt ' +
+                'and pepper. Stir until combined, cover, and place in refrigerator to chill until ready to serve. If desired, add buns to the baking sheet ' +
+                'with the sweet potato chips toward the end of their baking cycle and bake for 3-5 minutes for a warm, toasty texture.'
+            },
+            {
+                name: 'Plate the Dish',
+                body: 'On a plate, arrange a warmed bun and add a generous serving of the sloppy joe mixture to the bottom portion of the bun.Top sloppy joe ' +
+                'mixture with chilled slaw. Arrange sweet potato chips on the side. Add top bun to cap off the sandwich and enjoy.'
+            }
+        ],
+        nutritionValues: {
+            calories: 1055,
+            fat: 46,
+            carbohydrate: 94,
+            protein: 67,
+            sodium: 1435
+        },
+        imgDir: 'assets/images/beef-sloppy-joes.jpg',
+        favoriters: [],
+        raters: {}
+    },
+    {
+        title: 'Hearty Pork Chili',
+        producer: 'Hello Fresh',
+        ingredients: [
+            'Scallions | 4',
+            'Kidney Beans | 1 box',
+            'Ground Pork | 20 oz',
+            'Chicken Stock Concentrate | 2 unit',
+            'Cheddar Cheese | 1 cup',
+            'Garlic | 4 cloves',
+            'Poblano Pepper | 2',
+            'Mexican Spice Blend | 2 tbsp',
+            'Crushed Tomatoes | 2 box',
+            'Sour Cream | 8 tbsp'
+        ],
+        preCook: [
+            '2 tbsp Vegetable Oil',
+            'Strainer',
+            'Large Pan'
+        ],
+        steps: [
+            {
+                name: 'Prep',
+                body: 'Wash and dry all produce. Thinly slice scallions, keeping greens and whites separate. Mince or grate garlic. Drain and ' +
+                'rinse beans. Core and seed poblanos, then cut into ½-inch squares.'
+            },
+            {
+                name: 'Cook Pork',
+                body: 'Heat a drizzle of oil in a large pan over medium-high heat. Add pork and Mexican spice, breaking up meat into pieces. ' +
+                'Cook, stirring occasionally, until crisped at the edges and no longer pink, 4-6 minutes. Season with salt and pepper. Remove ' +
+                'from pan and set aside.'
+            },
+            {
+                name: 'Sweat Veggies',
+                body: 'Add a drizzle of oil, scallion whites, poblanos, and garlic to same pan. Cook, tossing, until lightly browned and softened, ' +
+                'about 5 minutes. Season with salt and pepper.'
+            },
+            {
+                name: 'Simmer Chili',
+                body: 'Stir stock concentrates, beans, tomatoes, and ½ cup water into pan. Bring to a boil, then lower heat and let simmer until ' +
+                'slightly thickened, about 5 minutes. Season with salt and pepper.'
+            },
+            {
+                name: 'Finish Chili',
+                body: 'Return pork and any drippings to pan. Simmer until saucy and very thick, about 5 minutes longer.'
+            },
+            {
+                name: 'Plate and Serve',
+                body: 'Divide chili between bowls. Sprinkle with cheddar and scallion greens.Dollop with sour cream and serve.'
+            },
+        ],
+        nutritionValues: {
+            calories: 660,
+            fat: 38,
+            saturatedFat: 15,
+            carbohydrate: 40,
+            sugar: 10,
+            fiber: 8,
+            protein: 42,
+            cholesterol: 135,
+            sodium: 1030
+        },
+        imgDir: 'assets/images/hearty-pork-chili.jpg',
+        favoriters: [],
+        raters: {}
     }
 
 ];

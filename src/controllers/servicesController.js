@@ -40,7 +40,7 @@ const servicesController = () => {
     }
 
     return {
-        middleware: middleware
+        middleware
     };
 
 };

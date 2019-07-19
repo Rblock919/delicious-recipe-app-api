@@ -1,28 +1,18 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { StarComponent } from './star/star.component';
-import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
-import { JQ_TOKEN } from 'src/app/shared/jQuery.service';
-import { AuthInterceptorService } from './../services/auth-interceptor.service';
+import { Toastr, TOASTR_TOKEN } from './toastr.service';
+import { JQ_TOKEN } from './jQuery.service';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
 
 @NgModule({
-  declarations: [
-    StarComponent
-  ],
   imports: [
-    CommonModule,
+    CommonModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    },
     {
       provide: TOASTR_TOKEN,
       useValue: toastr
@@ -32,8 +22,9 @@ const jQuery = window['$'];
       useValue: jQuery
     }
   ],
+  declarations: [],
   exports: [
-    StarComponent,
+    RouterModule
   ]
 })
 export class SharedModule { }

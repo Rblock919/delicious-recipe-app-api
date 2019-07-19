@@ -1,7 +1,7 @@
 <main role="main">
 
   <br>
-      <div *ngIf="showRecipe" class="container">
+      <div class="container">
           <div class="row">
             <div class="col-md-12">
               <div class="panel">
@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-md-8"><h2>{{recipe.title}}</h2></div>
                         <div class="col-md-1">
-                          <app-star *ngIf="showRecipe" (ratingClicked)="logRate($event)" [rating]="avgRating"></app-star>
+                          <app-star (ratingClicked)="logRate($event)" [rating]="avgRating"></app-star>
                           <button type="button" [id]="recipe._id" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#C580">
                             <span style="color: white;">Rate</span>
                           </button>

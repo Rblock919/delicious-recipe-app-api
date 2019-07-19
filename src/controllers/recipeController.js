@@ -64,7 +64,8 @@ const recipeController = (Recipe, newRecipe) => {
     };
 
     var getById = (req, res) => {
-
+        var id;
+        var query;
         // for testing spinner icon & route animations in front end
         // setTimeout(() => {
             // var id = new objectId(req.params.id);
@@ -78,16 +79,22 @@ const recipeController = (Recipe, newRecipe) => {
                 // res.status(200).send(recipe);
             // });
         // }, 1000)
-        var id = new objectId(req.params.id);
-        var query = {_id: id};
+        try {
+            id = new objectId(req.params.id);
+            query = {_id: id};
 
-        Recipe.findOne(query, (err, recipe) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            res.status(200).send(recipe);
-        });
+            Recipe.findOne(query, (err, recipe) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.status(200).send(recipe);
+            });
+        } catch (error) {
+            console.log(chalk.red(`Error making objectId or retrieve recipe: ${error}`));
+            res.status(400).send({ErrMessage: 'Bad Request'});
+        }
+
     };
 
     var addRecipe = async (req, res) => {
@@ -251,15 +258,15 @@ const recipeController = (Recipe, newRecipe) => {
     };
 
     return {
-        middleware: middleware,
-        getIndex: getIndex,
-        getById: getById,
-        addRecipe: addRecipe,
-        updateRecipe: updateRecipe,
-        deleteRecipe: deleteRecipe,
-        submitForApproval: submitForApproval,
-        rateRecipe: rateRecipe,
-        favorite: favorite
+        middleware,
+        getIndex,
+        getById,
+        addRecipe,
+        updateRecipe,
+        deleteRecipe,
+        submitForApproval,
+        rateRecipe,
+        favorite
     };
 }
 

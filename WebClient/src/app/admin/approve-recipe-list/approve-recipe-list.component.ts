@@ -1,6 +1,8 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
-import { IRecipe } from 'src/app/models/recipe.model';
+
+import { LoggerService } from '../../services/util/logger.service';
+import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 
 @Component({
   selector: 'app-approve-recipe-list',
@@ -11,14 +13,17 @@ export class ApproveRecipeListComponent implements OnInit {
 
   recipeList: IRecipe[];
 
-  constructor(private adminService: AdminService) { }
+  constructor(private loggerService: LoggerService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.adminService.getApprovalList().subscribe(recipes => {
-      this.recipeList = recipes;
-    }, err => {
-      console.log('Error: ' + err);
-    });
+    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
+
+    if (resolvedData.error) {
+      this.loggerService.consoleError(resolvedData.error);
+    } else {
+      this.recipeList = resolvedData.recipes;
+    }
   }
 
 }

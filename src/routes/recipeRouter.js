@@ -1,8 +1,6 @@
 var express = require('express');
 var recipeRouter = express.Router();
 
-// var recipeData = require('../data/recipeData');
-
 var router = (Recipe, newRecipe) => {
 
     var recipeController = require('../controllers/recipeController')(Recipe, newRecipe);
