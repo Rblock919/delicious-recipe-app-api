@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  path: 'https://delicious-recipe-app.herokuapp.com:3000/'
 };

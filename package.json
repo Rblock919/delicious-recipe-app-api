@@ -2,9 +2,10 @@
   "name": "recipe-application",
   "version": "0.0.1",
   "description": "Application for scanning and displaying delicious recipes.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
+    "start.dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "share": "lt --port 3000"
   },
@@ -31,5 +32,8 @@
     "mongoose": "^5.5.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
+  },
+  "engines": {
+    "node": "10.16.0"
   }
 }

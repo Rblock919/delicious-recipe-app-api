@@ -14,6 +14,7 @@
 - consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
 ^ -> (possibly move filtering + sorting to external pipe)
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
+- move WebClient directory out of node directory for cloud node deployments
 
 - commenting functionality on recipes?
 - possibly split route-guard into two guards to simplify logic (maybe)
