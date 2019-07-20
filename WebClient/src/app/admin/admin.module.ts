@@ -52,6 +52,10 @@ import { UnapprovedRecipeResolverService } from '../services/resolvers/unapprove
     ApproveRecipeListComponent,
     ApproveRecipeDetailComponent
   ],
-  providers: [AdminService, UserResolverService, UnapprovedRecipeResolverService]
+  providers: [
+    AdminService,
+    UserResolverService,
+    UnapprovedRecipeResolverService
+  ]
 })
 export class AdminModule { }

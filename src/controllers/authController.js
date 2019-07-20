@@ -32,7 +32,7 @@ const authController = (User) => {
                     // res.send({message: 'Username Already Exists'})
                 }
             } else {
-                console.log('Success saving new user?');
+                console.log('Success saving new user');
                 console.log('new user: ' + createdUser);
                 const payload = {sub: createdUser._id};
                 const token = jwt.encode(payload, authConfig.secret);
@@ -108,10 +108,15 @@ const authController = (User) => {
             } else {
                 console.log('payload: ' + payload);
                 userId = payload.sub;
-                id = new objectId(userId);
-                query = {_id: id};
-                console.log('id from token: ' + userId);
-            }
+
+                try {
+                    id = new objectId(userId);
+                    query = {_id: id};
+                    console.log('id from token: ' + userId);
+                } catch (error) {
+                    console.log(chalk.red(error));
+                }
+                            }
 
         } else {
             console.log('no auth token set');

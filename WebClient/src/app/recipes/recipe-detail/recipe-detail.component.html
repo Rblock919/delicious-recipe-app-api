@@ -29,6 +29,7 @@
 
                     <div class="card-body">
 
+                      <!-- Recipe Producer Badge -->
                       <div class="row text-center">
                         <div class="col-md-12">
                           <h4><span [ngClass]="{'badge-success': recipe.producer === 'Hello Fresh' || recipe.producer === 'Home Chef',
@@ -40,9 +41,12 @@
                       <br>
 
                       <div class="row">
+                        <!-- Image -->
                         <div class="col-md-4">
                           <img src="{{recipe.imgDir}}">
                         </div>
+
+                        <!-- Ingredients -->
                         <div class="col-md-5">
                           <div class="card">
                             <div class="card-header text-center">
@@ -55,6 +59,8 @@
                             </div>
                           </div>
                         </div>
+
+                        <!-- Nutritional Information -->
                         <div class="col-md-3">
                           <div class="card">
                             <div class="card-header text-center">
@@ -82,41 +88,95 @@
                       </div>
 
                       <hr>
+
+                      <!-- Precook -->
                       <div *ngIf="recipe.producer !== 'Blue Apron'" class="card">
-                        <div class="card-header text-center">
-                          <h2>{{preCookTitle}}</h2>
-                        </div>
-                        <div class="card-body text-center">
-                          <ul *ngIf="recipe.producer === 'Home Chef'" class="list-group list-group-flush">
-                            <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
-                          </ul>
-                          <ul style="justify-content: center" *ngIf="recipe.producer === 'Hello Fresh'" class="list-group list-group-horizontal">
-                            <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
-                          </ul>
-                        </div>
-                      </div> <br *ngIf="recipe.producer !== 'Blue Apron'">
+                        <app-collapsible-well [title]="preCookTitle">
+                          <div well-title>
+                            {{preCookTitle}}
+                          </div>
+                          <div well-body class="text-center">
+                            <ul *ngIf="recipe.producer === 'Home Chef'" class="list-group list-group-flush">
+                              <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
+                            </ul>
+                            <ul style="justify-content: center" *ngIf="recipe.producer === 'Hello Fresh'" class="list-group list-group-horizontal">
+                              <li class="list-group-item" *ngFor="let step of recipe.preCook">{{step}}</li>
+                            </ul>
+                          </div>
+                        </app-collapsible-well>
+
+                      </div>
+                      <br *ngIf="recipe.producer !== 'Blue Apron'">
+
+                      <!-- Steps -->
                       <div class="card">
-                        <div class="card-header text-center">
-                          <h2>Steps</h2>
-                        </div>
-                        <div class="card-body">
-                        <div *ngFor="let step of recipe.steps; let i = index" class="row">
-                        <div class="col-md-12">
-                          <div class="card">
-                            <div class="card-header text-center">
-                              <h4><span style="font-style: italic">{{i+1}}: {{step.name}}</span></h4>
-                            </div>
-                            <div class="card-body">
-                              <p>{{step.body}}</p>
+
+                        <app-collapsible-well title="'Steps'">
+                          <div well-title>
+                            Steps
+                          </div>
+                          <div well-body>
+                            <div *ngFor="let step of recipe.steps; let i = index" class="row">
+
+                              <div class="col-md-12">
+                                <div class="card">
+                                  <app-collapsible-well [title]="step.name">
+                                    <div well-title>
+                                      <span style="font-style: italic">{{i+1}}: {{step.name}}</span>
+                                    </div>
+                                    <div well-body>
+                                      <p>{{step.body}}</p>
+                                    </div>
+                                  </app-collapsible-well>
+                                </div>
+                                <br>
+                              </div>
+
                             </div>
                           </div>
-                          <br>
-                        </div>
-                      </div>
-                        </div>
-                      </div>
+                        </app-collapsible-well>
 
+                        <!-- <div class="card-header text-center">
+                          <h2>Steps</h2>
+                        </div> -->
 
+                        <!-- <div class="card-body">
+
+                          <div *ngFor="let step of recipe.steps; let i = index" class="row">
+
+                            <div class="col-md-12">
+                              <div class="card">
+                                <app-collapsible-well [title]="step.name">
+                                  <div well-title>
+                                    <span style="font-style: italic">{{i+1}}: {{step.name}}</span>
+                                  </div>
+                                  <div well-body>
+                                    <p>{{step.body}}</p>
+                                  </div>
+                                </app-collapsible-well>
+                              </div>
+                              <br>
+                            </div>
+
+                          </div>
+
+                        </div> -->
+
+                        </div>
+
+                      <!-- <div class="card">
+
+                        <app-collapsible-well [title]="'Testing'">
+                          <div well-title>
+                          <span style="font-style: italic">6: Assemble and Serve</span>
+                          </div>
+                          <div well-body>
+                              Divide beef mixture between tortillas. Spoon salse and crema over. Sprinkle with remaining cilantro. Serve with lime wedges on the side for squeezing over.
+                          </div>
+                        </app-collapsible-well>
+
+                      </div>
+ -->
                       <br>
                       <div class="col-md-12 text-center">
                         <button class="btn btn-outline-primary" type="button" [routerLink]="['/recipe/list']">Back to all recipes</button>
@@ -175,5 +235,6 @@
           </div>
         </div>
       </div>
+
 
 </main>

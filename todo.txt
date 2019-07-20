@@ -9,13 +9,12 @@
 - make account related services into separate dropdown on the right
 - implement backgrounds on pages (at least outside of containers)
 - implement pagination for recipe search page and possibly recipe list page
-- make folders for apicallers/guards/resolvers in services folder + move loggerService to util
 - implement route animations
-- implement collapsing-wells on recipe detail page for steps & other categories
+- make it so when you navigate to recipe detail page you're at the top of the page (all the way scrolled up)
 - consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
 ^ -> (possibly move filtering + sorting to external pipe)
-- implement redirectUrl functionality from angular-routing course
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
 
 - commenting functionality on recipes?
+- possibly split route-guard into two guards to simplify logic (maybe)
 - update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)

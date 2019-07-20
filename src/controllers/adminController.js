@@ -34,24 +34,29 @@ const adminController = (User, newRecipe) => {
                 console.log('auth header invalid');
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
-                // console.log('setting userId in req');
                 userId = payload.sub;
-                id = new objectId(userId);
-                query = {_id: id};
 
-                User.findOne(query, function (err, foundUser) {
-                    if (err) {
-                        console.log(chalk.red('ERROR: ' + err));
-                        res.sendStatus(500); //TO-DO: update with proper response code
-                    } else {
-                        if (foundUser.isAdmin) {
-                            req.userId = payload.sub;
-                            next();
+                try {
+                    id = new objectId(userId);
+                    query = {_id: id};
+
+                    User.findOne(query, function (err, foundUser) {
+                        if (err) {
+                            console.log(chalk.red('ERROR: ' + err));
+                            res.sendStatus(500); //TO-DO: update with proper response code
                         } else {
-                            res.status(401).send({ErrMessage: 'User is not admin'});
+                            if (foundUser.isAdmin) {
+                                req.userId = payload.sub;
+                                next();
+                            } else {
+                                res.status(401).send({ErrMessage: 'User is not admin'});
+                            }
                         }
-                    }
-                });
+                    });
+                } catch (error) {
+                    console.log(chalk.red(error));
+                    res.sendStatus(500);
+                }
 
             }
 
@@ -63,11 +68,11 @@ const adminController = (User, newRecipe) => {
         // console.log('TOKEN IN RECIPE CONT MIDDLEWARE: ' + token);
 
         // if (!req.user) {
-            // console.log('User not logged in');
-            // res.redirect('/');
-            // return;
+        // console.log('User not logged in');
+        // res.redirect('/');
+        // return;
         // } else {
-            // next();
+        // next();
         // }
     };
 
@@ -137,41 +142,52 @@ const adminController = (User, newRecipe) => {
     var updateUsers = async (req, res) => {
         var setToFalseIds = [];
         var setToTrueIds = [];
-        var id;        
+        var id;
         var editedUsers = req.body;
         var counter = 0;
+        var proceed = true;
 
         while (counter < editedUsers.length) {
-            id = objectId(editedUsers[counter]._id);
-            if (editedUsers[counter].isAdmin) {
-                setToTrueIds.push(id);
-            } else {
-                setToFalseIds.push(id);
+            try {
+                id = objectId(editedUsers[counter]._id);
+                if (editedUsers[counter].isAdmin) {
+                    setToTrueIds.push(id);
+                } else {
+                    setToFalseIds.push(id);
+                }
+                counter++;
+            } catch (error) {
+                console.log(chalk.red(error));
+                proceed = false;
             }
-            counter++;
         }
 
-        if (setToTrueIds.length > 0) {
-            await User.updateMany({_id: {$in: setToTrueIds}}, {$set: {isAdmin: true}}, function (err, response) {
-                if (err) {
-                    console.log(chalk.red(err));
-                    res.sendStatus(500);
-                }
+        if (proceed === true) {
 
-            });
+            if (setToTrueIds.length > 0) {
+                await User.updateMany({_id: {$in: setToTrueIds}}, {$set: {isAdmin: true}}, function (err, response) {
+                    if (err) {
+                        console.log(chalk.red(err));
+                        res.sendStatus(500);
+                    }
+
+                });
+            }
+
+            if (setToFalseIds.length > 0) {
+                await User.updateMany({_id: {$in: setToFalseIds}}, {$set: {isAdmin: false}}, function (err, response) {
+                    if (err) {
+                        console.log(chalk.red(err));
+                        res.sendStatus(500);
+                    }
+
+                });
+            }
+
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(500);
         }
-
-        if (setToFalseIds.length > 0) {
-            await User.updateMany({_id: {$in: setToFalseIds}}, {$set: {isAdmin: false}}, function (err, response) {
-                if (err) {
-                    console.log(chalk.red(err));
-                    res.sendStatus(500);
-                }
-
-            });
-        }
-
-        res.sendStatus(200);
 
     };
 
@@ -190,16 +206,25 @@ const adminController = (User, newRecipe) => {
     };
 
     var getApprovalById = (req, res) => {
-        var id = new objectId(req.params.id);
-        var query = {_id: id};
+        var id;
+        var query;
 
-        newRecipe.findOne(query, (err, recipe) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            res.status(200).send(recipe);
-        });
+        try {
+            id = new objectId(req.params.id);
+            query = {_id: id};
+
+            newRecipe.findOne(query, (err, recipe) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.status(200).send(recipe);
+            });
+        } catch (error) {
+            console.log(chalk.red(error));
+            res.sendStatus(500);
+        }
+
     };
 
     return {

@@ -11,6 +11,7 @@ export class SessionService {
 
   private admin = false;
   userData: IUser;
+  private redirectUrl: string;
 
   constructor() { }
 
@@ -22,6 +23,14 @@ export class SessionService {
     } else {
       return false;
     }
+  }
+
+  get getRedirectUrl(): string {
+    return this.redirectUrl;
+  }
+
+  set setRedirectUrl(url: string) {
+    this.redirectUrl = url;
   }
 
   setUser(user: IUser) {

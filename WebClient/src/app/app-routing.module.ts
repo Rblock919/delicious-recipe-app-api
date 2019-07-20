@@ -11,9 +11,10 @@ import { SplashPageComponent } from './common/user-home/splash-page.component';
 import { SelectiveStrategy } from './services/selective-strategy.service';
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component';
 import { ErrorComponent } from './common/error/error.component';
+import { IndexGuard } from './services/guards/index.guard';
 
 const routes: Routes = [
-  { path: 'index', component: SplashPageComponent},
+  { path: 'index', component: SplashPageComponent, canActivate: [IndexGuard] },
   { path: 'home', component: UserHomeComponent, canActivate: [RouteGuard] },
   {
     path: 'recipe',
@@ -34,7 +35,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: '', pathMatch: 'full', redirectTo: 'home'},
+  { path: '', pathMatch: 'full', redirectTo: 'index'},
   { path: 'error', component: ErrorComponent }, // remove eventually
   { path: '**', component: PageNotFoundComponent }
 ];

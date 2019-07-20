@@ -13,6 +13,7 @@ import { IngredientsPipe } from '../services/util/ingredients.pipe';
 import { RouteGuard } from '../services/guards/route.guard';
 import { RecipeResolverService } from '../services/resolvers/recipe-resolver.service';
 import { StarComponent } from './star/star.component';
+import { CollapsibleWellComponent } from './recipe-detail/collapsible-well/collapsible-well.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { StarComponent } from './star/star.component';
     EditRecipeComponent,
     SubmittedComponent,
     IngredientsPipe,
-    StarComponent
+    StarComponent,
+    CollapsibleWellComponent
   ],
   providers: []
 })

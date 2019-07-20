@@ -43,7 +43,11 @@ export class LoginComponent implements OnInit {
         // console.log('User: ' + JSON.stringify(tempRes.user));
         this.sessionService.setUser(tempRes.user as IUser);
         this.toastr.success('Successfully Logged In');
-        this.router.navigate(['home']);
+        if (this.sessionService.getRedirectUrl) {
+          this.router.navigate([this.sessionService.getRedirectUrl]);
+        } else {
+          this.router.navigate(['home']);
+        }
       }
 
     },

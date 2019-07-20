@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SessionService } from '../session.service';
 import { EditRecipeComponent } from '../../recipes/edit-recipe/edit-recipe.component';
 import { RegisterComponent } from '../../common/login/register.component';
+import { LoggerService } from '../util/logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class RouteGuard implements CanActivate, CanDeactivate<Component> {
 
   constructor(
     private router: Router,
+    private loggerService: LoggerService,
     private sessionService: SessionService) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -45,22 +47,21 @@ export class RouteGuard implements CanActivate, CanDeactivate<Component> {
               return false;
             }
         }
-      } else {
+      } else { // adding new recipe
         return true;
       }
     }
 
     // console.log(state.url);
     // if (state.url === '/register') {
-    if (slices[1]) {
-      if (slices[1] === 'register') {
+    if (slices[1] && slices[1] === 'register') {
         if (this.sessionService.isAuthenticated) {
           console.log('user is logged in an attempting to access register page');
+          this.router.navigate(['home']);
           return false;
         } else {
           return true;
         }
-      }
     }
 
     // return true;
@@ -71,8 +72,11 @@ export class RouteGuard implements CanActivate, CanDeactivate<Component> {
         console.log('in route guard, and user is auth');
         return true;
       } else {
+        this.loggerService.consoleLog('user is not auth, forwarding to login page and saving url');
+        this.loggerService.consoleLog(`Route Path: ${state.url}`);
+        this.sessionService.setRedirectUrl = state.url;
         // console.log('in route guard and user is not auth');
-        this.router.navigate(['index']);
+        this.router.navigate(['login']);
         return false;
       }
     }

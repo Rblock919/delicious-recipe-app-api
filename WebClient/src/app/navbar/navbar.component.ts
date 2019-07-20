@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
     this.searchString = '';
   }
 
-  search() {
+  search(): void {
     if (this.searchString !== '') {
       console.log('user has actually entered something to search \nSearching...');
       this.router.navigate(['/recipe/search'], { queryParams: {searchString: this.searchString}});
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  logout() {
+  logout(): void {
     if (this.session.logout()) {
       if (this.session.isAdmin) {
         this.session.setAdminStatus(false);
@@ -45,7 +45,16 @@ export class NavbarComponent implements OnInit {
     this.clearSearch();
   }
 
-  getUserData() {
+  navigateHome(): void {
+    this.clearSearch();
+    if (this.session.getUser) {
+      this.router.navigate(['home']);
+    } else {
+      this.router.navigate(['index']);
+    }
+  }
+
+  getUserData(): void {
     this.auth.getUserData().subscribe(res => {
       console.log('RES FROM GET USERDATA: ' + JSON.stringify(res));
     });
