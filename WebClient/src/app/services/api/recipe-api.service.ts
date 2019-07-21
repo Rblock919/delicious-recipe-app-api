@@ -5,12 +5,14 @@ import { catchError } from 'rxjs/operators';
 
 import { AppUri } from '../../models/uri.data';
 import { IRecipe } from '../../models/recipe.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeApiService {
-  private uri = AppUri.local + 'recipes';
+  // private uri = AppUri.local + 'recipes';
+  private uri = environment.path + 'recipes';
   // private uri = 'http://localhost:3000/api/recipes';
   // private uri = 'http://192.168.0.5:3000/api/recipes';
 

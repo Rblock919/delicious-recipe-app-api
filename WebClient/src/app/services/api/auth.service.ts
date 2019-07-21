@@ -5,14 +5,14 @@ import { of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { templateSourceUrl } from '@angular/compiler';
 import { AppUri } from '../../models/uri.data';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private uri = AppUri.local + 'auth';
-  // private uri = 'http://localhost:3000/api/auth';
-  // private uri = 'http://192.168.0.5:3000/api/auth';
+  // private uri = AppUri.local + 'auth';
+  private uri = environment.path + 'auth';
 
   constructor(private httpClient: HttpClient) { }
 
