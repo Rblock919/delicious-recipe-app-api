@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
@@ -32,6 +32,7 @@ export class RecipeListComponent implements OnInit {
 
   constructor(private sessionService: SessionService,
               private route: ActivatedRoute,
+              private router: Router,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
@@ -44,6 +45,7 @@ export class RecipeListComponent implements OnInit {
 
     if (resolvedData.error) {
       console.error(`Error from resolver: ${resolvedData.error}`);
+      this.router.navigate(['error']);
     } else {
       this.recipeList = resolvedData.recipes;
       this.selectedRecipeList = this.recipeList;

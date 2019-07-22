@@ -1,18 +1,17 @@
-//var MongoClient = require('mongodb').MongoClient;
 const jwt = require('jwt-simple');
-const bcrypt = require('bcrypt-nodejs');
 const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
+const userChecker = require('../config/strategies/user-checker');
 
 const recipeController = (Recipe, newRecipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
+        var payload;
 
         if (!req.header('Authorization')) {
-            // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
             return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
         }
 
@@ -20,25 +19,37 @@ const recipeController = (Recipe, newRecipe) => {
 
         if (token !== 'null') {
 
-            // console.log('TOKEN FOUND IN HEADER');
-            let payload = jwt.decode(token, authConfig.secret);
-            // console.log('payload: ' + JSON.stringify(payload));
+            try {
+                payload = jwt.decode(token, authConfig.secret);
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500);
+            }
 
             if (!payload) {
                 console.log('auth header invalid');
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
-                // console.log('setting userId in req');
-                req.userId = payload.sub;
-                next();
+
+                userChecker.checkIfUserExists(payload.sub, (err, isFound) => {
+                    if (err) {
+                        console.error(chalk.red(err));
+                    } else {
+                        if (isFound === true) {
+                            req.userId = payload.sub;
+                            next();
+                        } else {
+                            res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
+                        }
+                    }
+                });
+
             }
 
         } else {
             console.log('NO TOKEN FOUND IN MW');
             res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
         }
-
-        // console.log('TOKEN IN RECIPE CONT MIDDLEWARE: ' + token);
 
         // if (!req.user) {
             // console.log('User not logged in');
@@ -111,7 +122,6 @@ const recipeController = (Recipe, newRecipe) => {
             proceed = false;
         }
 
-        // var returnId;
         if (proceed) {
             recipeToSave = new Recipe({
                 title: req.body.recipe.title,
@@ -148,7 +158,6 @@ const recipeController = (Recipe, newRecipe) => {
                     res.sendStatus(500);
                 } else {
                     console.log(chalk.green('successfully saved new recipe'));
-                    // res.sendStatus(201);
                     console.log('ReturnId: ' + createdRecipe._id);
                     res.status(201).send({id: createdRecipe._id});
                 }
@@ -162,25 +171,38 @@ const recipeController = (Recipe, newRecipe) => {
         var query;
         var recipeData;
 
-        try {
-            id = new objectId(req.body._id);
-            query = {_id: id};
-            recipeData = assembleRecipeData(req);
+        userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+            } else {
+                if (isAdmin === true) {
 
-            Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
-                if (err) {
-                    console.log(chalk.red(err));
-                    res.sendStatus(500);
+                    try {
+                        id = new objectId(req.body._id);
+                        query = {_id: id};
+                        recipeData = assembleRecipeData(req);
+
+                        Recipe.findOneAndUpdate(query, recipeData, function (err, doc) {
+                            if (err) {
+                                console.log(chalk.red(err));
+                                res.sendStatus(500);
+                            } else {
+                                console.log(chalk.green('recipe successfully updated'));
+                                res.sendStatus(200);
+                            }
+                            // console.log('doc: ' + doc);
+                        });
+                    } catch (error) {
+                        console.log(chalk.red(error));
+                        res.sendStatus(500);
+                    }
+
                 } else {
-                    console.log(chalk.green('recipe successfully updated'));
-                    res.sendStatus(200);
+                    res.status(401).send({ErrMessage: 'User is not authorized for action'});
                 }
-                // console.log('doc: ' + doc);
-            });
-        } catch (error) {
-            console.log(chalk.red(error));
-            res.sendStatus(500);
-        }
+            }
+        });
 
     };
 
@@ -188,21 +210,37 @@ const recipeController = (Recipe, newRecipe) => {
         var id;
         var query;
 
-        try {
-            id = new objectId(req.params.id);
-            query = {_id: id};
+        userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
 
-            Recipe.deleteOne(query, function (err) {
-                if (err) {
-                    console.log(chalk.red('ERROR: ' + err));
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+            } else {
+
+                if (isAdmin === true) {
+
+                    try {
+                        id = new objectId(req.params.id);
+                        query = {_id: id};
+
+                        Recipe.deleteOne(query, function (err) {
+                            if (err) {
+                                console.log(chalk.red('ERROR: ' + err));
+                            } else {
+                                res.sendStatus(200);
+                            }
+                        });
+                    } catch (error) {
+                        console.log(chalk.red(error));
+                        res.sendStatus(500);
+                    }
                 } else {
-                    res.sendStatus(200);
+                    res.status(401).send({ErrMessage: 'User is not authorized'});
                 }
-            });
-        } catch (error) {
-            console.log(chalk.red(error));
-            res.sendStatus(500);
-        }
+
+            }
+
+        });
 
     }
 
@@ -287,7 +325,6 @@ const recipeController = (Recipe, newRecipe) => {
             imgDir: recipeData.imgDir
         });
 
-        console.log('recipeToSave data in addRecipe: ' + JSON.stringify(recipeToSave));
         // res.sendStatus(201);
         // return;
 
@@ -332,11 +369,11 @@ function assembleRecipeData(req) {
         raters: req.body.raters,
         favoriters: req.body.favoriters
     }
-    console.log('req.body.steps in assembleRecipeData: ' + JSON.stringify(req.body.steps));
 
     req.body.ingredients.forEach(element => {
         recipeData.ingredients.push(element.name + ' | ' + element.amount);
     });
+
     if (recipeData.producer === 'Hello Fresh' || recipeData.producer === 'Home Chef') {
         req.body.preCook.forEach(element => {
             recipeData.preCook.push(element.body);
@@ -344,5 +381,4 @@ function assembleRecipeData(req) {
     }
 
     return recipeData;
-
 }

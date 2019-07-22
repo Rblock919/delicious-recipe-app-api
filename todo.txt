@@ -14,6 +14,10 @@
 - consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
 ^ -> (possibly move filtering + sorting to external pipe)
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
+- make the edit recipe api call check for admin status in the backend
+- make sure all components grabbing data from resolvers route to error page on error existance
+^ -> possibly handle rerouting to error page in interceptor or resolvers
+- make middlewares in node controllers check that the userId in token is associated to an existing user
 
 ******************************************************************************
 - move WebClient directory out of node directory for cloud node deployments
@@ -22,3 +26,6 @@
 - commenting functionality on recipes?
 - possibly split route-guard into two guards to simplify logic (maybe)
 - update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
+
+node packages to checkout from security course:
+- express-validator (possibly look for angular equal)

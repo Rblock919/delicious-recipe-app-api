@@ -13,7 +13,7 @@
         "eqeqeq": "error",
         "curly": "error",
         "no-unused-vars": "warn",
-        "no-undef": "warn",
+        "no-undef": "error",
         "no-unused-expressions": "warn",
         "vars-on-top": "warn",
         "guard-for-in": "error",

@@ -1,6 +1,5 @@
 const chalk = require('chalk');
 const jwt = require('jwt-simple');
-const bcrypt = require('bcrypt-nodejs');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 // var express = require('express');
@@ -50,8 +49,8 @@ const authController = (User) => {
     };
 
     var signIn = (req, res) => {
-        let userData = req.body;
-        var query = {username: userData.username};
+        const userData = req.body;
+        const query = {username: userData.username};
         var payload = {};
 
         User.findOne(query, '-__v', (err, user) => {
@@ -65,22 +64,22 @@ const authController = (User) => {
                 console.log('user not found');
                 res.status(401).send({ErrMessage: 'Username Not Found'});
             } else {
-                bcrypt.compare(userData.password, user.password, (err, isMatch) => {
 
+                user.passwordIsValid(userData.password, (err, results) => {
                     if (err) {
-                        console.log(chalk.red('Error in bcrypt compare: ') + chalk.red.underline(err));
-                    }
-                    if (!isMatch) {
-                        console.log('mismatched password in login attempt');
-                        res.status(401).send({ErrMessage: 'Bad Password'});
+                        console.error(err);
+                        res.sendStatus(500);
                     } else {
-                        payload = {sub: user._id}
-                        let token = jwt.encode(payload, authConfig.secret);
-                        // console.log('Outgoing token upon signIn: ' + token);
-                        res.status(200).send({user: user, token: token});
+                        if (results) {
+                            payload = {sub: user._id}
+                            const token = jwt.encode(payload, authConfig.secret);
+                            res.status(200).send({user: user, token: token});
+                        } else {
+                            console.log('password is not a match');
+                        }
                     }
+                });
 
-                })
             }
 
         });
@@ -90,6 +89,7 @@ const authController = (User) => {
         var query = {};
         var userId;
         var id;
+        var payload;
 
         if (!req.header('Authorization')) {
             // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
@@ -100,7 +100,13 @@ const authController = (User) => {
 
         if (token !== 'null') {
             console.log('token: ' + token);
-            let payload = jwt.decode(token, authConfig.secret);
+
+            try {
+                payload = jwt.decode(token, authConfig.secret);
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500);
+            }
 
             if (!payload) {
                 console.log('auth header invalid');

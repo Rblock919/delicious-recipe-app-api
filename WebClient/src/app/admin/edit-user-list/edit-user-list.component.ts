@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { AdminService } from 'src/app/services/api/admin.service';
 import { IUser, IUsersResolved } from 'src/app/models/user.model';
@@ -18,6 +18,7 @@ export class EditUserListComponent implements OnInit {
 
   constructor(private adminService: AdminService,
               private route: ActivatedRoute,
+              private router: Router,
               @Inject(TOASTR_TOKEN) private toastr: Toastr
               ) { }
 
@@ -29,6 +30,7 @@ export class EditUserListComponent implements OnInit {
 
     if (resolvedData.error) {
       console.error(`Error: ${resolvedData.error}`);
+      this.router.navigate(['error']);
     } else {
       this.userList = resolvedData.users;
       let counter = 0;

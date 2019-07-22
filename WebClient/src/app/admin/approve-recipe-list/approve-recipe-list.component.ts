@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { LoggerService } from '../../services/util/logger.service';
@@ -14,6 +14,7 @@ export class ApproveRecipeListComponent implements OnInit {
   recipeList: IRecipe[];
 
   constructor(private loggerService: LoggerService,
+              private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -21,6 +22,7 @@ export class ApproveRecipeListComponent implements OnInit {
 
     if (resolvedData.error) {
       this.loggerService.consoleError(resolvedData.error);
+      this.router.navigate(['error']);
     } else {
       this.recipeList = resolvedData.recipes;
     }

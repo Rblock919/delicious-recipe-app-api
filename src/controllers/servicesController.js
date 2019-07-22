@@ -1,15 +1,14 @@
 const chalk = require('chalk');
-var MongoClient = require('mongodb').MongoClient;
-const objectId = require('mongodb').ObjectId;
 const jwt = require('jwt-simple');
-const bcrypt = require('bcrypt-nodejs');
 const authConfig = require('../config/auth/authConfig');
+const userChecker = require('../config/strategies/user-checker');
 
 const servicesController = () => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
+        var payload;
 
         if (!req.header('Authorization')) {
             // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
@@ -20,17 +19,30 @@ const servicesController = () => {
 
         if (token !== 'null') {
 
-            // console.log('TOKEN FOUND IN HEADER');
-            let payload = jwt.decode(token, authConfig.secret);
+            try {
+                payload = jwt.decode(token, authConfig.secret);
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500);
+            }
             // console.log('payload: ' + JSON.stringify(payload));
 
             if (!payload) {
                 console.log('auth header invalid');
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
-                // console.log('setting userId in req');
-                req.userId = payload.sub;
-                next();
+                userChecker.checkIfUserExists(payload.sub, (err, isFound) => {
+                    if (err) {
+                        console.error(chalk.red(err));
+                    } else {
+                        if (isFound === true) {
+                            req.userId = payload.sub;
+                            next();
+                        } else {
+                            res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
+                        }
+                    }
+                });
             }
 
         } else {

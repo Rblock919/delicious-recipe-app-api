@@ -1,24 +1,21 @@
 const jwt = require('jwt-simple');
-const bcrypt = require('bcrypt-nodejs');
 const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
+const MongoClient = require('mongodb').MongoClient;
 const authConfig = require('../config/auth/authConfig');
-var MongoClient = require('mongodb').MongoClient;
-var uriS = require('../config/db/dbconnection');
-var recipes = require('../data/recipeData');
-var newRecipes = require('../data/newRecipeData');
+const uriS = require('../config/db/dbconnection');
+const recipes = require('../data/recipeData');
+const newRecipes = require('../data/newRecipeData');
+const userChecker = require('../config/strategies/user-checker');
 
 const adminController = (User, newRecipe) => {
 
     // TO-DO: GO EXTRA STEP AND MAKE SURE USER IS ALSO ADMIN IN THIS MIDDLEWARE
     // eslint-disable-next-line consistent-return
     var middleware = (req, res, next) => {
-        var userId;
-        var id;
-        var query;
+        var payload;
 
         if (!req.header('Authorization')) {
-            // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
             return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
         }
 
@@ -26,37 +23,31 @@ const adminController = (User, newRecipe) => {
 
         if (token !== 'null') {
 
-            // console.log('TOKEN FOUND IN HEADER');
-            let payload = jwt.decode(token, authConfig.secret);
-            // console.log('payload: ' + JSON.stringify(payload));
+            try {
+                payload = jwt.decode(token, authConfig.secret);
+            } catch (error) {
+                console.error(error);
+                res.sendStatus(500);
+            }
 
             if (!payload) {
                 console.log('auth header invalid');
                 return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
             } else {
-                userId = payload.sub;
 
-                try {
-                    id = new objectId(userId);
-                    query = {_id: id};
-
-                    User.findOne(query, function (err, foundUser) {
-                        if (err) {
-                            console.log(chalk.red('ERROR: ' + err));
-                            res.sendStatus(500); //TO-DO: update with proper response code
+                userChecker.checkIfUserIsAdmin(payload.sub, (err, isAdmin) => {
+                    if (err) {
+                        console.log(chalk.red(`Error: ${err}`));
+                        res.sendStatus(500);
+                    } else {
+                        if (isAdmin) {
+                            req.userId = payload.sub;
+                            next();
                         } else {
-                            if (foundUser.isAdmin) {
-                                req.userId = payload.sub;
-                                next();
-                            } else {
-                                res.status(401).send({ErrMessage: 'User is not admin'});
-                            }
+                            res.status(401).send({ErrMessage: 'User is not admin'});
                         }
-                    });
-                } catch (error) {
-                    console.log(chalk.red(error));
-                    res.sendStatus(500);
-                }
+                    }
+                });
 
             }
 
@@ -64,8 +55,6 @@ const adminController = (User, newRecipe) => {
             console.log('NO TOKEN FOUND IN MW');
             res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
         }
-
-        // console.log('TOKEN IN RECIPE CONT MIDDLEWARE: ' + token);
 
         // if (!req.user) {
         // console.log('User not logged in');
