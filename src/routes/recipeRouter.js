@@ -1,9 +1,9 @@
-var express = require('express');
-var recipeRouter = express.Router();
+const express = require('express');
+const recipeRouter = express.Router();
 
-var router = (Recipe, newRecipe) => {
+const router = (Recipe, newRecipe) => {
 
-    var recipeController = require('../controllers/recipeController')(Recipe, newRecipe);
+    const recipeController = require('../controllers/recipeController')(Recipe, newRecipe);
 
     recipeRouter.use(recipeController.middleware);
 

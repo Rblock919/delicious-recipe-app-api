@@ -1,5 +1,4 @@
 - possibly learn how to configure passport to work w/ CORS apps
-- figure out how to connect to mongoAtlas db from terminal
 - upgrade to angular 8 & test using Ivy
 
 - implement password resets (for users & admin)
@@ -14,10 +13,9 @@
 - consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
 ^ -> (possibly move filtering + sorting to external pipe)
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
-- make the edit recipe api call check for admin status in the backend
-- make sure all components grabbing data from resolvers route to error page on error existance
+- make sure all components grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
-- make middlewares in node controllers check that the userId in token is associated to an existing user
+- modularize the code in middlewares that checks for header + tokens
 
 ******************************************************************************
 - move WebClient directory out of node directory for cloud node deployments

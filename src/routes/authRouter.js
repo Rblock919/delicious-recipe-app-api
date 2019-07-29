@@ -1,10 +1,10 @@
-var express = require('express');
-var authRouter = express.Router();
-var passport = require('passport');
+const express = require('express');
+const authRouter = express.Router();
+const passport = require('passport');
 
-var router = (User) => {
+const router = (User, login) => {
 
-    var authController = require('../controllers/authController')(User);
+    const authController = require('../controllers/authController')(User, login);
 
     authRouter.route('/signUp')
         .post(authController.signUp);

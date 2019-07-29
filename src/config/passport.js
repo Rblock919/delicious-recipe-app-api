@@ -1,6 +1,6 @@
-var passport = require('passport');
+const passport = require('passport');
 
-var passportConfig = (app) => {
+const passportConfig = (app) => {
 
     console.log('In passport config file');
 

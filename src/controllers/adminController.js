@@ -1,5 +1,6 @@
 const jwt = require('jwt-simple');
-const chalk = require('chalk');
+/** @member {Object} */
+const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
 const authConfig = require('../config/auth/authConfig');
@@ -12,8 +13,8 @@ const adminController = (User, newRecipe) => {
 
     // TO-DO: GO EXTRA STEP AND MAKE SURE USER IS ALSO ADMIN IN THIS MIDDLEWARE
     // eslint-disable-next-line consistent-return
-    var middleware = (req, res, next) => {
-        var payload;
+    const middleware = (req, res, next) => {
+        let payload;
 
         if (!req.header('Authorization')) {
             return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
@@ -27,7 +28,6 @@ const adminController = (User, newRecipe) => {
                 payload = jwt.decode(token, authConfig.secret);
             } catch (error) {
                 console.error(error);
-                res.sendStatus(500);
             }
 
             if (!payload) {
@@ -65,12 +65,12 @@ const adminController = (User, newRecipe) => {
         // }
     };
 
-    var addRecipes = (req, res) => {
+    const addRecipes = (req, res) => {
 
         MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
 
                 const db = client.db('recipeApp');
-                var collection = db.collection('recipes');
+                const collection = db.collection('recipes');
 
                 if (err) {
                     console.log(chalk.red.bold.underline(err));
@@ -91,11 +91,11 @@ const adminController = (User, newRecipe) => {
             });
     };
 
-    var addNewRecipes = (req, res) => {
+    const addNewRecipes = (req, res) => {
         MongoClient.connect(uriS.remote, {useNewUrlParser: true}, function (err, client) {
 
             const db = client.db('recipeApp');
-            var collection = db.collection('recipes');
+            const collection = db.collection('recipes');
 
             if (err) {
                 console.log(chalk.red.bold.underline(err));
@@ -116,8 +116,8 @@ const adminController = (User, newRecipe) => {
         });
     };
 
-    var getUsers = (req, res) => {
-        var query = {};
+    const getUsers = (req, res) => {
+        const query = {};
 
         User.find(query, (err, users) => {
             if (err) {
@@ -128,13 +128,13 @@ const adminController = (User, newRecipe) => {
         });
     };
 
-    var updateUsers = async (req, res) => {
-        var setToFalseIds = [];
-        var setToTrueIds = [];
-        var id;
-        var editedUsers = req.body;
-        var counter = 0;
-        var proceed = true;
+    const updateUsers = async (req, res) => {
+        const editedUsers = req.body;
+        let setToFalseIds = [];
+        let setToTrueIds = [];
+        let id;
+        let counter = 0;
+        let proceed = true;
 
         while (counter < editedUsers.length) {
             try {
@@ -180,8 +180,8 @@ const adminController = (User, newRecipe) => {
 
     };
 
-    var getApprovalList = (req, res) => {
-        var query = {};
+    const getApprovalList = (req, res) => {
+        const query = {};
 
         newRecipe.find(query, (err, recipes) => {
             if (err) {
@@ -194,9 +194,9 @@ const adminController = (User, newRecipe) => {
         });
     };
 
-    var getApprovalById = (req, res) => {
-        var id;
-        var query;
+    const getApprovalById = (req, res) => {
+        let id;
+        let query;
 
         try {
             id = new objectId(req.params.id);

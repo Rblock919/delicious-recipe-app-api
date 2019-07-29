@@ -1,6 +1,5 @@
 import { JQ_TOKEN } from '../../shared/jQuery.service';
-import { SessionService } from './../../services/session.service';
-import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterViewInit } from '@angular/core';
 
 import { IRecipe } from 'src/app/models/recipe.model';
 import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
@@ -115,6 +114,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   favorite(): void {
     this.favorited = !this.favorited;
+
     if (this.favorited) {
       this.apiService.favoriteRecipe(this.recipe).subscribe(res => {
         // console.log('res from fav api call: ' + res);

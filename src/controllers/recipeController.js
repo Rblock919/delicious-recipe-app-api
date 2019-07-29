@@ -1,5 +1,6 @@
 const jwt = require('jwt-simple');
-const chalk = require('chalk');
+/** @member {Object} */
+const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 const userChecker = require('../config/strategies/user-checker');
@@ -8,8 +9,8 @@ const recipeController = (Recipe, newRecipe) => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     // eslint-disable-next-line consistent-return
-    var middleware = (req, res, next) => {
-        var payload;
+    const middleware = (req, res, next) => {
+        let payload;
 
         if (!req.header('Authorization')) {
             return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
@@ -23,7 +24,6 @@ const recipeController = (Recipe, newRecipe) => {
                 payload = jwt.decode(token, authConfig.secret);
             } catch (error) {
                 console.error(error);
-                res.sendStatus(500);
             }
 
             if (!payload) {
@@ -60,23 +60,22 @@ const recipeController = (Recipe, newRecipe) => {
         // }
     };
 
-    var getIndex = (req, res) => {
-        var query = {};
+    const getIndex = (req, res) => {
+        const query = {};
 
         Recipe.find(query, (err, recipes) => {
             if (err) {
-                console.log(chalk.red(err));
-                res.sendStatus(500);
+              console.log(chalk.red(err));
+              res.sendStatus(500);
+            } else {
+              res.status(200).send(recipes);
             }
-            //res.status(200);
-            //console.log('Recipes object: ' + recipes);
-            res.status(200).send(recipes);
         });
     };
 
-    var getById = (req, res) => {
-        var id;
-        var query;
+    const getById = (req, res) => {
+        let id;
+        let query;
         // for testing spinner icon & route animations in front end
         // setTimeout(() => {
             // var id = new objectId(req.params.id);
@@ -108,11 +107,11 @@ const recipeController = (Recipe, newRecipe) => {
 
     };
 
-    var addRecipe = async (req, res) => {
-        var id;
-        var query;
-        var recipeToSave;
-        var proceed = true;
+    const addRecipe = async (req, res) => {
+        let id;
+        let query;
+        let recipeToSave;
+        let proceed = true;
 
         try {
             id = new objectId(req.body.approvalId);
@@ -166,10 +165,10 @@ const recipeController = (Recipe, newRecipe) => {
 
     };
 
-    var updateRecipe = (req, res) => {
-        var id;
-        var query;
-        var recipeData;
+    const updateRecipe = (req, res) => {
+        let id;
+        let query;
+        let recipeData;
 
         userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
             if (err) {
@@ -206,9 +205,9 @@ const recipeController = (Recipe, newRecipe) => {
 
     };
 
-    var deleteRecipe = (req, res) => {
-        var id;
-        var query;
+    const deleteRecipe = (req, res) => {
+        let id;
+        let query;
 
         userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
 
@@ -244,13 +243,13 @@ const recipeController = (Recipe, newRecipe) => {
 
     }
 
-    var favorite = (req, res) => {
-        var prevFavoriters = req.body.recipe.favoriters;
-        var id;
-        var query;
-        var updatedFavoriters;
-        var addingFav = req.body.favoriting;
-        var proceed = true;
+    const favorite = (req, res) => {
+        let updatedFavoriters;
+        const addingFav = req.body.favoriting;
+        let prevFavoriters = req.body.recipe.favoriters;
+        let id;
+        let query;
+        let proceed = true;
 
         try {
             id = new objectId(req.body.recipe._id);
@@ -282,11 +281,11 @@ const recipeController = (Recipe, newRecipe) => {
 
     };
 
-    var rateRecipe = (req, res) => {
-        var recipeId;
-        var query;
-        var newRaters;
-        var updatedRaters;
+    const rateRecipe = (req, res) => {
+        let recipeId;
+        let query;
+        let newRaters;
+        let updatedRaters;
 
         try {
             recipeId = new objectId(req.body._id);
@@ -310,10 +309,10 @@ const recipeController = (Recipe, newRecipe) => {
 
     };
 
-    var submitForApproval = (req, res) => {
+    const submitForApproval = (req, res) => {
 
-        var recipeData = assembleRecipeData(req);
-        var recipeToSave = new newRecipe({
+        const recipeData = assembleRecipeData(req);
+        const recipeToSave = new newRecipe({
             title: recipeData.title,
             producer: recipeData.producer,
             ingredients: recipeData.ingredients,
@@ -358,7 +357,7 @@ module.exports = recipeController;
 
 function assembleRecipeData(req) {
 
-    var recipeData = {
+    const recipeData = {
         title: req.body.title,
         producer: req.body.producer,
         ingredients: [],

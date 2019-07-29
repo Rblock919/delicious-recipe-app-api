@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { SessionService } from './../../services/session.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
+
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
+import { SessionService } from './../../services/session.service';
 import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 
 @Component({
@@ -38,14 +38,13 @@ export class RecipeListComponent implements OnInit {
   ngOnInit() {
     this.hotRecipeList = [];
     this.favRecipeList = [];
-    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
-    // this.apiService.getRecipeList().subscribe(data => {
-      // this.recipeList = data;
+    const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
       console.error(`Error from resolver: ${resolvedData.error}`);
-      this.router.navigate(['error']);
+      this.router.navigate(['error'])
+        .then(r => console.log('Routed away from recipe list due to error'));
     } else {
       this.recipeList = resolvedData.recipes;
       this.selectedRecipeList = this.recipeList;
@@ -61,9 +60,6 @@ export class RecipeListComponent implements OnInit {
       this.createHotList();
     }
 
-   //  }, err => {
-      // console.error('err in recipeList comp: ' + JSON.stringify(err));
-    // });
   }
 
   createHotList(): void {
@@ -103,7 +99,7 @@ export class RecipeListComponent implements OnInit {
         return 1;
       }
 
-    });
+    })
 
     // make sure each of the top 6 rated recipes actually has been rated
     if (Object.values(tempList[0].raters).length > 0) {
@@ -218,6 +214,7 @@ export class RecipeListComponent implements OnInit {
   }
 
   rateEvent($event): void {
+
     if (this.sortFilter === 'rating') {
 
         this.selectedRecipeList.sort((a, b) => {
@@ -288,7 +285,8 @@ export class RecipeListComponent implements OnInit {
       if (this.botSelectedFilter === '') {
         this.selectedRecipeList = this.topFilteredList;
         this.sortList('fromJoin');
-      } else { // Case 4
+      } else {
+        // Case 4
         this.selectedRecipeList = this.topFilteredList.filter(recipe => {
           return recipe.producer === this.botSelectedFilter;
         });

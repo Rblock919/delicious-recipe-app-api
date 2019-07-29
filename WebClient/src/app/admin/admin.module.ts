@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -16,7 +16,8 @@ import { UnapprovedRecipeResolverService } from '../services/resolvers/unapprove
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'editRecipeList',
+      {
+        path: 'editRecipeList',
         component: EditRecipeListComponent,
         resolve: { resolvedData: RecipeResolverService },
         data: { multipleRecipes: true }

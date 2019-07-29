@@ -4,7 +4,7 @@
     2. run the route /admin/AddNewRecipes
     3. cut and paste code into the ./recipeData.js file
 */
-let recipedata = [
+const recipedata = [
 
 ];
 

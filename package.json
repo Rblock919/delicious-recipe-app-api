@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "start.dev": "nodemon app.js",
+    "start.dev": "concurrently \"nodemon app.js\" \"cd WebClient && ng serve\" ",
+    "start.node.dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "share": "lt --port 3000"
   },
@@ -13,8 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.1",
-    "eslint": "^4.19.1",
-    "jscs": "^3.0.7",
+    "eslint": "^6.1.0",
     "localtunnel": "^1.9.2",
     "nodemon": "^1.18.11",
     "wiredep": "^4.0.0"

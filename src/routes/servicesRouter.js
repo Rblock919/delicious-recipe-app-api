@@ -1,9 +1,9 @@
-var express = require('express');
-var servicesRouter = express.Router();
+const express = require('express');
+const servicesRouter = express.Router();
 
-var router = () => {
+const router = () => {
 
-    var servicesController = require('../controllers/servicesController')();
+    const servicesController = require('../controllers/servicesController')();
 
     servicesRouter.use(servicesController.middleware);
 

@@ -1,9 +1,9 @@
-var express = require('express');
-var adminRouter = express.Router();
+const express = require('express');
+const adminRouter = express.Router();
 
-var router = (User, newRecipe) => {
+const router = (User, newRecipe) => {
 
-    var adminController = require('../controllers/adminController')(User, newRecipe);
+    const adminController = require('../controllers/adminController')(User, newRecipe);
 
     adminRouter.use(adminController.middleware);
 

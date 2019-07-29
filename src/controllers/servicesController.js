@@ -1,4 +1,5 @@
-const chalk = require('chalk');
+/** @member {Object} */
+const chalk = require('chalk').default;
 const jwt = require('jwt-simple');
 const authConfig = require('../config/auth/authConfig');
 const userChecker = require('../config/strategies/user-checker');
@@ -7,8 +8,8 @@ const servicesController = () => {
 
     //Handle forwarding requests to main page for users that aren't logged in
     // eslint-disable-next-line consistent-return
-    var middleware = (req, res, next) => {
-        var payload;
+    const middleware = (req, res, next) => {
+        let payload;
 
         if (!req.header('Authorization')) {
             // console.log('NO AUTH TOKEN FOUND IN NODE MIDDLEWARE');
@@ -23,7 +24,6 @@ const servicesController = () => {
                 payload = jwt.decode(token, authConfig.secret);
             } catch (error) {
                 console.error(error);
-                res.sendStatus(500);
             }
             // console.log('payload: ' + JSON.stringify(payload));
 

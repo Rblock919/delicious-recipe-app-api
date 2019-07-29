@@ -1,8 +1,8 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
-var MongoClient = require('mongodb').MongoClient;
-var chalk = require('chalk');
-var dbRemoteUri = require('../db/dbconnection');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const MongoClient = require('mongodb').MongoClient;
+const chalk = require('chalk');
+const dbRemoteUri = require('../db/dbconnection');
 
 module.exports = () => {
     passport.use(new LocalStrategy({
