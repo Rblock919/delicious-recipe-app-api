@@ -14,8 +14,7 @@ const uri = require('./src/config/db/dbconnection');
 const app = express();
 const port = process.env.PORT || 3000;
 
-let connection;
-connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
+const connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in app.js'));
   } else {
@@ -60,9 +59,8 @@ app.listen(port, (err) => {
   if (err) {
     console.log(chalk.red.bold.underline(err));
   }
-    console.log(chalk.green('Running server on port: ') + chalk.green.underline(port));
-  }
-);
+  console.log(chalk.green('Running server on port: ') + chalk.green.underline(port));
+});
 
 //log to the console when the mongoose connection is closed
 // mongoose.connection.on('disconnected', () => {
@@ -71,7 +69,7 @@ mongoose.connection.on('disconnected', () => {
 });
 
 //whenever node exits, close the mongoose connection and log to console
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
   mongoose.connection.close(() => {
     console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
     process.exit(0);

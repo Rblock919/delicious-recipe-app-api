@@ -27,7 +27,7 @@ const LoginsSchema = new Schema({
 LoginsSchema.static('canAuthenticate', async function (key) {
   const login = await this.findOne({identityKey: key});
 
-  if (!login || login.failedAttempts < 3) {
+  if (!login || login.failedAttempts < 4) {
     return true;
   }
 

@@ -9,7 +9,7 @@ const authController = (User, login) => {
   const signUp = (req, res) => {
 
     console.log('Username on signup call: ' + req.body.username);
-    console.log('Password on singup call: ' + req.body.password);
+    console.log('Password on signup call: ' + req.body.password);
 
     console.log('Body req upon registration' + JSON.stringify(req.body));
 
