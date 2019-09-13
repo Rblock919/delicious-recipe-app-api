@@ -77,7 +77,7 @@ const authController = (User, login) => {
 
     console.log(`valid: ${validPassword}`);
 
-    if (existingUser && await existingUser.passwordIsValid(userData.password)) {
+    if (existingUser && validPassword) {
 
       payload = {sub: existingUser._id}
       const token = jwt.encode(payload, authConfig.secret);

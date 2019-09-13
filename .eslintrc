@@ -38,7 +38,7 @@
     "no-unused-expressions": "warn",
     "no-use-before-define": "error",
     "no-useless-return": "error",
-    "no-var": "warn",
+    "no-var": "error",
     "operator-linebreak": ["error", "after"],
     "prefer-arrow-callback": "warn",
     "prefer-const": "error",

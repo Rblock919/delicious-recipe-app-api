@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 export class SelectiveStrategy implements PreloadingStrategy {
 
+  // tslint:disable-next-line:ban-types
   preload(route: Route, load: Function): Observable<any> {
 
     if (route.data && route.data.preload) {

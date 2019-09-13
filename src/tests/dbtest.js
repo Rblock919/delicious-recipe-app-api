@@ -13,22 +13,22 @@ const uriS = require('../config/db/dbconnection');
 const dbName = 'recipeApp';
 
 (async function mongo() {
-    console.log('Uris: ' + uriS.remote);
-    let client;
-    try {
-        client = await MongoClient.connect(uriS.remote, {useNewUrlParser: true});
-        console.log(chalk.green('Connected to Server'));
-        const db = client.db(dbName);
+  console.log('Uris: ' + uriS.remote);
+  let client;
+  try {
+    client = await MongoClient.connect(uriS.remote, {useNewUrlParser: true});
+    console.log(chalk.green('Connected to Server'));
+    const db = client.db(dbName);
 
-        const col = await db.collection('recipes');
-        const docs = await col.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray();
-        console.log('Testing');
-        console.log(docs);
-    } catch (err) {
-        console.log(chalk.red(err.stack));
-    }
+    const col = await db.collection('recipes');
+    const docs = await col.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray();
+    console.log('Testing');
+    console.log(docs);
+  } catch (err) {
+    console.log(chalk.red(err.stack));
+  }
 
-    client.close();
+  client.close();
 }());
 
 /*
@@ -57,13 +57,13 @@ MongoClient.connect(url, function (err, client) {
 */
 
 async function main(db) {
-    var docs = await findDocumentsNew(db);
-    console.log(docs);
-    console.log(chalk.green('Done Printing docs in an async es2016+ fashion'));
+  const docs = await findDocumentsNew(db);
+  console.log(docs);
+  console.log(chalk.green('Done Printing docs in an async es2016+ fashion'));
 }
 
 const insertDocuments = function (db, callback) {
-    /*// Get the documents collection
+  /*// Get the documents collection
     const collection = db.collection('documents');
     // Insert some documents
     collection.insertMany([
@@ -75,35 +75,35 @@ const insertDocuments = function (db, callback) {
         console.log('Inserted 3 documents into the collection');
         callback(result);
     });*/
-    callback();
+  callback();
 }
 
 const findDocumentsNew = function (db) {
 
-    return new Promise(function (fulfill, reject) {
-        // Get the documents collection
-        const collection = db.collection('recipes');
-        // Find some documents
-        collection.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray(function (err, docs) {
-            //assert.equal(err, null);
-            if (err) {
-                reject(err);
-            }
-            console.log('Found the following records');
-            //console.log(docs)
-            fulfill(docs);
-        });
-    });
-}
-
-const findDocuments = function (db, callback) {
+  return new Promise(((fulfill, reject) => {
     // Get the documents collection
     const collection = db.collection('recipes');
     // Find some documents
-    collection.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray(function (err, docs) {
-        assert.equal(err, null);
-        console.log('Found the following records');
-        //console.log(docs)
-        callback(docs);
+    collection.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray((err, docs) => {
+      //assert.equal(err, null);
+      if (err) {
+        reject(err);
+      }
+      console.log('Found the following records');
+      //console.log(docs)
+      fulfill(docs);
     });
+  }));
+}
+
+const findDocuments = function (db, callback) {
+  // Get the documents collection
+  const collection = db.collection('recipes');
+  // Find some documents
+  collection.find({'title': 'Pineapple Poblano Beef Tacos'}).toArray((err, docs) => {
+    assert.equal(err, null);
+    console.log('Found the following records');
+    //console.log(docs)
+    callback(docs);
+  });
 }

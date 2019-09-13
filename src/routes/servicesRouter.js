@@ -3,11 +3,11 @@ const servicesRouter = express.Router();
 
 const router = () => {
 
-    const servicesController = require('../controllers/servicesController')();
+  const servicesController = require('../controllers/servicesController')();
 
-    servicesRouter.use(servicesController.middleware);
+  servicesRouter.use(servicesController.middleware);
 
-    return servicesRouter;
+  return servicesRouter;
 }
 
 module.exports = router;

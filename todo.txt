@@ -16,6 +16,7 @@
 - make sure all components grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
 - modularize the code in middlewares that checks for header + tokens
+- possibly remove uri.data.ts from angular models since environment file is now used?
 
 ******************************************************************************
 - move WebClient directory out of node directory for cloud node deployments
