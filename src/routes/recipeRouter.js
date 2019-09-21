@@ -1,9 +1,11 @@
 const express = require('express');
 const recipeRouter = express.Router();
+const caloriesSchema = require('../config/validation/validationSchemas');
+const {checkSchema} = require('express-validator');
 
-const router = (Recipe, newRecipe) => {
+const router = (Recipe, NewRecipe) => {
 
-  const recipeController = require('../controllers/recipeController')(Recipe, newRecipe);
+  const recipeController = require('../controllers/recipeController')(Recipe, NewRecipe);
 
   recipeRouter.use(recipeController.middleware);
 
@@ -15,6 +17,13 @@ const router = (Recipe, newRecipe) => {
 
   recipeRouter.route('/add')
     .post(recipeController.addRecipe);
+  //   , checkSchema({
+  //   'recipe.producer': {
+  //     in: ['body'],
+  //     isInt: true,
+  //     errorMessage: 'Calories is NaN'
+  //   }
+  // }));
 
   recipeRouter.route('/submit')
     .post(recipeController.submitForApproval);
@@ -32,6 +41,6 @@ const router = (Recipe, newRecipe) => {
     .post(recipeController.rateRecipe);
 
   return recipeRouter;
-}
+};
 
 module.exports = router;

@@ -15,8 +15,12 @@
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
 - make sure all components grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
-- modularize the code in middlewares that checks for header + tokens
-- possibly remove uri.data.ts from angular models since environment file is now used?
+- modularize the code in middlewares that checks for header + tokens + cookies
+- implement seeds from hard coded data instead of having api calls to trigger manually
+- implement authentication through verifying payload from cookie (as well as token header for now)
+- eventually move away from storing token into local storage
+- apply more async/awaits to node api controllers
+- update all findOnes (that use ids for querys) to findByIds (in user checker as well)
 
 ******************************************************************************
 - move WebClient directory out of node directory for cloud node deployments

@@ -59,11 +59,7 @@ export class SessionService {
   }
 
   get isAuthenticated() {
-    if (localStorage.getItem('token')) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!localStorage.getItem('token');
   }
 
 }

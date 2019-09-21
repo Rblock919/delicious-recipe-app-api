@@ -4,6 +4,7 @@ const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 const userChecker = require('../config/strategies/user-checker');
+const {check, validationResult} = require('express-validator');
 
 function assembleRecipeData(req) {
 
@@ -17,7 +18,7 @@ function assembleRecipeData(req) {
     imgDir: req.body.imgDir,
     raters: req.body.raters,
     favoriters: req.body.favoriters
-  }
+  };
 
   req.body.ingredients.forEach((element) => {
     recipeData.ingredients.push(element.name + ' | ' + element.amount);
@@ -32,7 +33,7 @@ function assembleRecipeData(req) {
   return recipeData;
 }
 
-const recipeController = (Recipe, newRecipe) => {
+const recipeController = (Recipe, NewRecipe) => {
 
   //Handle forwarding requests to main page for users that aren't logged in
   // eslint-disable-next-line consistent-return
@@ -66,7 +67,7 @@ const recipeController = (Recipe, newRecipe) => {
               req.userId = payload.sub;
               next();
             } else {
-              res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
+              return res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
             }
           }
         });
@@ -75,7 +76,7 @@ const recipeController = (Recipe, newRecipe) => {
 
     } else {
       console.log('NO TOKEN FOUND IN MW');
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
 
     // if (!req.user) {
@@ -87,66 +88,55 @@ const recipeController = (Recipe, newRecipe) => {
     // }
   };
 
-  const getIndex = (req, res) => {
-    const query = {};
-
-    Recipe.find(query, (err, recipes) => {
-      if (err) {
-        console.log(chalk.red(err));
-        res.sendStatus(500);
-      } else {
-        res.status(200).send(recipes);
-      }
-    });
+  const getIndex = async (req, res) => {
+    try {
+      const recipes = await Recipe.find({});
+      res.status(200).send(recipes);
+    } catch (err) {
+      console.log(chalk.red(`Error getting recipe list: ${err}`));
+      res.sendStatus(500);
+    }
   };
 
-  const getById = (req, res) => {
-    let id;
-    let query;
-    // for testing spinner icon & route animations in front end
-    // setTimeout(() => {
-    // var id = new objectId(req.params.id);
-    // var query = {_id: id};
-
-    // Recipe.findOne(query, (err, recipe) => {
-    // if (err) {
-    // console.log(err);
-    // res.sendStatus(500);
-    // }
-    // res.status(200).send(recipe);
-    // });
-    // }, 1000)
+  const getById = async (req, res) => {
     try {
-      id = new objectId(req.params.id);
-      query = {_id: id};
+      const id = new objectId(req.params.id);
+      const recipe = await Recipe.findById(id);
 
-      Recipe.findOne(query, (err, recipe) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(500);
-        }
+      if (recipe) {
         res.status(200).send(recipe);
-      });
+      } else {
+        res.status(404).send({ErrMessage: 'Recipe not found'});
+      }
     } catch (error) {
       console.log(chalk.red(`Error making objectId or retrieve recipe: ${error}`));
       res.status(400).send({ErrMessage: 'Bad Request'});
     }
-
   };
 
   const addRecipe = async (req, res) => {
     let id;
-    let query;
     let recipeToSave;
     let proceed = true;
 
     try {
       id = new objectId(req.body.approvalId);
-      query = {_id: id};
     } catch (error) {
       console.log(chalk.red(error));
       proceed = false;
     }
+
+    // console.log(req.body.recipe.nutritionValues.calories);
+    // req.body.recipe.nutritionValues.calories = 'asdf';
+    // console.log(req.body.recipe.nutritionValues.calories);
+    //
+    // check('recipe.nutritnValues.asdf').isInt();
+    // const errors = validationResult(req);
+    // console.log('errors: ' + JSON.stringify(errors));
+    //
+    // return;
+    // TO-DO: Validation checking against schemas like in PS course
+    // console.log(isNaN(req.body.recipe.nutritionValues.calories));
 
     if (proceed) {
       recipeToSave = new Recipe({
@@ -168,57 +158,44 @@ const recipeController = (Recipe, newRecipe) => {
         req.body.recipe.preCook.forEach((element) => {
           recipeToSave.preCook.push(element.body);
         });
-      };
+      }
 
-      await newRecipe.deleteOne(query, (err) => {
-        if (err) {
-          console.log(chalk.red('ERROR DELETING RECIPE FROM APPROVAL LIST: \n' + err));
-        } else {
-          // res.status(201).send({id: returnId});
-        }
-      });
+      try {
+        await NewRecipe.findByIdAndDelete(id);
+        const createdRecipe = await recipeToSave.save();
+        console.log(chalk.green('successfully saved new recipe'));
+        console.log('ReturnId: ' + createdRecipe._id);
+        res.status(201).send({id: createdRecipe._id});
+      } catch (err) {
+        console.log(chalk.red(err));
+        res.sendStatus(500);
+      }
 
-      await recipeToSave.save((err, createdRecipe) => {
-        if (err) {
-          console.log(chalk.red(err));
-          res.sendStatus(500);
-        } else {
-          console.log(chalk.green('successfully saved new recipe'));
-          console.log('ReturnId: ' + createdRecipe._id);
-          res.status(201).send({id: createdRecipe._id});
-        }
-      });
+    } else {
+      res.status(400).send({ErrMessage: 'Bad Request'});
     }
 
   };
 
   const updateRecipe = (req, res) => {
     let id;
-    let query;
     let recipeData;
 
-    userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
+    userChecker.checkIfUserIsAdmin(req.userId, async (err, isAdmin) => {
       if (err) {
         console.error(err);
-        res.sendStatus(500);
+        return res.sendStatus(500);
       } else {
         if (isAdmin === true) {
 
           try {
             id = new objectId(req.body._id);
-            query = {_id: id};
             recipeData = assembleRecipeData(req);
 
-            Recipe.findOneAndUpdate(query, recipeData, (err, doc) => {
-              if (err) {
-                console.log(chalk.red(err));
-                res.sendStatus(500);
-              } else {
-                console.log(chalk.green('recipe successfully updated'));
-                res.sendStatus(200);
-              }
-              // console.log('doc: ' + doc);
-            });
+            const updatedRecipe = await Recipe.findByIdAndUpdate(id, recipeData);
+            console.log(chalk.green('recipe successfully updated'));
+            res.sendStatus(200);
+
           } catch (error) {
             console.log(chalk.red(error));
             res.sendStatus(500);
@@ -234,101 +211,83 @@ const recipeController = (Recipe, newRecipe) => {
 
   const deleteRecipe = (req, res) => {
     let id;
-    let query;
 
-    userChecker.checkIfUserIsAdmin(req.userId, (err, isAdmin) => {
-
+    userChecker.checkIfUserIsAdmin(req.userId, async (err, isAdmin) => {
       if (err) {
         console.error(err);
-        res.sendStatus(500);
+        return res.sendStatus(500);
       } else {
-
         if (isAdmin === true) {
 
           try {
             id = new objectId(req.params.id);
-            query = {_id: id};
+            await Recipe.findByIdAndDelete(id);
 
-            Recipe.deleteOne(query, (err) => {
-              if (err) {
-                console.log(chalk.red('ERROR: ' + err));
-              } else {
-                res.sendStatus(200);
-              }
-            });
+            res.sendStatus(200);
           } catch (error) {
             console.log(chalk.red(error));
             res.sendStatus(500);
           }
+
         } else {
           res.status(401).send({ErrMessage: 'User is not authorized'});
         }
 
       }
-
     });
 
-  }
+  };
 
-  const favorite = (req, res) => {
+  const favorite = async (req, res) => {
     let updatedFavoriters;
     const addingFav = req.body.favoriting;
     let prevFavoriters = req.body.recipe.favoriters;
     let id;
-    let query;
     let proceed = true;
 
     try {
       id = new objectId(req.body.recipe._id);
-      query = {_id: id};
     } catch (error) {
       console.log(chalk.red(error));
       proceed = false;
     }
 
     if (proceed === true) {
+
       if (addingFav) { // user is favoriting recipe
         prevFavoriters.push(req.userId);
       } else { // user is unfavoriting recipe
         prevFavoriters = prevFavoriters.filter((uId) => uId !== '' + req.userId)
       }
 
-      updatedFavoriters = {favoriters: prevFavoriters};
-      Recipe.findOneAndUpdate(query, updatedFavoriters, (err, doc) => {
-        if (err) {
-          console.log(chalk.red(err));
-          res.sendStatus(500);
-        }
-        // console.log('doc: ' + JSON.stringify(doc));
+      try {
+        updatedFavoriters = {favoriters: prevFavoriters};
+        const updatedRecipe = await Recipe.findByIdAndUpdate(id, updatedFavoriters);
         res.sendStatus(200);
-      });
+      } catch (err) {
+        console.log(chalk.red(err));
+        res.sendStatus(500);
+      }
+
     } else {
       res.sendStatus(500);
     }
 
   };
 
-  const rateRecipe = (req, res) => {
+  const rateRecipe = async (req, res) => {
     let recipeId;
-    let query;
     let newRaters;
     let updatedRaters;
 
     try {
       recipeId = new objectId(req.body._id);
-      query = {_id: recipeId};
 
       newRaters = req.body.raters;
       updatedRaters = {raters: newRaters};
 
-      Recipe.findOneAndUpdate(query, updatedRaters, (err, doc) => {
-        if (err) {
-          console.log(chalk.red(err));
-          res.sendStatus(500);
-        }
-        // console.log('doc: ' + doc);
-        res.sendStatus(200);
-      });
+      const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedRaters);
+      res.sendStatus(200);
     } catch (error) {
       console.log(chalk.red(error));
       res.sendStatus(500);
@@ -336,10 +295,10 @@ const recipeController = (Recipe, newRecipe) => {
 
   };
 
-  const submitForApproval = (req, res) => {
+  const submitForApproval = async (req, res) => {
 
     const recipeData = assembleRecipeData(req);
-    const recipeToSave = new newRecipe({
+    const recipeToSave = new NewRecipe({
       title: recipeData.title,
       producer: recipeData.producer,
       ingredients: recipeData.ingredients,
@@ -351,19 +310,14 @@ const recipeController = (Recipe, newRecipe) => {
       imgDir: recipeData.imgDir
     });
 
-    // res.sendStatus(201);
-    // return;
-
-    recipeToSave.save((err, createdRecipe) => {
-      if (err) {
-        console.log(chalk.red(err));
-        res.sendStatus(500);
-      } else {
-        console.log(chalk.green('successfully saved new recipe'));
-        // res.sendStatus(201);
-        res.status(201).send({id: createdRecipe._id});
-      }
-    });
+    try {
+      const createdRecipe = await recipeToSave.save();
+      console.log(chalk.green('successfully saved new recipe'));
+      res.sendStatus(201);
+    } catch (err) {
+      console.log(chalk.red(err));
+      res.sendStatus(500);
+    }
 
   };
 
@@ -378,7 +332,7 @@ const recipeController = (Recipe, newRecipe) => {
     rateRecipe,
     favorite
   };
-}
+};
 
 module.exports = recipeController;
 

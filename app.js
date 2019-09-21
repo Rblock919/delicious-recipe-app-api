@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 /** @member {Object} */
 const chalk = require('chalk').default;
-const passport = require('passport');
+const express = require('express');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+// const passport = require('passport');
+// const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,27 +23,39 @@ const connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) =>
 });
 
 //Load mongoose models
-const newRecipe = require('./src/models/recipeModel').newRecipe;
+const NewRecipe = require('./src/models/recipeModel').newRecipe;
 const Recipe = require('./src/models/recipeModel').recipe;
 const User = require('./src/models/userModel');
-const login = require('./src/models/loginModel');
+const Login = require('./src/models/loginModel');
 
-//Load routers
-const recipeRouter = require('./src/routes/recipeRouter')(Recipe, newRecipe);
+//Load routes
+const recipeRouter = require('./src/routes/recipeRouter')(Recipe, NewRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')();
-const adminRouter = require('./src/routes/adminRouter')(User, newRecipe);
-const authRouter = require('./src/routes/authRouter')(User, login);
+const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
+const authRouter = require('./src/routes/authRouter')(User, Login);
 
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 app.use(cookieParser());
-app.use(session({secret: 'giveMeRecipes'}));
+require('./src/config/session/sessionConfig')(app, mongoose);
+
+//Middleware for session testing purposes
+// app.use((req, res, next) => {
+//   // console.log('in new middleware');
+//   // req.session.touch();
+//   // console.log(`Session: ${JSON.stringify(req.session)}`);
+//   // console.log(`cookies: ${JSON.stringify(req.cookies)}`);
+//   // console.log(`session user info in new MW: ${JSON.stringify(req.session.userInfo)}`);
+//   // console.log(`session cookie: ${JSON.stringify(req.session.cookie)}`);
+//   // console.log(`req session id: ${req.session.id}`);
+//   next();
+// });
 // require('./src/config/passport')(app);
 
-//Establish express routers
+//Establish express routes
 app.use('/api/recipes', recipeRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);
@@ -52,7 +64,11 @@ app.use('/api/auth', authRouter);
 //Serve up static angular files
 // app.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
 // app.all('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'index.html'));
+//   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
+//     res.sendFile(path.join(__dirname, 'index.html'));
+//   } else {
+//     res.sendFile(path.join(__dirname, 'WebClient/dist/WebClient/index.html'));
+//   }
 // });
 
 app.listen(port, (err) => {
@@ -63,7 +79,6 @@ app.listen(port, (err) => {
 });
 
 //log to the console when the mongoose connection is closed
-// mongoose.connection.on('disconnected', () => {
 mongoose.connection.on('disconnected', () => {
   console.log(chalk.magenta.underline('\nMongoose default connection disconnected'));
 });
@@ -75,5 +90,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
-// 2.0.46 = old version of mongodb module

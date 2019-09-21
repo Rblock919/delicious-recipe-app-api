@@ -108,7 +108,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       this.rateEvent.emit(this.recipe.title);
 
     }, err => {
-      console.log('err in submitRate: ' + err);
+      console.log('err in submitRate: ' + JSON.stringify(err));
     });
   }
 
@@ -120,11 +120,15 @@ export class RecipeComponent implements OnInit, AfterViewInit {
         // console.log('res from fav api call: ' + res);
         this.recipe.favoriters.push('' + this.userId);
         this.favoriteEvent.emit(this.recipe.title + ' Has Been Favorited!');
+      }, err => {
+        console.log(`Error favoriting recipe: ${JSON.stringify(err)}`);
       });
     } else if (!this.favorited) {
       this.apiService.unFavoriteRecipe(this.recipe).subscribe(res => {
         this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.userId);
         this.favoriteEvent.emit(this.recipe.title + ' Has Been Unfavorited!');
+      }, err => {
+        console.log(`Error unfavoriting recipe: ${JSON.stringify(err)}`);
       });
     }
 

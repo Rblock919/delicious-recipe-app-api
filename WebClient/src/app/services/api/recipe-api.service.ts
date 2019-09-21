@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AppUri } from '../../models/uri.data';
 import { IRecipe } from '../../models/recipe.model';
 import { environment } from 'src/environments/environment';
 
@@ -11,10 +10,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class RecipeApiService {
-  // private uri = AppUri.local + 'recipes';
   private uri = environment.path + 'recipes';
-  // private uri = 'http://localhost:3000/api/recipes';
-  // private uri = 'http://192.168.0.5:3000/api/recipes';
+  // private uri = 'http://localhost:4200/api';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -29,7 +26,7 @@ export class RecipeApiService {
   }
 
   submitRecipeForApproval(recipe: IRecipe): Observable<any> {
-    return this.httpClient.post(`${this.uri}/submit`, recipe, {responseType: 'json'});
+    return this.httpClient.post(`${this.uri}/submit`, recipe, {responseType: 'text'});
   }
 
   addRecipe(recipe: IRecipe, approvalId: number): Observable<any> {

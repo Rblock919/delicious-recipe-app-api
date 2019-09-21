@@ -35,14 +35,20 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
-    if (this.session.logout()) {
-      if (this.session.isAdmin) {
-        this.session.setAdminStatus(false);
+    this.auth.signOut().subscribe(res => {
+      if (this.session.logout()) {
+        if (this.session.isAdmin) {
+          this.session.setAdminStatus(false);
+        }
+        this.toastr.success('You have successfully logged out');
+        this.router.navigate(['logout']);
       }
-      this.toastr.success('You have successfully logged out');
-      this.router.navigate(['logout']);
-    }
-    this.clearSearch();
+      this.clearSearch();
+    }, err => {
+      console.error('Error destroying session from backend');
+      this.toastr.error('Error ending session with backend');
+      // TO-DO: implement logging out of front end and hiding error from user
+    });
   }
 
   navigateHome(): void {
@@ -54,6 +60,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  // For testing; remove eventually
   getUserData(): void {
     this.auth.getUserData().subscribe(res => {
       console.log('RES FROM GET USERDATA: ' + JSON.stringify(res));

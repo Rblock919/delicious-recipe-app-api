@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 import { IRecipe, IRecipeResolved } from 'src/app/models/recipe.model';
-import { SessionService } from './../../services/session.service';
+import { SessionService } from '../../services/session.service';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
 
 @Component({
@@ -32,7 +32,10 @@ export class RecipeDetailComponent implements OnInit {
     const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
-      console.error(`Error in recipe detail comp: ${resolvedData.error}`);
+      console.error(`Error in recipe detail comp: ${JSON.stringify(resolvedData.error)}`);
+      if (resolvedData.error.error.ErrMessage) {
+        console.log(`ErrMessage: ${resolvedData.error.error.ErrMessage}`);
+      }
       console.log('routing to error page...');
       this.router.navigate(['error']);
     } else {
@@ -40,11 +43,7 @@ export class RecipeDetailComponent implements OnInit {
       this.recipeId = this.recipe._id;
       let favoriters: string[];
       favoriters = this.recipe.favoriters;
-      if (favoriters.indexOf('' + this.session.getUser._id) > -1) {
-        this.favorited = true;
-      } else {
-        this.favorited = false;
-      }
+      this.favorited = favoriters.indexOf('' + this.session.getUser._id) > -1;
       if (this.recipe.producer === 'Hello Fresh') {
         this.preCookTitle = 'Bust Out:';
       } else if (this.recipe.producer === 'Home Chef') {
@@ -96,7 +95,7 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeApi.rateRecipe(this.recipe).subscribe(res => {
       // console.log('res in submitRate: ' + res);
       this.rated = true;
-      this.toastr.success(`${this.recipe.title} Successfuly Rated!`);
+      this.toastr.success(`${this.recipe.title} Successfully Rated!`);
 
       // update average rating
       let ratingCounter = 0;

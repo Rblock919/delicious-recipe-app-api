@@ -5,6 +5,7 @@ import { AuthService } from '../../services/api/auth.service';
 import { IUser } from '../../models/user.model';
 import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 import { SessionService } from '../../services/session.service';
+// import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     @Inject(TOASTR_TOKEN) private toastr: Toastr,
     private sessionService: SessionService,
+    // private cookieService: CookieService,
     private router: Router) { }
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log('Loggin in..');
+    console.log('Logging in..');
     this.auth.signIn(this.userInfo).subscribe(res => {
       let tempRes: any;
       tempRes = res;

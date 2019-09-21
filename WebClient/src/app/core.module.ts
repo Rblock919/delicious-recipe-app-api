@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { RecipeApiService } from './services/api/recipe-api.service';
 import { SessionService } from './services/session.service';
@@ -22,7 +23,8 @@ import { LoggerService } from './services/util/logger.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    },
+    CookieService
   ],
   declarations: [],
   exports: []
