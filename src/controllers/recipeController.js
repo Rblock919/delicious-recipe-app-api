@@ -164,7 +164,6 @@ const recipeController = (Recipe, NewRecipe) => {
         await NewRecipe.findByIdAndDelete(id);
         const createdRecipe = await recipeToSave.save();
         console.log(chalk.green('successfully saved new recipe'));
-        console.log('ReturnId: ' + createdRecipe._id);
         res.status(201).send({id: createdRecipe._id});
       } catch (err) {
         console.log(chalk.red(err));

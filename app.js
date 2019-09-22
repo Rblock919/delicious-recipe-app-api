@@ -14,7 +14,7 @@ const uri = require('./src/config/db/dbconnection');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
+const connection = mongoose.connect(uri.remote , {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in app.js'));
   } else {
@@ -28,7 +28,7 @@ const Recipe = require('./src/models/recipeModel').recipe;
 const User = require('./src/models/userModel');
 const Login = require('./src/models/loginModel');
 
-//Load routes
+//Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(Recipe, NewRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')();
 const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
@@ -55,7 +55,7 @@ require('./src/config/session/sessionConfig')(app, mongoose);
 // });
 // require('./src/config/passport')(app);
 
-//Establish express routes
+//Establish express routers
 app.use('/api/recipes', recipeRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);

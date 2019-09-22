@@ -44,7 +44,7 @@
     "prefer-const": "error",
     "quotes": ["error", "single"],
     "require-await": "warn",
-    "require-atomic-updates": "error",
+    // "require-atomic-updates": "error",
     "space-infix-ops": ["error", { "int32Hint": false }],
     "space-in-parens": ["error", "never"],
     "space-before-blocks": ["error", "always"],

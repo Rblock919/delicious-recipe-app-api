@@ -21,6 +21,7 @@
 - eventually move away from storing token into local storage
 - apply more async/awaits to node api controllers
 - update all findOnes (that use ids for querys) to findByIds (in user checker as well)
+- figure out how to set javascript enabled to false on cloud mongodb server
 
 ******************************************************************************
 - move WebClient directory out of node directory for cloud node deployments
