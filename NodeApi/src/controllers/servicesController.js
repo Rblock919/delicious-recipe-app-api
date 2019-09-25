@@ -49,7 +49,7 @@ const servicesController = () => {
       console.log('NO TOKEN FOUND IN MW');
       res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
-  }
+  };
 
   return {
     middleware

@@ -77,6 +77,7 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
     const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
     if (resolvedData.error) {
       console.error(resolvedData.error);
+      this.router.navigate(['error']);
     } else {
         this.recipe = resolvedData.recipe;
         this.setValidations(this.recipe.producer);
@@ -256,7 +257,7 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
     if (!this.recipeForm.valid) {
       console.log('trying to save invalid form');
       this.markFormGroupTouched(this.recipeForm);
-      console.log(this.recipeForm.controls);
+      // console.log(this.recipeForm.controls);
       return;
     }
 
@@ -290,7 +291,7 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
 
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
-    formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
+    // formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
 
     formRecipe.favoriters = [];
     formRecipe.raters = {} as Map<number, number>;

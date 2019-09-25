@@ -5,9 +5,8 @@ function checkIfUserExists(userId, callback) {
 
   try {
     const id = new objectId(userId);
-    const query = {_id: id};
 
-    userModel.findOne(query, (err, foundUser) => {
+    userModel.findById(id, (err, foundUser) => {
       if (err) {
         console.log(err);
         callback(err, null);
@@ -29,9 +28,8 @@ function checkIfUserIsAdmin(userId, callback) {
 
   try {
     const id = new objectId(userId);
-    const query = {_id: id};
 
-    userModel.findOne(query, (err, foundUser) => {
+    userModel.findById(id, (err, foundUser) => {
       if (err) {
         console.log(err);
         callback(err, null);

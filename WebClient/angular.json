@@ -15,7 +15,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "nyan-builder:browser",
           "options": {
             "outputPath": "dist/WebClient",
             "index": "src/index.html",
@@ -67,7 +67,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "nyan-builder:dev-server",
           "options": {
             "browserTarget": "WebClient:build"
           },

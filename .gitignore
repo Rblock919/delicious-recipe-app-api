@@ -1,3 +1,5 @@
-node_modules/
+NodeApi/node_modules
+NodeApi/.vscode
+WebClient/node_modules
 .vscode
 .idea/

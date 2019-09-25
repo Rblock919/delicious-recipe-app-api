@@ -233,7 +233,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
 
     let formRecipe: IRecipe;
     formRecipe = this.recipeForm.value;
-    formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
+    // formRecipe.nutritionValues = this.recipeForm.get('nutrition').value;
 
 
     // user is adding new recipe
@@ -298,13 +298,11 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
       this.watchProducer();
     } else { // editing a recipe
 
-      // this.apiService.getRecipe(this.id).subscribe(res => {
-        // console.log('RES IN EDIT RECIPE: ' + JSON.stringify(res));
-        // this.recipe = res;
         const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
 
         if (resolvedData.error) {
           console.error(`Error in edit recipe ${resolvedData.error}`);
+          this.router.navigate(['error']);
         }
 
         this.watchImageUrl();

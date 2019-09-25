@@ -22,14 +22,18 @@
 - apply more async/awaits to node api controllers
 - update all findOnes (that use ids for querys) to findByIds (in user checker as well)
 - figure out how to set javascript enabled to false on cloud mongodb server
+- upgrade from jwt-simple to something not 'simple'
+- modularize some of the logic in edit/approve recipe components to external service
+- implement validation to make sure recipe titles are unique-
+- add sanitation to the validation schemas
 
-******************************************************************************
-- move WebClient directory out of node directory for cloud node deployments
-******************************************************************************
+**                                                           **
+- add reject button/functionality to approve recipe detail page
+**                                                           **
 
 - commenting functionality on recipes?
 - possibly split route-guard into two guards to simplify logic (maybe)
-- update app to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
+- update server to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
 
 node packages to checkout from security course:
 - express-validator (possibly look for angular equal)

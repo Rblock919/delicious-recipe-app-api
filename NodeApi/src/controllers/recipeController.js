@@ -4,7 +4,7 @@ const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 const userChecker = require('../config/strategies/user-checker');
-const {check, validationResult} = require('express-validator');
+const {validationResult} = require('express-validator/check');
 
 function assembleRecipeData(req) {
 
@@ -14,7 +14,7 @@ function assembleRecipeData(req) {
     ingredients: [],
     preCook: [],
     steps: req.body.steps,
-    nutritionValues: req.body.nutritionValues,
+    nutritionValues: req.body.nutrition,
     imgDir: req.body.imgDir,
     raters: req.body.raters,
     favoriters: req.body.favoriters
@@ -130,11 +130,12 @@ const recipeController = (Recipe, NewRecipe) => {
     // req.body.recipe.nutritionValues.calories = 'asdf';
     // console.log(req.body.recipe.nutritionValues.calories);
     //
-    // check('recipe.nutritnValues.asdf').isInt();
-    // const errors = validationResult(req);
-    // console.log('errors: ' + JSON.stringify(errors));
+    // check('recipe.nutritionValues.calories').isInt();
+    const errors = validationResult(req);
+    console.log('\nerrors: ' + JSON.stringify(errors));
+    console.log(JSON.stringify(req.body));
     //
-    // return;
+    return;
     // TO-DO: Validation checking against schemas like in PS course
     // console.log(isNaN(req.body.recipe.nutritionValues.calories));
 
@@ -145,7 +146,7 @@ const recipeController = (Recipe, NewRecipe) => {
         ingredients: [],
         preCook: [],
         steps: req.body.recipe.steps,
-        nutritionValues: req.body.recipe.nutritionValues,
+        nutritionValues: req.body.recipe.nutrition,
         favoriters: [],
         raters: {},
         imgDir: req.body.recipe.imgDir
@@ -297,6 +298,9 @@ const recipeController = (Recipe, NewRecipe) => {
   const submitForApproval = async (req, res) => {
 
     const recipeData = assembleRecipeData(req);
+    console.log(JSON.stringify(req.body));
+
+    // return;
     const recipeToSave = new NewRecipe({
       title: recipeData.title,
       producer: recipeData.producer,

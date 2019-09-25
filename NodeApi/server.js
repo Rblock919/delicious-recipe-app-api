@@ -14,11 +14,11 @@ const uri = require('./src/config/db/dbconnection');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connection = mongoose.connect(uri.remote , {useNewUrlParser: true}, (err) => {
+const connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
   if (!err) {
-    console.log(chalk.inverse('connected to db in app.js'));
+    console.log(chalk.inverse('connected to db in server.js'));
   } else {
-    console.log(chalk.red(`Error connecting to database in app.js... ${err}`));
+    console.log(chalk.red(`Error connecting to database in server.js... ${err}`));
   }
 });
 
@@ -43,7 +43,7 @@ app.use(cookieParser());
 require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Middleware for session testing purposes
-// app.use((req, res, next) => {
+// server.use((req, res, next) => {
 //   // console.log('in new middleware');
 //   // req.session.touch();
 //   // console.log(`Session: ${JSON.stringify(req.session)}`);
@@ -53,7 +53,7 @@ require('./src/config/session/sessionConfig')(app, mongoose);
 //   // console.log(`req session id: ${req.session.id}`);
 //   next();
 // });
-// require('./src/config/passport')(app);
+// require('./src/config/passport')(server);
 
 //Establish express routers
 app.use('/api/recipes', recipeRouter);
@@ -62,8 +62,8 @@ app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
 //Serve up static angular files
-// app.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
-// app.all('*', (req, res) => {
+// server.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
+// server.all('*', (req, res) => {
 //   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
 //     res.sendFile(path.join(__dirname, 'index.html'));
 //   } else {
@@ -90,3 +90,4 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
