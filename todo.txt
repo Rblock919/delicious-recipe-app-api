@@ -30,6 +30,7 @@
 **                                                           **
 - add reject button/functionality to approve recipe detail page
 **                                                           **
+^^^^>>>>> this can lead to a notifications page where an admin can give a user a reason why they rejected or a notification that their recipe was approved
 
 - commenting functionality on recipes?
 - possibly split route-guard into two guards to simplify logic (maybe)

@@ -34,11 +34,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
-    if (favoritersList.indexOf('' + this.userId) > -1) {
-      this.favorited = true;
-    } else {
-      this.favorited = false;
-    }
+    this.favorited = favoritersList.indexOf('' + this.userId) > -1;
     // this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
       // this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
     this.modalContentID = this.makeModalId(15);

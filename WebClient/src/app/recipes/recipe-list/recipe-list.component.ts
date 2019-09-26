@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
-import { SessionService } from './../../services/session.service';
+import { SessionService } from '../../services/session.service';
 import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
 
 @Component({
@@ -27,8 +27,8 @@ export class RecipeListComponent implements OnInit {
 
   topSelectedFilter = '';
   botSelectedFilter = '';
-  userId: number;
 
+  userId: number;
 
   constructor(private sessionService: SessionService,
               private route: ActivatedRoute,
@@ -99,26 +99,13 @@ export class RecipeListComponent implements OnInit {
         return 1;
       }
 
-    })
+    });
 
-    // make sure each of the top 6 rated recipes actually has been rated
-    if (Object.values(tempList[0].raters).length > 0) {
-      this.hotRecipeList.push(tempList[0]);
-    }
-    if (Object.values(tempList[1].raters).length > 0) {
-      this.hotRecipeList.push(tempList[1]);
-    }
-    if (Object.values(tempList[2].raters).length > 0) {
-      this.hotRecipeList.push(tempList[2]);
-    }
-    if (Object.values(tempList[3].raters).length > 0) {
-      this.hotRecipeList.push(tempList[3]);
-    }
-    if (Object.values(tempList[4].raters).length > 0) {
-      this.hotRecipeList.push(tempList[4]);
-    }
-    if (Object.values(tempList[5].raters).length > 0) {
-      this.hotRecipeList.push(tempList[5]);
+    // make sure each of the top 12 rated recipes has actually been rated before pushing to top 12 array
+    for (let i = 0; i < 12; i++) {
+      if (Object.values(tempList[i].raters).length > 0) {
+        this.hotRecipeList.push(tempList[i]);
+      }
     }
 
   }
@@ -321,7 +308,7 @@ export class RecipeListComponent implements OnInit {
         this.sortRecipes();
 
       } else {
-        console.log('sort direction was already down so reseting...');
+        console.log('sort direction was already down so resetting...');
         this.selectedRecipeList.sort((a, b) => (a._id > b._id ? 1 : -1));
         this.sortDirection = '';
         this.sortFilter = '';

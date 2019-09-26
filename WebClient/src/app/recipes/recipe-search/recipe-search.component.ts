@@ -1,6 +1,6 @@
 import { LoggerService } from '../../services/util/logger.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
@@ -22,28 +22,28 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private sessionService: SessionService,
               private loggerService: LoggerService,
+              private router: Router,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
 
   ngOnInit() {
     // this.searchString = this.route.snapshot.params.searchString;
-    this.loggerService.consoleLog('in recipe search component');
 
     const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
       console.error(`Error in edit recipe ${resolvedData.error}`);
+      this.toastr.error(`Error fetching recipes: ${resolvedData.error}`);
+      this.router.navigate(['error']);
     } else {
       this.recipeList = resolvedData.recipes;
     }
-
+    this.userId = this.sessionService.getUser._id;
     this.sub = this.route.queryParamMap.subscribe(params => {
       this.loggerService.consoleLog(`Param changed to: ${params.get('searchString')}`);
       this.searchString = params.get('searchString');
       this.filterRecipes();
     });
-
-    this.userId = this.sessionService.getUser._id;
 
   }
 
