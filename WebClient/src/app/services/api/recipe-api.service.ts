@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 })
 export class RecipeApiService {
   private uri = environment.path + 'recipes';
-  // private uri = 'http://localhost:4200/api';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,7 +25,8 @@ export class RecipeApiService {
   }
 
   submitRecipeForApproval(recipe: IRecipe): Observable<any> {
-    return this.httpClient.post(`${this.uri}/submit`, recipe, {responseType: 'text'});
+    const data = {recipe};
+    return this.httpClient.post(`${this.uri}/submit`, data, {responseType: 'text'});
   }
 
   addRecipe(recipe: IRecipe, approvalId: number): Observable<any> {
@@ -38,7 +38,8 @@ export class RecipeApiService {
   }
 
   updateRecipe(recipe: IRecipe): Observable<any> {
-    return this.httpClient.patch(`${this.uri}/update`, recipe, {responseType: 'text'});
+    const data = {recipe};
+    return this.httpClient.patch(`${this.uri}/update`, data, {responseType: 'text'});
   }
 
   deleteRecipe(recipeId: number): Observable<any> {

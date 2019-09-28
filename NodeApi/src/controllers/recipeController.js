@@ -1,31 +1,31 @@
-const jwt = require('jwt-simple');
 /** @member {Object} */
 const chalk = require('chalk').default;
+const jwt = require('jsonwebtoken');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
-const userChecker = require('../config/strategies/user-checker');
+const userChecker = require('../config/validation/userChecker');
 const {validationResult} = require('express-validator/check');
 
 function assembleRecipeData(req) {
 
   const recipeData = {
-    title: req.body.title,
-    producer: req.body.producer,
+    title: req.body.recipe.title,
+    producer: req.body.recipe.producer,
     ingredients: [],
     preCook: [],
-    steps: req.body.steps,
-    nutritionValues: req.body.nutrition,
-    imgDir: req.body.imgDir,
-    raters: req.body.raters,
-    favoriters: req.body.favoriters
+    steps: req.body.recipe.steps,
+    nutritionValues: req.body.recipe.nutrition,
+    imgDir: req.body.recipe.imgDir,
+    raters: req.body.recipe.raters,
+    favoriters: req.body.recipe.favoriters
   };
 
-  req.body.ingredients.forEach((element) => {
+  req.body.recipe.ingredients.forEach((element) => {
     recipeData.ingredients.push(element.name + ' | ' + element.amount);
   });
 
   if (recipeData.producer === 'Hello Fresh' || recipeData.producer === 'Home Chef') {
-    req.body.preCook.forEach((element) => {
+    req.body.recipe.preCook.forEach((element) => {
       recipeData.preCook.push(element.body);
     });
   }
@@ -35,21 +35,21 @@ function assembleRecipeData(req) {
 
 const recipeController = (Recipe, NewRecipe) => {
 
-  //Handle forwarding requests to main page for users that aren't logged in
-  // eslint-disable-next-line consistent-return
-  const middleware = (req, res, next) => {
+  const middleware = async (req, res, next) => {
     let payload;
 
     if (!req.header('Authorization')) {
       return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
     }
 
+    // if (decodedToken.exp > (Date.now() / 1000)) { }
+
     const token = req.header('Authorization').split(' ')[1];
 
     if (token !== 'null') {
 
       try {
-        payload = jwt.decode(token, authConfig.secret);
+        payload = await jwt.verify(token, authConfig.secret);
       } catch (error) {
         console.error(error);
       }
@@ -79,13 +79,6 @@ const recipeController = (Recipe, NewRecipe) => {
       return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
 
-    // if (!req.user) {
-    // console.log('User not logged in');
-    // res.redirect('/');
-    // return;
-    // } else {
-    // next();
-    // }
   };
 
   const getIndex = async (req, res) => {
@@ -117,6 +110,7 @@ const recipeController = (Recipe, NewRecipe) => {
   const addRecipe = async (req, res) => {
     let id;
     let recipeToSave;
+    let recipeData;
     let proceed = true;
 
     try {
@@ -126,40 +120,16 @@ const recipeController = (Recipe, NewRecipe) => {
       proceed = false;
     }
 
-    // console.log(req.body.recipe.nutritionValues.calories);
-    // req.body.recipe.nutritionValues.calories = 'asdf';
-    // console.log(req.body.recipe.nutritionValues.calories);
-    //
-    // check('recipe.nutritionValues.calories').isInt();
     const errors = validationResult(req);
-    console.log('\nerrors: ' + JSON.stringify(errors));
-    console.log(JSON.stringify(req.body));
+    // console.log('\nerrors: ' + JSON.stringify(errors));
+    // console.log(JSON.stringify(req.body));
     //
-    return;
-    // TO-DO: Validation checking against schemas like in PS course
-    // console.log(isNaN(req.body.recipe.nutritionValues.calories));
+    // console.log(`Errors Empty: ${errors.isEmpty()}`);
+    // return;
 
-    if (proceed) {
-      recipeToSave = new Recipe({
-        title: req.body.recipe.title,
-        producer: req.body.recipe.producer,
-        ingredients: [],
-        preCook: [],
-        steps: req.body.recipe.steps,
-        nutritionValues: req.body.recipe.nutrition,
-        favoriters: [],
-        raters: {},
-        imgDir: req.body.recipe.imgDir
-      });
-
-      req.body.recipe.ingredients.forEach((element) => {
-        recipeToSave.ingredients.push(element.name + ' | ' + element.amount);
-      });
-      if (req.body.recipe.producer === 'Hello Fresh' || req.body.recipe.producer === 'Home Chef') {
-        req.body.recipe.preCook.forEach((element) => {
-          recipeToSave.preCook.push(element.body);
-        });
-      }
+    if (proceed && errors.isEmpty()) {
+      recipeData = assembleRecipeData(req);
+      recipeToSave = new Recipe(recipeData);
 
       try {
         await NewRecipe.findByIdAndDelete(id);
@@ -188,17 +158,30 @@ const recipeController = (Recipe, NewRecipe) => {
       } else {
         if (isAdmin === true) {
 
-          try {
-            id = new objectId(req.body._id);
-            recipeData = assembleRecipeData(req);
+          const errors = validationResult(req);
+          console.log('\nerrors: ' + JSON.stringify(errors));
+          console.log(JSON.stringify(req.body));
+          console.log(`Errors Empty: ${errors.isEmpty()}`);
+          return;
+          if (errors.isEmpty()) {
+            try {
+              id = new objectId(req.body.recipe._id);
 
-            const updatedRecipe = await Recipe.findByIdAndUpdate(id, recipeData);
-            console.log(chalk.green('recipe successfully updated'));
-            res.sendStatus(200);
+              recipeData = assembleRecipeData(req);
+              const updatedRecipe = await Recipe.findByIdAndUpdate(id, recipeData);
+              if (updatedRecipe) {
+                console.log(chalk.green('recipe successfully updated'));
+                res.sendStatus(200);
+              } else {
+                res.status(404).send({ErrMessage: 'Could not find recipe to update in backend'});
+              }
 
-          } catch (error) {
-            console.log(chalk.red(error));
-            res.sendStatus(500);
+            } catch (error) {
+              console.log(chalk.red(error));
+              res.sendStatus(500);
+            }
+          } else {
+            res.status(400).send({ErrMessage: 'Bad Request'});
           }
 
         } else {
@@ -239,11 +222,11 @@ const recipeController = (Recipe, NewRecipe) => {
   };
 
   const favorite = async (req, res) => {
-    let updatedFavoriters;
     const addingFav = req.body.favoriting;
     let prevFavoriters = req.body.recipe.favoriters;
-    let id;
     let proceed = true;
+    let updatedFavoriters;
+    let id;
 
     try {
       id = new objectId(req.body.recipe._id);
@@ -298,28 +281,39 @@ const recipeController = (Recipe, NewRecipe) => {
   const submitForApproval = async (req, res) => {
 
     const recipeData = assembleRecipeData(req);
-    console.log(JSON.stringify(req.body));
 
-    // return;
-    const recipeToSave = new NewRecipe({
-      title: recipeData.title,
-      producer: recipeData.producer,
-      ingredients: recipeData.ingredients,
-      preCook: recipeData.preCook,
-      steps: recipeData.steps,
-      nutritionValues: recipeData.nutritionValues,
-      favoriters: [],
-      raters: {},
-      imgDir: recipeData.imgDir
-    });
+    const errors = validationResult(req);
+    // console.log('\nerrors: ' + JSON.stringify(errors));
+    // console.log(JSON.stringify(req.body));
+    //
+    // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
-    try {
-      const createdRecipe = await recipeToSave.save();
-      console.log(chalk.green('successfully saved new recipe'));
-      res.sendStatus(201);
-    } catch (err) {
-      console.log(chalk.red(err));
-      res.sendStatus(500);
+    if (!errors.isEmpty()) {
+      console.log('errors are not empty');
+      return res.status(400).send({ErrMessage: 'Bad Request'});
+    } else {
+
+      const recipeToSave = new NewRecipe({
+        title: recipeData.title,
+        producer: recipeData.producer,
+        ingredients: recipeData.ingredients,
+        preCook: recipeData.preCook,
+        steps: recipeData.steps,
+        nutritionValues: recipeData.nutritionValues,
+        favoriters: [],
+        raters: {},
+        imgDir: recipeData.imgDir
+      });
+
+      try {
+        const createdRecipe = await recipeToSave.save();
+        console.log(chalk.green('successfully saved new recipe'));
+        res.sendStatus(201);
+      } catch (err) {
+        console.log(chalk.red(err));
+        res.sendStatus(500);
+      }
+
     }
 
   };

@@ -1,7 +1,6 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const recipeSchema = require('../config/validation/validationSchemas');
-const { body } = require('express-validator/check');
 
 const router = (Recipe, NewRecipe) => {
 
@@ -19,10 +18,10 @@ const router = (Recipe, NewRecipe) => {
     .post(recipeSchema, recipeController.addRecipe);
 
   recipeRouter.route('/submit')
-    .post(recipeController.submitForApproval);
+    .post(recipeSchema, recipeController.submitForApproval);
 
   recipeRouter.route('/update')
-    .patch(recipeController.updateRecipe);
+    .patch(recipeSchema, recipeController.updateRecipe);
 
   recipeRouter.route('/delete/:id')
     .delete(recipeController.deleteRecipe);

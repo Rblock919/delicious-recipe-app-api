@@ -21,9 +21,10 @@ function sessionConfig(app, mongoose) {
     req.session.destroy((err) => {
       if (err) {
         cb(err);
+      } else {
+        cb();
       }
     });
-    cb(); // no need to wait on callback of destroy to trigger this call back
   };
 
   const mongooseStore = new MongoStore({

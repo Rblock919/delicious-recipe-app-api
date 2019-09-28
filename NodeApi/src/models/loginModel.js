@@ -95,4 +95,11 @@ LoginsSchema.static('inProgress', async function(key) {
   return (login && login.inProgress);
 });
 
+LoginsSchema.static('endProgress', async function(key) {
+  const query = {identityKey: key};
+  const update = {inProgress: false};
+  const updatedLogin = await this.findOneAndUpdate(query, update).exec();
+  return updatedLogin.inProgress;
+});
+
 module.exports = mongoose.model('logins', LoginsSchema);

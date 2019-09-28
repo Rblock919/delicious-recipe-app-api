@@ -3,12 +3,9 @@ const chalk = require('chalk').default;
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const passport = require('passport');
-// const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
-
 const uri = require('./src/config/db/dbconnection');
 
 const app = express();
@@ -43,17 +40,18 @@ app.use(cookieParser());
 require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Middleware for session testing purposes
-// server.use((req, res, next) => {
-//   // console.log('in new middleware');
-//   // req.session.touch();
-//   // console.log(`Session: ${JSON.stringify(req.session)}`);
-//   // console.log(`cookies: ${JSON.stringify(req.cookies)}`);
-//   // console.log(`session user info in new MW: ${JSON.stringify(req.session.userInfo)}`);
-//   // console.log(`session cookie: ${JSON.stringify(req.session.cookie)}`);
-//   // console.log(`req session id: ${req.session.id}`);
+// app.use((req, res, next) => {
+// console.log('in new middleware');
+// req.session.touch();
+// console.log(`Session: ${JSON.stringify(req.session)}`);
+// console.log(`cookies: ${JSON.stringify(req.cookies)}`);
+// console.log(`session cookie: ${req.cookies.id}`);
+// console.log(`actual id of session cookie: ${req.cookies.id.slice(2)}`);
+// console.log(`session user info in new MW: ${JSON.stringify(req.session.userInfo)}`);
+// console.log(`session cookie: ${JSON.stringify(req.session.cookie)}`);
+// console.log(`req session id: ${req.session.id}`);
 //   next();
 // });
-// require('./src/config/passport')(server);
 
 //Establish express routers
 app.use('/api/recipes', recipeRouter);

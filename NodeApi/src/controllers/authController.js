@@ -1,15 +1,15 @@
 /** @member {Object} */
 const chalk = require('chalk').default;
-const jwt = require('jwt-simple');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
+const jwt = require('jsonwebtoken');
 
 const authController = (User, Login) => {
 
   const signUp = async (req, res) => {
 
     const newUser = new User({
-      username: req.body.username,
+      username: escape(req.body.username),
       password: req.body.password,
       isAdmin: false
     });
@@ -42,7 +42,7 @@ const authController = (User, Login) => {
     const delayResponse = (response) => {
       setTimeout(() => {
         response();
-      }, 1000)
+      }, 600)
     };
 
     console.log('Remote Address: ' + req.connection.remoteAddress);
@@ -56,21 +56,27 @@ const authController = (User, Login) => {
     }
 
     if (!await Login.canAuthenticate(identityKey)) {
+      await Login.endProgress(identityKey);
       return delayResponse(() => {
         res.status(500).send({ErrMessage: 'The account is temporarily locked out due to excessive number of login attempts. Please wait a few minutes'});
       });
     }
 
-    const query = {username: userData.username};
+    const query = {username: escape(userData.username)};
     let payload = {};
 
     const existingUser = await User.findOne(query, '-__v').exec();
-    const validPassword = await existingUser.passwordIsValid(userData.password);
+    let validPassword;
+
+    if (existingUser) {
+      validPassword = await existingUser.passwordIsValid(userData.password);
+    }
 
     if (existingUser && validPassword) {
 
       payload = {sub: existingUser._id};
-      const token = jwt.encode(payload, authConfig.secret);
+      // const token = jwt.encode(payload, authConfig.secret);
+      const token = await jwt.sign(payload, authConfig.secret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
       const user = {
         _id: existingUser._id,
         username: existingUser.username,
@@ -82,17 +88,15 @@ const authController = (User, Login) => {
           console.error('error saving user to session');
         }
         // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
-        // console.log(`session id in login callback: ${req.session.id}`);
       });
 
       await Login.successfulLoginAttempt(identityKey);
 
       return delayResponse(() => {
-        res.cookie('tkn', token, {
+        res.status(200).cookie('tkn', token, {
           httpOnly: true,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
-        });
-        res.status(200).send({user: user, token: token});
+        }).send({user: user, token: token});
       });
 
     } else {
@@ -125,7 +129,6 @@ const authController = (User, Login) => {
     const token = req.header('Authorization').split(' ')[1];
 
     if (token !== 'null') {
-      console.log('token: ' + token);
 
       try {
         payload = jwt.decode(token, authConfig.secret);
@@ -137,12 +140,10 @@ const authController = (User, Login) => {
         console.log('auth header invalid');
         res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
       } else {
-        console.log('payload: ' + payload);
         userId = payload.sub;
 
         try {
           id = new objectId(userId);
-          console.log('id from token: ' + userId);
         } catch (error) {
           console.log(chalk.red(error));
         }

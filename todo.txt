@@ -1,5 +1,4 @@
-- possibly learn how to configure passport to work w/ CORS apps
-- upgrade to angular 8 & test using Ivy
+- test using Ivy
 
 - implement password resets (for users & admin)
 - service/page for users to see their ratings and change them
@@ -15,17 +14,20 @@
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
 - make sure all components grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
-- modularize the code in middlewares that checks for header + tokens + cookies
-- implement seeds from hard coded data instead of having api calls to trigger manually
+
+              - Security-Related -
+- create validation schemas for users for logins and sign ups
+- possibly use built-in escape function for passwords as well
+- modularize the code in middlewares that checks for header + tokens + cookies into a separate file in validation directory
 - implement authentication through verifying payload from cookie (as well as token header for now)
 - eventually move away from storing token into local storage
-- apply more async/awaits to node api controllers
-- update all findOnes (that use ids for querys) to findByIds (in user checker as well)
-- figure out how to set javascript enabled to false on cloud mongodb server
-- upgrade from jwt-simple to something not 'simple'
+- add a re-authentication process on edit users confirmation for admin request
+- add a match-to regex in model level authentication for mongoose for passwords (just doing it for the experience, unneeded in application)
+
+- implement seeds from hard coded data instead of having api calls to trigger manually
 - modularize some of the logic in edit/approve recipe components to external service
-- implement validation to make sure recipe titles are unique-
-- add sanitation to the validation schemas
+- implement validation to make sure recipe titles are unique
+- implement validation in reactive angular forms for mongoDB inj characters:   $, }, {
 
 **                                                           **
 - add reject button/functionality to approve recipe detail page
@@ -34,7 +36,7 @@
 
 - commenting functionality on recipes?
 - possibly split route-guard into two guards to simplify logic (maybe)
-- update server to store + display ingredient amounts for both 2 & 4 serving sizes (maaaybe, actually only hello fresh gives amounts for 4 servings)
 
-node packages to checkout from security course:
-- express-validator (possibly look for angular equal)
+- look for angular equivalent to express-validator (aside from reactive forms validation)
+
+- implement unit (& eventually integration) tests for node & angular

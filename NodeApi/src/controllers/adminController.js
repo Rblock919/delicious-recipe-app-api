@@ -2,16 +2,16 @@
 const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
-const jwt = require('jwt-simple');
 const authConfig = require('../config/auth/authConfig');
 const uri = require('../config/db/dbconnection');
 const recipes = require('../data/recipeData');
 const newRecipes = require('../data/newRecipeData');
-const userChecker = require('../config/strategies/user-checker');
+const userChecker = require('../config/validation/userChecker');
+const jwt = require('jsonwebtoken');
 
 const adminController = (User, NewRecipe) => {
 
-  const middleware = (req, res, next) => {
+  const middleware = async (req, res, next) => {
     let payload;
 
     if (!req.header('Authorization')) {
@@ -23,7 +23,8 @@ const adminController = (User, NewRecipe) => {
     if (token !== 'null') {
 
       try {
-        payload = jwt.decode(token, authConfig.secret);
+        // payload = jwt.decode(token, authConfig.secret);
+        payload = await jwt.verify(token, authConfig.secret);
       } catch (error) {
         console.error(error);
       }
@@ -54,13 +55,6 @@ const adminController = (User, NewRecipe) => {
       res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
 
-    // if (!req.user) {
-    // console.log('User not logged in');
-    // res.redirect('/');
-    // return;
-    // } else {
-    // next();
-    // }
   };
 
   const addRecipes = (req, res) => {

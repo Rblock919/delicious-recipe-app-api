@@ -1,14 +1,12 @@
 /** @member {Object} */
 const chalk = require('chalk').default;
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth/authConfig');
-const userChecker = require('../config/strategies/user-checker');
+const userChecker = require('../config/validation/userChecker');
 
 const servicesController = () => {
 
-  //Handle forwarding requests to main page for users that aren't logged in
-  // eslint-disable-next-line consistent-return
-  const middleware = (req, res, next) => {
+  const middleware = async (req, res, next) => {
     let payload;
 
     if (!req.header('Authorization')) {
@@ -21,7 +19,7 @@ const servicesController = () => {
     if (token !== 'null') {
 
       try {
-        payload = jwt.decode(token, authConfig.secret);
+        payload = await jwt.verify(token, authConfig.secret);
       } catch (error) {
         console.error(error);
       }

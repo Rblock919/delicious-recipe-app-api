@@ -1,4 +1,5 @@
 const { checkSchema } = require('express-validator');
+const objectId = require('mongodb').ObjectId;
 
 const nutritionValidator = function optionalNutritionInfo(value, {req, location, path}) {
   const homeChefFields = ['fat', 'carbohydrate', 'protein', 'sodium'];
@@ -9,7 +10,7 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
 
     if (req.body.recipe.producer !== 'Home Chef') {
       if (nonHomeChefFields.indexOf(field) > -1) {
-        console.log(`evaluating field: ${field}`);
+        // console.log(`evaluating field: ${field}`);
         try {
           const parsedValue = parseInt(value);
           return (!(isNaN((parsedValue))));
@@ -19,7 +20,7 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
       }
     }
     if (homeChefFields.indexOf(field) > -1) { // blue apron with info and hello fresh both still have these fields so validate them regardless
-      console.log(`evaluating field: ${field}`);
+      // console.log(`evaluating field: ${field}`);
       try {
         const parsedValue = parseInt(value);
         return (!(isNaN((parsedValue))));
@@ -29,22 +30,100 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
     }
 
   } else {
-    console.log(`no value given for ${field}`);
+    // console.log(`no value given for ${field}`);
     return true;
   }
 
   // console.log('location: ' + location); // body
   // console.log('path: ' + path); // what comes after body
-  // return true;
 };
 
 const producerValidator = function(value, {req, location, path}) {
-  return !!(value && (value === 'Blue Apron' || value === 'Home Chef' || value === 'Hello Fresh'));
+  return !!(value && value !== '' && (value === 'Blue Apron' || value === 'Home Chef' || value === 'Hello Fresh'));
+};
+
+const producerSanitizer = function(value, {req, location, path}) {
+  return (value !== 'Blue Apron' && value !== 'Hello Fresh' && value !== 'Home Chef') ? '' : value;
+};
+
+const nutritionSanitizer = function(value, {req, location, path}) {
+  // console.log(`value in nutrition sanitizer: ${value}`);
+  if (value !== '') {
+    try {
+      return parseInt(value);
+    } catch (err) {
+      return ''; // return a string that will get flagged by validator
+    }
+  } else {
+    return value;
+  }
+};
+
+const favoritersValidator = function(value, {req, location, path}) {
+  let i = value.length;
+  while (i--) {
+    try {
+      new objectId(value[i]);
+    } catch (err) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const raterValidator = function(value, {req, location, path}) {
+  for (const rater of Object.keys(value)) {
+    try {
+      new objectId(rater);
+      if (value[rater] <  0 || value[rater] > 5) {
+        return false;
+      }
+    } catch (err) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const titleValidator = function(value, {req, location, path}) {
+  console.log(`value in title vali: ${value}`);
+  let i = value.length;
+  while (i--) {
+    console.log(`i: ${value[i]}`);
+    if (value[i] === '$' || value[i] === '{' || value[i] === '}') {
+      return false;
+    }
+  }
+  return true;
 };
 
 const recipeSchema = new checkSchema({
+  'recipe.title': {
+    in: ['body'],
+    custom: {
+      options: titleValidator
+    },
+    errorMessage: 'title is not valid.'
+  },
+  'recipe.favoriters': {
+    in: ['body'],
+    custom: {
+      options: favoritersValidator
+    },
+    errorMessage: 'favoriters is not valid.'
+  },
+  'recipe.raters': {
+    in: ['body'],
+    custom: {
+      options: raterValidator
+    },
+    errorMessage: 'raters in not valid.'
+  },
   'recipe.producer': {
     in: ['body'],
+    customSanitizer: {
+      options: producerSanitizer
+    },
     custom: {
       options: producerValidator
     },
@@ -58,6 +137,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.fat': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -65,6 +147,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.protein': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -72,6 +157,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.carbohydrate': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -79,6 +167,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.sodium': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -86,6 +177,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.saturatedFat': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -93,6 +187,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.cholesterol': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -100,6 +197,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.sugar': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },
@@ -107,6 +207,9 @@ const recipeSchema = new checkSchema({
   },
   'recipe.nutrition.fiber': {
     in: ['body'],
+    customSanitizer: {
+      options: nutritionSanitizer
+    },
     custom: {
       options: nutritionValidator
     },

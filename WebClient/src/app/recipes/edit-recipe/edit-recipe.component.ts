@@ -199,7 +199,8 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     if (!this.recipeForm.valid) {
       console.log('trying to save invalid form');
       this.markFormGroupTouched(this.recipeForm);
-      console.log(this.recipeForm.controls);
+      this.toastr.warning('Fix form field errors and try again.');
+      // console.log(this.recipeForm.controls);
       return;
     }
 
@@ -246,7 +247,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         this.toastr.success('Recipe Submitted for Approval!');
         this.router.navigate(['/recipe/submitted']);
       }, err => {
-        this.toastr.error('Error Creating Recipe');
+        this.toastr.error('Error submitting recipe. Check fields and try again');
         console.log('ERROR CREATING RECIPE: ' + JSON.stringify(err));
       });
 
@@ -262,7 +263,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         this.router.navigate(['recipe', this.id]);
       }, err => {
         this.toastr.error('Error Updating Recipe');
-        console.log('ERROR UPDATING RECIPE: ' + err);
+        console.log('ERROR UPDATING RECIPE: ' + JSON.stringify(err));
       });
 
     }
@@ -316,6 +317,8 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
         if (this.steps) {
           this.steps.reset();
         }
+
+        this.blueApronNutritionFlag = (this.recipe.producer === 'Blue Apron' && !!this.recipe.nutritionValues.fat);
 
         let ingredientCounter = 0;
         let stepCounter = 0;
