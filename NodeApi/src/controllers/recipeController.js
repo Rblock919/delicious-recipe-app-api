@@ -162,7 +162,6 @@ const recipeController = (Recipe, NewRecipe) => {
           console.log('\nerrors: ' + JSON.stringify(errors));
           console.log(JSON.stringify(req.body));
           console.log(`Errors Empty: ${errors.isEmpty()}`);
-          return;
           if (errors.isEmpty()) {
             try {
               id = new objectId(req.body.recipe._id);

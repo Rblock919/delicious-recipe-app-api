@@ -86,10 +86,8 @@ const raterValidator = function(value, {req, location, path}) {
 };
 
 const titleValidator = function(value, {req, location, path}) {
-  console.log(`value in title vali: ${value}`);
   let i = value.length;
   while (i--) {
-    console.log(`i: ${value[i]}`);
     if (value[i] === '$' || value[i] === '{' || value[i] === '}') {
       return false;
     }
