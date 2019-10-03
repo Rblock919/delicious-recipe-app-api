@@ -1,8 +1,6 @@
 /** @member {Object} */
 const chalk = require('chalk').default;
-const jwt = require('jsonwebtoken');
 const objectId = require('mongodb').ObjectId;
-const authConfig = require('../config/auth/authConfig');
 const userChecker = require('../config/validation/userChecker');
 const {validationResult} = require('express-validator/check');
 
@@ -34,52 +32,6 @@ function assembleRecipeData(req) {
 }
 
 const recipeController = (Recipe, NewRecipe) => {
-
-  const middleware = async (req, res, next) => {
-    let payload;
-
-    if (!req.header('Authorization')) {
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
-    }
-
-    // if (decodedToken.exp > (Date.now() / 1000)) { }
-
-    const token = req.header('Authorization').split(' ')[1];
-
-    if (token !== 'null') {
-
-      try {
-        payload = await jwt.verify(token, authConfig.secret);
-      } catch (error) {
-        console.error(error);
-      }
-
-      if (!payload) {
-        console.log('auth header invalid');
-        return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
-      } else {
-
-        userChecker.checkIfUserExists(payload.sub, (err, isFound) => {
-          if (err) {
-            console.error(chalk.red(err));
-          } else {
-            if (isFound === true) {
-              req.userId = payload.sub;
-              next();
-            } else {
-              return res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
-            }
-          }
-        });
-
-      }
-
-    } else {
-      console.log('NO TOKEN FOUND IN MW');
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
-    }
-
-  };
 
   const getIndex = async (req, res) => {
     try {
@@ -156,12 +108,13 @@ const recipeController = (Recipe, NewRecipe) => {
         console.error(err);
         return res.sendStatus(500);
       } else {
-        if (isAdmin === true) {
+        if (isAdmin) {
 
           const errors = validationResult(req);
-          console.log('\nerrors: ' + JSON.stringify(errors));
-          console.log(JSON.stringify(req.body));
-          console.log(`Errors Empty: ${errors.isEmpty()}`);
+          // console.log('\nerrors: ' + JSON.stringify(errors));
+          // console.log(JSON.stringify(req.body));
+          // console.log(`Errors Empty: ${errors.isEmpty()}`);
+
           if (errors.isEmpty()) {
             try {
               id = new objectId(req.body.recipe._id);
@@ -199,7 +152,7 @@ const recipeController = (Recipe, NewRecipe) => {
         console.error(err);
         return res.sendStatus(500);
       } else {
-        if (isAdmin === true) {
+        if (isAdmin) {
 
           try {
             id = new objectId(req.params.id);
@@ -234,7 +187,7 @@ const recipeController = (Recipe, NewRecipe) => {
       proceed = false;
     }
 
-    if (proceed === true) {
+    if (proceed) {
 
       if (addingFav) { // user is favoriting recipe
         prevFavoriters.push(req.userId);
@@ -318,7 +271,6 @@ const recipeController = (Recipe, NewRecipe) => {
   };
 
   return {
-    middleware,
     getIndex,
     getById,
     addRecipe,

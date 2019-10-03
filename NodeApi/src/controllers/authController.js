@@ -17,7 +17,8 @@ const authController = (User, Login) => {
     try {
       const createdUser = await newUser.save();
       const payload = {sub: createdUser._id};
-      const token = jwt.encode(payload, authConfig.secret);
+      const token = await jwt.sign(payload, authConfig.tokenSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
+      const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
       const user = {
         _id: createdUser._id,
         username: createdUser.username,
@@ -25,7 +26,19 @@ const authController = (User, Login) => {
         isAdmin: false
       };
 
-      res.status(201).send({token, user});
+      req.session.login(user, (err) => {
+        // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
+        if (err) {
+          console.error('error saving user to session');
+          return res.status(500).send({ErrMessage: 'Error creating session for newly created user.'});
+        } else {
+          res.status(201).cookie('tkn', cookieToken, {
+            httpOnly: true,
+            maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
+          }).send({token, user});
+        }
+      });
+
     } catch (err) {
       console.log(chalk.red(err));
       if (err.code === 11000) {
@@ -75,8 +88,9 @@ const authController = (User, Login) => {
     if (existingUser && validPassword) {
 
       payload = {sub: existingUser._id};
-      // const token = jwt.encode(payload, authConfig.secret);
-      const token = await jwt.sign(payload, authConfig.secret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
+      const token = await jwt.sign(payload, authConfig.tokenSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
+      const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
+      console.log(!!(token && cookieToken));
       const user = {
         _id: existingUser._id,
         username: existingUser.username,
@@ -93,7 +107,7 @@ const authController = (User, Login) => {
       await Login.successfulLoginAttempt(identityKey);
 
       return delayResponse(() => {
-        res.status(200).cookie('tkn', token, {
+        res.status(200).cookie('tkn', cookieToken, {
           httpOnly: true,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         }).send({user: user, token: token});
@@ -119,43 +133,58 @@ const authController = (User, Login) => {
 
   const getUserData = async (req, res) => {
     let userId;
-    let id;
+    let reqId;
     let payload;
+    let cookiePayload;
+    let sessionId;
 
     if (!req.header('Authorization')) {
       res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
     }
 
     const token = req.header('Authorization').split(' ')[1];
+    const { tkn, id } = req.cookies;
 
-    if (token !== 'null') {
+    if (!!id) {
+      sessionId = id.split('.')[0].slice(2);
+      if (sessionId !== req.session.id) {
+        return res.status(401).send({ErrMessage: 'Invalid authorization cookie'})
+      }
+    } else {
+      return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
+    }
+
+    if (token !== 'null' && tkn) {
 
       try {
-        payload = jwt.decode(token, authConfig.secret);
+        payload = await jwt.verify(token, authConfig.tokenSecret);
+        cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
       } catch (error) {
         console.error(error);
+        return res.status(500).send({ErrMessage: 'Error validating tokens'});
       }
 
       if (!payload) {
         console.log('auth header invalid');
-        res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+        return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
       } else {
         userId = payload.sub;
+        // userId = cookiePayload.sub;
 
         try {
-          id = new objectId(userId);
+          reqId = new objectId(userId);
         } catch (error) {
-          console.log(chalk.red(error));
+          console.log(chalk.red(`err parsing user id into objectId: ${error}`));
         }
       }
 
     } else {
       console.log('no auth token set');
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
 
     try {
-      const user = await User.findById(id, '-__v -password');
+      const user = await User.findById(reqId, '-__v -password');
       if (user) {
         res.status(200).send({user});
       } else {

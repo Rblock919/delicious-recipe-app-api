@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // const db = mongoose.connect('mongodb://localhost/recipeApp');
-const remoteUri = require('../config/db/dbconnection');
+const uri = require('../config/db/dbconnection');
 const recipe = require('../models/recipeModel');
 const testRecipe = new recipe({
   title: 'Pineapple Poblano Beef+Mystery Meat Tacos',
@@ -62,8 +62,10 @@ const testRecipe = new recipe({
   imgDir: '/images/pineapple-poblano-beef-tacos.jpg'
 });
 
-mongoose.connect(remoteUri.remote, {useNewUrlParser: true},  () => {
+mongoose.connect(uri.remote, {useNewUrlParser: true}, () => {
   console.log('connected to remote db');
+}).then((r) => {
+  console.log('conn: ' + r);
 });
 
 let document;
@@ -91,7 +93,7 @@ const poop = function () {
 
   }));
 
-}
+};
 
 // Call poop using .then
 poop().then((result) => {

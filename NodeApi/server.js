@@ -52,7 +52,6 @@ require('./src/config/session/sessionConfig')(app, mongoose);
 // console.log(`req session id: ${req.session.id}`);
 //   next();
 // });
-//test comment!!!!!
 
 //Establish express routers
 app.use('/api/recipes', recipeRouter);
@@ -89,4 +88,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-

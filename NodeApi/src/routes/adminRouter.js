@@ -1,11 +1,12 @@
 const express = require('express');
 const adminRouter = express.Router();
+const {adminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
 const router = (User, NewRecipe) => {
 
   const adminController = require('../controllers/adminController')(User, NewRecipe);
 
-  adminRouter.use(adminController.middleware);
+  adminRouter.use(adminMiddleWare);
 
   adminRouter.route('/addRecipes')
     .get(adminController.addRecipes);

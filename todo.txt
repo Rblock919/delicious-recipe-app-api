@@ -14,16 +14,17 @@
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
 - make sure all components grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
+- implement route guard when leaving edit users page if changes have been made and not saved
+- implement logic so that the application asks the user to log back in if tokens are missing
 
               - Security-Related -
 - create validation schemas for users for logins and sign ups
 - possibly use built-in escape function for passwords as well
-- modularize the code in middlewares that checks for header + tokens + cookies into a separate file in validation directory
-- implement authentication through verifying payload from cookie (as well as token header for now)
 - eventually move away from storing token into local storage
 - add a re-authentication process on edit users confirmation for admin request
 - add a match-to regex in model level authentication for mongoose for passwords (just doing it for the experience, unneeded in application)
 
+- front-end error handling eventually for unauthorized/expired sessions
 - implement seeds from hard coded data instead of having api calls to trigger manually
 - modularize some of the logic in edit/approve recipe components to external service
 - implement validation to make sure recipe titles are unique

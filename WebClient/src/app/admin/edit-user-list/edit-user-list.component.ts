@@ -65,8 +65,6 @@ export class EditUserListComponent implements OnInit {
 
   submit(): void {
     this.updatedUserList = [];
-    // TO-DO: 1. Make and envoke updateUsers api call 2. Updated editedAdminField array
-    //                                                  & diferentFromOriginal variable
     let counter = 0;
     let counter2 = 0;
 
@@ -91,7 +89,7 @@ export class EditUserListComponent implements OnInit {
         counter3++;
       });
     }, err => {
-      console.log('err: ' + err);
+      console.log('err: ' + JSON.stringify(err));
       this.toastr.error('Error Updating Users');
     });
     console.log('submitted userList: ' + JSON.stringify(this.updatedUserList));

@@ -2,60 +2,11 @@
 const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
-const authConfig = require('../config/auth/authConfig');
 const uri = require('../config/db/dbconnection');
 const recipes = require('../data/recipeData');
 const newRecipes = require('../data/newRecipeData');
-const userChecker = require('../config/validation/userChecker');
-const jwt = require('jsonwebtoken');
 
 const adminController = (User, NewRecipe) => {
-
-  const middleware = async (req, res, next) => {
-    let payload;
-
-    if (!req.header('Authorization')) {
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
-    }
-
-    const token = req.header('Authorization').split(' ')[1];
-
-    if (token !== 'null') {
-
-      try {
-        // payload = jwt.decode(token, authConfig.secret);
-        payload = await jwt.verify(token, authConfig.secret);
-      } catch (error) {
-        console.error(error);
-      }
-
-      if (!payload) {
-        console.log('auth header invalid');
-        return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
-      } else {
-
-        userChecker.checkIfUserIsAdmin(payload.sub, (err, isAdmin) => {
-          if (err) {
-            console.log(chalk.red(`Error: ${err}`));
-            return res.sendStatus(500);
-          } else {
-            if (isAdmin) {
-              req.userId = payload.sub;
-              next();
-            } else {
-              res.status(401).send({ErrMessage: 'User is not admin'});
-            }
-          }
-        });
-
-      }
-
-    } else {
-      console.log('NO TOKEN FOUND IN MW');
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
-    }
-
-  };
 
   const addRecipes = (req, res) => {
 
@@ -128,7 +79,7 @@ const adminController = (User, NewRecipe) => {
 
     while (counter < editedUsers.length) {
       try {
-        id = objectId(editedUsers[counter]._id);
+        id = new objectId(editedUsers[counter]._id);
         if (editedUsers[counter].isAdmin) {
           setToTrueIds.push(id);
         } else {
@@ -141,7 +92,7 @@ const adminController = (User, NewRecipe) => {
       }
     }
 
-    if (proceed === true) {
+    if (proceed) {
 
       try {
         if (setToTrueIds.length > 0) {
@@ -188,7 +139,6 @@ const adminController = (User, NewRecipe) => {
   };
 
   return {
-    middleware,
     addRecipes,
     addNewRecipes,
     getApprovalList,

@@ -1,12 +1,13 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const recipeSchema = require('../config/validation/validationSchemas');
+const {nonAdminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
 const router = (Recipe, NewRecipe) => {
 
   const recipeController = require('../controllers/recipeController')(Recipe, NewRecipe);
 
-  recipeRouter.use(recipeController.middleware);
+  recipeRouter.use(nonAdminMiddleWare);
 
   recipeRouter.route('/')
     .get(recipeController.getIndex);

@@ -1,3 +1,4 @@
+// this is just for seeding purposes, data actually stored in MongoDB
 const recipedata = [
   {
     title: 'Crispy Chipotle Shrimp Tacos',

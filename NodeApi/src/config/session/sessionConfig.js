@@ -34,7 +34,7 @@ function sessionConfig(app, mongoose) {
 
   app.use(session({
     store: mongooseStore,
-    secret: authConfig.secret,
+    secret: authConfig.sessionsSecret,
     cookie: {
       path: '/',
       httpOnly: true,

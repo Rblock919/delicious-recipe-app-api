@@ -42,7 +42,7 @@ export class RecipeListComponent implements OnInit {
     const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
-      console.error(`Error from resolver: ${resolvedData.error}`);
+      console.error(`Error from resolver: ${JSON.stringify(resolvedData.error)}`);
       this.router.navigate(['error'])
         .then(r => console.log('Routed away from recipe list due to error'));
     } else {

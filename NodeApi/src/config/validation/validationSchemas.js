@@ -1,6 +1,7 @@
 const { checkSchema } = require('express-validator');
 const objectId = require('mongodb').ObjectId;
 
+// TO-DO: possibly remove parseInt from this function since it's already being executed in sanitizer
 const nutritionValidator = function optionalNutritionInfo(value, {req, location, path}) {
   const homeChefFields = ['fat', 'carbohydrate', 'protein', 'sodium'];
   const nonHomeChefFields = ['saturatedFat', 'fiber', 'cholesterol', 'sugar'];
@@ -38,14 +39,6 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
   // console.log('path: ' + path); // what comes after body
 };
 
-const producerValidator = function(value, {req, location, path}) {
-  return !!(value && value !== '' && (value === 'Blue Apron' || value === 'Home Chef' || value === 'Hello Fresh'));
-};
-
-const producerSanitizer = function(value, {req, location, path}) {
-  return (value !== 'Blue Apron' && value !== 'Hello Fresh' && value !== 'Home Chef') ? '' : value;
-};
-
 const nutritionSanitizer = function(value, {req, location, path}) {
   // console.log(`value in nutrition sanitizer: ${value}`);
   if (value !== '') {
@@ -57,6 +50,14 @@ const nutritionSanitizer = function(value, {req, location, path}) {
   } else {
     return value;
   }
+};
+
+const producerValidator = function(value, {req, location, path}) {
+  return !!(value && value !== '' && (value === 'Blue Apron' || value === 'Home Chef' || value === 'Hello Fresh'));
+};
+
+const producerSanitizer = function(value, {req, location, path}) {
+  return (value !== 'Blue Apron' && value !== 'Hello Fresh' && value !== 'Home Chef') ? '' : value;
 };
 
 const favoritersValidator = function(value, {req, location, path}) {

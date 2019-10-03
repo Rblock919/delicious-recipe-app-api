@@ -17,31 +17,6 @@ const router = (User, Login) => {
   authRouter.route('/getUserData')
     .get(authController.getUserData);
 
-  // authRouter.route('/getAdminStatus')
-  // .post(authController.getAdminStatus);
-
-  // .post(passport.authenticate('local', {
-  //      failureRedirect: '/'
-  // }), function (req, res) {
-  //      console.log('User logged in?');
-  //      if (req.user) {
-  //          console.log('user found in req');
-  //      }
-  //      res.send({message: 'User Logged In'});
-  // //   res.redirect('/');
-  // });
-
-  // authRouter.route('/profile')
-  //     .all(function (req, res, next) {
-  //         if (!req.user) {
-  //             res.redirect('/');
-  //         }
-  //         next();
-  //     })
-  //     .get(function (req, res) {
-  //         res.json(req.user);
-  //     });
-
   return authRouter;
 };
 

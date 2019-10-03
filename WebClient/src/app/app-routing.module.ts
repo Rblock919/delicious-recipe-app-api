@@ -33,8 +33,8 @@ const routes: Routes = [
     canActivate: [RouteGuard], canDeactivate: [RouteGuard],
     data: {context: 'register'}
   },
-  { path: 'login', component: LoginComponent},
-  { path: 'logout', component: LogoutComponent},
+  { path: 'login', component: LoginComponent, canActivate: [IndexGuard] },
+  { path: 'logout', component: LogoutComponent },
   { path: '', pathMatch: 'full', redirectTo: 'index'},
   { path: 'error', component: ErrorComponent }, // remove eventually
   { path: '**', component: PageNotFoundComponent }
