@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
       console.log('ERROR Obj: ' + JSON.stringify(err));
       console.log('\nERROR LOGGING IN: \n' + err.status);
       console.log('Error Message: ' + err.error.ErrMessage);
+      this.toastr.error('Error logging in');
       this.message = err.error.ErrMessage;
     });
   }

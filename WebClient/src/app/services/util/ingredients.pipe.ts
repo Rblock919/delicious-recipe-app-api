@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class IngredientsPipe implements PipeTransform {
 
   transform(value: any): string[][] {
-    // console.log('in ingredients pipe...');
     const newArray: string[][] = [];
     let counter = 0;
     value.forEach(element => {
@@ -19,7 +18,6 @@ export class IngredientsPipe implements PipeTransform {
       counter++;
     });
 
-    // console.log(newArray);
     return newArray;
   }
 

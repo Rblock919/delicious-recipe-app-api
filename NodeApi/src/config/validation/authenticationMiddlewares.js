@@ -80,7 +80,7 @@ const adminMiddleWare = async (req, res, next) => {
 
   const token = req.header('Authorization').split(' ')[1];
   const { tkn, id } = req.cookies;
-  console.log('tkn: ' + tkn);
+  // console.log('tkn: ' + tkn);
 
   if (!!id) {
     sessionId = id.split('.')[0].slice(2);
@@ -106,7 +106,7 @@ const adminMiddleWare = async (req, res, next) => {
     } else {
 
       if (cookiePayload.exp > (Date.now() / 1000)) {
-        // or use payload (from local storage)
+        // or use cookiePayload (currently from local storage)
         userChecker.checkIfUserIsAdmin(payload.sub, (err, isAdmin) => {
           if (err) {
             console.log(chalk.red(`Error: ${err}`));

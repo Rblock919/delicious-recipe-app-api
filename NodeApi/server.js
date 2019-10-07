@@ -34,9 +34,12 @@ const authRouter = require('./src/routes/authRouter')(User, Login);
 //Parse incoming request params into a nice json object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+
+//Configure cross-origin requests
 app.use(cors({credentials: true, origin: true}));
 
-app.use(cookieParser());
+//Session configuration
 require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Middleware for session testing purposes
@@ -60,12 +63,12 @@ app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
 //Serve up static angular files
-// server.use(express.static(path.join(__dirname, 'WebClient/dist/WebClient')));
-// server.all('*', (req, res) => {
+// app.use(express.static(path.join(__dirname, '../WebClient/dist/WebClient')));
+// app.all('*', (req, res) => {
 //   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
 //     res.sendFile(path.join(__dirname, 'index.html'));
 //   } else {
-//     res.sendFile(path.join(__dirname, 'WebClient/dist/WebClient/index.html'));
+//     res.sendFile(path.join(__dirname, '../WebClient/dist/WebClient/index.html'));
 //   }
 // });
 
@@ -78,7 +81,7 @@ app.listen(port, (err) => {
 
 //log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
-  console.log(chalk.magenta.underline('\nMongoose default connection disconnected'));
+  console.log(chalk.magenta.underline('\nMongoose connection has been closed'));
 });
 
 //whenever node exits, close the mongoose connection and log to console

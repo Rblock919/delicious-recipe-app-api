@@ -99,77 +99,50 @@ const recipeController = (Recipe, NewRecipe) => {
 
   };
 
-  const updateRecipe = (req, res) => {
+  const updateRecipe = async (req, res) => {
     let id;
     let recipeData;
 
-    userChecker.checkIfUserIsAdmin(req.userId, async (err, isAdmin) => {
-      if (err) {
-        console.error(err);
-        return res.sendStatus(500);
-      } else {
-        if (isAdmin) {
+    const errors = validationResult(req);
+    // console.log('\nerrors: ' + JSON.stringify(errors));
+    // console.log(JSON.stringify(req.body));
+    // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
-          const errors = validationResult(req);
-          // console.log('\nerrors: ' + JSON.stringify(errors));
-          // console.log(JSON.stringify(req.body));
-          // console.log(`Errors Empty: ${errors.isEmpty()}`);
+    if (errors.isEmpty()) {
+      try {
+        id = new objectId(req.body.recipe._id);
+        recipeData = assembleRecipeData(req);
 
-          if (errors.isEmpty()) {
-            try {
-              id = new objectId(req.body.recipe._id);
+        const updatedRecipe = await Recipe.findByIdAndUpdate(id, recipeData);
 
-              recipeData = assembleRecipeData(req);
-              const updatedRecipe = await Recipe.findByIdAndUpdate(id, recipeData);
-              if (updatedRecipe) {
-                console.log(chalk.green('recipe successfully updated'));
-                res.sendStatus(200);
-              } else {
-                res.status(404).send({ErrMessage: 'Could not find recipe to update in backend'});
-              }
-
-            } catch (error) {
-              console.log(chalk.red(error));
-              res.sendStatus(500);
-            }
-          } else {
-            res.status(400).send({ErrMessage: 'Bad Request'});
-          }
-
+        if (updatedRecipe) {
+          console.log(chalk.green('recipe successfully updated'));
+          res.sendStatus(200);
         } else {
-          res.status(401).send({ErrMessage: 'User is not authorized for action'});
+          res.status(404).send({ErrMessage: 'Could not find recipe to update in backend'});
         }
+
+      } catch (error) {
+        console.log(chalk.red(error));
+        res.sendStatus(500);
       }
-    });
+    } else {
+      res.status(400).send({ErrMessage: 'Bad Request'});
+    }
 
   };
 
-  const deleteRecipe = (req, res) => {
+  const deleteRecipe = async (req, res) => {
     let id;
 
-    userChecker.checkIfUserIsAdmin(req.userId, async (err, isAdmin) => {
-      if (err) {
-        console.error(err);
-        return res.sendStatus(500);
-      } else {
-        if (isAdmin) {
-
-          try {
-            id = new objectId(req.params.id);
-            await Recipe.findByIdAndDelete(id);
-
-            res.sendStatus(200);
-          } catch (error) {
-            console.log(chalk.red(error));
-            res.sendStatus(500);
-          }
-
-        } else {
-          res.status(401).send({ErrMessage: 'User is not authorized'});
-        }
-
-      }
-    });
+    try {
+      id = new objectId(req.params.id);
+      await Recipe.findByIdAndDelete(id);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(chalk.red(error));
+      res.sendStatus(500);
+    }
 
   };
 
@@ -232,7 +205,6 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const submitForApproval = async (req, res) => {
 
-    const recipeData = assembleRecipeData(req);
 
     const errors = validationResult(req);
     // console.log('\nerrors: ' + JSON.stringify(errors));
@@ -244,7 +216,7 @@ const recipeController = (Recipe, NewRecipe) => {
       console.log('errors are not empty');
       return res.status(400).send({ErrMessage: 'Bad Request'});
     } else {
-
+      const recipeData = assembleRecipeData(req);
       const recipeToSave = new NewRecipe({
         title: recipeData.title,
         producer: recipeData.producer,

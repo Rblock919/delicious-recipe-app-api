@@ -1,7 +1,7 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const recipeSchema = require('../config/validation/validationSchemas');
-const {nonAdminMiddleWare} = require('../config/validation/authenticationMiddlewares');
+const {nonAdminMiddleWare, adminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
 const router = (Recipe, NewRecipe) => {
 
@@ -16,16 +16,16 @@ const router = (Recipe, NewRecipe) => {
     .get(recipeController.getById);
 
   recipeRouter.route('/add')
-    .post(recipeSchema, recipeController.addRecipe);
+    .post(adminMiddleWare, recipeSchema, recipeController.addRecipe);
 
   recipeRouter.route('/submit')
     .post(recipeSchema, recipeController.submitForApproval);
 
   recipeRouter.route('/update')
-    .patch(recipeSchema, recipeController.updateRecipe);
+    .patch(adminMiddleWare, recipeSchema, recipeController.updateRecipe);
 
   recipeRouter.route('/delete/:id')
-    .delete(recipeController.deleteRecipe);
+    .delete(adminMiddleWare, recipeController.deleteRecipe);
 
   recipeRouter.route('/favorite')
     .post(recipeController.favorite);

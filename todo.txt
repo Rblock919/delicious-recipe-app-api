@@ -16,6 +16,7 @@
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
 - implement route guard when leaving edit users page if changes have been made and not saved
 - implement logic so that the application asks the user to log back in if tokens are missing
+- add more validation for user submitted info, especially in front end (min + max lengths, disallowed characters for injection attacks)
 
               - Security-Related -
 - create validation schemas for users for logins and sign ups
