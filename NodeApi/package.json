@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start.dev": "concurrently \"nodemon server.js\" \"cd ../WebClient && ng serve\" ",
-    "start.static.dev": "concurrently \"nodemon server.js\" \"cd ../WebClient && ng build --watch\" ",
+    "start.dev": "concurrently \"nodemon server.js\" \"cd ../WebClient && ng build --watch --no-delete-output-path\" ",
+    "start.node.dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "share": "lt --port 3000"
   },
