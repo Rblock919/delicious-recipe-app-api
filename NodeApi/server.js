@@ -11,13 +11,29 @@ const uri = require('./src/config/db/dbconnection');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connection = mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
+
+//Configure security related response headers
+require('./src/config/auth/headerSecurity')(app);
+
+//Parse incoming request params into a nice json object
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+
+//Configure cross-origin requests
+app.use(cors({credentials: true, origin: true}));
+
+const connection = mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {
     console.log(chalk.red(`Error connecting to database in server.js... ${err}`));
   }
 });
+
+//Session configuration
+require('./src/config/session/sessionConfig')(app, mongoose);
+
 
 //Load mongoose models
 const NewRecipe = require('./src/models/recipeModel').newRecipe;
@@ -30,17 +46,6 @@ const recipeRouter = require('./src/routes/recipeRouter')(Recipe, NewRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')();
 const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
 const authRouter = require('./src/routes/authRouter')(User, Login);
-
-//Parse incoming request params into a nice json object
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
-
-//Configure cross-origin requests
-app.use(cors({credentials: true, origin: true}));
-
-//Session configuration
-require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Middleware for session testing purposes
 // app.use((req, res, next) => {
@@ -56,21 +61,21 @@ require('./src/config/session/sessionConfig')(app, mongoose);
 //   next();
 // });
 
-//Establish express routers
+//Apply routers to api routes
 app.use('/api/recipes', recipeRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
 //Serve up static angular files
-// app.use(express.static(path.join(__dirname, '../WebClient/dist/WebClient')));
-// app.all('*', (req, res) => {
-//   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
-//     res.sendFile(path.join(__dirname, 'index.html'));
-//   } else {
-//     res.sendFile(path.join(__dirname, '../WebClient/dist/WebClient/index.html'));
-//   }
-// });
+app.use(express.static(path.join(__dirname, 'dist/WebClient')));
+app.all('*', (req, res) => {
+  if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  } else {
+    res.sendFile(path.join(__dirname, 'dist/WebClient/index.html'));
+  }
+});
 
 app.listen(port, (err) => {
   if (err) {

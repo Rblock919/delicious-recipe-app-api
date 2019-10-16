@@ -53,10 +53,9 @@ export class AdminGuard implements CanActivate, CanLoad {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('in admin guard');
 
-    if (this.sessionService.isAuthenticated) {
+    if (this.sessionService.isAuthenticated && !this.sessionService.getUser) {
       // user is authenticated but no user data in session, generated new instance of app by either
       // entering direct URL or refreshing the app. Wait a bit for session service to retrieve userdata
-      if (!this.sessionService.getUser) {
         setTimeout(() => {
           if (this.sessionService.getUser && this.sessionService.getUser.isAdmin) {
             // console.log('returning true');
@@ -77,8 +76,6 @@ export class AdminGuard implements CanActivate, CanLoad {
             return false;
           }
       }
-
-    }
 
   }
 

@@ -33,6 +33,7 @@ const authController = (User, Login) => {
           return res.status(500).send({ErrMessage: 'Error creating session for newly created user.'});
         } else {
           res.status(201).cookie('tkn', cookieToken, {
+            path: '/api',
             httpOnly: true,
             maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
           }).send({token, user});
@@ -108,6 +109,7 @@ const authController = (User, Login) => {
 
       return delayResponse(() => {
         res.status(200).cookie('tkn', cookieToken, {
+          path: '/api',
           httpOnly: true,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         }).send({user: user, token: token});

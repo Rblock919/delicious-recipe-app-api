@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, Inject, OnInit, SecurityContext} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
 
-import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
-import { IRecipe, IRecipeResolved } from 'src/app/models/recipe.model';
-import { SessionService } from '../../services/session.service';
-import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
+import {RecipeApiService} from 'src/app/services/api/recipe-api.service';
+import {IRecipe, IRecipeResolved} from 'src/app/models/recipe.model';
+import {SessionService} from '../../services/session.service';
+import {Toastr, TOASTR_TOKEN} from 'src/app/shared/toastr.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -25,6 +26,7 @@ export class RecipeDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private session: SessionService,
               private router: Router,
+              private sanitizer: DomSanitizer,
               @Inject(TOASTR_TOKEN) private toastr: Toastr
               ) { }
 
@@ -95,7 +97,7 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeApi.rateRecipe(this.recipe).subscribe(res => {
       // console.log('res in submitRate: ' + res);
       this.rated = true;
-      this.toastr.success(`${this.recipe.title} Successfully Rated!`);
+      this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Successfully Rated!`);
 
       // update average rating
       let ratingCounter = 0;
@@ -118,12 +120,12 @@ export class RecipeDetailComponent implements OnInit {
       this.recipeApi.favoriteRecipe(this.recipe).subscribe(res => {
         // console.log('res from fav api call: ' + res);
         this.recipe.favoriters.push('' + this.session.getUser._id);
-        this.toastr.success(`${this.recipe.title} Has Been Favorited`);
+        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Favorited`);
       });
     } else if (!this.favorited) {
       this.recipeApi.unFavoriteRecipe(this.recipe).subscribe(res => {
         this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.session.getUser._id);
-        this.toastr.success(`${this.recipe.title} Has Been Unfavorited`);
+        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Unfavorited`);
       });
     }
   }

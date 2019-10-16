@@ -2,7 +2,7 @@
 const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const userChecker = require('../config/validation/userChecker');
-const {validationResult} = require('express-validator/check');
+const {validationResult} = require('express-validator');
 
 function assembleRecipeData(req) {
 

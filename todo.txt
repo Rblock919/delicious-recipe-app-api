@@ -17,8 +17,11 @@
 - implement route guard when leaving edit users page if changes have been made and not saved
 - implement logic so that the application asks the user to log back in if tokens are missing
 - add more validation for user submitted info, especially in front end (min + max lengths, disallowed characters for injection attacks)
+- simplify/break-up route-guard logic
 
               - Security-Related -
+- figure out how to get angular to obey node content security policy headers (works when serving up angular files from node so that it's all the same domain)
+^^^>>> eventually update connect-src in headerSecurity.js
 - create validation schemas for users for logins and sign ups
 - possibly use built-in escape function for passwords as well
 - eventually move away from storing token into local storage
@@ -42,3 +45,6 @@
 - look for angular equivalent to express-validator (aside from reactive forms validation)
 
 - implement unit (& eventually integration) tests for node & angular
+
+- implement a graphQL server for certain requests where it makes sense to have
+- implement redis for certain functionality such as load more recipe on scroll (also implement pagination in form of infinite scrolling for recipe list page)

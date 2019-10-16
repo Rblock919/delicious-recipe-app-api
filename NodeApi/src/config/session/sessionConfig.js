@@ -36,9 +36,11 @@ function sessionConfig(app, mongoose) {
     store: mongooseStore,
     secret: authConfig.sessionsSecret,
     cookie: {
-      path: '/',
+      path: '/api',
+      // domain: 'http://192.168.1.7:3000/api/',
       httpOnly: true,
       secure: false,
+      // sameSite: false,
       maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
     },
     name: 'id',

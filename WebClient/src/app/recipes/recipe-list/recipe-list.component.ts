@@ -1,9 +1,10 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, Inject } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Component, Inject, OnInit, SecurityContext} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 
-import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
-import { SessionService } from '../../services/session.service';
-import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
+import {IRecipe, IRecipesResolved} from 'src/app/models/recipe.model';
+import {SessionService} from '../../services/session.service';
+import {Toastr, TOASTR_TOKEN} from '../../shared/toastr.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -33,6 +34,7 @@ export class RecipeListComponent implements OnInit {
   constructor(private sessionService: SessionService,
               private route: ActivatedRoute,
               private router: Router,
+              private sanitizer: DomSanitizer,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
@@ -65,7 +67,7 @@ export class RecipeListComponent implements OnInit {
   createHotList(): void {
     this.hotRecipeList = [];
     let tempList: any[];
-    tempList = this.selectedRecipeList.slice(0);
+    tempList = this.recipeList.slice(0);
 
     tempList.sort((a, b) => {
       let aAvg = 0;
@@ -106,6 +108,10 @@ export class RecipeListComponent implements OnInit {
       if (Object.values(tempList[i].raters).length > 0) {
         this.hotRecipeList.push(tempList[i]);
       }
+    }
+
+    if (this.topSelectedFilter === 'hot') {
+      this.selectedRecipeList = this.hotRecipeList;
     }
 
   }
@@ -197,11 +203,11 @@ export class RecipeListComponent implements OnInit {
       that.joinLists();
     }, 150);
 
-    this.toastr.success(`${$event}`);
+    this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, $event));
   }
 
   rateEvent($event): void {
-
+    this.createHotList();
     if (this.sortFilter === 'rating') {
 
         this.selectedRecipeList.sort((a, b) => {
@@ -248,8 +254,8 @@ export class RecipeListComponent implements OnInit {
 
     }
 
-    this.createHotList();
-    this.toastr.success(`${$event} Successfully Rated!`);
+    this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, $event));
+    // this.toastr.success($event);
 
   }
 

@@ -1,10 +1,12 @@
-import { LoggerService } from '../../services/util/logger.service';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import {Component, OnInit, OnDestroy, Inject, SecurityContext} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+
 import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
 import { SessionService } from 'src/app/services/session.service';
+import { LoggerService } from '../../services/util/logger.service';
 
 @Component({
   selector: 'app-recipe-search',
@@ -23,6 +25,7 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
               private sessionService: SessionService,
               private loggerService: LoggerService,
               private router: Router,
+              private sanitizer: DomSanitizer,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
 
@@ -38,6 +41,7 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
     } else {
       this.recipeList = resolvedData.recipes;
     }
+
     this.userId = this.sessionService.getUser._id;
     this.sub = this.route.queryParamMap.subscribe(params => {
       this.loggerService.consoleLog(`Param changed to: ${params.get('searchString')}`);
@@ -57,11 +61,11 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   }
 
   favEvent($event): void {
-    this.toastr.success(`${$event}`);
+    this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, $event));
   }
 
   rateEvent($event): void {
-    this.toastr.success(`${$event} Successfully Rated!`);
+    this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, $event)} Successfully Rated!`);
   }
 
 }

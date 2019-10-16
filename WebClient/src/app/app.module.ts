@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 import { PublicModule } from './common/public.module';
 import { CoreModule } from './core.module';
 
-
 @NgModule({
   imports: [
     BrowserModule,

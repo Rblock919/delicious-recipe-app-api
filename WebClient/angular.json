@@ -17,7 +17,7 @@
         "build": {
           "builder": "nyan-builder:browser",
           "options": {
-            "outputPath": "dist/WebClient",
+            "outputPath": "../NodeApi/dist/WebClient",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

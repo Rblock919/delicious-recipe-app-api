@@ -112,7 +112,7 @@ const adminMiddleWare = async (req, res, next) => {
             console.log(chalk.red(`Error: ${err}`));
             return res.sendStatus(500);
           } else {
-            if (isAdmin && req.sessionID === sessionId) {
+            if (isAdmin) {
               req.userId = payload.sub;
               next();
             } else {
