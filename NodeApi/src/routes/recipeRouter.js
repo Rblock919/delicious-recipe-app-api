@@ -1,10 +1,9 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const recipeSchema = require('../config/validation/validationSchemas');
-const {nonAdminMiddleWare, adminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
-const router = (Recipe, NewRecipe) => {
-
+const router = (User, Recipe, NewRecipe) => {
+  const {nonAdminMiddleWare, adminMiddleWare} = require('../config/validation/authenticationMiddlewares')(User);
   const recipeController = require('../controllers/recipeController')(Recipe, NewRecipe);
 
   recipeRouter.use(nonAdminMiddleWare);

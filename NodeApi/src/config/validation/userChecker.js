@@ -1,7 +1,6 @@
 const objectId = require('mongodb').ObjectId;
-const userModel = require('../../models/userModel');
 
-function checkIfUserExists(userId, callback) {
+function checkIfUserExists(userModel, userId, callback) {
 
   try {
     const id = new objectId(userId);
@@ -24,7 +23,7 @@ function checkIfUserExists(userId, callback) {
 
 }
 
-function checkIfUserIsAdmin(userId, callback) {
+function checkIfUserIsAdmin(userModel, userId, callback) {
 
   try {
     const id = new objectId(userId);

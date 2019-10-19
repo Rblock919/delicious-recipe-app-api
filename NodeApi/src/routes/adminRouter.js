@@ -1,9 +1,8 @@
 const express = require('express');
 const adminRouter = express.Router();
-const {adminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
 const router = (User, NewRecipe) => {
-
+  const {adminMiddleWare} = require('../config/validation/authenticationMiddlewares')(User);
   const adminController = require('../controllers/adminController')(User, NewRecipe);
 
   adminRouter.use(adminMiddleWare);
@@ -27,6 +26,6 @@ const router = (User, NewRecipe) => {
     .get(adminController.getApprovalById);
 
   return adminRouter;
-}
+};
 
 module.exports = router;

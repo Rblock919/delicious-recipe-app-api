@@ -1,8 +1,8 @@
 const express = require('express');
 const servicesRouter = express.Router();
-const {nonAdminMiddleWare} = require('../config/validation/authenticationMiddlewares');
 
-const router = () => {
+const router = (User) => {
+  const {nonAdminMiddleWare} = require('../config/validation/authenticationMiddlewares')(User);
 
   const servicesController = require('../controllers/servicesController')();
 

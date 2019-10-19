@@ -52,6 +52,7 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    window.scroll(0, 0);
     this.recipeForm = this.fb.group({
       producer: ['', Validators.required],
       title: ['', Validators.required],

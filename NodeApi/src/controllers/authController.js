@@ -35,6 +35,7 @@ const authController = (User, Login) => {
           res.status(201).cookie('tkn', cookieToken, {
             path: '/api',
             httpOnly: true,
+            secure: true,
             maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
           }).send({token, user});
         }
@@ -80,8 +81,8 @@ const authController = (User, Login) => {
     let payload = {};
 
     const existingUser = await User.findOne(query, '-__v').exec();
-    let validPassword;
 
+    let validPassword;
     if (existingUser) {
       validPassword = await existingUser.passwordIsValid(userData.password);
     }
@@ -111,6 +112,7 @@ const authController = (User, Login) => {
         res.status(200).cookie('tkn', cookieToken, {
           path: '/api',
           httpOnly: true,
+          secure: true,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         }).send({user: user, token: token});
       });

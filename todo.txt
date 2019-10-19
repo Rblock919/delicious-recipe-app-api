@@ -8,20 +8,18 @@
 - implement backgrounds on pages (at least outside of containers)
 - implement pagination for recipe search page and possibly recipe list page
 - implement route animations
-- make it so when you navigate to recipe detail page you're at the top of the page (all the way scrolled up)
 - consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
 ^ -> (possibly move filtering + sorting to external pipe)
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
-- make sure all components grabbing data from resolvers route to error page on error existence
+- make sure all components that are grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
 - implement route guard when leaving edit users page if changes have been made and not saved
 - implement logic so that the application asks the user to log back in if tokens are missing
 - add more validation for user submitted info, especially in front end (min + max lengths, disallowed characters for injection attacks)
 - simplify/break-up route-guard logic
+- tooltip to explain how and where to/not-to copy image address'
 
               - Security-Related -
-- figure out how to get angular to obey node content security policy headers (works when serving up angular files from node so that it's all the same domain)
-^^^>>> eventually update connect-src in headerSecurity.js
 - create validation schemas for users for logins and sign ups
 - possibly use built-in escape function for passwords as well
 - eventually move away from storing token into local storage

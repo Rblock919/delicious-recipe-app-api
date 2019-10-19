@@ -31,6 +31,7 @@ export class RecipeDetailComponent implements OnInit {
               ) { }
 
   ngOnInit() {
+    window.scroll(0, 0);
     const resolvedData: IRecipeResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {

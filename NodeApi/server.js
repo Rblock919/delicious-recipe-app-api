@@ -7,10 +7,18 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const uri = require('./src/config/db/dbconnection');
+const fs = require('fs');
+const https = require('https');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+const options = {
+  // eslint-disable-next-line no-sync
+  key: fs.readFileSync('src/data/server.key'),
+  // eslint-disable-next-line no-sync
+  cert: fs.readFileSync('src/data/server.crt')
+};
 
 //Configure security related response headers
 require('./src/config/auth/headerSecurity')(app);
@@ -23,7 +31,7 @@ app.use(cookieParser());
 //Configure cross-origin requests
 app.use(cors({credentials: true, origin: true}));
 
-const connection = mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
+mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {
@@ -34,16 +42,14 @@ const connection = mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) =
 //Session configuration
 require('./src/config/session/sessionConfig')(app, mongoose);
 
-
 //Load mongoose models
-const NewRecipe = require('./src/models/recipeModel').newRecipe;
-const Recipe = require('./src/models/recipeModel').recipe;
-const User = require('./src/models/userModel');
-const Login = require('./src/models/loginModel');
+const { NewRecipe, Recipe } = require('./src/models/recipeModel')(mongoose);
+const User = require('./src/models/userModel')(mongoose);
+const Login = require('./src/models/loginModel')(mongoose);
 
 //Load routers
-const recipeRouter = require('./src/routes/recipeRouter')(Recipe, NewRecipe);
-const serviceRouter = require('./src/routes/servicesRouter')();
+const recipeRouter = require('./src/routes/recipeRouter')(User, Recipe, NewRecipe);
+const serviceRouter = require('./src/routes/servicesRouter')(User);
 const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
 const authRouter = require('./src/routes/authRouter')(User, Login);
 
@@ -77,12 +83,34 @@ app.all('*', (req, res) => {
   }
 });
 
-app.listen(port, (err) => {
-  if (err) {
-    console.log(chalk.red.bold.underline(err));
-  }
-  console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
-});
+//Configure redirect app, although I think it's not needed for heroku hosted app
+// const redirectApp = express();
+// redirectApp.all('*', (req, res, next) => {
+//   res.redirect(307, `https://localhost:3000${req.url}`);
+//   next();
+// });
+//
+// redirectApp.listen(3001, (err) => {
+//   if (err) {
+//     console.log(chalk.red.bold.underline(err));
+//   }
+//   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
+// });
+
+//Create http server
+// app.listen(port, (err) => {
+//   if (err) {
+//     console.log(chalk.red.bold.underline(err));
+//   }
+//   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
+// });
+
+//Create https server
+try {
+  https.createServer(options, app).listen(port);
+} catch (err) {
+  console.log(chalk.red(`Error creating https server: ${err}`));
+}
 
 //log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
