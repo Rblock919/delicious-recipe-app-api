@@ -91,12 +91,10 @@ export class RecipeDetailComponent implements OnInit {
     console.log($event);
   }
 
-  submitRate(rating: number) {
-    // console.log('rating in submitRate: ' + rating);
-    this.recipe.raters[this.session.getUser._id] = rating;
+  submitRate() {
+    this.recipe.raters[this.session.getUser._id] = this.userRating;
 
     this.recipeApi.rateRecipe(this.recipe).subscribe(res => {
-      // console.log('res in submitRate: ' + res);
       this.rated = true;
       this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Successfully Rated!`);
 
@@ -118,17 +116,19 @@ export class RecipeDetailComponent implements OnInit {
   favorite(): void {
     this.favorited = !this.favorited;
     if (this.favorited) {
-      this.recipeApi.favoriteRecipe(this.recipe).subscribe(res => {
-        // console.log('res from fav api call: ' + res);
-        this.recipe.favoriters.push('' + this.session.getUser._id);
-        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Favorited`);
-      });
-    } else if (!this.favorited) {
-      this.recipeApi.unFavoriteRecipe(this.recipe).subscribe(res => {
-        this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.session.getUser._id);
-        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Unfavorited`);
-      });
+      this.recipe.favoriters.push('' + this.session.getUser._id);
+    } else {
+      this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.session.getUser._id);
     }
+
+    this.recipeApi.favoriteRecipe(this.recipe).subscribe(res => {
+      // console.log('res from fav api call: ' + res);
+      if (this.favorited) {
+        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Favorited`);
+      } else {
+        this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, this.recipe.title)} Has Been Unfavorited`);
+      }
+    });
   }
 
 }

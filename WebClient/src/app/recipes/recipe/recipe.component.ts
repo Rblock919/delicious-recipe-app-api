@@ -4,8 +4,7 @@ import {
   Input,
   Inject,
   EventEmitter,
-  Output,
-  AfterViewInit,
+  Output
 } from '@angular/core';
 
 import { JQ_TOKEN } from '../../shared/jQuery.service';
@@ -16,49 +15,73 @@ import { IRecipe } from 'src/app/models/recipe.model';
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss']
 })
-export class RecipeComponent implements OnInit, AfterViewInit {
+export class RecipeComponent implements OnInit {
+  private _userRating = 0;
+  rated = false;
 
   @Input()
   recipe: IRecipe;
   @Input()
   userId: number;
+  @Input()
+  set userRating(rating: number) {
+    this._userRating = !!rating ? rating : 0;
+    this.rated = this._userRating > 0;
+
+    // compute/update average rating
+    if (Object.keys(this.recipe.raters).length > 0) {
+      let ratingCounter = 0;
+      this.avgRating = 0;
+      for (const value of Object.values(this.recipe.raters)) {
+        this.avgRating += Number(value);
+        ratingCounter++;
+      }
+      this.avgRating /= ratingCounter;
+    }
+
+    // console.log(`(2) user rating for ${this.recipe.title} is ${this._userRating}`);
+    // this._userRating = rating;
+  }
+  get userRating(): number {
+    return this._userRating;
+  }
   @Output()
   favoriteEvent = new EventEmitter();
   @Output()
   rateEvent = new EventEmitter();
 
-  rated = false;
   favorited = false;
   avgRating = 0;
-  userRating = 0;
 
-  modalContentID: string;
+  // modalContentID: string;
 
-  constructor(@Inject(JQ_TOKEN) private $: any) { }
+  constructor(
+    // @Inject(JQ_TOKEN) private $: any
+  ) { }
 
   ngOnInit() {
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
     this.favorited = favoritersList.indexOf('' + this.userId) > -1;
-    this.modalContentID = this.makeModalId(20);
+    // this.modalContentID = this.makeModalId(20);
     // console.log('MODAL CONTENT ID: ' + this.modalContentID);
 
-    if (Object.keys(this.recipe.raters).length > 0) {
-
-      if (this.recipe.raters[this.userId]) {
-        this.rated = true;
-        this.userRating = this.recipe.raters[this.userId];
-      }
-
-      let ratingCounter = 0;
-      for (const value of Object.values(this.recipe.raters)) {
-        this.avgRating += Number(value);
-        ratingCounter++;
-      }
-
-      this.avgRating /= ratingCounter;
-
-    }
+    // if (Object.keys(this.recipe.raters).length > 0) {
+    //
+    //   if (this.recipe.raters[this.userId]) {
+    //     this.rated = true;
+    //     this.userRating = this.recipe.raters[this.userId];
+    //   }
+    //
+    //   let ratingCounter = 0;
+    //   for (const value of Object.values(this.recipe.raters)) {
+    //     this.avgRating += Number(value);
+    //     ratingCounter++;
+    //   }
+    //
+    //   this.avgRating /= ratingCounter;
+    //
+    // }
 
   }
 
@@ -72,40 +95,31 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     return result;
  }
 
-  ngAfterViewInit() {
-    const modalButton = '#' + this.recipe._id;
-    const thisModalContentId = '#' + this.modalContentID;
-    this.$(modalButton).attr({'data-target': thisModalContentId});
-  }
+  // ngAfterViewInit() {
+    // const modalButton = '#' + this.recipe._id;
+    // const thisModalContentId = '#' + this.modalContentID;
+    // this.$(modalButton).attr({'data-target': thisModalContentId});
+  // }
 
-  setRating(rating: number): void {
-    this.userRating = rating;
-  }
+  // setRating(rating: number): void {
+  //   this.userRating = rating;
+  // }
 
-  submitRate(): void {
-    this.recipe.raters[this.userId] = this.userRating;
-    this.rated = true;
-
-    // update average rating
-    let ratingCounter = 0;
-    this.avgRating = 0;
-    for (const value of Object.values(this.recipe.raters)) {
-      this.avgRating += Number(value);
-      ratingCounter++;
-    }
-    this.avgRating /= ratingCounter;
+  triggerRate(): void {
     this.rateEvent.emit(this.recipe);
   }
 
   favorite(): void {
     this.favorited = !this.favorited;
-    this.favoriteEvent.emit({recipe: this.recipe, favoriting: this.favorited});
 
     if (this.favorited) {
       this.recipe.favoriters.push('' + this.userId);
     } else {
       this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.userId);
     }
+
+    this.favoriteEvent.emit({recipe: this.recipe, favoriting: this.favorited});
+
   }
 
 }

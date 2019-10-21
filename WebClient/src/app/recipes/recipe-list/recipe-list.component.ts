@@ -16,10 +16,10 @@ export class RecipeListComponent implements OnInit {
 
   recipeList: IRecipe[];
 
-  // // For modal purposes
-  // selectedRecipe: IRecipe;
-  // rated: boolean;
-  // userRating = 0;
+  // For modal purposes
+  selectedRecipe: IRecipe;
+  rated: boolean;
+  userRating = 0;
 
   sortFilter: string;
   sortDirection: string;
@@ -48,7 +48,7 @@ export class RecipeListComponent implements OnInit {
       this.userId = this.sessionService.getUser._id;
 
       // just temporarily assign it to 1st recipe to avoid errors
-      // this.selectedRecipe = this.recipeList[0];
+      this.selectedRecipe = this.recipeList[0];
     }
 
   }
@@ -78,115 +78,45 @@ export class RecipeListComponent implements OnInit {
   }
 
   favEvent($event): void {
-    const tmp = $event.recipe as IRecipe;
+    const recipeToFav = $event.recipe as IRecipe;
     const favoriting = $event.favoriting as boolean;
 
-    if (favoriting) {
-      this.apiService.favoriteRecipe(tmp).subscribe((res) => {
-        const message = `${tmp.title} Has Been Favorited!`;
+    this.apiService.favoriteRecipe(recipeToFav).subscribe((res) => {
+      if (favoriting) {
+        const message = `${recipeToFav.title} Has Been Favorited!`;
         this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, message));
-        this.recipeList = this.recipeList.slice(0); // re-trigger pipes
-      }, (err) => {
-        console.error(`err: ${err}`);
-        this.toastr.error('Error favoriting recipe');
-      });
-    } else {
-      this.apiService.unFavoriteRecipe(tmp).subscribe((res) => {
-        const message = `${tmp.title} Has Been Unfavorited!`;
+      } else {
+        const message = `${recipeToFav.title} Has Been Unfavorited!`;
         this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, message));
-        this.recipeList = this.recipeList.slice(0); // re-trigger pipes
-      }, (err) => {
-        console.error(`err: ${err}`);
-        this.toastr.error('Error unfavoriting recipe');
-      });
-    }
-  }
-
-  rateEvent($event): void {
-    const tmp = $event as IRecipe;
-    this.apiService.rateRecipe(tmp).subscribe((res) => {
-      console.log(`res: ${res}`);
+      }
       this.recipeList = this.recipeList.slice(0); // re-trigger pipes
-      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, tmp.title));
     }, (err) => {
       console.error(`err: ${err}`);
+      this.toastr.error('Error favoriting recipe');
+    });
+
+  }
+
+  triggerRate($event): void {
+    this.selectedRecipe = $event as IRecipe;
+    this.userRating = !!this.selectedRecipe.raters[this.userId] ? this.selectedRecipe.raters[this.userId] : 0;
+  }
+
+  setRating(rating: number): void {
+    this.userRating = rating;
+  }
+
+  submitRate(): void {
+    this.selectedRecipe.raters[this.userId] = this.userRating;
+    this.apiService.rateRecipe(this.selectedRecipe).subscribe((res) => {
+      console.log(`res: ${res}`);
+      const idx = this.recipeList.indexOf(this.selectedRecipe);
+      this.recipeList[idx].raters[this.userId] = this.userRating;
+      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, this.selectedRecipe.title));
+    }, (err) => {
+      console.log(`err: ${err}`);
       this.toastr.error('Error rating recipe');
     });
   }
-
-  // setRating(rating: number): void {
-  //   this.userRating = rating;
-  // }
-  //
-  // submitRate(): void {
-  //   this.selectedRecipe.raters[this.userId] = this.userRating;
-  //   this.apiService.rateRecipe(this.selectedRecipe).subscribe((res) => {
-  //     console.log(`res: ${res}`);
-  //     this.rated = true;
-  //     this.toastr.success('Recipe successfully rated!');
-  //
-  //     const index = this.recipeList.indexOf(this.selectedRecipe);
-  //     this.recipeList[index] = this.selectedRecipe;
-  //
-  //     if (this.selectedRecipeList.indexOf(this.selectedRecipe) > -1) {
-  //       const index2 = this.selectedRecipeList.indexOf(this.selectedRecipe);
-  //       this.selectedRecipeList[index2] = {} as IRecipe;
-  //       this.selectedRecipeList[index2] = this.selectedRecipe;
-  //       this.selectedRecipeList[index2].raters[this.userId] = this.userRating;
-  //     }
-  //
-  //     this.createHotList();
-  //     this.sortRecipes();
-  //     if (this.sortFilter === 'rating') {
-  //
-  //       this.selectedRecipeList.sort((a, b) => {
-  //         let aAvg = 0;
-  //         let bAvg = 0;
-  //         let counter = 0;
-  //         for (const value of Object.values(a.raters)) {
-  //           aAvg += Number(value);
-  //           counter++;
-  //         }
-  //         aAvg /= counter;
-  //
-  //         counter = 0;
-  //         for (const value of Object.values(b.raters)) {
-  //           bAvg += Number(value);
-  //           counter++;
-  //         }
-  //         bAvg /= counter;
-  //
-  //         // console.log(`Avg of recipeA(${a.title}): ${aAvg} compared to avg of recipeB(${b.title}): ${bAvg}`);
-  //
-  //         if (isNaN(aAvg)) {
-  //           aAvg = 0;
-  //         }
-  //         if (isNaN(bAvg)) {
-  //           bAvg = 0;
-  //         }
-  //
-  //         if (this.sortDirection === 'up') {
-  //           if (aAvg > bAvg) {
-  //             return 1;
-  //           } else {
-  //             return -1;
-  //           }
-  //         } else if (this.sortDirection === 'down') {
-  //           if (aAvg > bAvg) {
-  //             return -1;
-  //           } else {
-  //             return 1;
-  //           }
-  //         }
-  //
-  //       });
-  //
-  //     }
-  //     this.selectedRecipeList = this.selectedRecipeList.slice(0);
-  //   }, (err) => {
-  //     console.error(`err rating recipe: ${err}`);
-  //     this.toastr.error('Error rating recipe');
-  //   })
-  // }
 
 }

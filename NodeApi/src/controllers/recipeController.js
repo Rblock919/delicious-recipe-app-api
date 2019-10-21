@@ -1,7 +1,6 @@
 /** @member {Object} */
 const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
-const userChecker = require('../config/validation/userChecker');
 const {validationResult} = require('express-validator');
 
 function assembleRecipeData(req) {
@@ -154,20 +153,18 @@ const recipeController = (Recipe, NewRecipe) => {
       await NewRecipe.findByIdAndDelete(id);
       res.sendStatus(200);
     } catch (err) {
-      console.log(`err deleting unappr recipe: ${err}`);
       res.sendStatus(500);
     }
   };
 
   const favorite = async (req, res) => {
-    const addingFav = req.body.favoriting;
-    let prevFavoriters = req.body.recipe.favoriters;
     let proceed = true;
     let updatedFavoriters;
+    let newFavoriters;
     let id;
 
     try {
-      id = new objectId(req.body.recipe._id);
+      id = new objectId(req.body._id);
     } catch (error) {
       console.log(chalk.red(error));
       proceed = false;
@@ -175,18 +172,13 @@ const recipeController = (Recipe, NewRecipe) => {
 
     if (proceed) {
 
-      if (addingFav) { // user is favoriting recipe
-        prevFavoriters.push(req.userId);
-      } else { // user is unfavoriting recipe
-        prevFavoriters = prevFavoriters.filter((uId) => uId !== '' + req.userId)
-      }
+      newFavoriters = req.body.favoriters;
+      updatedFavoriters = {favoriters: newFavoriters};
 
       try {
-        updatedFavoriters = {favoriters: prevFavoriters};
         const updatedRecipe = await Recipe.findByIdAndUpdate(id, updatedFavoriters);
         res.sendStatus(200);
       } catch (err) {
-        console.log(chalk.red(err));
         res.sendStatus(500);
       }
 
@@ -217,7 +209,6 @@ const recipeController = (Recipe, NewRecipe) => {
   };
 
   const submitForApproval = async (req, res) => {
-
 
     const errors = validationResult(req);
     // console.log('\nerrors: ' + JSON.stringify(errors));

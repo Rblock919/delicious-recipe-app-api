@@ -17,14 +17,7 @@
 - add more validation for user submitted info, especially in front end (min + max lengths, disallowed characters for injection attacks)
 - simplify/break-up route-guard logic
 - tooltip to explain how and where to/not-to copy image address'
-
-*****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****
- - update favoriting api calls to work like the rate api calls
- ^> in the sense that it updates the favoriters array in the typescript and just passes in recipe object
-    to the http call and the node code just takes that favoriters array and updates recipe in DB with that array
-- restructure modal creation/handling in recipe list page to match the edit recipe list page
-^^^>>> 100% eliminate possibility of 2 modals having same id
-*****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****     ****
+- test and make sure users can rate a recipe with score of 0 and ui/app properly handles it
 
 
               - Security-Related -

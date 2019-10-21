@@ -7,6 +7,7 @@ import { IRecipe, IRecipesResolved } from 'src/app/models/recipe.model';
 import { Toastr, TOASTR_TOKEN } from 'src/app/shared/toastr.service';
 import { SessionService } from 'src/app/services/session.service';
 import { LoggerService } from '../../services/util/logger.service';
+import {RecipeApiService} from '../../services/api/recipe-api.service';
 
 @Component({
   selector: 'app-recipe-search',
@@ -17,15 +18,23 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
 
   searchString: string;
   private sub: Subscription;
+
   recipeList: IRecipe[];
   filteredList: IRecipe[];
+
   userId: number;
+
+  // For modal purposes
+  selectedRecipe: IRecipe;
+  rated: boolean;
+  userRating = 0;
 
   constructor(private route: ActivatedRoute,
               private sessionService: SessionService,
               private loggerService: LoggerService,
               private router: Router,
               private sanitizer: DomSanitizer,
+              private apiService: RecipeApiService,
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
 
@@ -48,6 +57,8 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
       this.searchString = params.get('searchString');
       this.filterRecipes();
     });
+    // just temporarily assign a value to avoid errors
+    this.selectedRecipe = this.recipeList[0];
 
   }
 
@@ -61,11 +72,44 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
   }
 
   favEvent($event): void {
-    this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, $event));
+    const recipeToFav = $event.recipe as IRecipe;
+    const favoriting = $event.favoriting as boolean;
+
+    this.apiService.favoriteRecipe(recipeToFav).subscribe((res) => {
+      if (favoriting) {
+        const message = `${recipeToFav.title} Has Been Favorited!`;
+        this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, message));
+      } else {
+        const message = `${recipeToFav.title} Has Been Unfavorited!`;
+        this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, message));
+      }
+      this.recipeList = this.recipeList.slice(0); // re-trigger pipes
+    }, (err) => {
+      console.error(`err: ${err}`);
+      this.toastr.error('Error favoriting recipe');
+    });
   }
 
-  rateEvent($event): void {
-    this.toastr.success(`${this.sanitizer.sanitize(SecurityContext.HTML, $event)} Successfully Rated!`);
+  triggerRate($event): void {
+    this.selectedRecipe = $event as IRecipe;
+    this.userRating = !!this.selectedRecipe.raters[this.userId] ? this.selectedRecipe.raters[this.userId] : 0;
+  }
+
+  setRating(rating: number): void {
+    this.userRating = rating;
+  }
+
+  submitRate(): void {
+    this.selectedRecipe.raters[this.userId] = this.userRating;
+    this.apiService.rateRecipe(this.selectedRecipe).subscribe((res) => {
+      console.log(`res: ${res}`);
+      const idx = this.recipeList.indexOf(this.selectedRecipe);
+      this.recipeList[idx].raters[this.userId] = this.userRating;
+      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, this.selectedRecipe.title));
+    }, (err) => {
+      console.log(`err: ${err}`);
+      this.toastr.error('Error rating recipe');
+    });
   }
 
 }
