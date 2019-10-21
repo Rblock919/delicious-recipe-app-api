@@ -29,7 +29,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 //Configure cross-origin requests
-app.use(cors({credentials: true, origin: true}));
+// Not sure if I need this if serving up angular files statically via node/express
+// app.use(cors({credentials: true, origin: true}));
 
 mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
   if (!err) {
