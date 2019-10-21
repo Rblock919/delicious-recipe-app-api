@@ -14,6 +14,8 @@ import { RouteGuard } from '../services/guards/route.guard';
 import { RecipeResolverService } from '../services/resolvers/recipe-resolver.service';
 import { StarComponent } from './star/star.component';
 import { CollapsibleWellComponent } from './recipe-detail/collapsible-well/collapsible-well.component';
+import {OrderByPipe} from '../services/util/order-by.pipe';
+import {FilterByPipe} from '../services/util/filter-by.pipe';
 
 @NgModule({
   imports: [
@@ -64,6 +66,8 @@ import { CollapsibleWellComponent } from './recipe-detail/collapsible-well/colla
     EditRecipeComponent,
     SubmittedComponent,
     IngredientsPipe,
+    OrderByPipe,
+    FilterByPipe,
     StarComponent,
     CollapsibleWellComponent
   ],

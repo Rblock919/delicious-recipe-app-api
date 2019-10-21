@@ -8,8 +8,7 @@
 - implement backgrounds on pages (at least outside of containers)
 - implement pagination for recipe search page and possibly recipe list page
 - implement route animations
-- consider implementing sort & filter functionality to search page and make a pipe for filter and sorting for both recipe list + search page
-^ -> (possibly move filtering + sorting to external pipe)
+- consider implementing sort & filter functionality to search page
 - removing routing to error component once I'm confident that most errors have been handled and routed to in code sufficiently
 - make sure all components that are grabbing data from resolvers route to error page on error existence
 ^ -> possibly handle rerouting to error page in interceptor or resolvers
@@ -19,25 +18,32 @@
 - simplify/break-up route-guard logic
 - tooltip to explain how and where to/not-to copy image address'
 
+*****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****
+ - update favoriting api calls to work like the rate api calls
+ ^> in the sense that it updates the favoriters array in the typescript and just passes in recipe object
+    to the http call and the node code just takes that favoriters array and updates recipe in DB with that array
+- restructure modal creation/handling in recipe list page to match the edit recipe list page
+^^^>>> 100% eliminate possibility of 2 modals having same id
+*****     *****     *****     *****     *****     *****     *****     *****     *****     *****     *****     ****
+
+
               - Security-Related -
 - create validation schemas for users for logins and sign ups
 - possibly use built-in escape function for passwords as well
 - eventually move away from storing token into local storage
 - add a re-authentication process on edit users confirmation for admin request
 - add a match-to regex in model level authentication for mongoose for passwords (just doing it for the experience, unneeded in application)
-
 - front-end error handling eventually for unauthorized/expired sessions
 - implement seeds from hard coded data instead of having api calls to trigger manually
 - modularize some of the logic in edit/approve recipe components to external service
 - implement validation to make sure recipe titles are unique
 - implement validation in reactive angular forms for mongoDB inj characters:   $, }, {
 
-**                                                           **
-- add reject button/functionality to approve recipe detail page
-**                                                           **
-^^^^>>>>> this can lead to a notifications page where an admin can give a user a reason why they rejected or a notification that their recipe was approved
+- rejecting recipes can lead to a notifications page where an admin can give a user a reason why they rejected or a notification that their recipe was approved
 
 - commenting functionality on recipes?
+- save as (.pdf, .txt, etc.) functionality for recipes
+- possibly email or text (not gonna be free) just ingredients or something
 - possibly split route-guard into two guards to simplify logic (maybe)
 
 - look for angular equivalent to express-validator (aside from reactive forms validation)

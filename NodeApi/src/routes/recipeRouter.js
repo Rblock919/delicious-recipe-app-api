@@ -26,6 +26,9 @@ const router = (User, Recipe, NewRecipe) => {
   recipeRouter.route('/delete/:id')
     .delete(adminMiddleWare, recipeController.deleteRecipe);
 
+  recipeRouter.route('/reject/:id')
+    .delete(adminMiddleWare, recipeController.rejectRecipe);
+
   recipeRouter.route('/favorite')
     .post(recipeController.favorite);
 

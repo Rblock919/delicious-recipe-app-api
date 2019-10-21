@@ -317,6 +317,17 @@ export class ApproveRecipeDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  rejectRecipe(): void {
+    this.recipeApiService.rejectRecipe(this.recipeId).subscribe((res) => {
+      console.log(`res: ${res}`);
+      this.toastr.success('Recipe successfully rejected');
+      this.router.navigate(['admin/approve']);
+    }, (err) => {
+      console.error(`Error rejecting recipe: ${err}`);
+      this.toastr.error('Error rejecting recipe');
+    })
+  }
+
   clearFormArray(formArray: FormArray): void {
     while (formArray.length !== 0) {
       formArray.removeAt(0);

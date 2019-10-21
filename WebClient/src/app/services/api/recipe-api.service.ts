@@ -46,6 +46,10 @@ export class RecipeApiService {
     return this.httpClient.delete(`${this.uri}/delete/${recipeId}`, {responseType: 'text'});
   }
 
+  rejectRecipe(recipeId: number): Observable<any> {
+    return this.httpClient.delete(`${this.uri}/reject/${recipeId}`, {responseType: 'text'});
+  }
+
   favoriteRecipe(recipe: IRecipe): Observable<any> {
     const recipeToUpdate = {recipe, favoriting: true};
     return this.httpClient.post(`${this.uri}/favorite`, recipeToUpdate, {responseType: 'text'});

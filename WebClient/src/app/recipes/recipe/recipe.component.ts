@@ -1,8 +1,15 @@
-import { JQ_TOKEN } from '../../shared/jQuery.service';
-import { Component, OnInit, Input, Inject, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Inject,
+  EventEmitter,
+  Output,
+  AfterViewInit,
+} from '@angular/core';
 
+import { JQ_TOKEN } from '../../shared/jQuery.service';
 import { IRecipe } from 'src/app/models/recipe.model';
-import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
 
 @Component({
   selector: 'app-recipe',
@@ -20,29 +27,23 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   @Output()
   rateEvent = new EventEmitter();
 
-  rated: boolean;
-  favorited: boolean;
+  rated = false;
+  favorited = false;
   avgRating = 0;
   userRating = 0;
 
   modalContentID: string;
 
-  constructor(private apiService: RecipeApiService,
-              @Inject(JQ_TOKEN) private $: any
-              ) { }
+  constructor(@Inject(JQ_TOKEN) private $: any) { }
 
   ngOnInit() {
     let favoritersList: string[];
     favoritersList = this.recipe.favoriters;
     this.favorited = favoritersList.indexOf('' + this.userId) > -1;
-    // this.modalContentID = this.recipe.title.charAt(0) + this.recipe.nutritionValues.calories +
-      // this.recipe.title.charAt(1) + this.recipe.nutritionValues.fat + this.recipe.title.charAt(2);
-    this.modalContentID = this.makeModalId(15);
+    this.modalContentID = this.makeModalId(20);
     // console.log('MODAL CONTENT ID: ' + this.modalContentID);
 
     if (Object.keys(this.recipe.raters).length > 0) {
-
-      // console.log(`${this.recipe.title} has user ratings present.`);
 
       if (this.recipe.raters[this.userId]) {
         this.rated = true;
@@ -61,7 +62,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   }
 
-  makeModalId(length): string {
+  makeModalId(length: number): string {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     const charactersLength = characters.length;
@@ -77,57 +78,34 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     this.$(modalButton).attr({'data-target': thisModalContentId});
   }
 
-  logRate($event): void {
-    console.log($event);
-  }
-
   setRating(rating: number): void {
     this.userRating = rating;
   }
 
-  submitRate(rating: number) {
-    // console.log('rating in submitRate: ' + rating);
-    this.recipe.raters[this.userId] = rating;
+  submitRate(): void {
+    this.recipe.raters[this.userId] = this.userRating;
+    this.rated = true;
 
-    this.apiService.rateRecipe(this.recipe).subscribe(res => {
-      // console.log('res in submitRate: ' + res);
-      this.rated = true;
-
-      // update average rating
-      let ratingCounter = 0;
-      this.avgRating = 0;
-      for (const value of Object.values(this.recipe.raters)) {
-        this.avgRating += Number(value);
-        ratingCounter++;
-      }
-      this.avgRating /= ratingCounter;
-      this.rateEvent.emit(this.recipe.title);
-
-    }, err => {
-      console.log('err in submitRate: ' + JSON.stringify(err));
-    });
+    // update average rating
+    let ratingCounter = 0;
+    this.avgRating = 0;
+    for (const value of Object.values(this.recipe.raters)) {
+      this.avgRating += Number(value);
+      ratingCounter++;
+    }
+    this.avgRating /= ratingCounter;
+    this.rateEvent.emit(this.recipe);
   }
 
   favorite(): void {
     this.favorited = !this.favorited;
+    this.favoriteEvent.emit({recipe: this.recipe, favoriting: this.favorited});
 
     if (this.favorited) {
-      this.apiService.favoriteRecipe(this.recipe).subscribe(res => {
-        // console.log('res from fav api call: ' + res);
-        this.recipe.favoriters.push('' + this.userId);
-        this.favoriteEvent.emit(this.recipe.title + ' Has Been Favorited!');
-      }, err => {
-        console.log(`Error favoriting recipe: ${JSON.stringify(err)}`);
-      });
-    } else if (!this.favorited) {
-      this.apiService.unFavoriteRecipe(this.recipe).subscribe(res => {
-        this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.userId);
-        this.favoriteEvent.emit(this.recipe.title + ' Has Been Unfavorited!');
-      }, err => {
-        console.log(`Error unfavoriting recipe: ${JSON.stringify(err)}`);
-      });
+      this.recipe.favoriters.push('' + this.userId);
+    } else {
+      this.recipe.favoriters = this.recipe.favoriters.filter(uId => uId !== '' + this.userId);
     }
-
   }
 
 }

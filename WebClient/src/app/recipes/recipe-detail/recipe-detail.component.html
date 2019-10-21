@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-md-8"><h2>{{recipe.title}}</h2></div>
                         <div class="col-md-1">
-                          <app-star (ratingClicked)="logRate($event)" [rating]="avgRating"></app-star>
+                          <app-star [rating]="avgRating"></app-star>
                           <button type="button" [id]="recipe._id" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#C580">
                             <span style="color: white;">Rate</span>
                           </button>
@@ -210,28 +210,28 @@
 
       <!-- Modal -->
       <div style="justify-content: center" class="modal fade" id="C580" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header text-center">
-              <h5 *ngIf="recipe" class="modal-title" id="exampleModalLabel"><span style="font-style: italic; padding-left: 10px">{{recipe.title}}</span></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              <span (click)="setRating(1)" [ngClass]="{'fa-star': userRating > 0, 'fa-star-o': userRating < 1}" class="fa"></span>
-              <span (click)="setRating(2)" [ngClass]="{'fa-star': userRating > 1, 'fa-star-o': userRating < 2}" class="fa"></span>
-              <span (click)="setRating(3)" [ngClass]="{'fa-star': userRating > 2, 'fa-star-o': userRating < 3}" class="fa"></span>
-              <span (click)="setRating(4)" [ngClass]="{'fa-star': userRating > 3, 'fa-star-o': userRating < 4}" class="fa"></span>
-              <span (click)="setRating(5)" [ngClass]="{'fa-star': userRating > 4, 'fa-star-o': userRating < 5}" class="fa"></span>
-            </div>
-            <div class="modal-footer">
-              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-              <button type="button" (click)="submitRate(userRating)" data-dismiss="modal" class="btn btn-primary">
-                <span *ngIf="!rated" >Rate!</span>
-                <span *ngIf="rated" >Change Rate!</span>
-              </button>
-            </div>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h5 *ngIf="recipe" class="modal-title" id="exampleModalLabel"><span style="font-style: italic; padding-left: 10px">{{recipe.title}}</span></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-center">
+                  <span (click)="setRating(1)" [ngClass]="{'fa-star': userRating > 0, 'fa-star-o': userRating < 1}" class="fa"></span>
+                  <span (click)="setRating(2)" [ngClass]="{'fa-star': userRating > 1, 'fa-star-o': userRating < 2}" class="fa"></span>
+                  <span (click)="setRating(3)" [ngClass]="{'fa-star': userRating > 2, 'fa-star-o': userRating < 3}" class="fa"></span>
+                  <span (click)="setRating(4)" [ngClass]="{'fa-star': userRating > 3, 'fa-star-o': userRating < 4}" class="fa"></span>
+                  <span (click)="setRating(5)" [ngClass]="{'fa-star': userRating > 4, 'fa-star-o': userRating < 5}" class="fa"></span>
+                </div>
+                <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                  <button type="button" (click)="submitRate(userRating)" data-dismiss="modal" class="btn btn-primary">
+                    <span *ngIf="!rated" >Rate!</span>
+                    <span *ngIf="rated" >Change Rate!</span>
+                  </button>
+                </div>
           </div>
         </div>
       </div>

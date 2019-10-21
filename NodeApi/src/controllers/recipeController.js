@@ -146,6 +146,19 @@ const recipeController = (Recipe, NewRecipe) => {
 
   };
 
+  const rejectRecipe = async (req, res) => {
+    let id;
+
+    try {
+      id = new objectId(req.params.id);
+      await NewRecipe.findByIdAndDelete(id);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log(`err deleting unappr recipe: ${err}`);
+      res.sendStatus(500);
+    }
+  };
+
   const favorite = async (req, res) => {
     const addingFav = req.body.favoriting;
     let prevFavoriters = req.body.recipe.favoriters;
@@ -248,6 +261,7 @@ const recipeController = (Recipe, NewRecipe) => {
     addRecipe,
     updateRecipe,
     deleteRecipe,
+    rejectRecipe,
     submitForApproval,
     rateRecipe,
     favorite

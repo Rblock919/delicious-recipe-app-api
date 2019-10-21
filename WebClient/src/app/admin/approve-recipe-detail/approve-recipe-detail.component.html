@@ -520,18 +520,72 @@
             </div><!-- end of card body -->
             <div class="card-footer">
               <div class="pull-left">
-                <button type="button" [disabled]="editMode" (click)="toggleEditMode()" class="btn btn-success">Edit</button>
+                <button type="button" [disabled]="editMode" (click)="toggleEditMode()" class="btn btn-info">Edit</button>
               </div>
               <div class="pull-right">
               Form Valid: {{recipeForm.valid}}
-                <button *ngIf="recipe.title" type="button"
-                        class="btn btn-primary" (click)="saveForm()">Approve</button>
+                <button type="button" data-toggle="modal" data-target="#C580"
+                        class="btn btn-danger">Reject</button>
+                <button style="margin-left: 5px"  data-toggle="modal" data-target="#D580"
+                        type="button" class="btn btn-success" >Approve</button>
               </div>
-            </div>
+            </div><!-- end of card footer -->
+
           </div> <!-- end of card -->
 
         </div> <!-- end of first col-md-12 -->
       </div> <!-- end of first row -->
+
+      <!-- Reject Modal -->
+      <div class="modal fade" id="C580" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title" id="exampleModalLabel">
+                <span style="font-style: italic; padding-left: 10px">
+                  Reject {{recipe.title}}?
+                </span>
+              </h5>
+            </div>
+
+            <div style="justify-content: center" class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+              <button type="button" (click)="rejectRecipe()" data-dismiss="modal" class="btn btn-danger">
+                <span>Reject</span>
+              </button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approve Modal -->
+      <div class="modal fade" id="D580" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title" id="exampleModal2Label">
+                <span style="font-style: italic; padding-left: 10px">
+                  Approve {{recipe.title}}?
+                </span>
+              </h5>
+            </div>
+
+            <div style="justify-content: center" class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+              <button type="button" (click)="saveForm()" data-dismiss="modal" class="btn btn-success">
+                <span>Approve</span>
+              </button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div> <!-- end of container -->
 
 </main>

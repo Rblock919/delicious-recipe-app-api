@@ -31,7 +31,7 @@ app.use(cookieParser());
 //Configure cross-origin requests
 app.use(cors({credentials: true, origin: true}));
 
-mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
+mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {

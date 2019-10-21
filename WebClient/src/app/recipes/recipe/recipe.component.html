@@ -1,9 +1,3 @@
-<!-- <a class="story-title" href="#"><img src="assets/images/pineapple-poblano-beef-tacos.jpg" style="width:100px;height:100px" class="img-circle"></a>
-<h3>{{recipe.title}}</h3>
-<span class="badge badge-primary">{{recipe.producer}} </span>
-<br>
-<a class="btn btn-info" [routerLink]="['/recipe', recipe._id]" role="button">View Recipe &raquo;</a> -->
-
 <div class="card" style="width: 100%;">
   <img class="card-img-top img-thumbnail" src="{{recipe.imgDir}}">
   <div class="card-body">
@@ -35,7 +29,7 @@
       <div class="col-md-3">
         <!-- Overall -->
         <div style="padding-top: 6px; margin-left: -18px">
-          <app-star (ratingClicked)="logRate($event)" [rating]="avgRating"></app-star>
+          <app-star [rating]="avgRating"></app-star>
         </div>
       </div>
     </div>
@@ -46,15 +40,10 @@
         <button type="button" [id]="recipe._id" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#C580">
           <span style="color: white;">Rate</span>
         </button>
-        <!-- Overall
-        <app-star (ratingClicked)="rate($event)" [rating]="2.7"></app-star> -->
       </div>
       <div class="col-md-4 text-center">
       </div>
     </div>
-    <!-- <button type="button" [id]="recipe._id" class="btn btn-sm btn-outline-warning" data-toggle="modal" data-target="#C580">
-      Rate
-    </button> -->
 
       <!-- Modal -->
       <div style="justify-content: center" class="modal fade" [id]="modalContentID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,7 +64,7 @@
             </div>
             <div class="modal-footer">
               <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-              <button type="button" (click)="submitRate(userRating)" data-dismiss="modal" class="btn btn-primary">
+              <button type="button" (click)="submitRate()" data-dismiss="modal" class="btn btn-primary">
                 <span *ngIf="!rated" >Rate!</span>
                 <span *ngIf="rated" >Change Rate!</span>
               </button>
