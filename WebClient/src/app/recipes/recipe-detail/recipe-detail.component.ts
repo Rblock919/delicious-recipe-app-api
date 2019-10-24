@@ -54,14 +54,8 @@ export class RecipeDetailComponent implements OnInit {
       }
 
       if (Object.keys(this.recipe.raters).length > 0) {
-
-        // console.log(`${this.recipe.title} has user ratings present.`);
-
-        if (this.recipe.raters[this.session.getUser._id]) {
-          // console.log('user has rated ' + this.recipe.title + ' and gave it a: ' + this.recipe.raters[this.session.getUser._id]);
-          this.rated = true;
-          this.userRating = this.recipe.raters[this.session.getUser._id];
-        }
+        this.rated = !!this.recipe.raters[this.session.getUser._id];
+        this.userRating = this.rated ? this.recipe.raters[this.session.getUser._id] : 0;
 
         let ratingCounter = 0;
         for (const value of Object.values(this.recipe.raters)) {
@@ -70,8 +64,6 @@ export class RecipeDetailComponent implements OnInit {
         }
 
         this.avgRating /= ratingCounter;
-        // console.log('avgRating: ' + this.avgRating);
-
       }
 
     }

@@ -3,14 +3,14 @@ const helmet = require('helmet');
 function appHeaderSecurity(app) {
   // commented out to retain all defaults except for HSTS header because cert is self signed so this avoids ~1 million warnings in console
   // UNCOMMENT FOR PROD
-  // app.use(helmet());
+  app.use(helmet());
   // COMMENT FOR PROD
-  app.use(helmet.dnsPrefetchControl());
-  app.use(helmet.frameguard());
-  app.use(helmet.hidePoweredBy());
-  app.use(helmet.ieNoOpen());
-  app.use(helmet.noSniff());
-  app.use(helmet.xssFilter());
+  // app.use(helmet.dnsPrefetchControl());
+  // app.use(helmet.frameguard());
+  // app.use(helmet.hidePoweredBy());
+  // app.use(helmet.ieNoOpen());
+  // app.use(helmet.noSniff());
+  // app.use(helmet.xssFilter());
 
   // always keep
   app.use(helmet.contentSecurityPolicy({

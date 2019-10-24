@@ -13,6 +13,9 @@ const https = require('https');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// COMMENT FOR PRODUCTION
+// require('dotenv').config();
+
 const options = {
   // eslint-disable-next-line no-sync
   key: fs.readFileSync('src/data/server.key'),
@@ -20,19 +23,19 @@ const options = {
   cert: fs.readFileSync('src/data/server.crt')
 };
 
-//Configure security related response headers
+// Configure security related response headers
 require('./src/config/auth/headerSecurity')(app);
 
-//Parse incoming request params into a nice json object
+// Parse incoming request params into a nice json object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-//Configure cross-origin requests
+// Configure cross-origin requests
 // Not sure if I need this if serving up angular files statically via node/express
 // app.use(cors({credentials: true, origin: true}));
 
-mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
+mongoose.connect(process.env.DB_URI, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {
@@ -40,7 +43,7 @@ mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
   }
 });
 
-//Session configuration
+// Session configuration
 require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Load mongoose models
@@ -48,13 +51,13 @@ const { NewRecipe, Recipe } = require('./src/models/recipeModel')(mongoose);
 const User = require('./src/models/userModel')(mongoose);
 const Login = require('./src/models/loginModel')(mongoose);
 
-//Load routers
+// Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(User, Recipe, NewRecipe);
 const serviceRouter = require('./src/routes/servicesRouter')(User);
 const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
 const authRouter = require('./src/routes/authRouter')(User, Login);
 
-//Middleware for session testing purposes
+// Middleware for session testing purposes
 // app.use((req, res, next) => {
 // console.log('in new middleware');
 // req.session.touch();
@@ -68,13 +71,13 @@ const authRouter = require('./src/routes/authRouter')(User, Login);
 //   next();
 // });
 
-//Apply routers to api routes
+// Apply routers to api routes
 app.use('/api/recipes', recipeRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
-//Serve up static angular files
+// Serve up static angular files
 app.use(express.static(path.join(__dirname, 'dist/WebClient')));
 app.all('*', (req, res) => {
   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
@@ -84,7 +87,15 @@ app.all('*', (req, res) => {
   }
 });
 
-//Configure redirect app, although I think it's not needed for heroku hosted app
+// Create https server
+try {
+  https.createServer(options, app).listen(port);
+  console.log(chalk.green(`Running https server on port: ${chalk.underline(port)}`));
+} catch (err) {
+  console.log(chalk.red(`Error creating https server: ${err}`));
+}
+
+// Configure redirect app, although I think it's not needed for heroku hosted app
 // const redirectApp = express();
 // redirectApp.all('*', (req, res, next) => {
 //   res.redirect(307, `https://localhost:3000${req.url}`);
@@ -98,7 +109,7 @@ app.all('*', (req, res) => {
 //   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 // });
 
-//Create http server
+// Create http server
 // app.listen(port, (err) => {
 //   if (err) {
 //     console.log(chalk.red.bold.underline(err));
@@ -106,19 +117,12 @@ app.all('*', (req, res) => {
 //   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 // });
 
-//Create https server
-try {
-  https.createServer(options, app).listen(port);
-} catch (err) {
-  console.log(chalk.red(`Error creating https server: ${err}`));
-}
-
-//log to the console when the mongoose connection is closed
+// Log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
   console.log(chalk.magenta.underline('\nMongoose connection has been closed'));
 });
 
-//whenever node exits, close the mongoose connection and log to console
+// Whenever node exits, close the mongoose connection and log to console
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
     console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));

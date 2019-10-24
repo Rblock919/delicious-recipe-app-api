@@ -37,6 +37,7 @@ export class RecipeListComponent implements OnInit {
               @Inject(TOASTR_TOKEN) private toastr: Toastr) { }
 
   ngOnInit() {
+    window.scroll(0, 0);
     const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
@@ -99,7 +100,9 @@ export class RecipeListComponent implements OnInit {
 
   triggerRate($event): void {
     this.selectedRecipe = $event as IRecipe;
-    this.userRating = !!this.selectedRecipe.raters[this.userId] ? this.selectedRecipe.raters[this.userId] : 0;
+    // this.userRating = !!this.selectedRecipe.raters[this.userId] ? this.selectedRecipe.raters[this.userId] : 0;
+    this.rated = !!this.selectedRecipe.raters[this.userId];
+    this.userRating = this.rated ? this.selectedRecipe.raters[this.userId] : 0;
   }
 
   setRating(rating: number): void {
@@ -112,7 +115,7 @@ export class RecipeListComponent implements OnInit {
       console.log(`res: ${res}`);
       const idx = this.recipeList.indexOf(this.selectedRecipe);
       this.recipeList[idx].raters[this.userId] = this.userRating;
-      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, this.selectedRecipe.title));
+      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, `${this.selectedRecipe.title} has been successfully rated`));
     }, (err) => {
       console.log(`err: ${err}`);
       this.toastr.error('Error rating recipe');

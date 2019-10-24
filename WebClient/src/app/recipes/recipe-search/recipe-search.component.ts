@@ -39,8 +39,9 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    // this.searchString = this.route.snapshot.params.searchString;
+    window.scroll(0, 0);
 
+    // this.searchString = this.route.snapshot.params.searchString;
     const resolvedData: IRecipesResolved = this.route.snapshot.data.resolvedData;
 
     if (resolvedData.error) {
@@ -92,7 +93,8 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
 
   triggerRate($event): void {
     this.selectedRecipe = $event as IRecipe;
-    this.userRating = !!this.selectedRecipe.raters[this.userId] ? this.selectedRecipe.raters[this.userId] : 0;
+    this.rated = !!this.selectedRecipe.raters[this.userId];
+    this.userRating = this.rated ? this.selectedRecipe.raters[this.userId] : 0;
   }
 
   setRating(rating: number): void {
@@ -105,7 +107,7 @@ export class RecipeSearchComponent implements OnInit, OnDestroy {
       console.log(`res: ${res}`);
       const idx = this.recipeList.indexOf(this.selectedRecipe);
       this.recipeList[idx].raters[this.userId] = this.userRating;
-      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, this.selectedRecipe.title));
+      this.toastr.success(this.sanitizer.sanitize(SecurityContext.HTML, `${this.selectedRecipe.title} has been successfully rated`));
     }, (err) => {
       console.log(`err: ${err}`);
       this.toastr.error('Error rating recipe');

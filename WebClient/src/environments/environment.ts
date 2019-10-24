@@ -4,7 +4,15 @@
 
 export const environment = {
   production: false,
-  path: 'http://localhost:3000/api/'
+  // Local
+  // path: 'http://localhost:3000/api/'
+  path: 'https://localhost:3000/api/'
+  // Static Local Pi Address
+  // path: 'http://192.168.1.5:3000/api/'
+  // Static Local desktop address, used for testing cross domain functionality between angular & node server
+  // path: 'http://192.168.1.7:3000/api/'
+  // Heroku hosted uri of recipe-app
+  // path: 'https://delicious-recipe-app.herokuapp.com/api/'
 };
 
 /*

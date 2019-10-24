@@ -18,6 +18,7 @@
 - simplify/break-up route-guard logic
 - tooltip to explain how and where to/not-to copy image address'
 - test and make sure users can rate a recipe with score of 0 and ui/app properly handles it
+- eventually implement advanced search with ranges for specific macros and possibly filter on ingredients as well & etc
 
 
               - Security-Related -
