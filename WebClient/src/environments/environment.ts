@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // Local
-  // path: 'http://localhost:3000/api/'
-  path: 'https://localhost:3000/api/'
+  path: 'http://localhost:3000/api/'
+  // path: 'https://localhost:3000/api/'
   // Static Local Pi Address
   // path: 'http://192.168.1.5:3000/api/'
   // Static Local desktop address, used for testing cross domain functionality between angular & node server

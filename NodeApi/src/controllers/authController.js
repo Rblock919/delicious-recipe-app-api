@@ -35,7 +35,8 @@ const authController = (User, Login) => {
           res.status(201).cookie('tkn', cookieToken, {
             path: '/api',
             httpOnly: true,
-            secure: true,
+            secure: JSON.parse(process.env.SECURE_COOKIES),
+            sameSite: true,
             maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
           }).send({token, user});
         }
@@ -112,7 +113,8 @@ const authController = (User, Login) => {
         res.status(200).cookie('tkn', cookieToken, {
           path: '/api',
           httpOnly: true,
-          secure: true,
+          secure: JSON.parse(process.env.SECURE_COOKIES),
+          sameSite: true,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         }).send({user: user, token: token});
       });

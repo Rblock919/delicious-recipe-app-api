@@ -38,7 +38,8 @@ function sessionConfig(app, mongoose) {
     cookie: {
       path: '/api',
       httpOnly: true,
-      secure: true,
+      secure: JSON.parse(process.env.SECURE_COOKIES),
+      sameSite: true,
       maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
     },
     name: 'id',
