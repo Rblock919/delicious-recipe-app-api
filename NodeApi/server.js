@@ -16,13 +16,6 @@ const port = process.env.PORT || 3000;
 // COMMENT FOR PRODUCTION
 // require('dotenv').config();
 
-const options = {
-  // eslint-disable-next-line no-sync
-  key: fs.readFileSync('src/data/server.key'),
-  // eslint-disable-next-line no-sync
-  cert: fs.readFileSync('src/data/server.crt')
-};
-
 // Configure security related response headers
 require('./src/config/auth/headerSecurity')(app);
 
@@ -32,7 +25,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 // Configure cross-origin requests
-// Not sure if I need this if serving up angular files statically via node/express
+// Not sure if I need this if I'm just serving up angular files statically via node/express
 // app.use(cors({credentials: true, origin: true}));
 
 mongoose.connect(process.env.DB_URI, {useNewUrlParser: true}, (err) => {
@@ -87,13 +80,29 @@ app.all('*', (req, res) => {
   }
 });
 
-// Create https server
-try {
-  https.createServer(options, app).listen(port);
-  console.log(chalk.green(`Running https server on port: ${chalk.underline(port)}`));
-} catch (err) {
-  console.log(chalk.red(`Error creating https server: ${err}`));
-}
+// Create http server
+app.listen(port, (err) => {
+  if (err) {
+    console.log(chalk.red.bold.underline(err));
+  }
+  console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
+});
+
+
+// const options = {
+//   // eslint-disable-next-line no-sync
+//   key: fs.readFileSync('src/data/server.key'),
+//   // eslint-disable-next-line no-sync
+//   cert: fs.readFileSync('src/data/server.crt')
+// };
+//
+// // Create https server
+// try {
+//   https.createServer(options, app).listen(port);
+//   console.log(chalk.green(`Running https server on port: ${chalk.underline(port)}`));
+// } catch (err) {
+//   console.log(chalk.red(`Error creating https server: ${err}`));
+// }
 
 // Configure redirect app, although I think it's not needed for heroku hosted app
 // const redirectApp = express();
@@ -109,13 +118,6 @@ try {
 //   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 // });
 
-// Create http server
-// app.listen(port, (err) => {
-//   if (err) {
-//     console.log(chalk.red.bold.underline(err));
-//   }
-//   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
-// });
 
 // Log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
