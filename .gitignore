@@ -1,6 +1,6 @@
 NodeApi/node_modules
 NodeApi/.vscode
-#NodeApi/dist
+NodeApi/dist
 WebClient/node_modules
 .vscode
 .idea/
