@@ -1,7 +1,4 @@
 //filler text
-const connectionString = {
-  local: 'asdf',
-  remote: 'asdf',
-};
+const connectionString = process.env.DB_URI;
 
 module.exports = connectionString;

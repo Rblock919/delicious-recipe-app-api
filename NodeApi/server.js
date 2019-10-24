@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
-const uri = require('./src/config/db/dbconnection');
 const fs = require('fs');
 const https = require('https');
 
@@ -14,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // COMMENT FOR PRODUCTION
-// require('dotenv').config();
+require('dotenv').config();
 
 // Configure security related response headers
 require('./src/config/auth/headerSecurity')(app);
@@ -28,7 +27,8 @@ app.use(cookieParser());
 // Not sure if I need this if I'm just serving up angular files statically via node/express
 // app.use(cors({credentials: true, origin: true}));
 
-mongoose.connect(process.env.DB_URI, {useNewUrlParser: true}, (err) => {
+const uri = require('./src/config/db/dbconnection');
+mongoose.connect(uri, {useNewUrlParser: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {
