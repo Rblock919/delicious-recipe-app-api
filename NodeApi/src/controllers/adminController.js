@@ -10,7 +10,7 @@ const adminController = (User, NewRecipe) => {
 
   const addRecipes = (req, res) => {
 
-    MongoClient.connect(uri.remote, {useNewUrlParser: true}, (err, client) => {
+    MongoClient.connect(uri.local, {useNewUrlParser: true}, (err, client) => {
 
       const db = client.db('recipeApp');
       const collection = db.collection('recipes');
