@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { IRecipe } from '../../models/recipe.model';
 import { environment } from 'src/environments/environment';
+import {GraphqlService} from './graphql.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,16 @@ import { environment } from 'src/environments/environment';
 export class RecipeApiService {
   private uri = environment.path + 'recipes';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private graphQLService: GraphqlService) { }
 
-  getRecipeList(): Observable<IRecipe[]> {
-    return this.httpClient.get<IRecipe[]>(`${this.uri}`, {responseType: 'json'});
+  getRecipeList(): Observable<any> {
+    // return this.httpClient.get<IRecipe[]>(`${this.uri}`, {responseType: 'json'});
+    return this.graphQLService.getRecipeList();
     // .pipe(catchError(this.handleError<IRecipe[]>('getRecipeList', [])));
+  }
+
+  getRecipeEditList(): Observable<any> {
+    return this.graphQLService.getRecipeEditList();
   }
 
   getRecipe(recipeId: number): Observable<IRecipe> {

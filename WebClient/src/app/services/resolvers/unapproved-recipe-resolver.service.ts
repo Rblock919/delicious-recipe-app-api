@@ -20,7 +20,7 @@ export class UnapprovedRecipeResolverService implements Resolve<IRecipeResolved 
 
     if (multiple) {
       return this.adminService.getApprovalList()
-        .pipe(map(recipes => ({recipes})),
+        .pipe(map(graphQLRes => ({recipes: graphQLRes.data.recipes})),
         catchError(error => {
           return of ({recipes: null, error});
         })

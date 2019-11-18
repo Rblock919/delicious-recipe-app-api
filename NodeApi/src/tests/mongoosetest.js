@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // const db = mongoose.connect('mongodb://localhost/recipeApp');
 const uri = require('../config/db/dbconnection');
-const recipe = require('../models/recipeModel');
+const recipe = require('../models/mongoose/recipeModel');
 const testRecipe = new recipe({
   title: 'Pineapple Poblano Beef+Mystery Meat Tacos',
   producer: 'Hello Fresh',

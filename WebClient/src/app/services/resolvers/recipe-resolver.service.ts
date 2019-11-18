@@ -3,30 +3,49 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { IRecipeResolved, IRecipesResolved } from 'src/app/models/recipe.model';
+import { IRecipeResolved, IRecipesResolved, IRecipesGQLResolved, IRecipeGQLResolved } from 'src/app/models/recipe.model';
 import { RecipeApiService } from '../api/recipe-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeResolverService implements Resolve<IRecipeResolved | IRecipesResolved> {
+export class RecipeResolverService implements Resolve<IRecipeResolved | IRecipesResolved | IRecipesGQLResolved> {
 
   constructor(private recipeApiService: RecipeApiService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRecipeResolved> | Promise<IRecipeResolved> |
-  IRecipeResolved | Observable<IRecipesResolved>  | Promise<IRecipesResolved> | IRecipesResolved {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+  Observable<IRecipeResolved> | Promise<IRecipeResolved> | IRecipeResolved
+  | Observable<IRecipesResolved>  | Promise<IRecipesResolved> | IRecipesResolved
+  | Observable<IRecipesGQLResolved> | Promise<IRecipesGQLResolved> | IRecipesGQLResolved {
 
-    // console.log('in recipe resolver');
-    const multiple = route.data.multipleRecipes;
+    const { context, multipleRecipes } = route.data;
 
-    if (multiple) {
-      return this.recipeApiService.getRecipeList()
-        .pipe(map(recipes => ({recipes})),
-        catchError(error => {
-          console.error(error);
-          return of ({recipes: null, error});
-        })
-      );
+    if (multipleRecipes) {
+      if (context === 'list') {
+        return this.recipeApiService.getRecipeList()
+          .pipe(map(graphQLRes => ({recipes: graphQLRes.data.recipes})),
+            catchError(error => {
+              console.error(error);
+              return of ({recipes: null, error});
+            })
+          );
+      } else if (context === 'edit') {
+        return this.recipeApiService.getRecipeEditList()
+          .pipe(map(graphQLRes => ({recipes: graphQLRes.data.recipes})),
+            catchError(error => {
+              console.error(error);
+              return of ({recipes: null, error});
+            })
+          );
+      }
+
+      // return this.recipeApiService.getRecipeList()
+      //   .pipe(map(recipes => ({recipes})),
+      //   catchError(error => {
+      //     console.error(error);
+      //     return of ({recipes: null, error});
+      //   })
+      // );
     } else {
       const id = route.params.id;
 

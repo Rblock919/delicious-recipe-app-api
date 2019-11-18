@@ -40,9 +40,9 @@ mongoose.connect(uri.local, {useNewUrlParser: true}, (err) => {
 require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Load mongoose models
-const { NewRecipe, Recipe } = require('./src/models/recipeModel')(mongoose);
-const User = require('./src/models/userModel')(mongoose);
-const Login = require('./src/models/loginModel')(mongoose);
+const { NewRecipe, Recipe } = require('./src/models/mongoose/recipeModel')(mongoose);
+const User = require('./src/models/mongoose/userModel')(mongoose);
+const Login = require('./src/models/mongoose/loginModel')(mongoose);
 
 // Load routers
 const recipeRouter = require('./src/routes/recipeRouter')(User, Recipe, NewRecipe);

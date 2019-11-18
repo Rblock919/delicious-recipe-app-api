@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const authConfig = require('../config/auth/authConfig');
+const authConfig = require('../../config/auth/authConfig');
 
 const getUserModel = function (mongoose) {
   const Schema = mongoose.Schema;

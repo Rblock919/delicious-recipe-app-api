@@ -24,7 +24,7 @@ import { FilterByPipe } from '../services/util/filter-by.pipe';
         path: 'list',
         component: RecipeListComponent,
         resolve: { resolvedData: RecipeResolverService },
-        data: { multipleRecipes: true }
+        data: { multipleRecipes: true, context: 'list' }
       },
       {
         path: 'submitted',

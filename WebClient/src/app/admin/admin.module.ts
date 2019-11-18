@@ -20,7 +20,7 @@ import { UnapprovedRecipeResolverService } from '../services/resolvers/unapprove
         path: 'editRecipeList',
         component: EditRecipeListComponent,
         resolve: { resolvedData: RecipeResolverService },
-        data: { multipleRecipes: true }
+        data: { multipleRecipes: true, context: 'edit' }
       },
       {
         path: 'approve',
@@ -38,7 +38,7 @@ import { UnapprovedRecipeResolverService } from '../services/resolvers/unapprove
         path: 'editUserList',
         component: EditUserListComponent,
         resolve: { resolvedData: UserResolverService },
-        data: { multipleUsers: true}
+        data: { multipleUsers: true }
       },
       {
         path: '',
