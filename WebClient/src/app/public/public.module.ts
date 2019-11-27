@@ -1,8 +1,9 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { LogoutComponent } from './login/logout.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -16,7 +17,8 @@ import { ErrorComponent } from './error/error.component';
   imports: [
     CommonModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   declarations: [
     LoginComponent,

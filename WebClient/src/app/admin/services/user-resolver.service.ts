@@ -3,10 +3,12 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import {IUserResolved, IUsersResolved} from '../../models/user.model';
-import { AdminService } from 'src/app/services/api/admin.service';
+import { IUserResolved, IUsersResolved } from '../../models/user.model';
+import { AdminService } from 'src/app/admin/services/admin.service';
 
-@Injectable()
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class UserResolverService implements Resolve<IUsersResolved> {
 
   constructor(private adminService: AdminService) { }

@@ -1,9 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { AdminService } from 'src/app/services/api/admin.service';
+import { AdminService } from 'src/app/admin/services/admin.service';
 import { IUser, IUsersResolved } from 'src/app/models/user.model';
-import { TOASTR_TOKEN, Toastr } from '../../shared/toastr.service';
+import { TOASTR_TOKEN, Toastr } from '../../core/services/toastr.service';
 
 @Component({
   selector: 'app-edit-user-list',

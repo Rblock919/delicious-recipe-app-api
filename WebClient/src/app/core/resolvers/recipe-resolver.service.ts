@@ -4,11 +4,11 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { IRecipeResolved, IRecipesResolved, IRecipesGQLResolved, IRecipeGQLResolved } from 'src/app/models/recipe.model';
-import { RecipeApiService } from '../api/recipe-api.service';
+import { RecipeApiService } from '../services/api/recipe-api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class RecipeResolverService implements Resolve<IRecipeResolved | IRecipesResolved | IRecipesGQLResolved> {
 
   constructor(private recipeApiService: RecipeApiService) { }

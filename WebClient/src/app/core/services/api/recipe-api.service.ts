@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { IRecipe } from '../../models/recipe.model';
+import { IRecipe } from '../../../models/recipe.model';
 import { environment } from 'src/environments/environment';
 import {GraphqlService} from './graphql.service';
 

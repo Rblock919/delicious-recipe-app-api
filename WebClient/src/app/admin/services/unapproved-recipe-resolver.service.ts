@@ -4,11 +4,11 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { IRecipeResolved, IRecipesResolved } from '../../models/recipe.model';
-import { AdminService } from 'src/app/services/api/admin.service';
+import { AdminService } from 'src/app/admin/services/admin.service';
 
 @Injectable(
   // { providedIn: 'root' }
-  )
+)
 export class UnapprovedRecipeResolverService implements Resolve<IRecipeResolved | IRecipesResolved> {
 
   constructor(private adminService: AdminService) { }

@@ -9,9 +9,9 @@ import {
   IRecipesGQLResolved,
   IRecipeGQL
 } from 'src/app/models/recipe.model';
-import {SessionService} from '../../services/session.service';
-import {Toastr, TOASTR_TOKEN} from '../../shared/toastr.service';
-import {RecipeApiService} from '../../services/api/recipe-api.service';
+import {SessionService} from '../../core/services/session.service';
+import {Toastr, TOASTR_TOKEN} from '../../core/services/toastr.service';
+import {RecipeApiService} from '../../core/services/api/recipe-api.service';
 
 @Component({
   selector: 'app-recipe-list',

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { IUser } from '../../models/user.model';
 import { IRecipe } from '../../models/recipe.model';
 import { environment } from 'src/environments/environment';
-import { GraphqlService } from './graphql.service';
+import { GraphqlService } from '../../core/services/api/graphql.service';
 
 @Injectable(
    // { providedIn: AdminModule }

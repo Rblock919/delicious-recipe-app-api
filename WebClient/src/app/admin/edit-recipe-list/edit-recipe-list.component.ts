@@ -1,9 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 import { IRecipe, IRecipesResolved, IRecipesGQLResolved } from 'src/app/models/recipe.model';
-import { RecipeApiService } from 'src/app/services/api/recipe-api.service';
-import { TOASTR_TOKEN, Toastr } from 'src/app/shared/toastr.service';
-import { JQ_TOKEN } from '../../shared/jQuery.service';
+import { RecipeApiService } from 'src/app/core/services/api/recipe-api.service';
+import { TOASTR_TOKEN, Toastr } from 'src/app/core/services/toastr.service';
+import { JQ_TOKEN } from '../../core/services/jQuery.service';
 
 @Component({
   selector: 'app-edit-recipe-list',
