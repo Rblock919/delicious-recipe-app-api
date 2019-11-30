@@ -6,9 +6,9 @@ import { catchError } from 'rxjs/operators';
 import { IRecipe } from '../../../models/recipe.model';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class GraphqlService {
   private uri = environment.path;
 

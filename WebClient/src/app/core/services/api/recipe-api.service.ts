@@ -5,11 +5,11 @@ import { catchError } from 'rxjs/operators';
 
 import { IRecipe } from '../../../models/recipe.model';
 import { environment } from 'src/environments/environment';
-import {GraphqlService} from './graphql.service';
+import { GraphqlService } from './graphql.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class RecipeApiService {
   private uri = environment.path + 'recipes';
 

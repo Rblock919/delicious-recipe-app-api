@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../models/user.model';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class SessionService {
 
   private admin = false;

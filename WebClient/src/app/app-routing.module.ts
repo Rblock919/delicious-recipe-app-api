@@ -5,11 +5,11 @@ import { AdminGuard } from './core/guards/admin.guard';
 import { RouteGuard } from './core/guards/route.guard';
 import { IndexGuard } from './core/guards/index.guard';
 import { SelectiveStrategy } from './core/strategies/selective-strategy.service';
-import { UserHomeComponent } from './public/user-home/user-home.component';
+import { UserHomeComponent } from './public/home/user-home.component';
 import { RegisterComponent } from './public/login/register.component';
 import { LoginComponent } from './public/login/login.component';
 import { LogoutComponent } from './public/login/logout.component';
-import { SplashPageComponent } from './public/user-home/splash-page.component';
+import { SplashPageComponent } from './public/home/splash-page.component';
 import { PageNotFoundComponent } from './public/page-not-found/page-not-found.component';
 import { ErrorComponent } from './public/error/error.component';
 

@@ -7,9 +7,9 @@ import { EditRecipeComponent } from '../../recipes/edit-recipe/edit-recipe.compo
 import { RegisterComponent } from '../../public/login/register.component';
 import { LoggerService } from '../services/logger.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // { providedIn: 'root' }
+)
 export class RouteGuard implements CanActivate, CanDeactivate<Component> {
 
   constructor(
