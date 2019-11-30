@@ -23,8 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+// Not sure if this is needed if just serving up angular files statically via node/express
 // Configure cross-origin requests
-// Not sure if I need this if I'm just serving up angular files statically via node/express
 // app.use(cors({credentials: true, origin: true}));
 
 const uri = require('./src/config/db/dbconnection');
@@ -88,7 +88,7 @@ app.listen(port, (err) => {
   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 });
 
-
+// // Create https server
 // const options = {
 //   // eslint-disable-next-line no-sync
 //   key: fs.readFileSync('src/data/server.key'),
@@ -96,7 +96,6 @@ app.listen(port, (err) => {
 //   cert: fs.readFileSync('src/data/server.crt')
 // };
 //
-// // Create https server
 // try {
 //   https.createServer(options, app).listen(port);
 //   console.log(chalk.green(`Running https server on port: ${chalk.underline(port)}`));

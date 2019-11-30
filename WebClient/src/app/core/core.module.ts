@@ -14,7 +14,7 @@ import { RecipeResolverService } from './resolvers/recipe-resolver.service';
 import { GraphqlService } from './services/api/graphql.service';
 import { IndexGuard } from './guards/index.guard';
 import { RouteGuard } from './guards/route.guard';
-import {SelectiveStrategy} from './strategies/selective-strategy.service';
+import { SelectiveStrategy } from './strategies/selective-strategy.service';
 
 const toastr: Toastr = window['toastr'];
 const jQuery = window['$'];
