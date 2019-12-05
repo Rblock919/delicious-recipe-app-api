@@ -28,7 +28,7 @@ app.use(cookieParser());
 // app.use(cors({credentials: true, origin: true}));
 
 const uri = require('./src/config/db/dbconnection');
-mongoose.connect(uri.remote, {useNewUrlParser: true}, (err) => {
+mongoose.connect(uri.local, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
   if (!err) {
     console.log(chalk.inverse('connected to db in server.js'));
   } else {
