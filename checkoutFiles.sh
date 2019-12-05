@@ -6,10 +6,6 @@ env -i
 
 echo "resetting config files..."
 
-git checkout NodeApi/src/data/server.crt
-git checkout NodeApi/src/data/server.key
-git checkout NodeApi/.env
-#git checkout NodeApi/src/config/auth/authConfig.js
-#git checkout NodeApi/src/config/db/dbconnection.js
-#git checkout WebClient/src/environments/environment.prod.ts
-#git checkout WebClient/src/environments/environment.ts
+git checkout src/data/server.crt
+git checkout src/data/server.key
+git checkout ./.env
