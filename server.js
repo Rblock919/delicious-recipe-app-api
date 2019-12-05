@@ -12,8 +12,10 @@ const https = require('https');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// COMMENT FOR PRODUCTION
-require('dotenv').config();
+const remote = process.env.REMOTE || false;
+if (!remote) {
+  require('dotenv').config();
+}
 
 // Configure security related response headers
 require('./src/config/auth/headerSecurity')(app);
