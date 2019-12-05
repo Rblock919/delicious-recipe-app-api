@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const uri = require('../config/db/dbconnection');
 
 //Load mongoose models
-const User = require('../models/userModel');
-const Login = require('../models/loginModel');
-const Recipe = require('../models/recipeModel').recipe;
-const NewRecipe = require('../models/recipeModel').newRecipe;
+const User = require('../models/mongoose/userModel');
+const Login = require('../models/mongoose/loginModel');
+const Recipe = require('../models/mongoose/recipeModel').recipe;
+const NewRecipe = require('../models/mongoose/recipeModel').newRecipe;
 
 (async function mongo() {
   try {

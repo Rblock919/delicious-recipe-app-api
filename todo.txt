@@ -1,3 +1,7 @@
+- move into two individual git repos
+- create prod & dev DBs in mongo atlas, change current to dev
+- create prod & dev apps for heroku, change current to dev
+
 - test using Ivy
 
 - implement password resets (for users & admin)
@@ -19,6 +23,8 @@
 - tooltip to explain how and where to/not-to copy image address'
 - test and make sure users can rate a recipe with score of 0 and ui/app properly handles it
 - eventually implement advanced search with ranges for specific macros and possibly filter on ingredients as well & etc
+- implement seeds from hard coded data instead of having api calls to trigger manually
+- modularize some of the logic in edit/approve recipe components to external service
 
 
               - Security-Related -
@@ -28,13 +34,11 @@
 - add a re-authentication process on edit users confirmation for admin request
 - add a match-to regex in model level authentication for mongoose for passwords (just doing it for the experience, unneeded in application)
 - front-end error handling eventually for unauthorized/expired sessions
-- implement seeds from hard coded data instead of having api calls to trigger manually
-- modularize some of the logic in edit/approve recipe components to external service
 - implement validation to make sure recipe titles are unique
 - implement validation in reactive angular forms for mongoDB inj characters:   $, }, {
 
-- rejecting recipes can lead to a notifications page where an admin can give a user a reason why they rejected or a notification that their recipe was approved
 
+- rejecting recipes can lead to a notifications page where an admin can give a user a reason why they rejected or a notification that their recipe was approved
 - commenting functionality on recipes?
 - save as (.pdf, .txt, etc.) functionality for recipes
 - possibly email or text (not gonna be free) just ingredients or something
@@ -45,4 +49,5 @@
 - implement unit (& eventually integration) tests for node & angular
 
 - implement a graphQL server for certain requests where it makes sense to have
-- implement redis for certain functionality such as load more recipe on scroll (also implement pagination in form of infinite scrolling for recipe list page)
+- implement redis for caching functionality or other functionality such as load more recipe on scroll (also implement pagination in form of infinite scrolling for recipe list page)
+- implement docker with project so that technologies such as mongodb, node & redis can be run on all distros without any issues
