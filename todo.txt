@@ -1,6 +1,9 @@
-- move into two individual git repos
-- create prod & dev DBs in mongo atlas, change current to dev
-- create prod & dev apps for heroku, change current to dev
+** Separate to-dos into API & Ng related files in respective project directories **
+
+
+- create docker files for dev + prod
+- serve angular files to dist folder (create volume in node container, just copy in for prod) to only have 2 containers (node + mongo)
+^^^>>> once angular app is eventually deployed at a different location than node app, create 3rd container for nginx server possibly for separate domain testing
 
 - test using Ivy
 
@@ -28,6 +31,7 @@
 
 
               - Security-Related -
+- implement roles instead of isAdmin boolean flag
 - create validation schemas for users for logins and sign ups
 - possibly use built-in escape function for passwords as well
 - eventually move away from storing token into local storage
@@ -46,8 +50,17 @@
 
 - look for angular equivalent to express-validator (aside from reactive forms validation)
 
-- implement unit (& eventually integration) tests for node & angular
+- start using apollo client in angular app to improve optimization
+- look into using apollo-server-express (or some form of apollo in express)
+^^^>>> wait to implement both of these at once
 
-- implement a graphQL server for certain requests where it makes sense to have
 - implement redis for caching functionality or other functionality such as load more recipe on scroll (also implement pagination in form of infinite scrolling for recipe list page)
+^^^>>> look into RedisCache with apollo-server-cache-redis
+  ^^>> possibly apollo-datasource-rest package as well
+
+-- Due to recent findings, the possibility of separating express+node api & graphql servers so that datasource-rest and apollo-server-cache-redis make sense to use and can leverage the optimization features they provide such as batching and advanced caching --
+^^>> this would make the most sense and be the most optimal for enterprise production environment
+
 - implement docker with project so that technologies such as mongodb, node & redis can be run on all distros without any issues
+
+- implement unit (& eventually integration) tests for node & angular
