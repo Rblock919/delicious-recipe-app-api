@@ -32,6 +32,7 @@ const adminController = (User, NewRecipe) => {
         client.close();
       });
     });
+
   };
 
   const addNewRecipes = (req, res) => {

@@ -9,7 +9,10 @@ const getRecipeModels = function(mongoose) {
       type: String
     },
     ingredients: [
-      String
+      {
+        name: String,
+        amount: String
+      }
     ],
     preCook: [
       String

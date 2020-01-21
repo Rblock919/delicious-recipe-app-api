@@ -1,7 +1,7 @@
 const { checkSchema } = require('express-validator');
 const objectId = require('mongodb').ObjectId;
 
-// TO-DO: possibly remove parseInt from this function since it's already being executed in sanitizer
+// TODO: possibly remove parseInt from this function since it's already being executed in sanitizer
 const nutritionValidator = function optionalNutritionInfo(value, {req, location, path}) {
   const homeChefFields = ['fat', 'carbohydrate', 'protein', 'sodium'];
   const nonHomeChefFields = ['saturatedFat', 'fiber', 'cholesterol', 'sugar'];

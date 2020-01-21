@@ -11,6 +11,8 @@ const getMiddleWares = function (User) {
     let cookiePayload;
     let sessionId;
 
+    console.log(`req: ${req.path}`);
+
     if (!req.header('Authorization')) {
       return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
     }

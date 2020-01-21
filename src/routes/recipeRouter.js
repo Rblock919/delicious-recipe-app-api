@@ -1,33 +1,24 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const recipeSchema = require('../config/validation/validationSchemas');
-const ExpressGraphQL = require('express-graphql');
 
 const router = (User, Recipe, NewRecipe) => {
   const {nonAdminMiddleWare, adminMiddleWare} = require('../config/validation/authenticationMiddlewares')(User);
   const graphQLRecipeSchema = require('../models/graphql/schemas/recipeSchema')(Recipe);
   const recipeController = require('../controllers/recipeController')(Recipe, NewRecipe);
 
-  recipeRouter.use(nonAdminMiddleWare);
+  // TODO: reactivate middleware
+  // recipeRouter.use(nonAdminMiddleWare);
 
   recipeRouter.route('/')
-    .all(ExpressGraphQL({
-      schema: graphQLRecipeSchema,
-      graphiql: false
-    }));
-  //.get(recipeController.getIndex);
-
-  // recipeRouter.route('/test')
-  //   .all(ExpressGraphQL({
-  //     schema: graphQLRecipeSchema,
-  //     graphiql: false
-  //   }));
+    .get(recipeController.getIndex);
 
   recipeRouter.route('/:id')
     .get(recipeController.getById);
 
+  // TODO add back adminMiddleWare
   recipeRouter.route('/add')
-    .post(adminMiddleWare, recipeSchema, recipeController.addRecipe);
+    .post(recipeSchema, recipeController.addRecipe);
 
   recipeRouter.route('/submit')
     .post(recipeSchema, recipeController.submitForApproval);
@@ -35,11 +26,13 @@ const router = (User, Recipe, NewRecipe) => {
   recipeRouter.route('/update')
     .patch(adminMiddleWare, recipeSchema, recipeController.updateRecipe);
 
+  // TODO: add back adminMiddleWare
   recipeRouter.route('/delete/:id')
-    .delete(adminMiddleWare, recipeController.deleteRecipe);
+    .delete(recipeController.deleteRecipe);
 
+  // TODO: add back adminMiddleWare
   recipeRouter.route('/reject/:id')
-    .delete(adminMiddleWare, recipeController.rejectRecipe);
+    .delete(recipeController.rejectRecipe);
 
   recipeRouter.route('/favorite')
     .post(recipeController.favorite);

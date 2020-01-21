@@ -1,6 +1,7 @@
 const { GraphQLID, GraphQLString, GraphQLList,
   GraphQLNonNull, GraphQLObjectType, GraphQLSchema } = require('graphql');
 const UserType = require('../types/userType');
+const objectId = require('mongodb').ObjectId;
 
 const getUserSchema = (User) => new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -8,14 +9,29 @@ const getUserSchema = (User) => new GraphQLSchema({
     fields: {
       users: {
         type: GraphQLList(UserType),
-        resolve: (root, args, context, info) => User.find({})
+        resolve: (root, args, context, info) => {
+          // const err = new Error('testing');
+          // return {
+          //   data: null,
+          //   errors: [err]
+          // };
+          return User.find({});
+        }
       },
       userById: {
         type: UserType,
         args: {
           id: { type: GraphQLNonNull(GraphQLID) }
         },
-        resolve: (root, args, context, info) => User.findById(args.id)
+        resolve: (root, args, context, info) => {
+          try {
+            const id = new objectId(args.id);
+            return User.findById(id);
+          } catch (err) {
+            console.log(`err: ${err}`);
+            throw new Error('invalid id');
+          }
+        }
       },
       userByUserName: {
         type: UserType,

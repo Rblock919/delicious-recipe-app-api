@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 // Not sure if this is needed if just serving up angular files statically via node/express
 // Configure cross-origin requests
-// app.use(cors({credentials: true, origin: true}));
+app.use(cors({credentials: true, origin: true}));
 
 const uri = require('./src/config/db/dbconnection');
 mongoose.connect(uri.remote, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {

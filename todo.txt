@@ -1,4 +1,5 @@
 ** Separate to-dos into API & Ng related files in respective project directories **
+** Fix the whole number/string discrepency in the maps and recipe/user Ids for front-end & back-end & graphql/apollo **
 
 
 - create docker files for dev + prod
@@ -26,8 +27,10 @@
 - tooltip to explain how and where to/not-to copy image address'
 - test and make sure users can rate a recipe with score of 0 and ui/app properly handles it
 - eventually implement advanced search with ranges for specific macros and possibly filter on ingredients as well & etc
-- implement seeds from hard coded data instead of having api calls to trigger manually
 - modularize some of the logic in edit/approve recipe components to external service
+- finish seeding
+^> add users
+^> create mongodb user and role
 
 
               - Security-Related -
@@ -50,17 +53,20 @@
 
 - look for angular equivalent to express-validator (aside from reactive forms validation)
 
-- start using apollo client in angular app to improve optimization
-- look into using apollo-server-express (or some form of apollo in express)
-^^^>>> wait to implement both of these at once
 
 - implement redis for caching functionality or other functionality such as load more recipe on scroll (also implement pagination in form of infinite scrolling for recipe list page)
 ^^^>>> look into RedisCache with apollo-server-cache-redis
   ^^>> possibly apollo-datasource-rest package as well
 
--- Due to recent findings, the possibility of separating express+node api & graphql servers so that datasource-rest and apollo-server-cache-redis make sense to use and can leverage the optimization features they provide such as batching and advanced caching --
+----- Due to recent findings, the possibility of separating express+node api & graphql servers so that datasource-rest and apollo-server-cache-redis make sense to use and
+ can leverage the optimization features they provide such as batching and advanced caching -----
 ^^>> this would make the most sense and be the most optimal for enterprise production environment
+
+- make sure pages that trigger graphQL queries have a loading icon
 
 - implement docker with project so that technologies such as mongodb, node & redis can be run on all distros without any issues
 
 - implement unit (& eventually integration) tests for node & angular
+
+**eventually remove angular app to be hosted on github static pages & on app on-init send pings to both servers to wake them up because they're free heroku servers
+that shut down after like 15 mins of no use and take like 30 seconds to start up**

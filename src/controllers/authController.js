@@ -111,10 +111,11 @@ const authController = (User, Login) => {
 
       return delayResponse(() => {
         res.status(200).cookie('tkn', cookieToken, {
+          // path: '/',
           path: '/api',
           httpOnly: true,
           secure: JSON.parse(process.env.SECURE_COOKIES),
-          sameSite: true,
+          sameSite: false,
           maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         }).send({user: user, token: token});
       });
@@ -144,8 +145,10 @@ const authController = (User, Login) => {
     let cookiePayload;
     let sessionId;
 
+    console.log(`req headers: ${JSON.stringify(req.headers)}`);
+
     if (!req.header('Authorization')) {
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
     }
 
     const token = req.header('Authorization').split(' ')[1];
