@@ -1,5 +1,6 @@
 ** Separate to-dos into API & Ng related files in respective project directories **
 ** Fix the whole number/string discrepency in the maps and recipe/user Ids for front-end & back-end & graphql/apollo **
+** Fix the nutritionValues -> nutrition discrepency as well **
 
 
 - create docker files for dev + prod
