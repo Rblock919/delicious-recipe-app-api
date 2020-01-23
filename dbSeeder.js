@@ -8,8 +8,7 @@ const newRecipes = require('./src/data/newRecipeData');
 const users = require('./src/data/userData');
 
 // mongo refers to mongo docker container name
-// MongoClient.connect('mongo', {useNewUrlParser: true}, (err, client) => {
-MongoClient.connect('mongodb+srv://appUser:$$ynthL!f33@rbcluster-lubzp.mongodb.net/', {useNewUrlParser: true, useUnifiedTopology: true}, async (err, client) => {
+MongoClient.connect('mongo', {useNewUrlParser: true, useUnifiedTopology: true}, async (err, client) => {
   const db = client.db('recipeApp');
   const collection = db.collection('recipes');
 
