@@ -4,15 +4,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const path = require('path');
 const mongoose = require('mongoose');
-const fs = require('fs');
-const https = require('https');
+// const path = require('path');
+// const fs = require('fs');
+// const https = require('https');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const remote = process.env.REMOTE || false;
+
 if (!remote) {
   require('dotenv').config();
 }
@@ -27,7 +28,7 @@ app.use(cookieParser());
 
 // Not sure if this is needed if just serving up angular files statically via node/express
 // Configure cross-origin requests
-// app.use(cors({credentials: true, origin: true}));
+app.use(cors({credentials: true, origin: true}));
 
 const uri = require('./src/config/db/dbconnection');
 mongoose.connect(uri.remote, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
@@ -39,7 +40,7 @@ mongoose.connect(uri.remote, {useNewUrlParser: true, useUnifiedTopology: true}, 
 });
 
 // Session configuration
-require('./src/config/session/sessionConfig')(app, mongoose);
+// require('./src/config/session/sessionConfig')(app, mongoose);
 
 //Load mongoose models
 const { NewRecipe, Recipe } = require('./src/models/mongoose/recipeModel')(mongoose);
@@ -73,14 +74,14 @@ app.use('/api/admin', adminRouter);
 app.use('/api/auth', authRouter);
 
 // Serve up static angular files
-app.use(express.static(path.join(__dirname, 'dist/WebClient')));
-app.all('*', (req, res) => {
-  if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
-    res.sendFile(path.join(__dirname, 'index.html'));
-  } else {
-    res.sendFile(path.join(__dirname, 'dist/WebClient/index.html'));
-  }
-});
+// app.use(express.static(path.join(__dirname, 'dist/WebClient')));
+// app.all('*', (req, res) => {
+//   if (path.resolve(__dirname, 'index.html').includes('WebClient')) {
+//     res.sendFile(path.join(__dirname, 'index.html'));
+//   } else {
+//     res.sendFile(path.join(__dirname, 'dist/WebClient/index.html'));
+//   }
+// });
 
 // Create http server
 app.listen(port, (err) => {
@@ -90,7 +91,20 @@ app.listen(port, (err) => {
   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 });
 
-// // Create https server
+// Log to the console when the mongoose connection is closed
+mongoose.connection.on('disconnected', () => {
+  console.log(chalk.magenta.underline('\nMongoose connection has been closed'));
+});
+
+// Whenever node exits, close the mongoose connection and log to console
+process.on('SIGINT', () => {
+  mongoose.connection.close(() => {
+    console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
+    process.exit(0);
+  });
+});
+
+// Create https server
 // const options = {
 //   // eslint-disable-next-line no-sync
 //   key: fs.readFileSync('src/data/server.key'),
@@ -118,17 +132,3 @@ app.listen(port, (err) => {
 //   }
 //   console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
 // });
-
-
-// Log to the console when the mongoose connection is closed
-mongoose.connection.on('disconnected', () => {
-  console.log(chalk.magenta.underline('\nMongoose connection has been closed'));
-});
-
-// Whenever node exits, close the mongoose connection and log to console
-process.on('SIGINT', () => {
-  mongoose.connection.close(() => {
-    console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
-    process.exit(0);
-  });
-});

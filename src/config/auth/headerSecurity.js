@@ -21,7 +21,7 @@ function appHeaderSecurity(app) {
       styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
       imgSrc: ['\'self\'', 'data:', 'https://img.hellofresh.com', 'https://media.blueapron.com', 'https://homechef.imgix.net'],
       fontSrc: ['\'self\'', 'data:','https://fonts.gstatic.com'],
-      connectSrc: ['\'self\'', 'https://delicious-recipe-app.herokuapp.com/api/'],
+      connectSrc: ['\'self\'', 'https://delicious-recipe-app.herokuapp.com/api/', 'http://localhost:4000/'],
       // reportUri: '/cspviolation'
     }
   }));
