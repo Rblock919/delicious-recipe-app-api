@@ -3,12 +3,13 @@ const chalk = require('chalk').default;
 const objectId = require('mongodb').ObjectId;
 const {validationResult} = require('express-validator');
 
+// TODO: get rid of this function now that graphql can handle this simple data alteration
 function assembleRecipeData(req) {
 
-  const recipeData = {
+  return {
     title: req.body.recipe.title,
     producer: req.body.recipe.producer,
-    ingredients: [],
+    ingredients: req.body.recipe.ingredients,
     preCook: [],
     steps: req.body.recipe.steps,
     nutritionValues: req.body.recipe.nutrition,
@@ -17,22 +18,24 @@ function assembleRecipeData(req) {
     favoriters: req.body.recipe.favoriters
   };
 
-  req.body.recipe.ingredients.forEach((element) => {
-    recipeData.ingredients.push(element.name + ' | ' + element.amount);
-  });
+  // req.body.recipe.ingredients.forEach((element) => {
+  //   recipeData.ingredients.push(element.name + ' | ' + element.amount);
+  // });
 
-  if (recipeData.producer === 'Hello Fresh' || recipeData.producer === 'Home Chef') {
-    req.body.recipe.preCook.forEach((element) => {
-      recipeData.preCook.push(element.body);
-    });
-  }
+  // if (recipeData.producer === 'Hello Fresh' || recipeData.producer === 'Home Chef') {
+  //   req.body.recipe.preCook.forEach((element) => {
+  //     recipeData.preCook.push(element.body);
+  //   });
+  // }
 
-  return recipeData;
+  // return recipeData;
 }
 
 const recipeController = (Recipe, NewRecipe) => {
 
   const getIndex = async (req, res) => {
+    // console.log(`cookies: ${JSON.stringify(req.cookies)}`);
+    // console.log(`headers: ${JSON.stringify(req.headers)}`);
     try {
       const recipes = await Recipe.find({});
       res.status(200).send(recipes);
@@ -63,6 +66,8 @@ const recipeController = (Recipe, NewRecipe) => {
     let recipeToSave;
     let recipeData;
     let proceed = true;
+
+    console.log(`req.body: ${JSON.stringify(req.body)}`);
 
     try {
       id = new objectId(req.body.approvalId);
@@ -104,11 +109,12 @@ const recipeController = (Recipe, NewRecipe) => {
 
     const errors = validationResult(req);
     // console.log('\nerrors: ' + JSON.stringify(errors));
-    // console.log(JSON.stringify(req.body));
+    console.log('in updateRecipe: ' + JSON.stringify(req.body));
     // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
     if (errors.isEmpty()) {
       try {
+        console.log('made it here');
         id = new objectId(req.body.recipe._id);
         recipeData = assembleRecipeData(req);
 
@@ -137,6 +143,7 @@ const recipeController = (Recipe, NewRecipe) => {
     try {
       id = new objectId(req.params.id);
       await Recipe.findByIdAndDelete(id);
+      console.log('recipe successfully deleted');
       res.sendStatus(200);
     } catch (error) {
       console.log(chalk.red(error));
@@ -195,8 +202,14 @@ const recipeController = (Recipe, NewRecipe) => {
 
     try {
       recipeId = new objectId(req.body._id);
+      newRaters = new Map();
 
-      newRaters = req.body.raters;
+      // have to do this since graphql doesnt support maps and maps get serialized to an empty object when passing from graphql apollo server for whatever reason
+      let counter = 0;
+      for (const entry of req.body.ratersKeys) {
+        newRaters.set(entry, req.body.ratersValues[counter]);
+        counter++;
+      }
       updatedRaters = {raters: newRaters};
 
       const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedRaters);
@@ -211,8 +224,8 @@ const recipeController = (Recipe, NewRecipe) => {
   const submitForApproval = async (req, res) => {
 
     const errors = validationResult(req);
-    // console.log('\nerrors: ' + JSON.stringify(errors));
-    // console.log(JSON.stringify(req.body));
+    console.log('\nerrors: ' + JSON.stringify(errors));
+    console.log('body: ' + JSON.stringify(req.body));
     //
     // console.log(`Errors Empty: ${errors.isEmpty()}`);
 

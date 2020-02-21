@@ -1,7 +1,7 @@
 {
   "name": "recipe-application",
   "version": "1.0.1",
-  "description": "Application for scanning and displaying delicious recipes.",
+  "description": "Application for storing and displaying delicious recipes.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -38,7 +38,7 @@
     "mongoose": "^5.7.5"
   },
   "engines": {
-    "node": "12.11.0",
-    "npm": "6.11.3"
+    "node": "13.1.0",
+    "npm": "6.13.2"
   }
 }
