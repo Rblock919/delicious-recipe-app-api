@@ -1,31 +1,39 @@
 /** @member {Object} */
 const chalk = require('chalk').default;
+const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
-const uri = require('./src/config/db/dbconnection');
 const recipes = require('./src/data/recipeData');
 // TODO: implement seeding for app-users and db-user
-const newRecipes = require('./src/data/newRecipeData');
 const users = require('./src/data/userData');
+// const newRecipes = require('./src/data/newRecipeData');
 
 // mongo refers to mongo docker container name
-// MongoClient.connect('mongo', {useNewUrlParser: true}, (err, client) => {
-MongoClient.connect('mongodb+srv://appUser:$$ynthL!f33@rbcluster-lubzp.mongodb.net/', {useNewUrlParser: true, useUnifiedTopology: true}, async (err, client) => {
-  const db = client.db('recipeApp');
-  const collection = db.collection('recipes');
+MongoClient.connect('mongo', {useNewUrlParser: true, useUnifiedTopology: true}, async (err, client) => {
 
   if (err) {
-    console.log(chalk.red.bold.underline(err));
-  }
+    console.log(`ERR CONNECTING TO DB: ${chalk.red.bold.underline(err)}`);
+  } else {
+    try {
+      const db = client.db('recipeApp');
 
-  try {
-    const results = await collection.insertMany(recipes);
-    // const results = await collection.deleteMany({});
-    console.log(chalk.green('successfully seeded recipes!'));
-    console.log(`results: ${results}`);
-  } catch (err) {
-    console.log(`err seeding db: ${err}`);
-  } finally {
-    await client.close(false);
+      // seed recipes
+      const recipeCollection = db.collection('recipes');
+      await recipeCollection.insertMany(recipes);
+      console.log(chalk.green('successfully seeded recipes!'));
+
+      // seed users
+      for (const user of users) {
+        user.password = await bcrypt.hash(user.password, 12);
+      }
+      const userCollection = db.collection('users');
+      await userCollection.insertMany(users);
+      console.log(chalk.green('successfully seeded users!'));
+
+      // close client
+      await client.close(false);
+    } catch (err) {
+      console.log(`err seeding db: ${err}`);
+    }
   }
 
 });

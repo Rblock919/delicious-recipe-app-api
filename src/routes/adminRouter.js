@@ -3,12 +3,10 @@ const adminRouter = express.Router();
 
 const router = (User, NewRecipe) => {
   const {adminMiddleWare} = require('../config/validation/authenticationMiddlewares')(User);
-  // const graphQLUserSchema = require('../models/graphql/schemas/userSchema')(User);
-  // const graphQLNewRecipeSchema = require('../models/graphql/schemas/recipeSchema')(NewRecipe);
   const adminController = require('../controllers/adminController')(User, NewRecipe);
 
   // TODO: reactivate middleware
-  // adminRouter.use(adminMiddleWare);
+  adminRouter.use(adminMiddleWare);
 
   adminRouter.route('/addRecipes')
     .get(adminController.addRecipes);

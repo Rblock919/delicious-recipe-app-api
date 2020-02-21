@@ -20,7 +20,7 @@ EXPOSE 3000
 CMD [ "npm", "run", "start.node.dev" ]
 
 # Docker Build Command
-# docker build -f node.Dockerfile -t recipe-node .
+# docker build -f node.Dockerfile -t recipe-api .
 
 # Docker Run Command (mounts working directory as volume but avoids mounting host node_modules directory)
-# docker run -p 3000:3000 -v "$PWD":/app -v /app/node_modules recipe-node
+# docker run -p 3000:3000 -v "$PWD":/app -v /app/node_modules recipe-api

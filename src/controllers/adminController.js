@@ -71,6 +71,7 @@ const adminController = (User, NewRecipe) => {
   };
 
   const updateUsers = async (req, res) => {
+    console.log(`req.body: ${JSON.stringify(req.body)}`);
     const editedUsers = req.body;
     const setToFalseIds = [];
     const setToTrueIds = [];

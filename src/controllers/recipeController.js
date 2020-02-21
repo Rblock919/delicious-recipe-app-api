@@ -109,11 +109,12 @@ const recipeController = (Recipe, NewRecipe) => {
 
     const errors = validationResult(req);
     // console.log('\nerrors: ' + JSON.stringify(errors));
-    // console.log(JSON.stringify(req.body));
+    console.log('in updateRecipe: ' + JSON.stringify(req.body));
     // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
     if (errors.isEmpty()) {
       try {
+        console.log('made it here');
         id = new objectId(req.body.recipe._id);
         recipeData = assembleRecipeData(req);
 
@@ -142,6 +143,7 @@ const recipeController = (Recipe, NewRecipe) => {
     try {
       id = new objectId(req.params.id);
       await Recipe.findByIdAndDelete(id);
+      console.log('recipe successfully deleted');
       res.sendStatus(200);
     } catch (error) {
       console.log(chalk.red(error));

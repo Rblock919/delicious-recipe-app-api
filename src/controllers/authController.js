@@ -18,7 +18,7 @@ const authController = (User, Login) => {
       const createdUser = await newUser.save();
       const payload = {sub: createdUser._id};
       const token = await jwt.sign(payload, authConfig.tokenSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
-      const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
+      // const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
       const user = {
         _id: createdUser._id,
         username: createdUser.username,
@@ -26,21 +26,23 @@ const authController = (User, Login) => {
         isAdmin: false
       };
 
-      req.session.login(user, (err) => {
-        // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
-        if (err) {
-          console.error('error saving user to session');
-          return res.status(500).send({ErrMessage: 'Error creating session for newly created user.'});
-        } else {
-          res.status(201).cookie('tkn', cookieToken, {
-            path: '/api',
-            httpOnly: true,
-            secure: JSON.parse(process.env.SECURE_COOKIES),
-            sameSite: true,
-            maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
-          }).send({token, user});
-        }
-      });
+      res.status(201).send({user, token});
+
+      // req.session.login(user, (err) => {
+      //   // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
+      //   if (err) {
+      //     console.error('error saving user to session');
+      //     return res.status(500).send({ErrMessage: 'Error creating session for newly created user.'});
+      //   } else {
+      //     res.status(201).cookie('tkn', cookieToken, {
+      //       path: '/api',
+      //       httpOnly: true,
+      //       secure: JSON.parse(process.env.SECURE_COOKIES),
+      //       sameSite: true,
+      //       maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
+      //     }).send({token, user});
+      //   }
+      // });
 
     } catch (err) {
       console.log(chalk.red(err));
@@ -92,32 +94,32 @@ const authController = (User, Login) => {
 
       payload = {sub: existingUser._id};
       const token = await jwt.sign(payload, authConfig.tokenSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
-      const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
-      console.log(!!(token && cookieToken));
+      // const cookieToken = await jwt.sign(payload, authConfig.cookieSecret, {expiresIn: ((7 * 24 * 60 * 60) * 1000)});
       const user = {
         _id: existingUser._id,
         username: existingUser.username,
         isAdmin: existingUser.isAdmin
       };
 
-      req.session.login(user, (err) => {
-        if (err) {
-          console.error('error saving user to session');
-        }
-        // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
-      });
+      // req.session.login(user, (err) => {
+      //   if (err) {
+      //     console.error('error saving user to session');
+      //   }
+      //   // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
+      // });
 
       await Login.successfulLoginAttempt(identityKey);
 
       return delayResponse(() => {
-        res.status(200).cookie('tkn', cookieToken, {
-          // path: '/',
-          path: '/api',
-          httpOnly: true,
-          secure: JSON.parse(process.env.SECURE_COOKIES),
-          sameSite: false,
-          maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
-        }).send({user: user, token: token});
+        res.status(200).send({user, token});
+        // res.status(200).cookie('tkn', cookieToken, {
+        //   // path: '/',
+        //   path: '/api',
+        //   httpOnly: true,
+        //   secure: JSON.parse(process.env.SECURE_COOKIES),
+        //   sameSite: false,
+        //   maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
+        // }).send({user: user, token: token});
       });
 
     } else {
@@ -128,22 +130,25 @@ const authController = (User, Login) => {
   };
 
   const signOut = (req, res) => {
-    req.session.logout((err) => {
-      if (err) {
-        console.error(chalk.red(`Error destroying session: ${err}`));
-        res.status(500).send({ErrMessage: 'Error destroying session'});
-      } else {
-        res.sendStatus(200);
-      }
-    });
+
+    // TODO: figure out if I still need this method in this api
+    res.sendStatus(200);
+    // req.session.logout((err) => {
+    //   if (err) {
+    //     console.error(chalk.red(`Error destroying session: ${err}`));
+    //     res.status(500).send({ErrMessage: 'Error destroying session'});
+    //   } else {
+    //     res.sendStatus(200);
+    //   }
+    // });
   };
 
   const getUserData = async (req, res) => {
     let userId;
     let reqId;
     let payload;
-    let cookiePayload;
-    let sessionId;
+    // let cookiePayload;
+    // let sessionId;
 
     console.log(`req headers: ${JSON.stringify(req.headers)}`);
 
@@ -152,22 +157,22 @@ const authController = (User, Login) => {
     }
 
     const token = req.header('Authorization').split(' ')[1];
-    const { tkn, id } = req.cookies;
+    // const { tkn, id } = req.cookies;
 
-    if (!!id) {
-      sessionId = id.split('.')[0].slice(2);
-      if (sessionId !== req.session.id) {
-        return res.status(401).send({ErrMessage: 'Invalid authorization cookie'})
-      }
-    } else {
-      return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
-    }
+    // if (!!id) {
+    //   sessionId = id.split('.')[0].slice(2);
+    //   if (sessionId !== req.session.id) {
+    //     return res.status(401).send({ErrMessage: 'Invalid authorization cookie'})
+    //   }
+    // } else {
+    //   return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
+    // }
 
-    if (token !== 'null' && tkn) {
+    if (token !== 'null') {
 
       try {
         payload = await jwt.verify(token, authConfig.tokenSecret);
-        cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
+        // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
       } catch (error) {
         console.error(error);
         return res.status(500).send({ErrMessage: 'Error validating tokens'});

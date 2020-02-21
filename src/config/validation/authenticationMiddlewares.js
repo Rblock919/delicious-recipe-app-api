@@ -8,8 +8,8 @@ const getMiddleWares = function (User) {
 
   const nonAdminMiddleWare = async (req, res, next) => {
     let payload;
-    let cookiePayload;
-    let sessionId;
+    // let cookiePayload;
+    // let sessionId;
 
     console.log(`req: ${req.path}`);
 
@@ -18,23 +18,23 @@ const getMiddleWares = function (User) {
     }
 
     const token = req.header('Authorization').split(' ')[1];
-    const { tkn, id } = req.cookies;
+    // const { tkn, id } = req.cookies;
 
-    if (!!id) {
-      sessionId = id.split('.')[0].slice(2);
-      // Do not need to query the data base, this is already done by the mongo store tool. Just compare to session object id
-      if (sessionId !== req.session.id) {
-        return res.status(401).send({ErrMessage: 'Invalid authorization cookie'});
-      }
-    } else {
-      return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
-    }
+    // if (!!id) {
+    //   sessionId = id.split('.')[0].slice(2);
+    //   // Do not need to query the data base, this is already done by the mongo store tool. Just compare to session object id
+    //   if (sessionId !== req.session.id) {
+    //     return res.status(401).send({ErrMessage: 'Invalid authorization cookie'});
+    //   }
+    // } else {
+    //   return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
+    // }
 
-    if (token !== 'null' && tkn) {
+    if (token !== 'null') {
 
       try {
         payload = await jwt.verify(token, authConfig.tokenSecret);
-        cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
+        // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
       } catch (error) {
         console.error(error);
         return res.sendStatus(500);
@@ -45,9 +45,9 @@ const getMiddleWares = function (User) {
         return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
       } else {
 
-        if (cookiePayload.exp > (Date.now() / 1000)) {
+        if (payload.exp > (Date.now() / 1000)) {
           // or use payload from local storage
-          userChecker.checkIfUserExists(User, cookiePayload.sub, (err, isFound) => {
+          userChecker.checkIfUserExists(User, payload.sub, (err, isFound) => {
             if (err) {
               console.error(chalk.red(err));
             } else {
@@ -68,38 +68,38 @@ const getMiddleWares = function (User) {
 
     } else {
       console.log('NO TOKEN FOUND IN MW');
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token(s)'});
+      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
 
   };
 
   const adminMiddleWare = async (req, res, next) => {
-    let cookiePayload;
     let payload;
-    let sessionId;
+    // let cookiePayload;
+    // let sessionId;
 
     if (!req.header('Authorization')) {
       return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
     }
 
     const token = req.header('Authorization').split(' ')[1];
-    const { tkn, id } = req.cookies;
+    // const { tkn, id } = req.cookies;
     // console.log('tkn: ' + tkn);
 
-    if (!!id) {
-      sessionId = id.split('.')[0].slice(2);
-      if (sessionId !== req.session.id) {
-        return res.status(401).send({ErrMessage: 'Invalid authorization cookie'})
-      }
-    } else {
-      return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
-    }
+    // if (!!id) {
+    //   sessionId = id.split('.')[0].slice(2);
+    //   if (sessionId !== req.session.id) {
+    //     return res.status(401).send({ErrMessage: 'Invalid authorization cookie'})
+    //   }
+    // } else {
+    //   return res.status(401).send({ErrMessage: 'Missing authorization cookie'})
+    // }
 
-    if (token !== 'null' && tkn) {
+    if (token !== 'null') {
 
       try {
         payload = await jwt.verify(token, authConfig.tokenSecret);
-        cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
+        // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
       } catch (error) {
         console.error(error);
       }
@@ -109,9 +109,9 @@ const getMiddleWares = function (User) {
         return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
       } else {
 
-        if (cookiePayload.exp > (Date.now() / 1000)) {
+        if (payload.exp > (Date.now() / 1000)) {
           // or use payload from local storage
-          userChecker.checkIfUserIsAdmin(User, cookiePayload.sub, (err, isAdmin) => {
+          userChecker.checkIfUserIsAdmin(User, payload.sub, (err, isAdmin) => {
             if (err) {
               console.log(chalk.red(`Error: ${err}`));
               return res.sendStatus(500);
@@ -133,7 +133,7 @@ const getMiddleWares = function (User) {
 
     } else {
       console.log('NO TOKEN FOUND IN MW');
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token(s)'});
+      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
     }
   };
   return {

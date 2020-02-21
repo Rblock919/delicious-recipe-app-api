@@ -3,14 +3,14 @@ version: '3'
 services:
 
   node:
-    container_name: recipe-node-app
+    container_name: recipe-api
     build:
       context: .
       dockerfile: node.Dockerfile
     ports:
       - "3000:3000"
     networks:
-      - nodeapp-network
+      - recipe-app-network
     volumes:
       - ".:/app"
       - "/app/node_modules"
@@ -19,11 +19,11 @@ services:
     container_name: mongodb
     image: mongo
     networks:
-      - nodeapp-network
+      - recipe-app-network
     # Below is for testing from host machine and not just node container
     ports:
       - "27017:27017"
 
 networks:
-  nodeapp-network:
+  recipe-app-network:
     driver: bridge
