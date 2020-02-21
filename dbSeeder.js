@@ -3,10 +3,10 @@ const chalk = require('chalk').default;
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
 const recipes = require('./src/data/recipeData');
-// TODO: implement seeding for app-users and db-user
 const users = require('./src/data/userData');
 // const newRecipes = require('./src/data/newRecipeData');
 
+// TODO: implement seeding for db-users
 // mongo refers to mongo docker container name
 MongoClient.connect('mongo', {useNewUrlParser: true, useUnifiedTopology: true}, async (err, client) => {
 
