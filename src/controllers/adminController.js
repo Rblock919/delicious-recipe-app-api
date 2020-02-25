@@ -1,5 +1,4 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
 const uri = require('../config/db/dbconnection');

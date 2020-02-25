@@ -10,6 +10,7 @@ const getRecipeModels = function(mongoose) {
     },
     ingredients: [
       {
+        _id: false,
         name: String,
         amount: String
       }

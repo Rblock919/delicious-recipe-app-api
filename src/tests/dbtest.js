@@ -1,5 +1,4 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 const assert = require('assert');
 const objectId = require('mongodb').ObjectId;
 const mongoose = require('mongoose');

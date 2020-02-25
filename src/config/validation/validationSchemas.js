@@ -7,24 +7,24 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
   const nonHomeChefFields = ['saturatedFat', 'fiber', 'cholesterol', 'sugar'];
   const field = path.split('.').pop();
 
-  if (value !== '') {
+  if (value !== null) {
 
     if (req.body.recipe.producer !== 'Home Chef') {
       if (nonHomeChefFields.indexOf(field) > -1) {
-        // console.log(`evaluating field: ${field}`);
+        console.log(`evaluating field: ${field}`);
         try {
           const parsedValue = parseInt(value);
-          return (!(isNaN((parsedValue))));
+          return (!(isNaN(parsedValue)));
         } catch (e) {
           return false;
         }
       }
     }
     if (homeChefFields.indexOf(field) > -1) { // blue apron with info and hello fresh both still have these fields so validate them regardless
-      // console.log(`evaluating field: ${field}`);
+      console.log(`evaluating field: ${field}`);
       try {
         const parsedValue = parseInt(value);
-        return (!(isNaN((parsedValue))));
+        return (!(isNaN(parsedValue)));
       } catch (e) {
         return false;
       }
@@ -41,7 +41,7 @@ const nutritionValidator = function optionalNutritionInfo(value, {req, location,
 
 const nutritionSanitizer = function(value, {req, location, path}) {
   // console.log(`value in nutrition sanitizer: ${value}`);
-  if (value !== '') {
+  if (value !== null) {
     try {
       return parseInt(value);
     } catch (err) {
@@ -128,13 +128,13 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Producer is not valid.'
   },
-  'recipe.nutrition.calories': {
+  'recipe.nutritionValues.calories': {
     in: ['body'],
     isInt: true,
     toInt: true,
     errorMessage: 'Calories is not an integer.'
   },
-  'recipe.nutrition.fat': {
+  'recipe.nutritionValues.fat': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -144,7 +144,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Fat is not an integer.'
   },
-  'recipe.nutrition.protein': {
+  'recipe.nutritionValues.protein': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -154,7 +154,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Protein is not an integer.'
   },
-  'recipe.nutrition.carbohydrate': {
+  'recipe.nutritionValues.carbohydrate': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -164,7 +164,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Carbohydrates is not an integer.'
   },
-  'recipe.nutrition.sodium': {
+  'recipe.nutritionValues.sodium': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -174,7 +174,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Sodium is not an integer.'
   },
-  'recipe.nutrition.saturatedFat': {
+  'recipe.nutritionValues.saturatedFat': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -184,7 +184,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Saturated Fat is not an integer.'
   },
-  'recipe.nutrition.cholesterol': {
+  'recipe.nutritionValues.cholesterol': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -194,7 +194,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Cholesterol is not an integer.'
   },
-  'recipe.nutrition.sugar': {
+  'recipe.nutritionValues.sugar': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer
@@ -204,7 +204,7 @@ const recipeSchema = new checkSchema({
     },
     errorMessage: 'Sugar is not an integer.'
   },
-  'recipe.nutrition.fiber': {
+  'recipe.nutritionValues.fiber': {
     in: ['body'],
     customSanitizer: {
       options: nutritionSanitizer

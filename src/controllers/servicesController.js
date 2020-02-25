@@ -1,10 +1,3 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
-
-const servicesController = () => {
-
-  return { };
-
-};
+const servicesController = () => ({ });
 
 module.exports = servicesController;

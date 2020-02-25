@@ -1,10 +1,9 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
 const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const chalk = require('chalk');
 // const path = require('path');
 // const fs = require('fs');
 // const https = require('https');
@@ -93,15 +92,26 @@ app.listen(port, (err) => {
 
 // Log to the console when the mongoose connection is closed
 mongoose.connection.on('disconnected', () => {
-  console.log(chalk.magenta.underline('\nMongoose connection has been closed'));
+  console.log(chalk.blue('Closing mongoose connection...'));
 });
+
+const gracefulShutdown = () => {
+  mongoose.connection.close(() => {
+    console.log(chalk.blueBright('Mongoose connection closed. Exiting node process...'));
+    process.exit(0);
+  });
+};
 
 // Whenever node exits, close the mongoose connection and log to console
 process.on('SIGINT', () => {
-  mongoose.connection.close(() => {
-    console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
-    process.exit(0);
-  });
+  console.log(chalk.yellow('Exiting app via SIGINT...'));
+  gracefulShutdown();
+});
+
+// Nodemon must have updated because now I have to handle this exiting event to kill node process
+process.on('SIGUSR2', () => {
+  console.log(chalk.yellow('Exiting app via nodemon...'));
+  gracefulShutdown();
 });
 
 // Create https server

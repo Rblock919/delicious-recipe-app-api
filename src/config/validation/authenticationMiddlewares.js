@@ -1,5 +1,4 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../auth/authConfig');
 const userChecker = require('./userChecker');

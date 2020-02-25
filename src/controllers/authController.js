@@ -1,5 +1,4 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
 const authConfig = require('../config/auth/authConfig');
 const jwt = require('jsonwebtoken');

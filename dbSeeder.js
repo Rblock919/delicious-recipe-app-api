@@ -1,5 +1,4 @@
-/** @member {Object} */
-const chalk = require('chalk').default;
+const chalk = require('chalk');
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
 const recipes = require('./src/data/recipeData');

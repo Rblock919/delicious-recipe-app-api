@@ -5,10 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start.dev": "concurrently \"nodemon server.js\" \"cd ../WebClient && ng build --watch --no-delete-output-path\" ",
-    "start.node.dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "share": "lt --port 3000"
+    "start.dev": "nodemon server.js",
+    "start.all.dev": "concurrently \"nodemon server.js\" \"cd ../recipe-app-gql && nodemon server.js\" \"cd ../recipe-app-ng && ng serve\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryan Block",
   "license": "ISC",
@@ -16,14 +15,13 @@
     "concurrently": "^5.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
-    "localtunnel": "^1.9.2",
-    "nodemon": "^2.0.1",
+    "nodemon": "^2.0.2",
     "wiredep": "^4.0.0"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "connect-mongo": "^3.0.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -31,14 +29,13 @@
     "express-graphql": "^0.9.0",
     "express-session": "^1.16.1",
     "express-validator": "^6.2.0",
-    "graphql": "^14.5.8",
     "helmet": "^3.21.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.3",
     "mongoose": "^5.7.5"
   },
   "engines": {
-    "node": "13.1.0",
-    "npm": "6.13.2"
+    "node": "12.11.0",
+    "npm": "6.13.7"
   }
 }

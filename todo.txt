@@ -2,7 +2,9 @@
 ** Fix the whole number/string discrepancy in the maps and recipe/user Ids for front-end & back-end & graphql/apollo **
 ** Fix the nutritionValues -> nutrition discrepancy as well **
 
+- handle getUserData with gql
 
+- upgrade to angular 9 and upgrade lazyloading import statements
 - make angular app ping both servers on init to wake them up
 - create docker files for dev + prod
 - look into nginx container to host angular app for docker development purposes
