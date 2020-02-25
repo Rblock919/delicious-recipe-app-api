@@ -7,6 +7,9 @@
     "start": "node server.js",
     "start.dev": "nodemon server.js",
     "start.all.dev": "concurrently \"nodemon server.js\" \"cd ../recipe-app-gql && nodemon server.js\" \"cd ../recipe-app-ng && ng serve\"",
+    "format": "prettier --write 'src/**/*.js'",
+    "lint": "eslint --fix 'src/**/*.js'",
+    "lint.probe": "eslint --fix-dry-run 'src/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryan Block",
@@ -16,6 +19,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
     "wiredep": "^4.0.0"
   },
   "dependencies": {

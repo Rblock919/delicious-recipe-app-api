@@ -15,38 +15,44 @@ const testRecipe = new recipe({
     'Sour Cream | 8 tbsp',
     'Taco Splice Blend | 2 tbsps',
     'Ground Beef | 20 oz',
-    'Flour Tortillas | 12 units'
+    'Flour Tortillas | 12 units',
   ],
   step1: {
     name: 'Prep',
-    body: 'Wash and dry all produce. Halve, peel, and finely dice onion. Core and seed poblanos, then cut into 1/3-inch squares. Core and seed ' +
-            'tomatoes, then cut into 1-3-inch cubes. Rougly chop cilantro. Halve one lime; cut other into wedges for serving. Drain pineapple, reserving juice; ' +
-            'rougly chop fruit.'
+    body:
+      'Wash and dry all produce. Halve, peel, and finely dice onion. Core and seed poblanos, then cut into 1/3-inch squares. Core and seed ' +
+      'tomatoes, then cut into 1-3-inch cubes. Rougly chop cilantro. Halve one lime; cut other into wedges for serving. Drain pineapple, reserving juice; ' +
+      'rougly chop fruit.',
   },
   step2: {
     name: 'Make Salsa and Crema',
-    body: 'Combine 2 tbsp onion, 1/2 cup poblanos, tomatoes, half the cilantro, pineapple, and squeeze of lime in a medium bowl. In a separate small bowl, ' +
-            'combine sour cream with a squeeze of lime. Season with salt, pepper, and more lime to taste.'
+    body:
+      'Combine 2 tbsp onion, 1/2 cup poblanos, tomatoes, half the cilantro, pineapple, and squeeze of lime in a medium bowl. In a separate small bowl, ' +
+      'combine sour cream with a squeeze of lime. Season with salt, pepper, and more lime to taste.',
   },
   step3: {
     name: 'Cook Veggies',
-    body: 'Heat 1 tbsp oil in a large pan over medium-high heat. Add remaining onion and poblanos. Season with salt, pepper, and half the taco spice. ' +
-            'Cook, tossing, until softened, about 2 minutes.'
+    body:
+      'Heat 1 tbsp oil in a large pan over medium-high heat. Add remaining onion and poblanos. Season with salt, pepper, and half the taco spice. ' +
+      'Cook, tossing, until softened, about 2 minutes.',
   },
   step4: {
     name: 'Cook Beef',
-    body: 'Add beef to pan, breaking up meat into pieces. Season with salt, pepper, and remaining taco spice. Cook, tossing occasionally, until browned ' +
-            'and cooked through, 3-4 minutes. (TIP: Carefully pour out any excess grease in pan if mixture seems oily.) Stir in reserved pineapple juice and ' +
-            'remove pan from heat.'
+    body:
+      'Add beef to pan, breaking up meat into pieces. Season with salt, pepper, and remaining taco spice. Cook, tossing occasionally, until browned ' +
+      'and cooked through, 3-4 minutes. (TIP: Carefully pour out any excess grease in pan if mixture seems oily.) Stir in reserved pineapple juice and ' +
+      'remove pan from heat.',
   },
   step5: {
     name: 'Warm Tortillas',
-    body: 'While beef cooks, wrap tortialls in a damp paper towel and microwave on high until warm, about 30 seconds.'
+    body:
+      'While beef cooks, wrap tortialls in a damp paper towel and microwave on high until warm, about 30 seconds.',
   },
   step6: {
     name: 'Assemble and Serve',
-    body: 'Divide beef mixture between tortillas. Spoon salse and crema over. Sprinkle with remaining cilantro. Serve with lime wedges on the side for ' +
-            'squeezing over.'
+    body:
+      'Divide beef mixture between tortillas. Spoon salse and crema over. Sprinkle with remaining cilantro. Serve with lime wedges on the side for ' +
+      'squeezing over.',
   },
   nutritionValues: {
     calories: 680,
@@ -57,28 +63,28 @@ const testRecipe = new recipe({
     fiber: 6,
     protein: 31,
     cholesterol: 110,
-    sodium: 1000
+    sodium: 1000,
   },
-  imgDir: '/images/pineapple-poblano-beef-tacos.jpg'
+  imgDir: '/images/pineapple-poblano-beef-tacos.jpg',
 });
 
-mongoose.connect(uri.remote, {useNewUrlParser: true}, () => {
-  console.log('connected to remote db');
-}).then((r) => {
-  console.log('conn: ' + r);
-});
+mongoose
+  .connect(uri.remote, { useNewUrlParser: true }, () => {
+    console.log('connected to remote db');
+  })
+  .then(r => {
+    console.log('conn: ' + r);
+  });
 
 let document;
 
 // a function that does aync operation and returns a promise
-const poop = function () {
-
-  return new Promise(((fulfill, reject) => {
+const poop = function() {
+  return new Promise((fulfill, reject) => {
     testRecipe.save((err, doc) => {
       if (err) {
         console.log('error saving');
-        reject(err)
-
+        reject(err);
       } else {
         console.log('Success?');
         console.log('doc: ' + doc);
@@ -90,13 +96,11 @@ const poop = function () {
         fulfill(document);
       });
     });
-
-  }));
-
+  });
 };
 
 // Call poop using .then
-poop().then((result) => {
+poop().then(result => {
   console.log('result: ' + document);
   // console.log('result: ' + result);
 });

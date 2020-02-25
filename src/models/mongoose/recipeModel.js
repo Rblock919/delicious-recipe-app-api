@@ -3,72 +3,68 @@ const getRecipeModels = function(mongoose) {
 
   const recipeModel = new Schema({
     title: {
-      type: String
+      type: String,
     },
     producer: {
-      type: String
+      type: String,
     },
     ingredients: [
       {
         _id: false,
         name: String,
-        amount: String
-      }
+        amount: String,
+      },
     ],
-    preCook: [
-      String
-    ],
+    preCook: [String],
     steps: [
       {
         _id: false,
         name: String,
-        body: String
-      }
+        body: String,
+      },
     ],
     nutritionValues: {
       calories: {
-        type: Number
+        type: Number,
       },
       fat: {
-        type: Number
+        type: Number,
       },
       saturatedFat: {
-        type: Number
+        type: Number,
       },
       carbohydrate: {
-        type: Number
+        type: Number,
       },
       sugar: {
-        type: Number
+        type: Number,
       },
       fiber: {
-        type: Number
+        type: Number,
       },
       protein: {
-        type: Number
+        type: Number,
       },
       cholesterol: {
-        type: Number
+        type: Number,
       },
       sodium: {
-        type: Number
-      }
+        type: Number,
+      },
     },
     imgDir: {
-      type: String
+      type: String,
     },
-    favoriters: [
-      String
-    ],
+    favoriters: [String],
     raters: {
       type: Map,
-      of: Number
-    }
+      of: Number,
+    },
   });
 
   return {
     NewRecipe: mongoose.model('approvalList', recipeModel),
-    Recipe: mongoose.model('recipe', recipeModel)
+    Recipe: mongoose.model('recipe', recipeModel),
   };
 };
 

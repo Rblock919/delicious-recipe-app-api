@@ -14,17 +14,34 @@ function appHeaderSecurity(app) {
   }
 
   // always keep
-  app.use(helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ['\'self\''],
-      scriptSrc: ['\'self\'', '\'unsafe-eval\'', '\'unsafe-inline\'', 'http://code.jquery.com'],
-      styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
-      imgSrc: ['\'self\'', 'data:', 'https://img.hellofresh.com', 'https://media.blueapron.com', 'https://homechef.imgix.net'],
-      fontSrc: ['\'self\'', 'data:','https://fonts.gstatic.com'],
-      connectSrc: ['\'self\'', 'https://delicious-recipe-app.herokuapp.com/api/', 'http://localhost:4000/'],
-      // reportUri: '/cspviolation'
-    }
-  }));
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          'http://code.jquery.com',
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        imgSrc: [
+          "'self'",
+          'data:',
+          'https://img.hellofresh.com',
+          'https://media.blueapron.com',
+          'https://homechef.imgix.net',
+        ],
+        fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
+        connectSrc: [
+          "'self'",
+          'https://delicious-recipe-app.herokuapp.com/api/',
+          'http://localhost:4000/',
+        ],
+        // reportUri: '/cspviolation'
+      },
+    })
+  );
 }
 
 module.exports = appHeaderSecurity;

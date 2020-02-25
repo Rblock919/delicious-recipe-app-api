@@ -2,13 +2,13 @@ const users = [
   {
     username: 'admin',
     password: 'admin',
-    isAdmin: true
+    isAdmin: true,
   },
   {
     username: 'dev',
     password: 'dev',
-    isAdmin: false
-  }
+    isAdmin: false,
+  },
 ];
 
 module.exports = users;

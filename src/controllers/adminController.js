@@ -6,57 +6,58 @@ const recipes = require('../data/recipeData');
 const newRecipes = require('../data/newRecipeData');
 
 const adminController = (User, NewRecipe) => {
-
   const addRecipes = (req, res) => {
-
-    MongoClient.connect(uri.remote, {useNewUrlParser: true}, (err, client) => {
-
-      const db = client.db('recipeApp-dev');
-      const collection = db.collection('recipes');
-
-      if (err) {
-        console.log(chalk.red.bold.underline(err));
-        res.sendStatus(500);
-      }
-
-      collection.insertMany(recipes, (err, results) => {
+    MongoClient.connect(
+      uri.remote,
+      { useNewUrlParser: true },
+      (err, client) => {
+        const db = client.db('recipeApp-dev');
+        const collection = db.collection('recipes');
 
         if (err) {
           console.log(chalk.red.bold.underline(err));
           res.sendStatus(500);
-        } else {
-          res.send(results);
         }
 
-        client.close();
-      });
-    });
+        collection.insertMany(recipes, (err, results) => {
+          if (err) {
+            console.log(chalk.red.bold.underline(err));
+            res.sendStatus(500);
+          } else {
+            res.send(results);
+          }
 
+          client.close();
+        });
+      }
+    );
   };
 
   const addNewRecipes = (req, res) => {
-    MongoClient.connect(uri.remote, {useNewUrlParser: true}, (err, client) => {
-
-      const db = client.db('recipeApp-dev');
-      const collection = db.collection('recipes');
-
-      if (err) {
-        console.log(chalk.red.bold.underline(err));
-        res.sendStatus(500);
-      }
-
-      collection.insertMany(newRecipes, (err, results) => {
+    MongoClient.connect(
+      uri.remote,
+      { useNewUrlParser: true },
+      (err, client) => {
+        const db = client.db('recipeApp-dev');
+        const collection = db.collection('recipes');
 
         if (err) {
           console.log(chalk.red.bold.underline(err));
           res.sendStatus(500);
-        } else {
-          res.send(results);
         }
 
-        client.close();
-      });
-    });
+        collection.insertMany(newRecipes, (err, results) => {
+          if (err) {
+            console.log(chalk.red.bold.underline(err));
+            res.sendStatus(500);
+          } else {
+            res.send(results);
+          }
+
+          client.close();
+        });
+      }
+    );
   };
 
   const getUsers = async (req, res) => {
@@ -94,13 +95,18 @@ const adminController = (User, NewRecipe) => {
     }
 
     if (proceed) {
-
       try {
         if (setToTrueIds.length > 0) {
-          const response = await User.updateMany({_id: {$in: setToTrueIds}}, {$set: {isAdmin: true}});
+          const response = await User.updateMany(
+            { _id: { $in: setToTrueIds } },
+            { $set: { isAdmin: true } }
+          );
         }
         if (setToFalseIds.length > 0) {
-          const response = await User.updateMany({_id: {$in: setToFalseIds}}, {$set: {isAdmin: false}});
+          const response = await User.updateMany(
+            { _id: { $in: setToFalseIds } },
+            { $set: { isAdmin: false } }
+          );
         }
 
         res.sendStatus(200);
@@ -108,11 +114,9 @@ const adminController = (User, NewRecipe) => {
         console.log(chalk.red(`Error updating users: ${err}`));
         res.sendStatus(500);
       }
-
     } else {
       res.sendStatus(500);
     }
-
   };
 
   const getApprovalList = async (req, res) => {
@@ -145,9 +149,8 @@ const adminController = (User, NewRecipe) => {
     getApprovalList,
     getApprovalById,
     getUsers,
-    updateUsers
+    updateUsers,
   };
 };
 
 module.exports = adminController;
-

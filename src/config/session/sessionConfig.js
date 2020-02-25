@@ -3,10 +3,9 @@ const authConfig = require('../auth/authConfig');
 const MongoStore = require('connect-mongo')(session);
 
 function sessionConfig(app, mongoose) {
-
-  session.Session.prototype.login = function (user, cb) {
+  session.Session.prototype.login = function(user, cb) {
     const req = this.req;
-    req.session.regenerate((err) => {
+    req.session.regenerate(err => {
       if (err) {
         cb(err);
       } else {
@@ -16,9 +15,9 @@ function sessionConfig(app, mongoose) {
     });
   };
 
-  session.Session.prototype.logout = function (cb) {
+  session.Session.prototype.logout = function(cb) {
     const req = this.req;
-    req.session.destroy((err) => {
+    req.session.destroy(err => {
       if (err) {
         cb(err);
       } else {
@@ -29,26 +28,26 @@ function sessionConfig(app, mongoose) {
 
   const mongooseStore = new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: (7 * 24 * 60 * 60) // 1 week
+    ttl: 7 * 24 * 60 * 60, // 1 week
   });
 
-  app.use(session({
-    store: mongooseStore,
-    secret: authConfig.sessionsSecret,
-    cookie: {
-      path: '/api',
-      httpOnly: true,
-      secure: JSON.parse(process.env.SECURE_COOKIES),
-      sameSite: true,
-      maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
-    },
-    name: 'id',
-    resave: true,
-    rolling: true,
-    saveUninitialized: false
-  }));
-
+  app.use(
+    session({
+      store: mongooseStore,
+      secret: authConfig.sessionsSecret,
+      cookie: {
+        path: '/api',
+        httpOnly: true,
+        secure: JSON.parse(process.env.SECURE_COOKIES),
+        sameSite: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+      },
+      name: 'id',
+      resave: true,
+      rolling: true,
+      saveUninitialized: false,
+    })
+  );
 }
 
 module.exports = sessionConfig;
-

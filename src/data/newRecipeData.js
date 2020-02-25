@@ -4,8 +4,6 @@
     2. run the route /admin/AddNewRecipes
     3. cut, paste to append recipe data code into the ./recipeData.js file
 */
-const recipedata = [
-
-];
+const recipedata = [];
 
 module.exports = recipedata;

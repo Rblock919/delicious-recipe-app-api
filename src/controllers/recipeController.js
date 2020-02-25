@@ -1,9 +1,8 @@
 const chalk = require('chalk');
 const objectId = require('mongodb').ObjectId;
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 const recipeController = (Recipe, NewRecipe) => {
-
   const getIndex = async (req, res) => {
     try {
       const recipes = await Recipe.find({});
@@ -22,11 +21,13 @@ const recipeController = (Recipe, NewRecipe) => {
       if (recipe) {
         res.status(200).send(recipe);
       } else {
-        res.status(404).send({ErrMessage: 'Recipe not found'});
+        res.status(404).send({ ErrMessage: 'Recipe not found' });
       }
     } catch (error) {
-      console.log(chalk.red(`Error making objectId or retrieve recipe: ${error}`));
-      res.status(400).send({ErrMessage: 'Bad Request'});
+      console.log(
+        chalk.red(`Error making objectId or retrieve recipe: ${error}`)
+      );
+      res.status(400).send({ ErrMessage: 'Bad Request' });
     }
   };
 
@@ -36,7 +37,7 @@ const recipeController = (Recipe, NewRecipe) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log('errors: ' + JSON.stringify(errors));
-        return res.status(400).send({ErrMessage: 'Bad Request'});
+        return res.status(400).send({ ErrMessage: 'Bad Request' });
       } else {
         const recipeData = req.body.recipe;
         const recipeToSave = new Recipe(recipeData);
@@ -45,7 +46,7 @@ const recipeController = (Recipe, NewRecipe) => {
         const createdRecipe = await recipeToSave.save();
 
         console.log(chalk.green('successfully saved new recipe'));
-        res.status(201).send({id: createdRecipe._id});
+        res.status(201).send({ id: createdRecipe._id });
       }
     } catch (error) {
       console.log(chalk.red(error));
@@ -71,17 +72,17 @@ const recipeController = (Recipe, NewRecipe) => {
           console.log(chalk.green('recipe successfully updated'));
           res.sendStatus(200);
         } else {
-          res.status(404).send({ErrMessage: 'Could not find recipe to update in backend'});
+          res
+            .status(404)
+            .send({ ErrMessage: 'Could not find recipe to update in backend' });
         }
-
       } catch (error) {
         console.log(chalk.red(error));
         res.sendStatus(500);
       }
     } else {
-      res.status(400).send({ErrMessage: 'Bad Request'});
+      res.status(400).send({ ErrMessage: 'Bad Request' });
     }
-
   };
 
   const deleteRecipe = async (req, res) => {
@@ -110,7 +111,7 @@ const recipeController = (Recipe, NewRecipe) => {
     try {
       const id = new objectId(req.body._id);
       const newFavoriters = req.body.favoriters;
-      const updatedFavoriters = {favoriters: newFavoriters};
+      const updatedFavoriters = { favoriters: newFavoriters };
       await Recipe.findByIdAndUpdate(id, updatedFavoriters);
       res.sendStatus(200);
     } catch (error) {
@@ -122,7 +123,7 @@ const recipeController = (Recipe, NewRecipe) => {
   const rateRecipe = async (req, res) => {
     try {
       const recipeId = new objectId(req.body._id);
-      const updatedRaters = {raters: req.body.raters};
+      const updatedRaters = { raters: req.body.raters };
 
       await Recipe.findByIdAndUpdate(recipeId, updatedRaters);
       res.sendStatus(200);
@@ -133,7 +134,6 @@ const recipeController = (Recipe, NewRecipe) => {
   };
 
   const submitForApproval = async (req, res) => {
-
     const errors = validationResult(req);
     console.log('\nerrors: ' + JSON.stringify(errors));
     console.log('body: ' + JSON.stringify(req.body));
@@ -142,7 +142,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
     if (!errors.isEmpty()) {
       console.log('errors are not empty');
-      return res.status(400).send({ErrMessage: 'Bad Request'});
+      return res.status(400).send({ ErrMessage: 'Bad Request' });
     } else {
       // const recipeData = assembleRecipeData(req);
       const recipeData = req.body.recipe;
@@ -155,7 +155,7 @@ const recipeController = (Recipe, NewRecipe) => {
         nutritionValues: recipeData.nutritionValues,
         favoriters: [],
         raters: {},
-        imgDir: recipeData.imgDir
+        imgDir: recipeData.imgDir,
       });
 
       try {
@@ -166,9 +166,7 @@ const recipeController = (Recipe, NewRecipe) => {
         console.log(chalk.red(err));
         res.sendStatus(500);
       }
-
     }
-
   };
 
   return {
@@ -180,10 +178,8 @@ const recipeController = (Recipe, NewRecipe) => {
     rejectRecipe,
     submitForApproval,
     rateRecipe,
-    favorite
+    favorite,
   };
 };
 
 module.exports = recipeController;
-
-

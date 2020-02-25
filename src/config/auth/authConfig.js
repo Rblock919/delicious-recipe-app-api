@@ -2,7 +2,7 @@ const authConfig = {
   sessionsSecret: process.env.SESSION_SECRET,
   tokenSecret: process.env.TOKEN_SECRET,
   cookieSecret: process.env.COOKIE_SECRET,
-  saltRounds: Number.parseInt(process.env.SALT_ROUNDS)
+  saltRounds: Number.parseInt(process.env.SALT_ROUNDS),
 };
 
 module.exports = authConfig;

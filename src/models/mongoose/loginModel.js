@@ -6,26 +6,26 @@ const getLoginModel = function(mongoose) {
       type: String,
       required: true,
       index: {
-        unique: true
-      }
+        unique: true,
+      },
     },
     failedAttempts: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
     timeOut: {
       type: Date,
       required: true,
-      default: new Date()
+      default: new Date(),
     },
     inProgress: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   });
 
-  LoginsSchema.static('canAuthenticate', async function (key) {
-    const login = await this.findOne({identityKey: key});
+  LoginsSchema.static('canAuthenticate', async function(key) {
+    const login = await this.findOne({ identityKey: key });
 
     if (!login || login.failedAttempts < 4) {
       return true;
@@ -54,31 +54,40 @@ const getLoginModel = function(mongoose) {
     console.log(`testingVar5: ${testingVar5}`);
      */
 
-    const timeoutMinutes = ((new Date().getMinutes()) - (timeOutTimer.getMinutes()));
-    const timeoutHours = ((new Date().getHours()) - (login.timeOut.getHours()));
-    const timeoutDay = ((new Date().getDate()) - (login.timeOut.getDate()));
-    const timeoutMonth = ((new Date().getMonth()) - (login.timeOut.getMonth()));
-    const timeoutYear = ((new Date().getFullYear()) - (login.timeOut.getFullYear()));
+    const timeoutMinutes = new Date().getMinutes() - timeOutTimer.getMinutes();
+    const timeoutHours = new Date().getHours() - login.timeOut.getHours();
+    const timeoutDay = new Date().getDate() - login.timeOut.getDate();
+    const timeoutMonth = new Date().getMonth() - login.timeOut.getMonth();
+    const timeoutYear = new Date().getFullYear() - login.timeOut.getFullYear();
 
-    if (timeoutMinutes >= 0 || timeoutHours > 0 || timeoutDay > 0 || timeoutMonth > 0 || timeoutYear > 0) {
+    if (
+      timeoutMinutes >= 0 ||
+      timeoutHours > 0 ||
+      timeoutDay > 0 ||
+      timeoutMonth > 0 ||
+      timeoutYear > 0
+    ) {
       await login.remove();
       return true;
     } else {
       return false;
     }
-
   });
 
-  LoginsSchema.static('failedLoginAttempt', async function (key) {
-    const query = {identityKey: key};
+  LoginsSchema.static('failedLoginAttempt', async function(key) {
+    const query = { identityKey: key };
     const now = new Date();
-    const update = {$inc: {failedAttempts: 1}, timeOut: now, inProgress: false};
-    const options = {setDefaultsOnInsert: true, upsert: true};
+    const update = {
+      $inc: { failedAttempts: 1 },
+      timeOut: now,
+      inProgress: false,
+    };
+    const options = { setDefaultsOnInsert: true, upsert: true };
     return await this.findOneAndUpdate(query, update, options).exec();
   });
 
-  LoginsSchema.static('successfulLoginAttempt', async function (key) {
-    const login = await this.findOne({identityKey: key});
+  LoginsSchema.static('successfulLoginAttempt', async function(key) {
+    const login = await this.findOne({ identityKey: key });
     if (login) {
       return await login.remove();
     } else {
@@ -87,17 +96,17 @@ const getLoginModel = function(mongoose) {
   });
 
   LoginsSchema.static('inProgress', async function(key) {
-    const login = await this.findOne({identityKey: key});
-    const query = {identityKey: key};
-    const update = {inProgress: true};
-    const options = {setDefaultsOnInsert: true, upsert: true};
+    const login = await this.findOne({ identityKey: key });
+    const query = { identityKey: key };
+    const update = { inProgress: true };
+    const options = { setDefaultsOnInsert: true, upsert: true };
     await this.findOneAndUpdate(query, update, options).exec();
-    return (login && login.inProgress);
+    return login && login.inProgress;
   });
 
   LoginsSchema.static('endProgress', async function(key) {
-    const query = {identityKey: key};
-    const update = {inProgress: false};
+    const query = { identityKey: key };
+    const update = { inProgress: false };
     const updatedLogin = await this.findOneAndUpdate(query, update).exec();
     return updatedLogin.inProgress;
   });

@@ -1,3 +1,3 @@
-const servicesController = () => ({ });
+const servicesController = () => ({});
 
 module.exports = servicesController;

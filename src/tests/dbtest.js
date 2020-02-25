@@ -12,21 +12,25 @@ const NewRecipe = require('../models/mongoose/recipeModel').newRecipe;
 
 (async function mongo() {
   try {
-
-    const connection = await mongoose.connect(uri.local, {useNewUrlParser: true});
+    const connection = await mongoose.connect(uri.local, {
+      useNewUrlParser: true,
+    });
     console.log(!!connection);
     const users = await User.find({});
     console.log(`users: ${users}`);
 
     mongoose.connection.close(() => {
-      console.log(chalk.blueBright.underline('Mongoose connection closed thru application exiting process'));
+      console.log(
+        chalk.blueBright.underline(
+          'Mongoose connection closed thru application exiting process'
+        )
+      );
       process.exit(0);
     });
   } catch (err) {
     console.log(chalk.red(err.stack));
   }
-
-}());
+})();
 
 /*
 // Use connect method to connect to the server

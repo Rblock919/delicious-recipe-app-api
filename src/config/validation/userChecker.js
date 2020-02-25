@@ -1,7 +1,6 @@
 const objectId = require('mongodb').ObjectId;
 
 function checkIfUserExists(userModel, userId, callback) {
-
   try {
     const id = new objectId(userId);
 
@@ -20,11 +19,9 @@ function checkIfUserExists(userModel, userId, callback) {
     console.error(error);
     callback(error, null);
   }
-
 }
 
 function checkIfUserIsAdmin(userModel, userId, callback) {
-
   try {
     const id = new objectId(userId);
 
@@ -43,7 +40,6 @@ function checkIfUserIsAdmin(userModel, userId, callback) {
     console.error(error);
     callback(error, null);
   }
-
 }
 
-module.exports = {checkIfUserExists, checkIfUserIsAdmin};
+module.exports = { checkIfUserExists, checkIfUserIsAdmin };

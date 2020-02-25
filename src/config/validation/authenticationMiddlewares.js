@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../auth/authConfig');
 const userChecker = require('./userChecker');
 
-const getMiddleWares = function (User) {
-
+const getMiddleWares = function(User) {
   const nonAdminMiddleWare = async (req, res, next) => {
     let payload;
     // let cookiePayload;
@@ -13,7 +12,9 @@ const getMiddleWares = function (User) {
     console.log(`req: ${req.path}`);
 
     if (!req.header('Authorization')) {
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+      return res
+        .status(401)
+        .send({ ErrMessage: 'Unauthorized. Missing Auth Header' });
     }
 
     const token = req.header('Authorization').split(' ')[1];
@@ -30,7 +31,6 @@ const getMiddleWares = function (User) {
     // }
 
     if (token !== 'null') {
-
       try {
         payload = await jwt.verify(token, authConfig.tokenSecret);
         // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
@@ -41,10 +41,11 @@ const getMiddleWares = function (User) {
 
       if (!payload) {
         console.log('auth header invalid');
-        return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+        return res
+          .status(401)
+          .send({ ErrMessage: 'Unauthorized. Auth Header Invalid' });
       } else {
-
-        if (payload.exp > (Date.now() / 1000)) {
+        if (payload.exp > Date.now() / 1000) {
           // or use payload from local storage
           userChecker.checkIfUserExists(User, payload.sub, (err, isFound) => {
             if (err) {
@@ -54,22 +55,24 @@ const getMiddleWares = function (User) {
                 req.userId = payload.sub;
                 next();
               } else {
-                return res.status(401).send({ErrMessage: 'Unauthorized. UserId invalid'});
+                return res
+                  .status(401)
+                  .send({ ErrMessage: 'Unauthorized. UserId invalid' });
               }
             }
           });
-
         } else {
-          return res.status(401).send({ErrMessage: 'Unauthorized. Expired token cookie'});
+          return res
+            .status(401)
+            .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
         }
-
       }
-
     } else {
       console.log('NO TOKEN FOUND IN MW');
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+      return res
+        .status(401)
+        .send({ ErrMessage: 'Unauthorized. Missing Token' });
     }
-
   };
 
   const adminMiddleWare = async (req, res, next) => {
@@ -78,7 +81,9 @@ const getMiddleWares = function (User) {
     // let sessionId;
 
     if (!req.header('Authorization')) {
-      return res.status(401).send({ErrMessage: 'Unauthorized. Missing Auth Header'});
+      return res
+        .status(401)
+        .send({ ErrMessage: 'Unauthorized. Missing Auth Header' });
     }
 
     const token = req.header('Authorization').split(' ')[1];
@@ -95,7 +100,6 @@ const getMiddleWares = function (User) {
     // }
 
     if (token !== 'null') {
-
       try {
         payload = await jwt.verify(token, authConfig.tokenSecret);
         // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
@@ -105,10 +109,11 @@ const getMiddleWares = function (User) {
 
       if (!payload) {
         console.log('auth header invalid');
-        return res.status(401).send({ErrMessage: 'Unauthorized. Auth Header Invalid'});
+        return res
+          .status(401)
+          .send({ ErrMessage: 'Unauthorized. Auth Header Invalid' });
       } else {
-
-        if (payload.exp > (Date.now() / 1000)) {
+        if (payload.exp > Date.now() / 1000) {
           // or use payload from local storage
           userChecker.checkIfUserIsAdmin(User, payload.sub, (err, isAdmin) => {
             if (err) {
@@ -119,26 +124,25 @@ const getMiddleWares = function (User) {
                 req.userId = payload.sub;
                 next();
               } else {
-                res.status(401).send({ErrMessage: 'User is not admin'});
+                res.status(401).send({ ErrMessage: 'User is not admin' });
               }
             }
           });
-
         } else {
-          return res.status(401).send({ErrMessage: 'Unauthorized. Expired token cookie'});
+          return res
+            .status(401)
+            .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
         }
-
       }
-
     } else {
       console.log('NO TOKEN FOUND IN MW');
-      res.status(401).send({ErrMessage: 'Unauthorized. Missing Token'});
+      res.status(401).send({ ErrMessage: 'Unauthorized. Missing Token' });
     }
   };
   return {
     nonAdminMiddleWare,
-    adminMiddleWare
-  }
+    adminMiddleWare,
+  };
 };
 
 module.exports = getMiddleWares;
