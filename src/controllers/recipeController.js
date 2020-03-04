@@ -125,6 +125,9 @@ const recipeController = (Recipe, NewRecipe) => {
       const recipeId = new objectId(req.body._id);
       const updatedRaters = { raters: req.body.raters };
 
+      console.log(`updatedRaters: ${JSON.stringify(req.body.raters)}`);
+      // console.log(`raters size: ${(req.body.raters)}`);
+
       await Recipe.findByIdAndUpdate(recipeId, updatedRaters);
       res.sendStatus(200);
     } catch (error) {

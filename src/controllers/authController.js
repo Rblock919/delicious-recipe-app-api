@@ -60,7 +60,7 @@ const authController = (User, Login) => {
       }, 600);
     };
 
-    console.log('Remote Address: ' + req.connection.remoteAddress);
+    // console.log('Remote Address: ' + req.connection.remoteAddress);
 
     const clientIp = req.connection.remoteAddress;
     const userData = req.body;
@@ -152,7 +152,7 @@ const authController = (User, Login) => {
     // let cookiePayload;
     // let sessionId;
 
-    console.log(`req headers: ${JSON.stringify(req.headers)}`);
+    // console.log(`req headers: ${JSON.stringify(req.headers)}`);
 
     if (!req.header('Authorization')) {
       return res

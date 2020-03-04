@@ -6,10 +6,8 @@ const userChecker = require('./userChecker');
 const getMiddleWares = function(User) {
   const nonAdminMiddleWare = async (req, res, next) => {
     let payload;
-    // let cookiePayload;
-    // let sessionId;
 
-    console.log(`req: ${req.path}`);
+    // console.log(`req: ${req.path}`);
 
     if (!req.header('Authorization')) {
       return res
