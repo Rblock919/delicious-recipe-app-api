@@ -15,6 +15,7 @@
 
 
   -- Shared --
+- figure out how to pass things like security headers and cookies from api server to gql server to web client
 - find better way to 'log to console' for heroku or remote environments in general (heroku different from aws lamba in terms of stdout?)
 - start to implement testing
 - implement password resets (for users & admin)

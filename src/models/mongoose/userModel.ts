@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
-const authConfig = require('../../config/auth/authConfig');
+import bcrypt from 'bcrypt';
+import authConfig from '../../config/auth/authConfig';
 
-const getUserModel = function(mongoose) {
-  const Schema = mongoose.Schema;
+const getUserModel = mongoose => {
+  const { Schema } = mongoose;
 
   const userModel = new Schema({
     username: {
@@ -21,9 +21,12 @@ const getUserModel = function(mongoose) {
     },
   });
 
+  // eslint-disable-next-line func-names
   userModel.pre('save', async function(next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const user = this;
-    const saltRounds = authConfig.saltRounds;
+    const { saltRounds } = authConfig;
+    console.log(`salt rounds: ${saltRounds}`);
 
     if (!user.isModified('password')) {
       return next();
@@ -38,6 +41,7 @@ const getUserModel = function(mongoose) {
     }
   });
 
+  // eslint-disable-next-line func-names
   userModel.methods.passwordIsValid = async function(password) {
     try {
       return await bcrypt.compare(password, this.password);
@@ -50,4 +54,4 @@ const getUserModel = function(mongoose) {
   return mongoose.model('user', userModel);
 };
 
-module.exports = getUserModel;
+export default getUserModel;

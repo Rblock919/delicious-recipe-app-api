@@ -1,4 +1,6 @@
-const { checkSchema } = require('express-validator');
+// const { checkSchema } = require('express-validator');
+import { checkSchema } from 'express-validator';
+
 const objectId = require('mongodb').ObjectId;
 
 // TODO: possibly remove parseInt from this function since it's already being executed in sanitizer
@@ -15,7 +17,7 @@ const nutritionValidator = function optionalNutritionInfo(
       if (nonHomeChefFields.indexOf(field) > -1) {
         console.log(`evaluating field: ${field}`);
         try {
-          const parsedValue = parseInt(value);
+          const parsedValue = parseInt(value, 10);
           return !isNaN(parsedValue);
         } catch (e) {
           return false;
@@ -26,26 +28,26 @@ const nutritionValidator = function optionalNutritionInfo(
       // blue apron with info and hello fresh both still have these fields so validate them regardless
       console.log(`evaluating field: ${field}`);
       try {
-        const parsedValue = parseInt(value);
+        const parsedValue = parseInt(value, 10);
         return !isNaN(parsedValue);
       } catch (e) {
         return false;
       }
     }
-  } else {
-    // console.log(`no value given for ${field}`);
-    return true;
+    return false;
   }
+  // console.log(`no value given for ${field}`);
+  return true;
 
   // console.log('location: ' + location); // body
   // console.log('path: ' + path); // what comes after body
 };
 
-const nutritionSanitizer = function(value, { req, location, path }) {
+const nutritionSanitizer = (value, { req, location, path }) => {
   // console.log(`value in nutrition sanitizer: ${value}`);
   if (value !== null) {
     try {
-      return parseInt(value);
+      return parseInt(value, 10);
     } catch (err) {
       return ''; // return a string that will get flagged by validator
     }
@@ -54,7 +56,7 @@ const nutritionSanitizer = function(value, { req, location, path }) {
   }
 };
 
-const producerValidator = function(value, { req, location, path }) {
+const producerValidator = (value, { req, location, path }) => {
   return !!(
     value &&
     value !== '' &&
@@ -62,7 +64,7 @@ const producerValidator = function(value, { req, location, path }) {
   );
 };
 
-const producerSanitizer = function(value, { req, location, path }) {
+const producerSanitizer = (value, { req, location, path }) => {
   return value !== 'Blue Apron' &&
     value !== 'Hello Fresh' &&
     value !== 'Home Chef'
@@ -70,7 +72,7 @@ const producerSanitizer = function(value, { req, location, path }) {
     : value;
 };
 
-const favoritersValidator = function(value, { req, location, path }) {
+const favoritersValidator = (value, { req, location, path }) => {
   let i = value.length;
   while (i--) {
     try {
@@ -82,7 +84,7 @@ const favoritersValidator = function(value, { req, location, path }) {
   return true;
 };
 
-const raterValidator = function(value, { req, location, path }) {
+const raterValidator = (value, { req, location, path }) => {
   for (const rater of Object.keys(value)) {
     try {
       new objectId(rater);
@@ -96,7 +98,7 @@ const raterValidator = function(value, { req, location, path }) {
   return true;
 };
 
-const titleValidator = function(value, { req, location, path }) {
+const titleValidator = (value, { req, location, path }) => {
   let i = value.length;
   while (i--) {
     if (value[i] === '$' || value[i] === '{' || value[i] === '}') {
@@ -106,6 +108,7 @@ const titleValidator = function(value, { req, location, path }) {
   return true;
 };
 
+// @ts-ignore
 const recipeSchema = new checkSchema({
   'recipe.title': {
     in: ['body'],
@@ -226,4 +229,5 @@ const recipeSchema = new checkSchema({
   },
 });
 
-module.exports = recipeSchema;
+// module.exports = recipeSchema;
+export default recipeSchema;

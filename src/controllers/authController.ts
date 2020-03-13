@@ -1,7 +1,7 @@
-const chalk = require('chalk');
-const objectId = require('mongodb').ObjectId;
-const authConfig = require('../config/auth/authConfig');
-const jwt = require('jsonwebtoken');
+import chalk from 'chalk';
+import { ObjectId } from 'mongodb';
+import jwt from 'jsonwebtoken';
+import authConfig from '../config/auth/authConfig';
 
 const authController = (User, Login) => {
   const signUp = async (req, res) => {
@@ -25,7 +25,7 @@ const authController = (User, Login) => {
         isAdmin: false,
       };
 
-      res.status(201).send({ user, token });
+      return res.status(201).send({ user, token });
 
       // req.session.login(user, (err) => {
       //   // newly updated req.session is available here. If you try to access below the async nature will give you old req.session
@@ -45,15 +45,15 @@ const authController = (User, Login) => {
     } catch (err) {
       console.log(chalk.red(err));
       if (err.code === 11000) {
-        res.status(409).send({ ErrMessage: 'Username Already Exists' });
-      } else {
-        res.status(500).send({ ErrMessage: 'Error creating new user.' });
+        return res.status(409).send({ ErrMessage: 'Username Already Exists' });
       }
+      return res.status(500).send({ ErrMessage: 'Error creating new user.' });
     }
   };
 
   const signIn = async (req, res) => {
-    //slow down brute force login attempts
+    console.log('in signin');
+    // slow down brute force login attempts
     const delayResponse = response => {
       setTimeout(() => {
         response();
@@ -124,23 +124,22 @@ const authController = (User, Login) => {
         //   maxAge: ((7 * 24 * 60 * 60) * 1000) // 1 week
         // }).send({user: user, token: token});
       });
-    } else {
-      await Login.failedLoginAttempt(identityKey);
-      return delayResponse(() =>
-        res.status(401).send({ ErrMessage: 'Invalid username or password' })
-      );
     }
+    await Login.failedLoginAttempt(identityKey);
+    return delayResponse(() =>
+      res.status(401).send({ ErrMessage: 'Invalid username or password' })
+    );
   };
 
   const signOut = (req, res) => {
     // TODO: figure out if I still need this method in this api
-    res.sendStatus(200);
+    return res.sendStatus(200);
     // req.session.logout((err) => {
     //   if (err) {
     //     console.error(chalk.red(`Error destroying session: ${err}`));
-    //     res.status(500).send({ErrMessage: 'Error destroying session'});
+    //     return res.status(500).send({ErrMessage: 'Error destroying session'});
     //   } else {
-    //     res.sendStatus(200);
+    //     return res.sendStatus(200);
     //   }
     // });
   };
@@ -186,15 +185,14 @@ const authController = (User, Login) => {
         return res
           .status(401)
           .send({ ErrMessage: 'Unauthorized. Auth Header Invalid' });
-      } else {
-        userId = payload.sub;
-        // userId = cookiePayload.sub;
+      }
+      userId = payload.sub;
+      // userId = cookiePayload.sub;
 
-        try {
-          reqId = new objectId(userId);
-        } catch (error) {
-          console.log(chalk.red(`err parsing user id into objectId: ${error}`));
-        }
+      try {
+        reqId = new ObjectId(userId);
+      } catch (error) {
+        console.log(chalk.red(`err parsing user id into objectId: ${error}`));
       }
     } else {
       console.log('no auth token set');
@@ -206,13 +204,12 @@ const authController = (User, Login) => {
     try {
       const user = await User.findById(reqId, '-__v -password');
       if (user) {
-        res.status(200).send({ user });
-      } else {
-        res.status(404).send({ ErrMessage: 'User Not Found' });
+        return res.status(200).send({ user });
       }
+      return res.status(404).send({ ErrMessage: 'User Not Found' });
     } catch (err) {
-      console.log('Error: ' + err);
-      res.sendStatus(500);
+      console.log(`Error: ${err}`);
+      return res.sendStatus(500);
     }
   };
 
@@ -224,4 +221,4 @@ const authController = (User, Login) => {
   };
 };
 
-module.exports = authController;
+export default authController;

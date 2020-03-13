@@ -1,6 +1,10 @@
-const chalk = require('chalk');
-const objectId = require('mongodb').ObjectId;
-const { validationResult } = require('express-validator');
+import chalk from 'chalk';
+import { ObjectId } from 'mongodb';
+import { validationResult } from 'express-validator';
+
+// const chalk = require('chalk');
+// const objectId = require('mongodb').ObjectId;
+// const { validationResult } = require('express-validator');
 
 const recipeController = (Recipe, NewRecipe) => {
   const getIndex = async (req, res) => {
@@ -15,7 +19,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const getById = async (req, res) => {
     try {
-      const id = new objectId(req.params.id);
+      const id = new ObjectId(req.params.id);
       const recipe = await Recipe.findById(id, '-__v');
 
       if (recipe) {
@@ -33,36 +37,35 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const addRecipe = async (req, res) => {
     try {
-      const id = new objectId(req.body.approvalId);
+      const id = new ObjectId(req.body.approvalId);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log('errors: ' + JSON.stringify(errors));
+        console.log(`errors: ${JSON.stringify(errors)}`);
         return res.status(400).send({ ErrMessage: 'Bad Request' });
-      } else {
-        const recipeData = req.body.recipe;
-        const recipeToSave = new Recipe(recipeData);
-
-        await NewRecipe.findByIdAndDelete(id);
-        const createdRecipe = await recipeToSave.save();
-
-        console.log(chalk.green('successfully saved new recipe'));
-        res.status(201).send({ id: createdRecipe._id });
       }
+      const recipeData = req.body.recipe;
+      const recipeToSave = new Recipe(recipeData);
+
+      await NewRecipe.findByIdAndDelete(id);
+      const createdRecipe = await recipeToSave.save();
+
+      console.log(chalk.green('successfully saved new recipe'));
+      return res.status(201).send({ id: createdRecipe._id });
     } catch (error) {
       console.log(chalk.red(error));
-      res.sendStatus(500);
+      return res.sendStatus(500);
     }
   };
 
   const updateRecipe = async (req, res) => {
     const errors = validationResult(req);
-    console.log('\nerrors: ' + JSON.stringify(errors));
-    console.log('in updateRecipe: ' + JSON.stringify(req.body));
+    console.log(`\nerrors: ${JSON.stringify(errors)}`);
+    console.log(`in updateRecipe: ${JSON.stringify(req.body)}`);
     // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
     if (errors.isEmpty()) {
       try {
-        const id = new objectId(req.body.recipe._id);
+        const id = new ObjectId(req.body.recipe._id);
         const recipeData = req.body.recipe;
         delete recipeData._id;
 
@@ -87,7 +90,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const deleteRecipe = async (req, res) => {
     try {
-      const id = new objectId(req.params.id);
+      const id = new ObjectId(req.params.id);
       await Recipe.findByIdAndDelete(id);
       console.log('recipe successfully deleted');
       res.sendStatus(200);
@@ -99,7 +102,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const rejectRecipe = async (req, res) => {
     try {
-      const id = new objectId(req.params.id);
+      const id = new ObjectId(req.params.id);
       await NewRecipe.findByIdAndDelete(id);
       res.sendStatus(200);
     } catch (err) {
@@ -109,7 +112,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const favorite = async (req, res) => {
     try {
-      const id = new objectId(req.body._id);
+      const id = new ObjectId(req.body._id);
       const newFavoriters = req.body.favoriters;
       const updatedFavoriters = { favoriters: newFavoriters };
       await Recipe.findByIdAndUpdate(id, updatedFavoriters);
@@ -122,7 +125,7 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const rateRecipe = async (req, res) => {
     try {
-      const recipeId = new objectId(req.body._id);
+      const recipeId = new ObjectId(req.body._id);
       const updatedRaters = { raters: req.body.raters };
 
       console.log(`updatedRaters: ${JSON.stringify(req.body.raters)}`);
@@ -138,37 +141,36 @@ const recipeController = (Recipe, NewRecipe) => {
 
   const submitForApproval = async (req, res) => {
     const errors = validationResult(req);
-    console.log('\nerrors: ' + JSON.stringify(errors));
-    console.log('body: ' + JSON.stringify(req.body));
+    console.log(`\nerrors: ${JSON.stringify(errors)}`);
+    console.log(`body: ${JSON.stringify(req.body)}`);
     //
     // console.log(`Errors Empty: ${errors.isEmpty()}`);
 
     if (!errors.isEmpty()) {
       console.log('errors are not empty');
       return res.status(400).send({ ErrMessage: 'Bad Request' });
-    } else {
-      // const recipeData = assembleRecipeData(req);
-      const recipeData = req.body.recipe;
-      const recipeToSave = new NewRecipe({
-        title: recipeData.title,
-        producer: recipeData.producer,
-        ingredients: recipeData.ingredients,
-        preCook: recipeData.preCook,
-        steps: recipeData.steps,
-        nutritionValues: recipeData.nutritionValues,
-        favoriters: [],
-        raters: {},
-        imgDir: recipeData.imgDir,
-      });
+    }
+    // const recipeData = assembleRecipeData(req);
+    const recipeData = req.body.recipe;
+    const recipeToSave = new NewRecipe({
+      title: recipeData.title,
+      producer: recipeData.producer,
+      ingredients: recipeData.ingredients,
+      preCook: recipeData.preCook,
+      steps: recipeData.steps,
+      nutritionValues: recipeData.nutritionValues,
+      favoriters: [],
+      raters: {},
+      imgDir: recipeData.imgDir,
+    });
 
-      try {
-        await recipeToSave.save();
-        console.log(chalk.green('successfully saved new recipe'));
-        res.sendStatus(201);
-      } catch (err) {
-        console.log(chalk.red(err));
-        res.sendStatus(500);
-      }
+    try {
+      await recipeToSave.save();
+      console.log(chalk.green('successfully saved new recipe'));
+      return res.sendStatus(201);
+    } catch (err) {
+      console.log(chalk.red(err));
+      return res.sendStatus(500);
     }
   };
 
@@ -185,4 +187,5 @@ const recipeController = (Recipe, NewRecipe) => {
   };
 };
 
-module.exports = recipeController;
+// module.exports = recipeController;
+export default recipeController;

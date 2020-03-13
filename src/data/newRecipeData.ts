@@ -6,4 +6,4 @@
 */
 const recipedata = [];
 
-module.exports = recipedata;
+export default recipedata;

@@ -1,6 +1,7 @@
-const helmet = require('helmet');
+import helmet from 'helmet';
 
-function appHeaderSecurity(app) {
+export default function appHeaderSecurity(app) {
+  console.log('in header security');
   const remote = process.env.REMOTE || false;
   if (remote) {
     app.use(helmet());
@@ -43,5 +44,3 @@ function appHeaderSecurity(app) {
     })
   );
 }
-
-module.exports = appHeaderSecurity;

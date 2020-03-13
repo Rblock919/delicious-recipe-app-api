@@ -12,7 +12,7 @@ const recipedata = [
       { name: 'Cornstarch', amount: '2 tbsp' },
       { name: 'Chipotle Powder', amount: '1 tbsp' },
       { name: 'Sour Cream', amount: '4 tbsp' },
-      { name: 'Flour Tortillas', amount: '6' }
+      { name: 'Flour Tortillas', amount: '6' },
     ],
     preCook: [
       'Paper Towel',
@@ -37,7 +37,7 @@ const recipedata = [
         name: 'Coat Shrimp',
         body:
           'Heat a 1/4 inch layer of oil in a large pan over high heat (use nonstick if possible). Meanwhile, place shrimp, cornstarch, and ' +
-          '1/4 tsp chipotle powder in another medium bowl (we\'ll use more chipotle in step 5). Season with salt and pepper, Toss until shrimp are' +
+          "1/4 tsp chipotle powder in another medium bowl (we'll use more chipotle in step 5). Season with salt and pepper, Toss until shrimp are" +
           ' thoroughly coated.',
       },
       {
@@ -88,7 +88,7 @@ const recipedata = [
       { name: 'Sour Cream', amount: '8 tbsp' },
       { name: 'Taco Spice Blend', amount: '2 tbsp' },
       { name: 'Ground Beef', amount: '20 oz' },
-      { name: 'Flour Tortillas', amount: '12' }
+      { name: 'Flour Tortillas', amount: '12' },
     ],
     preCook: [
       'Strainer',
@@ -166,7 +166,7 @@ const recipedata = [
       { name: 'Ground Beef', amount: '10 oz' },
       { name: 'Crushed Tomatoes', amount: '1 box' },
       { name: 'Southwest Spice Blend', amount: '1 tbsp' },
-      { name: 'Monterrey Jack Cheese', amount: '1/2 cup' }
+      { name: 'Monterrey Jack Cheese', amount: '1/2 cup' },
     ],
     preCook: ['Small Pot', 'Large Pan', 'Baking Sheet'],
     steps: [
@@ -234,7 +234,7 @@ const recipedata = [
       { name: 'Parsley', amount: '1/4 oz' },
       { name: 'Boneless Skinless Chicken Breasts', amount: '13 oz' },
       { name: 'White Cooking Wine', amount: '2 oz' },
-      { name: 'Butter', amount: '.6 oz' }
+      { name: 'Butter', amount: '.6 oz' },
     ],
     preCook: [
       'Preheat oven to 400 degrees',
@@ -258,7 +258,7 @@ const recipedata = [
         name: 'Pound the Chicken',
         body:
           'Pat chicken breasts dry, and drizzle with 1 tsp olive oil. Place chicken breasts in a disposable gallon-size bag. Tip: Gallon bags ' +
-          'make clean up easier and are made of thicker plastic. If you don\'t have a disposable bag, use plastic wrap. Using a heavy object, pound ' +
+          "make clean up easier and are made of thicker plastic. If you don't have a disposable bag, use plastic wrap. Using a heavy object, pound " +
           'chicken to an even 1/4" thickness. Season both sides with a pinch of salt and pepper.',
       },
       {
@@ -301,7 +301,7 @@ const recipedata = [
       { name: '1-Inch Piece Ginger', amount: '1' },
       { name: 'Dried Coconut Flakes', amount: '1/4 cup' },
       { name: 'Curry Catfish Spice Blend', amount: '2 tbsp' },
-      { name: 'Chutney Spice Blend', amount: '2 tsp' }
+      { name: 'Chutney Spice Blend', amount: '2 tsp' },
     ],
     preCook: [],
     steps: [
@@ -366,7 +366,7 @@ const recipedata = [
       { name: 'Thinly Sliced Chicken Breasts', amount: '12 oz' },
       { name: 'Pesto', amount: '2 tbsp' },
       { name: 'Lemon', amount: '1' },
-      { name: 'Spring Mix Lettuce', amount: '2 oz' }
+      { name: 'Spring Mix Lettuce', amount: '2 oz' },
     ],
     preCook: [
       '2 Baking Sheets',
@@ -433,7 +433,7 @@ const recipedata = [
       { name: 'Green Beans', amount: '6 oz' },
       { name: 'Sour Cream', amount: '2 tbsp' },
       { name: 'Chicken Stock Concentrate', amount: '1' },
-      { name: 'Dijon Mustard', amount: '1 tsp' }
+      { name: 'Dijon Mustard', amount: '1 tsp' },
     ],
     preCook: [
       '2 Baking Sheets',
@@ -507,7 +507,7 @@ const recipedata = [
       { name: 'Spaghetti', amount: '5 oz' },
       { name: 'Boneless Skinless Chicken Breasts', amount: '2' },
       { name: 'Light Cream', amount: '4 fl oz' },
-      { name: 'Butter', amount: '.3 oz' }
+      { name: 'Butter', amount: '.3 oz' },
     ],
     preCook: [
       'Preheat oven to 400 degrees',
@@ -575,7 +575,7 @@ const recipedata = [
       { name: 'Pickle Chips', amount: '2 oz' },
       { name: 'Butter', amount: '2 tbsp' },
       { name: 'Whole Grain Dijon Mustard', amount: '1 tbsp' },
-      { name: 'BBQ Sauce', amount: '1/4 cup' }
+      { name: 'BBQ Sauce', amount: '1/4 cup' },
     ],
     preCook: [],
     steps: [
@@ -640,7 +640,7 @@ const recipedata = [
       { name: 'Southwest Spice Blend', amount: '1 tbsp' },
       { name: 'Sour Cream', amount: '2 tbsp' },
       { name: 'Cheddar Cheese', amount: '1/2 cup' },
-      { name: 'Flour Tortillas', amount: '6' }
+      { name: 'Flour Tortillas', amount: '6' },
     ],
     preCook: [
       '2 Small Bowls',
@@ -681,7 +681,7 @@ const recipedata = [
         name: 'Bake Tortillas',
         body:
           'Meanwhile, place tortillas on a baking sheet in a single layer and sprinkle evenly with cheddar. Bake until cheese has melted, 1-2 minutes. ' +
-          'TIP: Don\'t let these sit in the oven too long. The tortillas should be soft, not crisp.',
+          "TIP: Don't let these sit in the oven too long. The tortillas should be soft, not crisp.",
       },
       {
         name: 'Assemble and Serve',
@@ -718,7 +718,7 @@ const recipedata = [
       { name: 'Sriracha', amount: '2 tsp' },
       { name: 'Tempura Mix', amount: '1/3 cup' },
       { name: 'Canola Oil', amount: '6 fl oz' },
-      { name: 'Small FLour Tortillas', amount: '6' }
+      { name: 'Small FLour Tortillas', amount: '6' },
     ],
     preCook: ['Thoroughly rinse produce and pat dry'],
     steps: [
@@ -745,7 +745,7 @@ const recipedata = [
         body:
           'Place a large non-stick pan over medium-high and add canola oil. Heat oil, 3-5 minutes. While oil heats, wrap tortillas in a damp paper towel ' +
           'and microwave, 30 seconds. Test oil temperature by adding a drop of batter to it. It should sizzle gently. If it browns immediately, turn heat down ' +
-          'and let oil cool. If it doesn\'t brown, increase heat.',
+          "and let oil cool. If it doesn't brown, increase heat.",
       },
       {
         name: 'Cook Fish and Finish Dish',
@@ -780,7 +780,7 @@ const recipedata = [
       { name: 'Taco Seasoning', amount: '2 tbsp' },
       { name: 'Corn Kernels', amount: '3 oz' },
       { name: 'Worcestershire Sauce', amount: '1 fl oz' },
-      { name: 'Sour Cream', amount: '2 oz' }
+      { name: 'Sour Cream', amount: '2 oz' },
     ],
     preCook: [
       'Preheat oven to 400 degrees',
@@ -848,7 +848,7 @@ const recipedata = [
       { name: 'Sesame Oil', amount: '1 tbsp' },
       { name: 'Soy Sauce', amount: '1 tbsp' },
       { name: 'Sriracha', amount: '2 tsp' },
-      { name: 'Flour Tortillas', amount: '6' }
+      { name: 'Flour Tortillas', amount: '6' },
     ],
     preCook: [
       'Paper Towels',
@@ -925,7 +925,7 @@ const recipedata = [
       { name: 'Steak Strips', amount: '10 oz' },
       { name: 'Light Cream', amount: '4 fl oz' },
       { name: 'Grated Parmesan', amount: '1 oz' },
-      { name: 'Red Pepper Flakes', amount: '1/4 tsp' }
+      { name: 'Red Pepper Flakes', amount: '1/4 tsp' },
     ],
     preCook: [
       'Bring 8 cups water and 2 tsp salt to a boil in a medium pot',
@@ -990,7 +990,7 @@ const recipedata = [
       { name: 'Sour Cream', amount: '2 oz' },
       { name: 'Cannellini Beans', amount: '15 oz' },
       { name: 'Poblano Pepper', amount: '2' },
-      { name: 'Ground Turkey', amount: '12 oz' }
+      { name: 'Ground Turkey', amount: '12 oz' },
     ],
     preCook: ['Thoroughly rinse produce and pat dry'],
     steps: [
@@ -1052,7 +1052,7 @@ const recipedata = [
       { name: 'Chicken Breasts', amount: '12 oz' },
       { name: 'Sour Cream', amount: '2 tbsp' },
       { name: 'Israeli Couscous', amount: '1/2 cup' },
-      { name: 'Garlic Herb Butter', amount: '2 tbsp' }
+      { name: 'Garlic Herb Butter', amount: '2 tbsp' },
     ],
     preCook: [
       'Medium Pot',
@@ -1129,7 +1129,7 @@ const recipedata = [
       { name: 'Pepperoncini', amount: '2' },
       { name: 'Italian Sausage Links', amount: '2' },
       { name: 'Marinara Sauce', amount: '6 fl oz' },
-      { name: 'Shredded Mozzarella', amount: '2 oz' }
+      { name: 'Shredded Mozzarella', amount: '2 oz' },
     ],
     preCook: [
       'Preheat oven to 400 degrees',
@@ -1199,7 +1199,7 @@ const recipedata = [
       { name: 'Soy Sauce', amount: '1 tbsp' },
       { name: 'Rice Vinegar', amount: '1 tbsp' },
       { name: 'Sugar', amount: '1 tbsp' },
-      { name: 'Soy Glaze', amount: '2 tbsp' }
+      { name: 'Soy Glaze', amount: '2 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1264,7 +1264,7 @@ const recipedata = [
       { name: 'Carrots', amount: '6 oz' },
       { name: 'Creamy Chipotle Sauce', amount: '2 tbsp' },
       { name: 'Monterrey Jack Cheese', amount: '2 oz' },
-      { name: 'Mexican Spice Blend', amount: '1 tbsp' }
+      { name: 'Mexican Spice Blend', amount: '1 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1326,7 +1326,7 @@ const recipedata = [
       { name: 'Grated Cotija Cheese', amount: '2 tbsp' },
       { name: 'Mayonnaise', amount: '2 tbsp' },
       { name: 'Tomatilla-Poblano Sauce', amount: '1/3 cup' },
-      { name: 'Smoky Spice Blend', amount: '1 tbsp' }
+      { name: 'Smoky Spice Blend', amount: '1 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1396,7 +1396,7 @@ const recipedata = [
       { name: 'Soy Sauce', amount: '1 tbsp' },
       { name: 'Sesame Oil', amount: '1 tbsp' },
       { name: 'Rice Vinegar', amount: '1 tbsp' },
-      { name: 'Black & White Sesame Seeds', amount: '1 tsp' }
+      { name: 'Black & White Sesame Seeds', amount: '1 tsp' },
     ],
     preCook: [],
     steps: [
@@ -1463,7 +1463,7 @@ const recipedata = [
       { name: 'Soy Sauce', amount: '1 tbsp' },
       { name: 'Rice Vinegar', amount: '1 tbsp' },
       { name: 'Mayonnaise', amount: '2 tbsp' },
-      { name: 'Sugar', amount: '1 tbsp' }
+      { name: 'Sugar', amount: '1 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1537,7 +1537,7 @@ const recipedata = [
       { name: 'Watermelon Radish', amount: '1' },
       { name: 'Jicama', amount: '1/2 bulb' },
       { name: 'Sweet Chili Sauce', amount: '3 tbsp' },
-      { name: 'Sesame Oil', amount: '2 tbsp' }
+      { name: 'Sesame Oil', amount: '2 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1596,10 +1596,10 @@ const recipedata = [
       { name: 'Crispy Jalapeños', amount: '1/2 oz' },
       { name: 'Matchstick Carrots', amount: '3 oz' },
       { name: 'Blue Cheese', amount: '1/2 oz' },
-      { name: 'Frank\'s Redhot Sauce', amount: '1.5 fl oz' },
+      { name: "Frank's Redhot Sauce", amount: '1.5 fl oz' },
       { name: 'Ranch Dressing', amount: '1.5 fl oz' },
       { name: 'Butter Lettuce', amount: '1 head' },
-      { name: 'Boneless Skinless Chicken Breasts', amount: '13 oz' }
+      { name: 'Boneless Skinless Chicken Breasts', amount: '13 oz' },
     ],
     preCook: ['Thoroughly rinse produce and pat dry'],
     steps: [
@@ -1655,7 +1655,7 @@ const recipedata = [
       { name: 'Lime', amount: '1' },
       { name: 'Sliced Pickled Jalapeño Pepper', amount: '1 oz' },
       { name: 'Plain Nonfat Greek Yogurt', amount: '1/2 cup' },
-      { name: 'Mexican Spice Blend', amount: '1 tbsp' }
+      { name: 'Mexican Spice Blend', amount: '1 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -1714,7 +1714,7 @@ const recipedata = [
     raters: {},
   },
   {
-    title: 'Beef Sloppy Joe\'s',
+    title: "Beef Sloppy Joe's",
     producer: 'Home Chef',
     ingredients: [
       { name: 'Green Bell Pepper', amount: '1' },
@@ -1726,7 +1726,7 @@ const recipedata = [
       { name: 'Ketchup', amount: '6 fl oz' },
       { name: 'Dijon Mustard', amount: '1.5 oz' },
       { name: 'Apple Cider Vinegar', amount: '3 fl oz' },
-      { name: 'Brioche Bun', amount: '2' }
+      { name: 'Brioche Bun', amount: '2' },
     ],
     preCook: [
       'Preheat oven to 400 degrees',
@@ -1801,7 +1801,7 @@ const recipedata = [
       { name: 'Poblano Pepper', amount: '2' },
       { name: 'Mexican Spice Blend', amount: '2 tbsp' },
       { name: 'Crushed Tomatoes', amount: '2 boxes' },
-      { name: 'Sour Cream', amount: '8 tbsp' }
+      { name: 'Sour Cream', amount: '8 tbsp' },
     ],
     preCook: ['2 tbsp Vegetable Oil', 'Strainer', 'Large Pan'],
     steps: [
@@ -1937,9 +1937,22 @@ const recipedata = [
       { name: 'Parmesan Cheese', amount: '1/4 cup' },
       { name: 'Chicken Breasts', amount: '12 oz' },
       { name: 'Milk', amount: '2 tbsp' },
-      { name: 'Lemon', amount: '1' }
+      { name: 'Lemon', amount: '1' },
     ],
-    preCook: ['Olive Oil - 2 tsp', 'Butter - tbsp', 'Strainer', 'Baking Sheet', 'Peeler', 'Box Grater', 'Medium Pot', 'Medium Bowl', 'Kitchen Towel', 'Slotted Spoon', 'Potato Masher', 'Plastic Warp'],
+    preCook: [
+      'Olive Oil - 2 tsp',
+      'Butter - tbsp',
+      'Strainer',
+      'Baking Sheet',
+      'Peeler',
+      'Box Grater',
+      'Medium Pot',
+      'Medium Bowl',
+      'Kitchen Towel',
+      'Slotted Spoon',
+      'Potato Masher',
+      'Plastic Warp',
+    ],
     steps: [
       {
         name: 'Prep',
@@ -2004,7 +2017,7 @@ const recipedata = [
       { name: 'Jasmine Rice', amount: '1/2 cup' },
       { name: 'Garlic', amount: '2 cloves' },
       { name: 'Radishes', amount: '2' },
-      { name: 'Rice Vinegar', amount: '1 tbsp' }
+      { name: 'Rice Vinegar', amount: '1 tbsp' },
     ],
     preCook: [],
     steps: [
@@ -2021,7 +2034,7 @@ const recipedata = [
           'Meanwhile, wash and dry the fresh produce. Grate the radishes on the large side of a box grater. Peel the carrots; halve lengthwise, then thinly slice crosswise. Cut ' +
           'off and discard the bottom 1/2 inch of the gai lan stems; thinly slice the stems and roughly chop the leaves, keeping them separate. In a bowl, combine the slices carrots ' +
           'and gai len stems. Peel and roughly chop 2 cloves of garlic. Place in a bowl; add the chopped gai lan leaves. In a separate bowl, whisk together the honey (knead packet ' +
-          'before opening), 1/4 cup of warm water, and as much of the gochujang as you\'d like, depending on how spicy you want the dish to be. Season with salt and pepper.',
+          "before opening), 1/4 cup of warm water, and as much of the gochujang as you'd like, depending on how spicy you want the dish to be. Season with salt and pepper.",
       },
       {
         name: 'Marinate the Radishes',
@@ -2064,7 +2077,7 @@ const recipedata = [
     imgDir: 'assets/images/gochujang-glazed-chicken.jpg',
     favoriters: [],
     raters: {},
-  }
+  },
 ];
 
-module.exports = recipedata;
+export default recipedata;

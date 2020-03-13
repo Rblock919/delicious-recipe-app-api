@@ -1,7 +1,5 @@
 // filler text
-const connectionString = {
+export default {
   local: process.env.DB_URI_LOCAL,
   remote: process.env.DB_URI,
 };
-
-module.exports = connectionString;

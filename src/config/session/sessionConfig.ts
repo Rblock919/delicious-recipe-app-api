@@ -1,10 +1,16 @@
-const session = require('express-session');
-const authConfig = require('../auth/authConfig');
-const MongoStore = require('connect-mongo')(session);
+// const session = require('express-session');
+import session from 'express-session';
+import getMongoStore from 'connect-mongo';
+import authConfig from '../auth/authConfig';
+
+const { MongoStore } = getMongoStore(session);
+
+// const authConfig = require('../auth/authConfig');
+// const MongoStore = require('connect-mongo')(session);
 
 function sessionConfig(app, mongoose) {
-  session.Session.prototype.login = function(user, cb) {
-    const req = this.req;
+  session.Session.prototype.login = (user, cb) => {
+    const { req } = this;
     req.session.regenerate(err => {
       if (err) {
         cb(err);
@@ -15,8 +21,8 @@ function sessionConfig(app, mongoose) {
     });
   };
 
-  session.Session.prototype.logout = function(cb) {
-    const req = this.req;
+  session.Session.prototype.logout = cb => {
+    const { req } = this;
     req.session.destroy(err => {
       if (err) {
         cb(err);
@@ -50,4 +56,4 @@ function sessionConfig(app, mongoose) {
   );
 }
 
-module.exports = sessionConfig;
+export default sessionConfig;

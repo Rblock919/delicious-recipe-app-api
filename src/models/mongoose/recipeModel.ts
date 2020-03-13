@@ -1,5 +1,5 @@
-const getRecipeModels = function(mongoose) {
-  const Schema = mongoose.Schema;
+const getRecipeModels = mongoose => {
+  const { Schema } = mongoose;
 
   const recipeModel = new Schema({
     title: {
@@ -68,4 +68,4 @@ const getRecipeModels = function(mongoose) {
   };
 };
 
-module.exports = getRecipeModels;
+export default getRecipeModels;

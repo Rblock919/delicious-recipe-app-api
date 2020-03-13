@@ -1,5 +1,5 @@
-const getLoginModel = function(mongoose) {
-  const Schema = mongoose.Schema;
+const getLoginModel = mongoose => {
+  const { Schema } = mongoose;
 
   const LoginsSchema = new Schema({
     identityKey: {
@@ -24,6 +24,7 @@ const getLoginModel = function(mongoose) {
     },
   });
 
+  // eslint-disable-next-line func-names
   LoginsSchema.static('canAuthenticate', async function(key) {
     const login = await this.findOne({ identityKey: key });
 
@@ -69,11 +70,11 @@ const getLoginModel = function(mongoose) {
     ) {
       await login.remove();
       return true;
-    } else {
-      return false;
     }
+    return false;
   });
 
+  // eslint-disable-next-line func-names
   LoginsSchema.static('failedLoginAttempt', async function(key) {
     const query = { identityKey: key };
     const now = new Date();
@@ -83,19 +84,20 @@ const getLoginModel = function(mongoose) {
       inProgress: false,
     };
     const options = { setDefaultsOnInsert: true, upsert: true };
-    return await this.findOneAndUpdate(query, update, options).exec();
+    return this.findOneAndUpdate(query, update, options).exec();
   });
 
+  // eslint-disable-next-line func-names
   LoginsSchema.static('successfulLoginAttempt', async function(key) {
     const login = await this.findOne({ identityKey: key });
     if (login) {
-      return await login.remove();
-    } else {
-      return null;
+      return login.remove();
     }
+    return null;
   });
 
-  LoginsSchema.static('inProgress', async function(key) {
+  // eslint-disable-next-line func-names
+  LoginsSchema.static('inProgress', async function(key: string) {
     const login = await this.findOne({ identityKey: key });
     const query = { identityKey: key };
     const update = { inProgress: true };
@@ -104,7 +106,8 @@ const getLoginModel = function(mongoose) {
     return login && login.inProgress;
   });
 
-  LoginsSchema.static('endProgress', async function(key) {
+  // eslint-disable-next-line func-names
+  LoginsSchema.static('endProgress', async function(key: string) {
     const query = { identityKey: key };
     const update = { inProgress: false };
     const updatedLogin = await this.findOneAndUpdate(query, update).exec();
@@ -114,4 +117,4 @@ const getLoginModel = function(mongoose) {
   return mongoose.model('logins', LoginsSchema);
 };
 
-module.exports = getLoginModel;
+export default getLoginModel;

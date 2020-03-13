@@ -1,8 +1,10 @@
-const objectId = require('mongodb').ObjectId;
+import { ObjectId } from 'mongodb';
 
-function checkIfUserExists(userModel, userId, callback) {
+// const {ObjectId} = require('mongodb');
+
+export function checkIfUserExists(userModel, userId, callback) {
   try {
-    const id = new objectId(userId);
+    const id = new ObjectId(userId);
 
     userModel.findById(id, (err, foundUser) => {
       if (err) {
@@ -21,9 +23,9 @@ function checkIfUserExists(userModel, userId, callback) {
   }
 }
 
-function checkIfUserIsAdmin(userModel, userId, callback) {
+export function checkIfUserIsAdmin(userModel, userId, callback) {
   try {
-    const id = new objectId(userId);
+    const id = new ObjectId(userId);
 
     userModel.findById(id, (err, foundUser) => {
       if (err) {
@@ -42,4 +44,4 @@ function checkIfUserIsAdmin(userModel, userId, callback) {
   }
 }
 
-module.exports = { checkIfUserExists, checkIfUserIsAdmin };
+// module.exports = { checkIfUserExists, checkIfUserIsAdmin };

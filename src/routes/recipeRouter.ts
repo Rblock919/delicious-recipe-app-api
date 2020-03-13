@@ -1,16 +1,22 @@
-const express = require('express');
+import express from 'express';
+import recipeSchema from '../config/validation/validationSchemas';
+import validationSchemas from '../config/validation/authenticationMiddlewares';
+import getRecipeController from '../controllers/recipeController';
+
 const recipeRouter = express.Router();
-const recipeSchema = require('../config/validation/validationSchemas');
+// const recipeSchema = require('../config/validation/validationSchemas');
 
 const router = (User, Recipe, NewRecipe) => {
-  const {
-    nonAdminMiddleWare,
-    adminMiddleWare,
-  } = require('../config/validation/authenticationMiddlewares')(User);
-  const recipeController = require('../controllers/recipeController')(
-    Recipe,
-    NewRecipe
-  );
+  const { nonAdminMiddleWare, adminMiddleWare } = validationSchemas(User);
+  const recipeController = getRecipeController(Recipe, NewRecipe);
+  // const {
+  //   nonAdminMiddleWare,
+  //   adminMiddleWare,
+  // } = require('../config/validation/authenticationMiddlewares')(User);
+  // const recipeController = require('../controllers/recipeController')(
+  //   Recipe,
+  //   NewRecipe
+  // );
 
   recipeRouter.use(nonAdminMiddleWare);
 
@@ -45,4 +51,5 @@ const router = (User, Recipe, NewRecipe) => {
   return recipeRouter;
 };
 
-module.exports = router;
+export default router;
+// module.exports = router;

@@ -1,56 +1,66 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const chalk = require('chalk');
-// const path = require('path');
-// const fs = require('fs');
-// const https = require('https');
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import chalk from 'chalk';
+import 'dotenv/config';
+import headerSecurity from './config/auth/headerSecurity';
+import recipeModels from './models/mongoose/recipeModel';
+import userModel from './models/mongoose/userModel';
+import loginModel from './models/mongoose/loginModel';
+import recipeRoutes from './routes/recipeRouter';
+import servicesRoutes from './routes/servicesRouter';
+import authRoutes from './routes/authRouter';
+import adminRoutes from './routes/adminRouter';
+import uri from './config/db/dbconnection';
+
+// import path from 'path';
+// import fs from 'fs';
+// import https from 'https';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const remote = process.env.REMOTE || false;
-
-if (!remote) {
-  require('dotenv').config();
-}
-
 // Configure security related response headers
-require('./src/config/auth/headerSecurity')(app);
+headerSecurity(app);
 
 // Parse incoming request params into a nice json object
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Not sure if this is needed if just serving up angular files statically via node/express
 // Configure cross-origin requests
-app.use(cors({credentials: true, origin: true}));
+app.use(cors({ credentials: true, origin: true }));
 
-const uri = require('./src/config/db/dbconnection');
-mongoose.connect(uri.remote, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-  if (!err) {
-    console.log(chalk.inverse('connected to db in server.js'));
-  } else {
-    console.log(chalk.red(`Error connecting to database in server.js... ${err}`));
+mongoose.connect(
+  uri.remote,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  err => {
+    if (!err) {
+      console.log(chalk.inverse('connected to db in server.js'));
+    } else {
+      console.log(
+        chalk.red(`Error connecting to database in server.js... ${err}`)
+      );
+    }
   }
-});
+);
 
 // Session configuration
 // require('./src/config/session/sessionConfig')(app, mongoose);
 
-//Load mongoose models
-const { NewRecipe, Recipe } = require('./src/models/mongoose/recipeModel')(mongoose);
-const User = require('./src/models/mongoose/userModel')(mongoose);
-const Login = require('./src/models/mongoose/loginModel')(mongoose);
+// Load mongoose models
+const { NewRecipe, Recipe } = recipeModels(mongoose);
+const User = userModel(mongoose);
+const Login = loginModel(mongoose);
 
 // Load routers
-const recipeRouter = require('./src/routes/recipeRouter')(User, Recipe, NewRecipe);
-const serviceRouter = require('./src/routes/servicesRouter')(User);
-const adminRouter = require('./src/routes/adminRouter')(User, NewRecipe);
-const authRouter = require('./src/routes/authRouter')(User, Login);
+const recipeRouter = recipeRoutes(User, Recipe, NewRecipe);
+const serviceRouter = servicesRoutes(User);
+const authRouter = authRoutes(User, Login);
+const adminRouter = adminRoutes(User, NewRecipe);
 
 // Middleware for session testing purposes
 // app.use((req, res, next) => {
@@ -83,11 +93,8 @@ app.use('/api/auth', authRouter);
 // });
 
 // Create http server
-app.listen(port, (err) => {
-  if (err) {
-    console.log(chalk.red.bold.underline(err));
-  }
-  console.log(chalk.green('Running server on port: ' + chalk.underline(port)));
+app.listen(port, () => {
+  console.log(chalk.green(`Running server on port: ${chalk.underline(port)}`));
 });
 
 // Log to the console when the mongoose connection is closed
@@ -97,7 +104,9 @@ mongoose.connection.on('disconnected', () => {
 
 const gracefulShutdown = () => {
   mongoose.connection.close(() => {
-    console.log(chalk.blueBright('Mongoose connection closed. Exiting node process...'));
+    console.log(
+      chalk.blueBright('Mongoose connection closed. Exiting node process...')
+    );
     process.exit(0);
   });
 };

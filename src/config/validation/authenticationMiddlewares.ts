@@ -1,9 +1,14 @@
-const chalk = require('chalk');
-const jwt = require('jsonwebtoken');
-const authConfig = require('../auth/authConfig');
-const userChecker = require('./userChecker');
+import chalk from 'chalk';
+import jwt from 'jsonwebtoken';
+import authConfig from '../auth/authConfig';
+import { checkIfUserExists, checkIfUserIsAdmin } from './userChecker';
 
-const getMiddleWares = function(User) {
+// const chalk = require('chalk');
+// const jwt = require('jsonwebtoken');
+// const authConfig = require('../auth/authConfig');
+// const userChecker = require('./userChecker');
+
+const getMiddleWares = User => {
   const nonAdminMiddleWare = async (req, res, next) => {
     let payload;
 
@@ -42,28 +47,27 @@ const getMiddleWares = function(User) {
         return res
           .status(401)
           .send({ ErrMessage: 'Unauthorized. Auth Header Invalid' });
-      } else {
-        if (payload.exp > Date.now() / 1000) {
-          // or use payload from local storage
-          userChecker.checkIfUserExists(User, payload.sub, (err, isFound) => {
-            if (err) {
-              console.error(chalk.red(err));
-            } else {
-              if (isFound) {
-                req.userId = payload.sub;
-                next();
-              } else {
-                return res
-                  .status(401)
-                  .send({ ErrMessage: 'Unauthorized. UserId invalid' });
-              }
-            }
-          });
-        } else {
+      }
+      if (payload.exp > Date.now() / 1000) {
+        // or use payload from local storage
+        checkIfUserExists(User, payload.sub, (err, isFound) => {
+          if (err) {
+            console.error(chalk.red(err));
+            return res.sendStatus(500);
+          }
+          if (isFound) {
+            req.userId = payload.sub;
+            // TODO: determine if returning this function causes a bug
+            return next();
+          }
           return res
             .status(401)
-            .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
-        }
+            .send({ ErrMessage: 'Unauthorized. UserId invalid' });
+        });
+      } else {
+        return res
+          .status(401)
+          .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
       }
     } else {
       console.log('NO TOKEN FOUND IN MW');
@@ -103,6 +107,7 @@ const getMiddleWares = function(User) {
         // cookiePayload = await jwt.verify(tkn, authConfig.cookieSecret);
       } catch (error) {
         console.error(error);
+        return res.sendStatus(500);
       }
 
       if (!payload) {
@@ -110,27 +115,24 @@ const getMiddleWares = function(User) {
         return res
           .status(401)
           .send({ ErrMessage: 'Unauthorized. Auth Header Invalid' });
+      }
+      if (payload.exp > Date.now() / 1000) {
+        // or use payload from local storage
+        checkIfUserIsAdmin(User, payload.sub, (err, isAdmin) => {
+          if (err) {
+            console.log(chalk.red(`Error: ${err}`));
+            return res.sendStatus(500);
+          }
+          if (isAdmin) {
+            req.userId = payload.sub;
+            return next();
+          }
+          return res.status(401).send({ ErrMessage: 'User is not admin' });
+        });
       } else {
-        if (payload.exp > Date.now() / 1000) {
-          // or use payload from local storage
-          userChecker.checkIfUserIsAdmin(User, payload.sub, (err, isAdmin) => {
-            if (err) {
-              console.log(chalk.red(`Error: ${err}`));
-              return res.sendStatus(500);
-            } else {
-              if (isAdmin) {
-                req.userId = payload.sub;
-                next();
-              } else {
-                res.status(401).send({ ErrMessage: 'User is not admin' });
-              }
-            }
-          });
-        } else {
-          return res
-            .status(401)
-            .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
-        }
+        return res
+          .status(401)
+          .send({ ErrMessage: 'Unauthorized. Expired token cookie' });
       }
     } else {
       console.log('NO TOKEN FOUND IN MW');
@@ -143,4 +145,5 @@ const getMiddleWares = function(User) {
   };
 };
 
-module.exports = getMiddleWares;
+// module.exports = getMiddleWares;
+export default getMiddleWares;

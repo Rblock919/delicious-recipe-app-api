@@ -1,4 +1,4 @@
-FROM node:10-alpine as node
+FROM node:12-alpine as node
 
 RUN mkdir /app
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN apk --no-cache --update --virtual build-dependencies add \
     && apk del build-dependencies
 
 EXPOSE 3000
-CMD [ "npm", "run", "start.node.dev" ]
+CMD [ "npm", "run", "start.dev" ]
 
 # Docker Build Command
 # docker build -f node.Dockerfile -t recipe-api .

@@ -3,7 +3,7 @@ version: '3'
 services:
 
   node:
-    container_name: recipe-api
+    container_name: recipe-app-api
     build:
       context: .
       dockerfile: node.Dockerfile
