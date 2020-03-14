@@ -1,28 +1,54 @@
-# Filler text
 version: '3'
+
 services:
 
-  node:
+  express:
     container_name: recipe-app-api
     build:
       context: .
       dockerfile: node.Dockerfile
-    ports:
-      - "3000:3000"
     networks:
       - recipe-app-network
     volumes:
       - ".:/app"
       - "/app/node_modules"
+#    ports:
+#      - "3000:3000"
 
-  mongodb:
+  gql:
+    container_name: recipe-app-gql
+    build:
+      context: ../recipe-app-gql/
+      dockerfile: gql.Dockerfile
+    networks:
+      - recipe-app-network
+    volumes:
+      - "/app/node_modules"
+      - "../recipe-app-gql/:/app"
+    ports:
+      - "4000:4000"
+
+  ng:
+    container_name: recipe-app-ng
+    build:
+      context: ../recipe-app-ng/
+      dockerfile: ng.Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - recipe-app-network
+    volumes:
+      - "/app/node_modules"
+      - "../recipe-app-ng/:/app"
+
+  mongo:
     container_name: mongodb
     image: mongo
     networks:
       - recipe-app-network
     # Below is for testing from host machine and not just node container
-    ports:
-      - "27017:27017"
+#    ports:
+#      - "27017:27017"
 
 networks:
   recipe-app-network:
