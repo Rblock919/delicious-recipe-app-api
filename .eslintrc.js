@@ -1,3 +1,3 @@
-module.exports =  {
-  extends: "@rblock919/eslint-config",
-}
+module.exports = {
+  extends: "@rblock919/eslint-config"
+};
