@@ -46,9 +46,11 @@ services:
     image: mongo
     networks:
       - recipe-app-network
+    environment:
+      MONGO_INITDB_DATABASE: "recipeApp"
     # Below is for testing from host machine and not just node container
-#    ports:
-#      - "27017:27017"
+    # ports:
+    #   - "27018:27017"
 
 networks:
   recipe-app-network:

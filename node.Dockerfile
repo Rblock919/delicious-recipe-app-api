@@ -17,7 +17,7 @@ RUN apk --no-cache --update --virtual build-dependencies add \
     && apk del build-dependencies
 
 EXPOSE 3000
-CMD [ "npm", "run", "start.dev" ]
+CMD [ "npm", "run", "start.docker.dev" ]
 
 # Docker Build Command
 # docker build -f node.Dockerfile -t recipe-api .

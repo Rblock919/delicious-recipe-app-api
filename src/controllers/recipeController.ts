@@ -161,7 +161,7 @@ const recipeController = (Recipe, NewRecipe) => {
       nutritionValues: recipeData.nutritionValues,
       favoriters: [],
       raters: {},
-      imgDir: recipeData.imgDir,
+      imgDir: recipeData.imgDir
     });
 
     try {
@@ -183,7 +183,7 @@ const recipeController = (Recipe, NewRecipe) => {
     rejectRecipe,
     submitForApproval,
     rateRecipe,
-    favorite,
+    favorite
   };
 };
 
